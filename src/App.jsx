@@ -1,5 +1,18 @@
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Login from "./pages/Login";
+import ForgetPassword from "./pages/ForgetPassword";
+
 function App() {
-  return <h1>VAYZO Admin login 1</h1>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/forgetpassword" element={<ForgetPassword />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
