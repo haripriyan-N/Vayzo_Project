@@ -1,17 +1,16 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import Text from "./components/Text/Text";
 import Login from "./pages/Login";
 import ForgetPassword from "./pages/Forgetpassword";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/forgetpassword" element={<ForgetPassword />} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      <Text variant="title">VAYZO Admin</Text>
+      <Text variant="body">Welcome to VAYZO</Text>
+      <Text variant="caption">This is a test</Text>
+    </div>
   );
 }
 

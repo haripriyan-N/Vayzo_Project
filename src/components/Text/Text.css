@@ -1,0 +1,26 @@
+.text {
+  margin: 0;
+  font-family: var(--font-primary);
+  color: var(--color-text);
+}
+
+.text-title {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.text-subtitle {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.text-body {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.text-caption {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
