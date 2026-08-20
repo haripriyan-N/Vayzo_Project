@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
-import ForgetPassword from "./pages/ForgetPassword";
+import ForgetPassword from "./pages/Forgetpassword";
 
 function App() {
   return (

@@ -115,9 +115,9 @@ const Login = () => {
 
                   <label>Password</label>
 
-                  <a href="./forgetpassword">
+                  <Link to="/forgetpassword">
                     Forgot password?
-                  </a>
+                  </Link>
 
                 </div>
 

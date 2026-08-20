@@ -53,9 +53,9 @@ const ForgotPassword = () => {
 
           {message && <p className="forgot-message">{message}</p>}
 
-          <a href="/" className="back-login">
+          <Link to="/" className="back-login">
             ← Back to Login
-          </a>
+          </Link>
         </div>
       </div>
     </div>
