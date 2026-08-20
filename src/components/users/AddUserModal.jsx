@@ -1,0 +1,3 @@
+export default function AddUserModal({ onClose }) {
+  return <div className="add-user-modal-backdrop" role="presentation" onClick={onClose}><div className="add-user-modal" role="dialog" aria-modal="true" aria-labelledby="add-user-title" onClick={(event) => event.stopPropagation()}><button className="modal-close" type="button" onClick={onClose} aria-label="Close">×</button><h2 id="add-user-title">Add User</h2><p>Create a new VAYZO user account.</p><input placeholder="Full name" /><input type="email" placeholder="Email address" /><input placeholder="Mobile number" /><button type="button" className="add-user-submit" onClick={onClose}>Create User</button></div></div>;
+}

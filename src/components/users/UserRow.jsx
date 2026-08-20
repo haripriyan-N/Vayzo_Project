@@ -1,0 +1,3 @@
+export default function UserRow({ user }) {
+  return <tr><td>{user[0]}</td><td><span className="user-name"><i>{user[1].split(" ").map((part) => part[0]).join("")}</i>{user[1]}</span></td><td>{user[2]}</td><td>{user[3]}</td><td><span className={`user-type ${user[4].toLowerCase().replaceAll(" ", "-")}`}>{user[4]}</span></td><td><span className={`user-status ${user[5].toLowerCase()}`}>{user[5]}</span></td><td><span className={`verified-mark ${user[6] ? "yes" : "no"}`}>{user[6] ? "✓" : "×"}</span></td><td>{user[7]}</td><td><span className="user-actions"><button type="button" aria-label={`View ${user[1]}`}>⊙</button><button type="button" aria-label={`Edit ${user[1]}`}>♢</button><button type="button" aria-label={`More actions for ${user[1]}`}>⋮</button></span></td></tr>;
+}

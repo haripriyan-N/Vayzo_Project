@@ -1,0 +1,3 @@
+export default function UserPagination({ page, setPage, count }) {
+  return <div className="users-pagination"><span>Showing {count ? 1 : 0} to {count} of 12450 results</span><div><button type="button" disabled={page === 1} onClick={() => setPage(Math.max(1, page - 1))}>‹</button><button type="button" className="current-page">{page}</button><button type="button" onClick={() => setPage(page + 1)}>2</button><button type="button" onClick={() => setPage(page + 2)}>3</button><button type="button">...</button><button type="button">1245</button><button type="button" onClick={() => setPage(page + 1)}>›</button></div></div>;
+}

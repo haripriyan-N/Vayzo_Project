@@ -1,0 +1,45 @@
+:root {
+  --primary-color: #4F2DD4;
+  --primary-dark: #3F22B8;
+  --primary-light: #A875FF;
+
+  --gradient-start: #14205F;
+  --gradient-end: #4723C7;
+
+  --page-bg: #F5F6FC;
+  --card-bg: #FFFFFF;
+
+  --text-primary: #0F172A;
+  --text-secondary: #64748B;
+  --text-light: #94A3B8;
+
+  --border-color: #DDE1EB;
+
+  --success-color: #16A34A;
+  --danger-color: #DC2626;
+  --warning-color: #F59E0B;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-card: 0 12px 35px rgba(27, 32, 64, 0.08);
+  --font-family: Inter, "Segoe UI", Arial, sans-serif;
+
+  /* Backwards-compatible aliases used by existing page styles. */
+  --vayzo-ink: var(--text-primary);
+  --vayzo-muted: var(--text-secondary);
+  --vayzo-surface: var(--card-bg);
+  --vayzo-page: var(--page-bg);
+  --vayzo-border: var(--border-color);
+  --vayzo-primary: var(--primary-color);
+  --vayzo-primary-dark: var(--gradient-start);
+  --vayzo-primary-soft: #EEE9FF;
+  --vayzo-success: var(--success-color);
+  --vayzo-warning: var(--warning-color);
+  --vayzo-danger: var(--danger-color);
+  --vayzo-radius-sm: var(--radius-sm);
+  --vayzo-radius-md: var(--radius-md);
+  --vayzo-radius-lg: var(--radius-lg);
+  --vayzo-shadow: var(--shadow-card);
+  --vayzo-font: var(--font-family);
+}
