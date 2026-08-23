@@ -2,24 +2,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: var(--color-primary);
-  --color-primary-hover: var(--color-primary-hover);
-  --color-primary-light: var(--color-primary-light);
+  --color-primary: var(--vayzo-primary);
+  --color-primary-hover: var(--vayzo-primary-hover);
+  --color-primary-light: var(--vayzo-primary-light);
 
-  --color-background: var(--color-background);
-  --color-surface: var(--color-surface);
+  --color-background: var(--vayzo-background);
+  --color-surface: var(--vayzo-surface);
 
-  --color-text-primary: var(--color-text-primary);
-  --color-text-secondary: var(--color-text-secondary);
-  --color-text-muted: var(--color-text-muted);
+  --color-foreground: var(--vayzo-text-primary);
+  --color-muted: var(--vayzo-text-secondary);
+  --color-subtle: var(--vayzo-text-muted);
 
-  --color-border: var(--color-border);
+  --color-border: var(--vayzo-border);
 
-  --color-success: var(--color-success);
-  --color-warning: var(--color-warning);
-  --color-danger: var(--color-danger);
-  --color-info: var(--color-info);
+  --color-success: var(--vayzo-success);
+  --color-warning: var(--vayzo-warning);
+  --color-danger: var(--vayzo-danger);
+  --color-info: var(--vayzo-info);
 }
+
 * {
   margin: 0;
   padding: 0;

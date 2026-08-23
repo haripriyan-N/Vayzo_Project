@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 
+
 function AdminLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -16,7 +17,7 @@ function AdminLayout() {
 
         <main className="min-w-0 flex-1">
           <Outlet />
-        </main>
+        </main> 
       </div>
     </div>
   );

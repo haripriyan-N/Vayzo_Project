@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"; //React Router gives an component insead of anchor tag . a=refresh the whole page but Navlink= Navigating the routing system doesn't reload the whole page.
 import { navigationItems } from "../../constants/navigation";
 
 function Sidebar({ isOpen, onClose }) {
