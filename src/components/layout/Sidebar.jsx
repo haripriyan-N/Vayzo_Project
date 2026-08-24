@@ -6,12 +6,21 @@ import { PanelLeftClose, X } from "lucide-react";
 
 function Sidebar({ isOpen, onClose }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
-
   useEffect(() => {
-    if (isOpen) {
-      setIsCollapsed(false);
-    }
-  }, [isOpen]);
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsCollapsed(false);
+      }
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -29,14 +38,14 @@ function Sidebar({ isOpen, onClose }) {
         className={[
           "fixed inset-y-0 left-0 z-50 bg-foreground",
           "flex h-screen shrink-0 flex-col",
-          "transition-[width,transform] duration-300 ease-in-out",
+          "transition-transform duration-500 ease-in-out lg:transition-[width,transform] lg:duration-300",
           "lg:sticky lg:top-0 lg:translate-x-0",
           isCollapsed ? "w-16" : "w-50",
           isOpen ? "translate-x-0" : "-translate-x-full",
         ].join(" ")}
       >
+        
         {/* Logo */}
-
         <div
           className={[
             "flex h-20 shrink-0 items-center",
@@ -123,6 +132,7 @@ function Sidebar({ isOpen, onClose }) {
         <button
           type="button"
           onClick={() => setIsCollapsed((prev) => !prev)}
+          aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           className={[
             "hidden h-12 shrink-0 items-center border-t border-white/10",
             "text-sm text-white/60 hover:text-white lg:flex",
