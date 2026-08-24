@@ -1,3 +1,4 @@
+import { Menu } from "lucide-react";
 function Header({ onMenuClick }) {
   return (
     <header className="flex h-16 items-center justify-between border-b border-border bg-surface px-4 sm:px-6">
@@ -7,7 +8,7 @@ function Header({ onMenuClick }) {
         className="rounded-lg p-2 text-muted hover:bg-primary-light hover:text-primary lg:hidden"
         aria-label="Open navigation"
       >
-        ☰
+        <Menu size={25} strokeWidth={1.8} />
       </button>
 
       <div className="hidden sm:block">
