@@ -71,13 +71,12 @@ Vayzo-admin/
 Getting Started
 
 1. Clone the repository
-   git clone <repository-url>
-2. Navigate to the project
-   cd Vayzo-admin
-3. Install dependencies
-   npm install
-4. Start the development server
-   npm run dev
+
+```md
+git clone <repository-url> 2. Navigate to the project
+cd Vayzo-admin 3. Install dependencies
+npm install 4. Start the development server
+npm run dev
 
 The application will be available at the local development URL shown by Vite.
 
@@ -266,13 +265,4 @@ The interface and component architecture are being built incrementally, with res
 License
 
 This project is private and intended for Vayzo development purposes.
-
-### One thing I'd change
-
-Don't put a fake repository URL in the README. Keep:
-
-```md
-git clone <repository-url>
-
-until you have the actual GitHub repository URL.
 ```
