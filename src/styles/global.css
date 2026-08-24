@@ -12,6 +12,7 @@
   --color-foreground: var(--vayzo-text-primary);
   --color-muted: var(--vayzo-text-secondary);
   --color-subtle: var(--vayzo-text-muted);
+  --color-white: var(--vayzo-text-white);
 
   --color-border: var(--vayzo-border);
 
@@ -19,6 +20,12 @@
   --color-warning: var(--vayzo-warning);
   --color-danger: var(--vayzo-danger);
   --color-info: var(--vayzo-info);
+
+  /* Radius */
+  --radius-sm: var(--vayzo-radius-sm);
+  --radius-md: var(--vayzo-radius-md);
+  --radius-lg: var(--vayzo-radius-lg);
+  --radius-xl: var(--vayzo-radius-xl);
 }
 
 * {
@@ -36,7 +43,7 @@ body,
 body {
   font-family: "Poppins", sans-serif;
   background: var(--color-background);
-  color: var(--color-text-primary);
+  color: var(--color-fuchsia-950);
 }
 
 button,
