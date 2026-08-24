@@ -12,7 +12,6 @@
   --color-foreground: var(--vayzo-text-primary);
   --color-muted: var(--vayzo-text-secondary);
   --color-subtle: var(--vayzo-text-muted);
-  --color-white: var(--vayzo-text-white);
 
   --color-border: var(--vayzo-border);
 
@@ -20,39 +19,50 @@
   --color-warning: var(--vayzo-warning);
   --color-danger: var(--vayzo-danger);
   --color-info: var(--vayzo-info);
-
-  /* Radius */
-  --radius-sm: var(--vayzo-radius-sm);
-  --radius-md: var(--vayzo-radius-md);
-  --radius-lg: var(--vayzo-radius-lg);
-  --radius-xl: var(--vayzo-radius-xl);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    font-family: "Poppins", sans-serif;
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
 }
 
-html,
-body,
-#root {
-  min-height: 100%;
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
 }
 
-body {
-  font-family: "Poppins", sans-serif;
-  background: var(--color-background);
-  color: var(--color-fuchsia-950);
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: var(--vayzo-text-secondary);
+  border-radius: 999px;
 }
