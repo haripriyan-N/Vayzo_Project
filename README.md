@@ -1,16 +1,69 @@
-# React + Vite
+# Vayzo Admin
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Vayzo Admin is the administrative dashboard for the Vayzo platform.
 
-Currently, two official plugins are available:
+The dashboard provides a centralized interface for managing users, orders, delivery partners, transactions, notifications, and other administrative operations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- React Router
+- Tailwind CSS
+- Lucide React
+- JavaScript (ES6+)
 
-## Expanding the Oxlint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Features
+
+- Responsive admin dashboard
+- Desktop and mobile layouts
+- Collapsible sidebar navigation
+- Mobile sidebar with smooth transitions
+- Active navigation states
+- Responsive navigation scrolling
+- Vayzo design system and theme variables
+- Reusable layout components
+- Route-based page navigation
+- Accessible navigation controls
+
+---
+
+## Project Structure
+
+```text
+Vayzo-admin/
+│
+├── public/
+│
+├── src/
+│   │
+│   ├── assets/
+│   │   └── logo/
+│   │
+│   ├── components/
+│   │   └── layout/
+│   │       ├── AdminLayout.jsx
+│   │       ├── Header.jsx
+│   │       └── Sidebar.jsx
+│   │
+│   ├── constants/
+│   │   └── navigation.js
+│   │
+│   ├── pages/
+│   │
+│   ├── App.jsx
+│   ├── index.css
+│   ├── variables.css
+│   └── main.jsx
+│
+├── index.html
+├── eslint.config.js
+├── package.json
+├── package-lock.json
+├── vite.config.js
+└── README.md
+```
