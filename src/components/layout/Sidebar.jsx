@@ -44,7 +44,6 @@ function Sidebar({ isOpen, onClose }) {
           isOpen ? "translate-x-0" : "-translate-x-full",
         ].join(" ")}
       >
-        
         {/* Logo */}
         <div
           className={[
