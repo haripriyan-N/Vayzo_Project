@@ -47,8 +47,8 @@ function Sidebar({ isOpen, onClose }) {
         {/* Logo */}
         <div
           className={[
-            "flex h-20 shrink-0 items-center",
-            isCollapsed ? "justify-center px-2" : "justify-between px-5",
+            "flex h-20 shrink-0 items-center ",
+            isCollapsed ? "justify-center px-2" : "gap-1.5",
           ].join(" ")}
         >
           <Link to="/admin" onClick={onClose}>
@@ -57,7 +57,7 @@ function Sidebar({ isOpen, onClose }) {
               alt="Vayzo"
               className={[
                 "h-auto transition-all duration-300",
-                isCollapsed ? "w-25" : "w-40 lg:w-50",
+                isCollapsed ? "w-25" : "w-50 ",
               ].join(" ")}
             />
           </Link>
@@ -67,7 +67,7 @@ function Sidebar({ isOpen, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md p-1.5 text-white/60 hover:bg-white/10 hover:text-white lg:hidden"
+              className="rounded-md  text-white/60  hover:text-white lg:hidden"
               aria-label="Close navigation"
             >
               <X size={25} strokeWidth={1.8} />

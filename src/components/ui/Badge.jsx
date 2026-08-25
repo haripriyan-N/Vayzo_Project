@@ -10,7 +10,7 @@ function Badge({ children, variant = "default", className = "" }) {
   return (
     <span
       className={[
-        "inline-flex items-center rounded-full px-2.5 py-1",
+        "inline-flex h-10 items-center rounded-lg px-2.5 py-1",
         "text-xs font-medium",
         variants[variant],
         className,
