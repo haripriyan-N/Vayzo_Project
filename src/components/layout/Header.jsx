@@ -1,7 +1,14 @@
-import { Menu, Bell, MessageSquare, ChevronDown } from "lucide-react";
+import {
+  Menu,
+  Bell,
+  MessageSquareWarning,
+  ChevronDown,
+  ChevronRight,
+} from "lucide-react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { navigationItems } from "../../constants/navigation";
+import UserImg from "../../assets/logo/Trans_full.png"
 function Header({ onMenuClick }) {
   const location = useLocation();
 
@@ -11,6 +18,16 @@ function Header({ onMenuClick }) {
 
   const pageTitle = currentPage?.label || "Dashboard";
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  // For icon label
+  const notificationCount = 99;
+  const messageCount = 5;
+  // for real user to admin
+  const user = {
+    name: "Haripriyan",
+    profileImage: UserImg,
+    role: "Admin",
+  };
+
   return (
     <header className="flex h-16 items-center justify-between border-b border-border bg-surface lg:px-2">
       <button
@@ -26,40 +43,73 @@ function Header({ onMenuClick }) {
         <p className="text-lg font-semibold text-foreground">{pageTitle}</p>
 
         {pageTitle !== "Dashboard" && (
-          <p className="text-xs text-muted">Dashboard &gt; {pageTitle}</p>
+          <div className="flex items-center gap-1 text-xs text-muted">
+            <NavLink
+              to="/admin/dashboard"
+              className="transition-colors hover:text-primary"
+            >
+              Dashboard
+            </NavLink>
+
+            <ChevronRight size={14} strokeWidth={1.8} />
+
+            <span>{pageTitle}</span>
+          </div>
         )}
       </div>
 
       <div className="ml-auto flex items-center gap-3 sm:gap-4">
         <button
           type="button"
-          className="rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"
-          aria-label="Notifications"
+          className="relative rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"
+          title="Notifications"
+          aria-label={`Notifications (${notificationCount})`}
         >
           <Bell size={20} strokeWidth={1.8} />
-        </button>
-        <button
-          type="button"
-          className="rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"
-          aria-label="Messages"
-        >
-          <MessageSquare size={20} strokeWidth={1.8} />
+
+          {notificationCount > 0 && (
+            <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-semibold leading-none text-white">
+              {notificationCount > 99 ? "99+" : notificationCount}
+            </span>
+          )}
         </button>
 
-        <div className="relative">
+        <NavLink
+          to="/admin/complaints"
+          className="relative rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"
+          title="Complaints"
+          aria-label={`Complaints (${messageCount})`}
+        >
+          <MessageSquareWarning size={20} strokeWidth={1.8} />
+
+          {messageCount > 0 && (
+            <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-semibold leading-none text-white">
+              {messageCount > 99 ? "99+" : messageCount}
+            </span>
+          )}
+        </NavLink>
+
+        <div className="relative" title="Profile">
           <button
             type="button"
             onClick={() => setIsProfileOpen((prev) => !prev)}
             className="flex items-center gap-3 rounded-lg p-1.5 transition hover:bg-primary-light"
             aria-label="Open profile menu"
           >
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-sm font-semibold text-white">
-              H
+            <div className="h-9 w-9 overflow-hidden rounded-full">
+              <img
+                src={user.profileImage}
+                alt={user.name}
+                className="h-full w-full object-cover"
+              />
             </div>
 
             <div className="hidden text-left sm:block">
-              <p className="text-sm font-semibold text-foreground">Admin</p>
-              <p className="text-xs text-muted">Administrator</p>
+              <p className="text-sm font-semibold text-foreground">
+                {user.name}
+              </p>
+
+              <p className="text-xs text-muted">{user.role}</p>
             </div>
 
             <ChevronDown
