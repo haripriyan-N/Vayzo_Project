@@ -1,14 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import ForgetPassword from "./pages/ForgetPassword";
+import ForgetPassword from "./pages/Forgetpassword";
 import AdminLayout from "./components/layout/AdminLayout";
-import Button from "./components/ui/Button";
-import Select from "./components/ui/select";
+import Button from "./components/ui/button";
+import Select from "./components/ui/Select";
 import Modal from "./components/ui/Modal";
 import { useState } from "react";
 import Badge from "./components/ui/Badge";
 import Table from "./components/ui/Table";
 import Dashboard from "./pages/Dashboard";
+import Users from "./pages/User";
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,8 +40,9 @@ function App() {
 
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
           <Route
-            path="Users"
+            path="orders"
             element={
               <div className="flex flex-wrap gap-3 p-6">
                 <Button>Primary</Button>

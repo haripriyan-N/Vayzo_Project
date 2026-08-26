@@ -368,11 +368,7 @@
       TABLET
     ========================= */
 
-    @media (max-width: 850px) {
-
-      .login-wrapper {
-        padding: 20px;
-      }
+   
 
       .login-container {
         grid-template-columns: 1fr;
@@ -408,7 +404,6 @@
       .login-form-section {
         padding: 40px;
       }
-    }
 
 
     /* =========================
