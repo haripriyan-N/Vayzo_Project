@@ -58,8 +58,8 @@ function Header({ onMenuClick }) {
             </div>
 
             <div className="hidden text-left sm:block">
-              <p className="text-sm font-semibold text-foreground">Admin</p>
-              <p className="text-xs text-muted">Administrator</p>
+              <p className="text-sm font-semibold text-foreground">Vayzo</p>
+              <p className="text-xs text-muted">Workspace</p>
             </div>
 
             <ChevronDown
