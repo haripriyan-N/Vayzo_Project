@@ -1,6 +1,6 @@
 import { Menu, Bell, MessageSquare, ChevronDown } from "lucide-react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { navigationItems } from "../../constants/navigation";
 function Header({ onMenuClick }) {
   const location = useLocation();
@@ -38,13 +38,13 @@ function Header({ onMenuClick }) {
         >
           <Bell size={20} strokeWidth={1.8} />
         </button>
-        <button
-          type="button"
+        <Link
+          to="/complaints"
           className="rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"
           aria-label="Messages"
         >
           <MessageSquare size={20} strokeWidth={1.8} />
-        </button>
+        </Link>
 
         <div className="relative">
           <button

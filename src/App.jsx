@@ -9,6 +9,7 @@ import DeliveryPartner from "./pages/DeliveryPartner";
 import Orders from "./pages/Orders";
 import Transactions from "./pages/Transactions";
 import Complaint from "./pages/Complaint";
+import Earnings from "./pages/Earnings";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/transactions" element={<Transactions />} />
           <Route path="/complaints" element={<Complaint />} />
+          <Route path="/earnings" element={<Earnings />} />
         </Route>
       </Routes>
     </BrowserRouter>

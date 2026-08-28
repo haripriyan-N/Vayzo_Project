@@ -1,195 +1,39 @@
+import { ArrowDownLeft, ArrowUpRight, Download, Eye, MoreVertical, RefreshCw, Wallet, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/button";
 import Input from "../components/ui/input";
 import Select from "../components/ui/Select";
 import { transactionStats, transactions } from "../mock/vayzoApiMock";
-
-const statusBadgeMap = {
-  SUCCESS: "success",
-  PENDING: "warning",
-  FAILED: "danger",
-};
-
-const statusOptions = ["All Status", "Success", "Pending", "Failed"];
-const typeOptions = ["All Type", "Credit", "Debit", "Refund"];
-
-const normalizeValue = (value) =>
-  typeof value === "string" ? value.trim().toLowerCase() : "";
-
+const statusMap = { SUCCESS: "success", PENDING: "warning", FAILED: "danger" };
+const tabs = ["All Transactions", "Success", "Pending", "Failed"];
+const cards = [["Total Volume", transactionStats[0], Wallet], ["Success Rate", transactionStats[1], ArrowUpRight], ["Pending", transactionStats[2], RefreshCw], ["Failed", transactionStats[3], ArrowDownLeft]];
+const label = (item) => String(item || "").replaceAll("_", " ");
 function Transactions() {
-  const [searchText, setSearchText] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All Status");
-  const [typeFilter, setTypeFilter] = useState("All Type");
-
-  const filteredTransactions = useMemo(() => {
-    const normalizedQuery = normalizeValue(searchText);
-
-    return transactions.filter((transaction) => {
-      const matchesSearch =
-        normalizedQuery.length === 0 ||
-        [
-          transaction.transactionId,
-          transaction.userName,
-          transaction.description,
-          transaction.method,
-          transaction.city,
-        ]
-          .join(" ")
-          .toLowerCase()
-          .includes(normalizedQuery);
-
-      const matchesStatus =
-        statusFilter === "All Status" ||
-        normalizeValue(transaction.status) === normalizeValue(statusFilter);
-
-      const matchesType =
-        typeFilter === "All Type" ||
-        normalizeValue(transaction.type) === normalizeValue(typeFilter);
-
-      return matchesSearch && matchesStatus && matchesType;
-    });
-  }, [searchText, statusFilter, typeFilter]);
-
-  return (
-    <section className="min-h-full bg-background p-4 sm:p-6">
-      <div className="space-y-6 rounded-xl border border-border bg-surface p-4 sm:p-6">
-        <div className="flex flex-col gap-3 border-b border-border pb-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div className="text-xs font-medium uppercase tracking-[0.2em] text-primary">
-              Dashboard {'>'} Transactions
-            </div>
-            <h1 className="mt-2 text-2xl font-semibold text-foreground">
-              Transactions List
-            </h1>
-            <p className="mt-1 text-sm text-muted">
-              Review payment flow, settlement status, and wallet activity.
-            </p>
-          </div>
-
-          <div className="flex gap-3">
-            <Button variant="secondary">Refresh</Button>
-            <Button>Add Transaction</Button>
-          </div>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {transactionStats.map(({ label, value, trend }) => (
-            <div
-              key={label}
-              className="rounded-xl border border-border bg-background p-4"
-            >
-              <p className="text-xs text-muted">{label}</p>
-              <div className="mt-3 flex items-end justify-between gap-2">
-                <span className="text-2xl font-semibold text-foreground">{value}</span>
-                <span className="text-xs font-medium text-emerald-600">{trend}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-          <div className="w-full max-w-xl">
-            <Input
-              id="transaction-search"
-              value={searchText}
-              onChange={(event) => setSearchText(event.target.value)}
-              placeholder="Search by transaction id, user, description or city"
-            />
-          </div>
-
-          <div className="flex w-full max-w-xl flex-col gap-3 sm:flex-row">
-            <div className="w-full max-w-xs">
-              <Select
-                id="transaction-status"
-                label="Status"
-                value={statusFilter}
-                onChange={(event) => setStatusFilter(event.target.value)}
-              >
-                {statusOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </Select>
-            </div>
-
-            <div className="w-full max-w-xs">
-              <Select
-                id="transaction-type"
-                label="Type"
-                value={typeFilter}
-                onChange={(event) => setTypeFilter(event.target.value)}
-              >
-                {typeOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </Select>
-            </div>
-          </div>
-        </div>
-
-        <div className="overflow-x-auto rounded-xl border border-border">
-          <table className="min-w-full border-collapse text-left text-sm">
-            <thead className="bg-primary-light text-foreground">
-              <tr>
-                <th className="px-4 py-3 font-semibold">Transaction ID</th>
-                <th className="px-4 py-3 font-semibold">User</th>
-                <th className="px-4 py-3 font-semibold">Type</th>
-                <th className="px-4 py-3 font-semibold">Status</th>
-                <th className="px-4 py-3 font-semibold">Amount</th>
-                <th className="px-4 py-3 font-semibold">Method</th>
-                <th className="px-4 py-3 font-semibold">Description</th>
-                <th className="px-4 py-3 font-semibold">City</th>
-                <th className="px-4 py-3 font-semibold">Date</th>
-                <th className="px-4 py-3 font-semibold">Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {filteredTransactions.map((transaction) => (
-                <tr key={transaction.transactionId} className="border-t border-border bg-surface">
-                  <td className="px-4 py-3 font-medium text-foreground">
-                    {transaction.transactionId}
-                  </td>
-                  <td className="px-4 py-3 text-muted">{transaction.userName}</td>
-                  <td className="px-4 py-3 text-muted">{transaction.type}</td>
-                  <td className="px-4 py-3">
-                    <Badge
-                      variant={statusBadgeMap[transaction.status] || "default"}
-                    >
-                      {transaction.status}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-3 text-foreground">₹{transaction.amount}</td>
-                  <td className="px-4 py-3 text-muted">{transaction.method}</td>
-                  <td className="px-4 py-3 text-muted">{transaction.description}</td>
-                  <td className="px-4 py-3 text-muted">{transaction.city}</td>
-                  <td className="px-4 py-3 text-muted">{transaction.date}</td>
-                  <td className="px-4 py-3">
-                    <button
-                      type="button"
-                      className="rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary-light"
-                    >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {filteredTransactions.length === 0 && (
-          <div className="rounded-xl border border-dashed border-border bg-background p-8 text-center text-sm text-muted">
-            No transactions found for the selected search and filter.
-          </div>
-        )}
-      </div>
-    </section>
-  );
+  const [query, setQuery] = useState("");
+  const [status, setStatus] = useState("All Status");
+  const [type, setType] = useState("All Type");
+  const [tab, setTab] = useState(tabs[0]);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [transactionList, setTransactionList] = useState(transactions);
+  const [showAdd, setShowAdd] = useState(false);
+  const [form, setForm] = useState({ userName: "", amount: "", type: "CREDIT", method: "UPI", description: "", city: "", status: "SUCCESS" });
+  const filtered = useMemo(() => transactionList.filter((item) => {
+    const matchesQuery = !query || [item.transactionId, item.userName, item.description, item.method, item.city].join(" ").toLowerCase().includes(query.toLowerCase());
+    const date = item.date.slice(0, 10);
+    return matchesQuery && (status === "All Status" || item.status.toLowerCase() === status.toLowerCase()) && (type === "All Type" || item.type.toLowerCase() === type.toLowerCase()) && (tab === tabs[0] || item.status === tab.toUpperCase()) && (!fromDate || date >= fromDate) && (!toDate || date <= toDate);
+  }), [query, status, type, tab, transactionList, fromDate, toDate]);
+  const update = (key) => (event) => setForm({ ...form, [key]: event.target.value });
+  const refresh = () => { setQuery(""); setStatus("All Status"); setType("All Type"); setTab(tabs[0]); setFromDate(""); setToDate(""); setTransactionList([...transactions]); };
+  const addTransaction = (event) => { event.preventDefault(); setTransactionList([{ transactionId: `TXN${Date.now().toString().slice(-4)}`, userName: form.userName, type: form.type, status: form.status, amount: Number(form.amount), method: form.method, description: form.description, city: form.city, date: new Date().toISOString().slice(0, 16).replace("T", " ") }, ...transactionList]); setForm({ userName: "", amount: "", type: "CREDIT", method: "UPI", description: "", city: "", status: "SUCCESS" }); setShowAdd(false); };
+  return <section className="min-h-full bg-background p-3 sm:p-4"><div className="space-y-3">
+    <header className="flex flex-wrap items-center justify-between gap-2 border-b border-border pb-3"><div><p className="text-[11px] text-muted">Dashboard &gt; Transactions</p><h1 className="mt-1 text-xl font-semibold text-foreground">Transactions</h1><p className="mt-1 text-xs text-muted">Review payment flow, settlement status, and wallet activity.</p></div><div className="flex gap-2"><Button variant="secondary" size="sm" onClick={refresh}><RefreshCw size={14} className="mr-1.5" />Refresh</Button><Button size="sm" onClick={() => setShowAdd(true)}>+ Add Transaction</Button></div></header>
+    <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">{cards.map(([title, item, Icon]) => <div key={title} className="rounded-lg border border-border bg-surface p-2.5 shadow-sm"><div className="flex items-center gap-2"><Icon size={16} className="text-primary" /><span className="text-[11px] text-muted">{title}</span></div><div className="mt-1 flex items-end justify-between"><b className="text-lg text-foreground">{item.value}</b><span className="text-[10px] text-emerald-600">{item.trend}</span></div></div>)}</div>
+    <div className="rounded-lg border border-border bg-surface p-3 shadow-sm"><div className="grid gap-2 lg:grid-cols-[1.6fr_0.8fr_0.8fr_1fr_auto]"><Input id="transaction-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by transaction ID, user, description or city..." className="h-9 text-xs" /><Select id="transaction-status" value={status} onChange={(event) => setStatus(event.target.value)} className="h-9 text-xs"><option>All Status</option><option>Success</option><option>Pending</option><option>Failed</option></Select><Select id="transaction-type" value={type} onChange={(event) => setType(event.target.value)} className="h-9 text-xs"><option>All Type</option><option>Credit</option><option>Debit</option><option>Refund</option></Select><div className="grid grid-cols-2 gap-1"><Input id="transaction-from" type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className="h-9 min-w-0 px-2 text-[10px]" /><Input id="transaction-to" type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className="h-9 min-w-0 px-2 text-[10px]" /></div><Button variant="secondary" size="sm"><Download size={14} className="mr-1.5" />Export</Button></div><nav className="mt-3 flex gap-4 overflow-hidden border-b border-border">{tabs.map((item) => <button key={item} type="button" onClick={() => setTab(item)} className={`whitespace-nowrap border-b-2 px-1 pb-2 text-[11px] font-semibold ${tab === item ? "border-primary text-primary" : "border-transparent text-muted"}`}>{item}</button>)}</nav></div>
+    <div className="w-full max-w-full overflow-hidden rounded-xl border border-border bg-surface shadow-sm"><table className="w-full table-fixed border-collapse text-left text-[10px] sm:text-xs"><colgroup><col className="w-[13%]" /><col className="w-[15%]" /><col className="w-[9%]" /><col className="w-[10%]" /><col className="w-[10%]" /><col className="w-[11%]" /><col className="w-[15%]" /><col className="w-[9%]" /><col className="w-[8%]" /></colgroup><thead className="bg-primary-light"><tr>{["Transaction ID", "User", "Type", "Status", "Amount", "Method", "Description", "Date", "Actions"].map((head) => <th key={head} className="break-words px-1.5 py-3 font-semibold text-foreground sm:px-2">{head}</th>)}</tr></thead><tbody>{filtered.map((item) => <tr key={item.transactionId} className="border-t border-border"><td className="truncate px-1.5 py-3 font-medium text-foreground sm:px-2">{item.transactionId}</td><td className="truncate px-1.5 py-3 text-muted sm:px-2">{item.userName}</td><td className="truncate px-1.5 py-3 text-muted sm:px-2">{label(item.type)}</td><td className="px-1.5 py-3 sm:px-2"><Badge variant={statusMap[item.status]} className="h-5 max-w-full truncate px-1 text-[9px]">{label(item.status)}</Badge></td><td className="whitespace-nowrap px-1.5 py-3 font-medium text-foreground sm:px-2">₹{item.amount}</td><td className="truncate px-1.5 py-3 text-muted sm:px-2">{item.method}</td><td className="truncate px-1.5 py-3 text-muted sm:px-2">{item.description}</td><td className="truncate px-1.5 py-3 text-muted sm:px-2">{item.date}</td><td className="px-1.5 py-3 sm:px-2"><div className="flex gap-1"><button type="button" aria-label={`View ${item.transactionId}`} className="flex h-7 w-7 items-center justify-center rounded border border-border text-primary hover:bg-primary-light"><Eye size={15} /></button><button type="button" aria-label={`More actions for ${item.transactionId}`} className="flex h-7 w-7 items-center justify-center rounded border border-border text-primary hover:bg-primary-light"><MoreVertical size={15} /></button></div></td></tr>)}</tbody></table>{!filtered.length && <p className="p-6 text-center text-sm text-muted">No transactions found for the selected filters.</p>}<div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3 text-xs text-muted"><span>Showing 1 to {filtered.length} of {transactionList.length} transactions</span><div className="flex gap-1"><Button variant="secondary" size="sm">1</Button><Button variant="secondary" size="sm">2</Button><Button variant="secondary" size="sm">3</Button><Button variant="secondary" size="sm">Next</Button></div></div></div>
+    {showAdd && <div className="fixed inset-0 z-20 flex items-center justify-center bg-slate-950/30 p-4"><form onSubmit={addTransaction} className="w-full max-w-xl rounded-xl border border-border bg-surface p-5 shadow-xl"><div className="flex items-center justify-between"><h2 className="text-lg font-semibold text-foreground">Add Transaction</h2><button type="button" onClick={() => setShowAdd(false)} aria-label="Close"><X size={18} /></button></div><div className="mt-4 grid gap-3 sm:grid-cols-2"><Input id="transaction-user" label="User" value={form.userName} onChange={update("userName")} placeholder="Enter user name" required /><Input id="transaction-amount" label="Amount" type="number" min="0" value={form.amount} onChange={update("amount")} placeholder="Enter amount" required /><Select id="transaction-form-type" label="Type" value={form.type} onChange={update("type")}><option>CREDIT</option><option>DEBIT</option><option>REFUND</option></Select><Input id="transaction-method" label="Method" value={form.method} onChange={update("method")} placeholder="UPI / Card / Wallet" required /><Input id="transaction-description" label="Description" value={form.description} onChange={update("description")} placeholder="Enter description" required /><Input id="transaction-city" label="City" value={form.city} onChange={update("city")} placeholder="Enter city" required /><Select id="transaction-form-status" label="Status" value={form.status} onChange={update("status")}><option>SUCCESS</option><option>PENDING</option><option>FAILED</option></Select></div><div className="mt-5 flex justify-end gap-2"><Button type="button" variant="secondary" onClick={() => setShowAdd(false)}>Cancel</Button><Button type="submit">Save Transaction</Button></div></form></div>}
+  </div></section>;
 }
 
 export default Transactions;

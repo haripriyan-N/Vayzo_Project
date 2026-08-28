@@ -30,6 +30,8 @@ function User() {
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [userTypeFilter, setUserTypeFilter] = useState("All User Type");
   const [verificationFilter, setVerificationFilter] = useState("All Verified");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   const filteredUsers = useMemo(() => {
     const normalizedQuery = searchText.trim().toLowerCase();
@@ -64,6 +66,8 @@ function User() {
     setStatusFilter("All Status");
     setUserTypeFilter("All User Type");
     setVerificationFilter("All Verified");
+    setFromDate("");
+    setToDate("");
   };
 
   const selectClass = "h-10 rounded-lg border-border bg-background text-sm";
@@ -78,7 +82,7 @@ function User() {
             <Select id="user-verification" value={verificationFilter} onChange={(event) => setVerificationFilter(event.target.value)} className={selectClass}>{verificationOptions.map((option) => <option key={option}>{option}</option>)}</Select>
           </div>
           <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div className="w-full sm:w-64"><label htmlFor="joined-date" className="mb-1.5 block text-xs font-medium text-muted">Joined Date</label><Input id="joined-date" value="12 May 2024  -  12 May 2024" readOnly className="h-10 rounded-lg border-border bg-background text-xs" /></div>
+            <div className="w-full sm:w-64"><label htmlFor="joined-from" className="mb-1.5 block text-xs font-medium text-muted">Joined Date</label><div className="grid grid-cols-2 gap-1"><Input id="joined-from" type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className="h-10 min-w-0 px-2 text-[10px]" /><Input id="joined-to" type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className="h-10 min-w-0 px-2 text-[10px]" /></div></div>
             <div className="flex gap-3"><Button variant="secondary" size="sm" onClick={resetFilters}>Reset</Button><Button size="sm" onClick={() => navigate("/users/add")}>+ Add User</Button></div>
           </div>
         </div>
