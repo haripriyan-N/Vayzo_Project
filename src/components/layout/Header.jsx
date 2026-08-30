@@ -6,10 +6,16 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation ,useNavigate} from "react-router-dom";
 import { navigationItems } from "../../constants/navigation";
 import UserImg from "../../assets/logo/Trans_full.png"
+
+
+
+
+
 function Header({ onMenuClick }) {
+    const navigate = useNavigate();
   const location = useLocation();
 
   const currentPage = navigationItems.find(
@@ -22,11 +28,15 @@ function Header({ onMenuClick }) {
   const notificationCount = 99;
   const messageCount = 5;
   // for real user to admin
-  const user = {
-    name: "Haripriyan",
-    profileImage: UserImg,
-    role: "Admin",
-  };
+  const storedUser = localStorage.getItem("vayzo_admin_user");
+
+  const user = storedUser
+    ? JSON.parse(storedUser)
+    : {
+        name: "VAYZO Admin",
+        profileImage: UserImg,
+        role: "Super Admin",
+      };
 
   return (
     <header className="flex h-16 items-center justify-between border-b border-border bg-surface lg:px-2">
@@ -98,7 +108,7 @@ function Header({ onMenuClick }) {
           >
             <div className="h-9 w-9 overflow-hidden rounded-full">
               <img
-                src={user.profileImage}
+                src={user.profileImage || UserImg}
                 alt={user.name}
                 className="h-full w-full object-cover"
               />
@@ -142,6 +152,12 @@ function Header({ onMenuClick }) {
 
               <button
                 type="button"
+                onClick={() => {
+                  localStorage.removeItem("vayzo_admin_logged_in");
+                  localStorage.removeItem("vayzo_admin_user");
+                  setIsProfileOpen(false);
+                  navigate("/");
+                }}
                 className="flex w-full items-center rounded-md px-3 py-2 text-sm text-danger hover:bg-primary-light"
               >
                 Sign out

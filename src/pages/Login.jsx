@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Eye, EyeOff, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
+import {
+  ArrowRight,
+  Eye,
+  EyeOff,
+  LockKeyhole,
+  Mail,
+  ShieldCheck,
+} from "lucide-react";
 import vayzoLogo from "../assets/logo/Vayzo_logo.png";
+import { mockAdmin, mockAdminCredentials } from "../mock/vayzoApiMock";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -11,9 +19,19 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // TODO: Add real authentication later
-    // For now, just navigate to dashboard
-    navigate("/dashboard");
+
+    if (
+      email === mockAdminCredentials.email &&
+      password === mockAdminCredentials.password
+    ) {
+      localStorage.setItem("vayzo_admin_logged_in", "true");
+      localStorage.setItem("vayzo_admin_user", JSON.stringify(mockAdmin));
+
+      navigate("/dashboard");
+      return;
+    }
+
+    alert("Invalid email or password");
   };
 
   return (
@@ -22,11 +40,7 @@ const Login = () => {
         {/* Left Brand Section - Image Based */}
         <section className="relative hidden overflow-hidden bg-gradient-to-br from-primary to-primary-hover sm:flex sm:items-center sm:justify-center">
           <div className="relative z-10 flex flex-col items-center justify-center p-10">
-            <img
-              src={vayzoLogo}
-              alt="VAYZO"
-              className="w-full max-w-md"
-            />
+            <img src={vayzoLogo} alt="VAYZO" className="w-full max-w-md" />
             <p className="mt-8 text-center text-sm text-white/80">
               Super Admin Portal
             </p>
@@ -110,7 +124,9 @@ const Login = () => {
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
                     className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-muted hover:text-primary sm:right-3"
-                    aria-label={showPassword ? "Hide password" : "Show password"}
+                    aria-label={
+                      showPassword ? "Hide password" : "Show password"
+                    }
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -119,7 +135,10 @@ const Login = () => {
 
               {/* Remember Me */}
               <label className="flex items-center gap-2 text-[11px] text-muted sm:text-xs">
-                <input type="checkbox" className="h-3.5 w-3.5 accent-primary sm:h-4 sm:w-4" />
+                <input
+                  type="checkbox"
+                  className="h-3.5 w-3.5 accent-primary sm:h-4 sm:w-4"
+                />
                 Remember me
               </label>
 

@@ -6,6 +6,8 @@ import { PanelLeftClose, X } from "lucide-react";
 
 function Sidebar({ isOpen, onClose }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {

@@ -537,4 +537,15 @@ export const vayzoApiMock = {
   appAbout,
 };
 
+export const mockAdminCredentials = {
+  email: "admin@vayzo.com",
+  password: "admin123",
+};
+
+export const mockAdmin = {
+  email: "admin@vayzo.com",
+  name: "VAYZO Admin",
+  role: "Super Admin",
+  profileImage: null,
+};
 export default vayzoApiMock;

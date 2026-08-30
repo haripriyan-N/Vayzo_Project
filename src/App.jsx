@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import ForgetPassword from "./pages/ForgetPassword";
-import AdminLayout from "./components/layout/AdminLayout";
+import ProtectedRoute from "./components/layout/ProtectedRoute";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Complaints from "./pages/Complaints";
+import AdminLayout from "./components/layout/AdminLayout";
 
 function App() {
   return (
@@ -13,11 +14,13 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
 
-        <Route element={<AdminLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/complaints" element={<Complaints />} />
-          <Route path="/orders" element={<Complaints />} />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AdminLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/complaints" element={<Complaints />} />
+            <Route path="/orders" element={<Complaints />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
