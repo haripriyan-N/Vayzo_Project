@@ -22,7 +22,20 @@ function Header({ onMenuClick }) {
     (item) => item.path === location.pathname,
   );
 
-  const pageTitle = currentPage?.label || "Dashboard";
+  const pageConfig = {
+    "/users/add": {
+      title: "Add User",
+      parent: "Users",
+    },
+  };
+
+  const currentRoute = pageConfig[location.pathname];
+
+  const pageTitle = currentRoute?.title || currentPage?.label || "Dashboard";
+
+  const parentPage = currentRoute?.parent || null;
+
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   // For icon label
   const notificationCount = 99;
@@ -62,6 +75,19 @@ function Header({ onMenuClick }) {
             </NavLink>
 
             <ChevronRight size={14} strokeWidth={1.8} />
+
+            {parentPage && (
+              <>
+                <NavLink
+                  to="/users"
+                  className="transition-colors hover:text-primary"
+                >
+                  {parentPage}
+                </NavLink>
+
+                <ChevronRight size={14} strokeWidth={1.8} />
+              </>
+            )}
 
             <span>{pageTitle}</span>
           </div>
