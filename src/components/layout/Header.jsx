@@ -45,7 +45,7 @@ function Header({ onMenuClick }) {
         {pageTitle !== "Dashboard" && (
           <div className="flex items-center gap-1 text-xs text-muted">
             <NavLink
-              to="/admin/dashboard"
+              to="/dashboard"
               className="transition-colors hover:text-primary"
             >
               Dashboard
@@ -75,7 +75,7 @@ function Header({ onMenuClick }) {
         </button>
 
         <NavLink
-          to="/admin/complaints"
+          to="/complaints"
           className="relative rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"
           title="Complaints"
           aria-label={`Complaints (${messageCount})`}

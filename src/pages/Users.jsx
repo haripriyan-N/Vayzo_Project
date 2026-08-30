@@ -1,5 +1,5 @@
 import Button from "../components/ui/Button";
-import Select from "../components/ui/select";
+import Select from "../components/ui/Select";
 import Modal from "../components/ui/Modal";
 import { useState } from "react";
 import Badge from "../components/ui/Badge";

@@ -51,7 +51,7 @@ function Sidebar({ isOpen, onClose }) {
             isCollapsed ? "justify-center" : "gap-1",
           ].join(" ")}
         >
-          <Link to="/admin" onClick={onClose}>
+          <Link to="/dashboard" onClick={onClose}>
             <img
               src={vayzoLogo}
               alt="Vayzo"

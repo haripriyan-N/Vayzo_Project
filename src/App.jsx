@@ -4,6 +4,7 @@ import ForgetPassword from "./pages/ForgetPassword";
 import AdminLayout from "./components/layout/AdminLayout";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
+import Complaints from "./pages/Complaints";
 
 function App() {
   return (
@@ -12,9 +13,11 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/forgetpassword" element={<ForgetPassword />} />
 
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="Users" element={<Users />} />
+        <Route element={<AdminLayout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/complaints" element={<Complaints />} />
+          <Route path="/orders" element={<Complaints />} />
         </Route>
       </Routes>
     </BrowserRouter>
