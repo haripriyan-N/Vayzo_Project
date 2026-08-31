@@ -6,16 +6,13 @@ import {
   ChevronRight,
 } from "lucide-react";
 import { useState } from "react";
-import { NavLink, useLocation ,useNavigate} from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { navigationItems } from "../../constants/navigation";
-import UserImg from "../../assets/logo/Trans_full.png"
-
-
-
-
+import UserImg from "../../assets/logo/Trans_full.png";
+import { useNotifications } from "../../context/NotificationContext";
 
 function Header({ onMenuClick }) {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const currentPage = navigationItems.find(
@@ -29,18 +26,20 @@ function Header({ onMenuClick }) {
     },
   };
 
+  const isOrderDetailsPage = location.pathname.startsWith("/orders/");
+
   const currentRoute = pageConfig[location.pathname];
 
-  const pageTitle = currentRoute?.title || currentPage?.label || "Dashboard";
+  const pageTitle = isOrderDetailsPage
+    ? "Order Details"
+    : currentRoute?.title || currentPage?.label || "Dashboard";
 
-  const parentPage = currentRoute?.parent || null;
-
-
+  const parentPage = isOrderDetailsPage ? null : currentRoute?.parent || null;
+  
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  // For icon label
-  const notificationCount = 99;
+  const { unreadCount } = useNotifications();
   const messageCount = 5;
-  // for real user to admin
+
   const storedUser = localStorage.getItem("vayzo_admin_user");
 
   const user = storedUser
@@ -95,21 +94,20 @@ function Header({ onMenuClick }) {
       </div>
 
       <div className="ml-auto flex items-center gap-3 sm:gap-4">
-        <button
-          type="button"
+        <NavLink
+          to="/notifications"
           className="relative rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"
           title="Notifications"
-          aria-label={`Notifications (${notificationCount})`}
+          aria-label={`Notifications (${unreadCount})`}
         >
           <Bell size={20} strokeWidth={1.8} />
 
-          {notificationCount > 0 && (
+          {unreadCount > 0 && (
             <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-danger px-1 text-[10px] font-semibold leading-none text-white">
-              {notificationCount > 99 ? "99+" : notificationCount}
+              {unreadCount > 99 ? "99+" : unreadCount}
             </span>
           )}
-        </button>
-
+        </NavLink>
         <NavLink
           to="/complaints"
           className="relative rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"

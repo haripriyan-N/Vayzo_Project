@@ -9,6 +9,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
@@ -16,7 +17,7 @@ import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import { getOrders } from "../api/ordersApi";
 
-const statusMap = {
+const STATUS_MAP = {
   DELIVERED: "success",
   IN_TRANSIT: "info",
   PREPARING: "warning",
@@ -25,27 +26,7 @@ const statusMap = {
   REFUNDED: "default",
 };
 
-const statusLabel = (status = "") => status.replaceAll("_", " ");
-
-const initials = (name = "") =>
-  name
-    .split(" ")
-    .filter(Boolean)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
-
-const statIcons = [Package, Clock3, Truck, CheckCircle, XCircle];
-
-const statLabels = [
-  "Total Orders",
-  "Pending",
-  "On The Way",
-  "Delivered",
-  "Cancelled",
-];
-
-const tabs = [
+const TABS = [
   "All Orders",
   "Pending",
   "On The Way",
@@ -54,7 +35,7 @@ const tabs = [
   "Refunded",
 ];
 
-const statusOptions = [
+const STATUS_OPTIONS = [
   "All Status",
   "Delivered",
   "In Transit",
@@ -63,19 +44,73 @@ const statusOptions = [
   "Cancelled",
 ];
 
-const paymentOptions = ["All Payment Status", "Paid", "Pending", "Refunded"];
+const PAYMENT_OPTIONS = ["All Payment Status", "Paid", "Pending", "Refunded"];
+
+const STAT_CONFIG = [
+  {
+    label: "Total Orders",
+    key: "total",
+    icon: Package,
+  },
+  {
+    label: "Pending",
+    key: "pending",
+    icon: Clock3,
+  },
+  {
+    label: "On The Way",
+    key: "inTransit",
+    icon: Truck,
+  },
+  {
+    label: "Delivered",
+    key: "delivered",
+    icon: CheckCircle,
+  },
+  {
+    label: "Cancelled",
+    key: "cancelled",
+    icon: XCircle,
+  },
+];
+
+const formatStatus = (status = "") => status.replaceAll("_", " ");
+
+const getInitials = (name = "") =>
+  name
+    .split(" ")
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+const getDateOnly = (date = "") => {
+  if (!date) return "";
+
+  // Supports:
+  // 2026-08-27
+  // 2026-08-27 11:20
+  // 2026-08-27T11:20
+  return date.slice(0, 10);
+};
 
 function Orders() {
+  const navigate = useNavigate();
+
   const [orders, setOrders] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("All Status");
   const [payment, setPayment] = useState("All Payment Status");
-  const [tab, setTab] = useState("All Orders");
+  const [activeTab, setActiveTab] = useState("All Orders");
+
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+
 
   const loadOrders = async () => {
     try {
@@ -84,9 +119,9 @@ function Orders() {
 
       const data = await getOrders();
 
-      setOrders(data);
+      setOrders(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error(err);
+      console.error("Failed to load orders:", err);
       setError("Unable to load orders.");
     } finally {
       setLoading(false);
@@ -94,59 +129,83 @@ function Orders() {
   };
 
   useEffect(() => {
-    let isMounted = true;
+    let mounted = true;
 
-    const load = async () => {
+    const fetchOrders = async () => {
       try {
         setLoading(true);
         setError("");
 
         const data = await getOrders();
 
-        if (isMounted) {
-          setOrders(data);
+        if (mounted) {
+          setOrders(Array.isArray(data) ? data : []);
         }
       } catch (err) {
-        console.error(err);
+        console.error("Failed to load orders:", err);
 
-        if (isMounted) {
+        if (mounted) {
           setError("Unable to load orders.");
         }
       } finally {
-        if (isMounted) {
+        if (mounted) {
           setLoading(false);
         }
       }
     };
 
-    load();
+    fetchOrders();
 
     return () => {
-      isMounted = false;
+      mounted = false;
     };
   }, []);
 
+  /* --------------------------------
+     Statistics
+  -------------------------------- */
+
+  const stats = useMemo(() => {
+    return {
+      total: orders.length,
+
+      pending: orders.filter((order) => order.status === "PENDING").length,
+
+      inTransit: orders.filter((order) => order.status === "IN_TRANSIT").length,
+
+      delivered: orders.filter((order) => order.status === "DELIVERED").length,
+
+      cancelled: orders.filter((order) => order.status === "CANCELLED").length,
+    };
+  }, [orders]);
+
+  /* --------------------------------
+     Filtering
+  -------------------------------- */
+
   const filteredOrders = useMemo(() => {
+    const searchValue = query.trim().toLowerCase();
+
     return orders.filter((order) => {
-      const searchText = [
+      const searchableText = [
         order.orderId,
         order.customerName,
+        order.restaurantName,
         order.deliveryPartner,
         order.city,
-        order.restaurantName,
-        order.mobileNumber,
+        order.paymentStatus,
+        order.status,
       ]
         .filter(Boolean)
         .join(" ")
         .toLowerCase();
 
-      const searchValue = query.trim().toLowerCase();
-
-      const matchesSearch = !searchValue || searchText.includes(searchValue);
+      const matchesSearch =
+        !searchValue || searchableText.includes(searchValue);
 
       const matchesStatus =
         status === "All Status" ||
-        statusLabel(order.status).toLowerCase() === status.toLowerCase();
+        formatStatus(order.status).toLowerCase() === status.toLowerCase();
 
       const matchesPayment =
         payment === "All Payment Status" ||
@@ -154,16 +213,16 @@ function Orders() {
 
       let matchesTab = true;
 
-      if (tab !== "All Orders") {
+      if (activeTab !== "All Orders") {
         const tabStatus =
-          tab === "On The Way"
+          activeTab === "On The Way"
             ? "IN_TRANSIT"
-            : tab.toUpperCase().replaceAll(" ", "_");
+            : activeTab.toUpperCase().replaceAll(" ", "_");
 
         matchesTab = order.status === tabStatus;
       }
 
-      const orderDate = order.orderDate ? order.orderDate.slice(0, 10) : "";
+      const orderDate = getDateOnly(order.orderDate);
 
       const matchesFromDate = !fromDate || orderDate >= fromDate;
 
@@ -178,86 +237,54 @@ function Orders() {
         matchesToDate
       );
     });
-  }, [orders, query, status, payment, tab, fromDate, toDate]);
+  }, [orders, query, status, payment, activeTab, fromDate, toDate]);
+
+  /* --------------------------------
+     Reset
+  -------------------------------- */
 
   const resetFilters = () => {
     setQuery("");
     setStatus("All Status");
     setPayment("All Payment Status");
-    setTab("All Orders");
+    setActiveTab("All Orders");
     setFromDate("");
     setToDate("");
   };
 
-  const stats = [
-    ["Total Orders", orders.length],
-    ["Pending", orders.filter((order) => order.status === "PENDING").length],
-    [
-      "On The Way",
-      orders.filter((order) => order.status === "IN_TRANSIT").length,
-    ],
-    [
-      "Delivered",
-      orders.filter((order) => order.status === "DELIVERED").length,
-    ],
-    [
-      "Cancelled",
-      orders.filter((order) => order.status === "CANCELLED").length,
-    ],
-  ];
+  const hasFilters =
+    query ||
+    status !== "All Status" ||
+    payment !== "All Payment Status" ||
+    activeTab !== "All Orders" ||
+    fromDate ||
+    toDate;
 
   return (
     <section className="min-h-full bg-background p-4 sm:p-6">
       <div className="space-y-4">
-        {/* Page Header */}
-        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
-          <div>
-            <p className="text-xs text-muted">Dashboard &gt; Orders</p>
+        {/* =========================
+            Statistics
+        ========================== */}
 
-            <h1 className="mt-1 text-2xl font-semibold text-foreground">
-              Orders
-            </h1>
-
-            <p className="mt-1 text-sm text-muted">
-              Track customer orders, delivery flow, and payment status.
-            </p>
-          </div>
-
-          <div className="flex gap-2">
-            <Button
-              variant="secondary"
-              size="sm"
-              type="button"
-              onClick={loadOrders}
-            >
-              Refresh
-            </Button>
-
-            <Button size="sm" type="button">
-              + Add Order
-            </Button>
-          </div>
-        </header>
-
-        {/* Statistics */}
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-          {stats.map(([label, value], index) => {
-            const Icon = statIcons[index];
+          {STAT_CONFIG.map((stat) => {
+            const Icon = stat.icon;
 
             return (
               <div
-                key={label}
+                key={stat.key}
                 className="rounded-xl border border-border bg-surface p-3 shadow-sm"
               >
                 <div className="flex items-center gap-2">
                   <Icon size={17} strokeWidth={1.8} className="text-primary" />
 
-                  <span className="text-xs text-muted">{label}</span>
+                  <span className="text-xs text-muted">{stat.label}</span>
                 </div>
 
                 <div className="mt-2">
                   <span className="text-xl font-semibold text-foreground">
-                    {loading ? "--" : value}
+                    {loading ? "--" : stats[stat.key]}
                   </span>
                 </div>
               </div>
@@ -265,9 +292,14 @@ function Orders() {
           })}
         </div>
 
-        {/* Filters */}
+        {/* =========================
+            Filters
+        ========================== */}
+
         <div className="rounded-xl border border-border bg-surface p-4 shadow-sm">
           <div className="grid gap-3 lg:grid-cols-[1.5fr_0.7fr_0.8fr_1fr_auto]">
+            {/* Search */}
+
             <Input
               id="order-search"
               value={query}
@@ -276,18 +308,22 @@ function Orders() {
               className="h-10 text-xs"
             />
 
+            {/* Status */}
+
             <Select
               id="order-status"
               value={status}
               onChange={(event) => setStatus(event.target.value)}
               className="h-10 text-xs"
             >
-              {statusOptions.map((option) => (
+              {STATUS_OPTIONS.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
             </Select>
+
+            {/* Payment */}
 
             <Select
               id="payment-status"
@@ -295,12 +331,14 @@ function Orders() {
               onChange={(event) => setPayment(event.target.value)}
               className="h-10 text-xs"
             >
-              {paymentOptions.map((option) => (
+              {PAYMENT_OPTIONS.map((option) => (
                 <option key={option} value={option}>
                   {option}
                 </option>
               ))}
             </Select>
+
+            {/* Date */}
 
             <div className="grid grid-cols-2 gap-2">
               <Input
@@ -320,38 +358,64 @@ function Orders() {
               />
             </div>
 
+            {/* Export */}
+
             <Button variant="secondary" size="sm" type="button">
               <Download size={14} className="mr-1" />
               Export
             </Button>
           </div>
 
-          {/* Status Tabs */}
+          {/* =========================
+              Status Tabs
+          ========================== */}
+
           <nav className="mt-4 flex gap-5 overflow-x-auto border-b border-border scrollbar-none">
-            {tabs.map((item) => (
+            {TABS.map((tab) => (
               <button
-                key={item}
+                key={tab}
                 type="button"
-                onClick={() => setTab(item)}
+                onClick={() => setActiveTab(tab)}
                 className={`whitespace-nowrap border-b-2 px-1 pb-2 text-xs font-semibold transition ${
-                  tab === item
+                  activeTab === tab
                     ? "border-primary text-primary"
                     : "border-transparent text-muted hover:text-foreground"
                 }`}
               >
-                {item}
+                {tab}
               </button>
             ))}
           </nav>
+
+          {/* Clear Filters */}
+
+          {hasFilters && (
+            <div className="mt-3 flex justify-end">
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="text-xs font-medium text-primary hover:underline"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Table Card */}
+        {/* =========================
+            Orders Table
+        ========================== */}
+
         <div className="w-full overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
+          {/* Loading */}
+
           {loading && (
             <div className="p-10 text-center">
               <p className="text-sm text-muted">Loading orders...</p>
             </div>
           )}
+
+          {/* Error */}
 
           {!loading && error && (
             <div className="p-10 text-center">
@@ -369,27 +433,33 @@ function Orders() {
             </div>
           )}
 
+          {/* Data */}
+
           {!loading && !error && (
             <>
               <div className="w-full overflow-x-auto">
                 <table className="w-full min-w-[950px] border-collapse text-left text-xs">
                   <thead className="bg-primary-light text-foreground">
                     <tr>
-                      {[
-                        "Order ID",
-                        "Customer",
-                        "Items",
-                        "Delivery Partner",
-                        "Amount",
-                        "Payment",
-                        "Status",
-                        "Order Time",
-                        "Actions",
-                      ].map((heading) => (
-                        <th key={heading} className="px-3 py-3 font-semibold">
-                          {heading}
-                        </th>
-                      ))}
+                      <th className="px-3 py-3 font-semibold">Order ID</th>
+
+                      <th className="px-3 py-3 font-semibold">Customer</th>
+
+                      <th className="px-3 py-3 font-semibold">Restaurant</th>
+
+                      <th className="px-3 py-3 font-semibold">
+                        Delivery Partner
+                      </th>
+
+                      <th className="px-3 py-3 font-semibold">Amount</th>
+
+                      <th className="px-3 py-3 font-semibold">Payment</th>
+
+                      <th className="px-3 py-3 font-semibold">Status</th>
+
+                      <th className="px-3 py-3 font-semibold">Order Time</th>
+
+                      <th className="px-3 py-3 font-semibold">Actions</th>
                     </tr>
                   </thead>
 
@@ -400,15 +470,17 @@ function Orders() {
                         className="border-t border-border transition hover:bg-background/60"
                       >
                         {/* Order ID */}
+
                         <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
-                          #{order.orderId}
+                          #{order.orderId || "--"}
                         </td>
 
                         {/* Customer */}
+
                         <td className="px-3 py-3">
                           <div className="flex min-w-0 items-center gap-2">
                             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-[9px] font-semibold text-white">
-                              {initials(order.customerName)}
+                              {getInitials(order.customerName) || "--"}
                             </span>
 
                             <span className="truncate font-medium text-foreground">
@@ -417,22 +489,28 @@ function Orders() {
                           </div>
                         </td>
 
-                        {/* Items / Restaurant */}
-                        <td className="max-w-[160px] truncate px-3 py-3 text-muted">
+                        {/* Restaurant */}
+
+                        <td className="max-w-[180px] truncate px-3 py-3 text-muted">
                           {order.restaurantName || "--"}
                         </td>
 
                         {/* Delivery Partner */}
+
                         <td className="px-3 py-3 text-muted">
                           {order.deliveryPartner || "--"}
                         </td>
 
                         {/* Amount */}
+
                         <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
-                          ₹{order.amount ?? "--"}
+                          {order.amount !== undefined && order.amount !== null
+                            ? `₹${Number(order.amount).toLocaleString("en-IN")}`
+                            : "--"}
                         </td>
 
                         {/* Payment */}
+
                         <td className="px-3 py-3">
                           <Badge
                             variant={
@@ -449,26 +527,32 @@ function Orders() {
                         </td>
 
                         {/* Status */}
+
                         <td className="px-3 py-3">
                           <Badge
-                            variant={statusMap[order.status] || "default"}
+                            variant={STATUS_MAP[order.status] || "default"}
                             className="h-5 px-2 text-[9px]"
                           >
-                            {statusLabel(order.status) || "--"}
+                            {formatStatus(order.status) || "--"}
                           </Badge>
                         </td>
 
                         {/* Order Time */}
+
                         <td className="whitespace-nowrap px-3 py-3 text-muted">
                           {order.orderDate || "--"}
                         </td>
 
                         {/* Actions */}
+
                         <td className="px-3 py-3">
                           <div className="flex gap-1">
                             <button
                               type="button"
                               aria-label={`View ${order.orderId}`}
+                              onClick={() =>
+                                navigate(`/orders/${order.orderId}`)
+                              }
                               className="flex h-7 w-7 items-center justify-center rounded-md border border-border text-primary transition hover:bg-primary-light"
                             >
                               <Eye size={14} />
@@ -489,47 +573,48 @@ function Orders() {
                 </table>
               </div>
 
-              {/* Empty State */}
+              {/* Empty */}
+
               {!filteredOrders.length && (
-                <div className="p-8 text-center">
-                  <p className="text-sm font-medium text-foreground">
+                <div className="p-10 text-center">
+                  <Package size={30} className="mx-auto text-muted" />
+
+                  <p className="mt-3 text-sm font-medium text-foreground">
                     No orders found
                   </p>
 
                   <p className="mt-1 text-xs text-muted">
                     Try changing your search or filters.
                   </p>
+
+                  {hasFilters && (
+                    <button
+                      type="button"
+                      onClick={resetFilters}
+                      className="mt-3 text-xs font-semibold text-primary hover:underline"
+                    >
+                      Clear filters
+                    </button>
+                  )}
                 </div>
               )}
 
               {/* Footer */}
+
               <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3 text-xs text-muted">
                 <span>
-                  Showing {filteredOrders.length ? 1 : 0} to{" "}
-                  {filteredOrders.length} of {orders.length} orders
+                  Showing {filteredOrders.length} of {orders.length} orders
                 </span>
-
-                <div className="flex gap-1">
-                  <Button variant="secondary" size="sm" type="button">
-                    1
-                  </Button>
-
-                  <Button variant="secondary" size="sm" type="button">
-                    2
-                  </Button>
-
-                  <Button variant="secondary" size="sm" type="button">
-                    3
-                  </Button>
-
-                  <Button variant="secondary" size="sm" type="button">
-                    Next
-                  </Button>
-                </div>
               </div>
             </>
           )}
         </div>
+
+        {/* =========================
+            Order Details Modal
+        ========================== */}
+
+        
       </div>
     </section>
   );

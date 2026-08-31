@@ -30,7 +30,7 @@ export const navigationItems = [
   },
   {
     label: "Delivery Partners",
-    path: "/delivery-partners",
+    path: "/delivery",
     icon: Truck,
   },
   {

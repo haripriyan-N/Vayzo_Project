@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  ArrowRight,
-  Eye,
-  EyeOff,
-  LockKeyhole,
-  Mail,
-  ShieldCheck,
-} from "lucide-react";
+import { Eye, EyeOff, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
 import vayzoLogo from "../assets/logo/Vayzo_logo.png";
 import { mockAdmin, mockAdminCredentials } from "../mock/vayzoApiMock";
 
@@ -16,6 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -50,116 +44,149 @@ const Login = () => {
         </section>
 
         {/* Right Login Section */}
-        <section className="flex items-center justify-center px-5 py-8 sm:px-14 sm:py-16">
-          <div className="w-full max-w-sm">
-            <div className="mb-6 sm:mb-8">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary sm:text-xs">
-                Admin Portal
-              </p>
-              <h1 className="mt-2 text-xl font-bold text-foreground sm:mt-3 sm:text-3xl">
-                Welcome back 👋
-              </h1>
-              <p className="mt-1 text-xs text-muted sm:mt-2 sm:text-sm">
-                Sign in to continue to your dashboard.
-              </p>
-            </div>
+        {/* Right Login Section */}
+        <section className="flex min-w-0 w-full items-center justify-center bg-[#fafbff] px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-10 xl:px-14">
+          <div className="w-full min-w-0 max-w-md">
+            <div className="w-full rounded-2xl border border-border bg-surface p-5 shadow-sm sm:p-6 md:p-7 lg:p-8">
+              {/* Heading */}
+              <div className="mb-6 text-center sm:mb-7">
+                <h1 className="text-2xl font-bold text-foreground sm:text-[26px] md:text-3xl">
+                  Welcome Back!
+                </h1>
 
-            <form onSubmit={handleLogin} className="space-y-4 sm:space-y-5">
-              {/* Email Field */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-1.5 block text-xs font-semibold text-foreground sm:mb-2 sm:text-sm"
-                >
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted sm:left-4"
-                    size={16}
-                  />
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    className="h-10 w-full rounded-lg border border-border bg-background pl-9 pr-3 text-xs text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 sm:h-12 sm:pl-11 sm:pr-4 sm:text-sm"
-                  />
-                </div>
+                <p className="mt-2 text-xs text-muted sm:text-sm md:text-base">
+                  Sign in to your VAYZO admin account
+                </p>
               </div>
 
-              {/* Password Field */}
-              <div>
-                <div className="mb-1.5 flex items-center justify-between sm:mb-2">
+              <form onSubmit={handleLogin} className="space-y-4 sm:space-y-5">
+                {/* Email */}
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="mb-2 block text-xs font-semibold text-foreground sm:text-sm"
+                  >
+                    Email Address
+                  </label>
+
+                  <div className="relative">
+                    <Mail
+                      size={18}
+                      strokeWidth={1.8}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-muted sm:left-4 sm:h-5 sm:w-5"
+                    />
+
+                    <input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="h-11 w-full rounded-lg border border-border bg-background pl-10 pr-3 text-xs text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 sm:h-12 sm:pl-11 sm:pr-4 sm:text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Password */}
+                <div>
                   <label
                     htmlFor="password"
-                    className="text-xs font-semibold text-foreground sm:text-sm"
+                    className="mb-2 block text-xs font-semibold text-foreground sm:text-sm"
                   >
                     Password
                   </label>
-                  <a
-                    href="/forgetpassword"
-                    className="text-[10px] font-semibold text-primary hover:underline sm:text-xs"
-                  >
-                    Forgot password?
-                  </a>
+
+                  <div className="relative">
+                    <LockKeyhole
+                      size={18}
+                      strokeWidth={1.8}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 text-muted sm:left-4 sm:h-5 sm:w-5"
+                    />
+
+                    <input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="h-11 w-full rounded-lg border border-border bg-background pl-10 pr-11 text-xs text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 sm:h-12 sm:pl-11 sm:pr-12 sm:text-sm"
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1.5 text-muted transition hover:text-primary sm:right-3"
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                    >
+                      {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+
+                  {/* Forgot Password */}
+                  <div className="mt-2 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => navigate("/forgetpassword")}
+                      className="text-[11px] font-semibold text-primary hover:underline sm:text-xs"
+                    >
+                      Forgot Password?
+                    </button>
+                  </div>
                 </div>
-                <div className="relative">
-                  <LockKeyhole
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-muted sm:left-4"
-                    size={16}
-                  />
-                  <input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="h-10 w-full rounded-lg border border-border bg-background pl-9 pr-10 text-xs text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 sm:h-12 sm:pl-11 sm:pr-12 sm:text-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-muted hover:text-primary sm:right-3"
-                    aria-label={
-                      showPassword ? "Hide password" : "Show password"
-                    }
-                  >
-                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
+
+                {/* Remember Me */}
+                <div className="flex items-center">
+                  <label className="flex cursor-pointer items-center gap-2 text-xs text-foreground sm:text-sm">
+                    <input
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      className="h-4 w-4 rounded border-border accent-primary"
+                    />
+                    Remember me
+                  </label>
                 </div>
-              </div>
 
-              {/* Remember Me */}
-              <label className="flex items-center gap-2 text-[11px] text-muted sm:text-xs">
-                <input
-                  type="checkbox"
-                  className="h-3.5 w-3.5 accent-primary sm:h-4 sm:w-4"
-                />
-                Remember me
-              </label>
+                {/* Login */}
+                <button
+                  type="submit"
+                  className="h-11 w-full rounded-lg bg-primary text-xs font-bold text-white shadow-lg shadow-primary/20 transition hover:bg-primary-hover sm:h-12 sm:text-sm"
+                >
+                  Login
+                </button>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                className="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-primary text-xs font-bold text-white shadow-lg shadow-primary/20 transition hover:bg-primary-hover sm:h-12 sm:gap-3 sm:text-sm"
-              >
-                <span>Sign In</span>
-                <ArrowRight size={16} className="sm:h-[19px] sm:w-[19px]" />
-              </button>
-            </form>
+                {/* OR */}
+                <div className="flex items-center gap-3 sm:gap-4">
+                  <div className="h-px flex-1 bg-border" />
 
-            {/* Security Note */}
-            <p className="mt-5 flex items-center justify-center gap-1.5 text-center text-[10px] text-subtle sm:mt-7 sm:gap-2 sm:text-xs">
+                  <span className="text-[10px] text-muted sm:text-xs">or</span>
+
+                  <div className="h-px flex-1 bg-border" />
+                </div>
+
+                {/* OTP */}
+                <button
+                  type="button"
+                  className="flex h-11 w-full items-center justify-center gap-2 rounded-lg border border-primary/50 bg-background text-xs font-semibold text-primary transition hover:bg-primary-light sm:h-12 sm:text-sm"
+                >
+                  <ShieldCheck size={17} className="sm:h-[19px] sm:w-[19px]" />
+                  Login with OTP
+                </button>
+              </form>
+            </div>
+
+            {/* Security */}
+            <p className="mt-5 flex items-center justify-center gap-1.5 text-center text-[10px] text-subtle sm:mt-6 sm:gap-2 sm:text-xs">
               <ShieldCheck size={13} className="sm:h-[15px] sm:w-[15px]" />
               Your connection is secure and encrypted
             </p>
 
             {/* Copyright */}
-            <p className="mt-6 text-center text-[9px] text-subtle sm:mt-8 sm:text-[10px]">
+            <p className="mt-4 text-center text-[9px] text-subtle sm:mt-5 sm:text-[10px]">
               © 2026 VAYZO. All rights reserved.
             </p>
           </div>
