@@ -1,14 +1,15 @@
 import {
+  Menu,
   Bell,
+  MessageSquareWarning,
   ChevronDown,
   ChevronRight,
-  Menu,
-  MessageSquareWarning,
 } from "lucide-react";
 import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import UserImg from "../../assets/logo/Trans_full.png";
 import { navigationItems } from "../../constants/navigation";
+import UserImg from "../../assets/logo/Trans_full.png";
+import { useNotifications } from "../../context/NotificationContext";
 
 function Header({ onMenuClick }) {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ function Header({ onMenuClick }) {
   };
 
   const isOrderDetailsPage = location.pathname.startsWith("/orders/");
+
   const currentRoute = pageConfig[location.pathname];
 
   const pageTitle = isOrderDetailsPage
@@ -33,9 +35,9 @@ function Header({ onMenuClick }) {
     : currentRoute?.title || currentPage?.label || "Dashboard";
 
   const parentPage = isOrderDetailsPage ? null : currentRoute?.parent || null;
-
+  
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const unreadCount = 0;
+  const { unreadCount } = useNotifications();
   const messageCount = 5;
 
   const storedUser = localStorage.getItem("vayzo_admin_user");
@@ -106,7 +108,6 @@ function Header({ onMenuClick }) {
             </span>
           )}
         </NavLink>
-
         <NavLink
           to="/complaints"
           className="relative rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"
@@ -138,7 +139,10 @@ function Header({ onMenuClick }) {
             </div>
 
             <div className="hidden text-left sm:block">
-              <p className="text-sm font-semibold text-foreground">{user.name}</p>
+              <p className="text-sm font-semibold text-foreground">
+                {user.name}
+              </p>
+
               <p className="text-xs text-muted">{user.role}</p>
             </div>
 
