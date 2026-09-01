@@ -1,7 +1,7 @@
 ﻿import { useMemo, useState } from "react";
 import Badge from "../components/ui/Badge";
-import Button from "../components/ui/button";
-import Input from "../components/ui/input";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import { deliveryPartnerStats, deliveryPartners } from "../mock/vayzoApiMock";
 

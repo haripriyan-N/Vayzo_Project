@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { AlertCircle, CheckCircle, Eye, FileText, Headphones, MoreVertical, Search, Timer, XCircle } from "lucide-react";
+import { AlertCircle, CheckCircle, Eye, FileText, Headphones, MoreVertical, Timer } from "lucide-react";
 import Badge from "../components/ui/Badge";
-import Button from "../components/ui/button";
-import Input from "../components/ui/input";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 
 const complaints = [

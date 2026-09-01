@@ -262,7 +262,7 @@ function Dashboard() {
             ["Online Partners", "1,256"],
             ["Busy Partners", "342"],
             ["Offline Partners", "1,258"],
-          ].map(([name, value], i) => (
+          ].map(([name, value]) => (
             <div key={name} className="mb-4 flex items-center gap-3">
               <div className="rounded-full bg-primary-light p-2 text-primary">
                 <Users size={14} />

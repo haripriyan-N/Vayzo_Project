@@ -11,7 +11,21 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    navigate("/dashboard");
+    if (!email || !password) {
+      alert("Please enter your email and password.");
+      return;
+    }
+
+    localStorage.setItem("vayzo_admin_logged_in", "true");
+    localStorage.setItem(
+      "vayzo_admin_user",
+      JSON.stringify({
+        name: "VAYZO Admin",
+        role: "Super Admin",
+      }),
+    );
+
+    navigate("/dashboard", { replace: true });
   };
 
   return (

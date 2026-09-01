@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Eye, MoreVertical, Pencil } from "lucide-react";
 import Badge from "../components/ui/Badge";
-import Button from "../components/ui/button";
-import Input from "../components/ui/input";
+import Button from "../components/ui/Button";
+import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import { users } from "../mock/vayzoApiMock";
 
