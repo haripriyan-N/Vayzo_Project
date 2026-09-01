@@ -17,6 +17,7 @@ import OrderDetails from "./pages/OrderDetails";
 import { NotificationProvider } from "./context/NotificationContext";
 import DeliveryPartner from "./pages/DeliveryPartner";
 import DeliveryPartners from "./pages/DeliveryPartners";
+import DeliveryPartnersAdd from "./pages/DeliveryPartnersAdd";
 
 function App() {
   return (
@@ -33,13 +34,16 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
 
               <Route path="/users" element={<Users />} />
-              <Route path="/users/:userId" element={<UsersDetails />} />
               <Route path="/users/add" element={<UsersAdd />} />
+              <Route path="/users/edit/:userId" element={<UsersAdd />} />
+              <Route path="/users/:userId" element={<UsersDetails />} />
 
               <Route path="/orders" element={<Orders />} />
               <Route path="/orders/:orderId" element={<OrderDetails />} />
 
               <Route path="/delivery" element={<DeliveryPartners />} />
+              <Route path="/delivery/add" element={<DeliveryPartnersAdd />} />
+              <Route path="/delivery/edit/:partnerId" element={<DeliveryPartnersAdd />} />
               <Route path="/delivery/:partnerId" element={<DeliveryPartner />} />
               
               <Route path="/notifications" element={<Notifications />} />

@@ -200,7 +200,6 @@
       "city": "Salem"
     }
   ],
-  "$schema": "./node_modules/json-server/schema.json",
   "dashboard": {
     "stats": {
       "totalOrders": {
@@ -208,15 +207,15 @@
         "trend": "+15.6% vs last week"
       },
       "grossRevenue": {
-        "value": "₹12,48,650",
+        "value": "\u20b912,48,650",
         "trend": "+18.3% vs last week"
       },
       "commission": {
-        "value": "₹1,87,425",
+        "value": "\u20b91,87,425",
         "trend": "+16.7% vs last week"
       },
       "netRevenue": {
-        "value": "₹10,61,225",
+        "value": "\u20b910,61,225",
         "trend": "+17.2% vs last week"
       },
       "newUsers": {
@@ -228,35 +227,35 @@
       {
         "id": "ORD124587",
         "restaurant": "ABC Cafe",
-        "amount": "₹589.00",
+        "amount": "\u20b9589.00",
         "date": "21 May, 10:30 AM",
         "status": "Delivered"
       },
       {
         "id": "ORD124586",
         "restaurant": "Pizza Hub",
-        "amount": "₹349.00",
+        "amount": "\u20b9349.00",
         "date": "21 May, 10:20 AM",
         "status": "Out for Delivery"
       },
       {
         "id": "ORD124585",
         "restaurant": "Food Express",
-        "amount": "₹678.00",
+        "amount": "\u20b9678.00",
         "date": "21 May, 10:15 AM",
         "status": "Preparing"
       },
       {
         "id": "ORD124584",
         "restaurant": "Burger Point",
-        "amount": "₹420.00",
+        "amount": "\u20b9420.00",
         "date": "21 May, 10:05 AM",
         "status": "Confirmed"
       },
       {
         "id": "ORD124583",
         "restaurant": "Spice House",
-        "amount": "₹315.00",
+        "amount": "\u20b9315.00",
         "date": "21 May, 09:55 AM",
         "status": "Pending"
       }
@@ -315,31 +314,31 @@
         "id": 1,
         "name": "ABC Cafe",
         "orders": 1245,
-        "revenue": "₹2,45,320"
+        "revenue": "\u20b92,45,320"
       },
       {
         "id": 2,
         "name": "Food Express",
         "orders": 985,
-        "revenue": "₹1,87,650"
+        "revenue": "\u20b91,87,650"
       },
       {
         "id": 3,
         "name": "Pizza Hub",
         "orders": 876,
-        "revenue": "₹1,45,230"
+        "revenue": "\u20b91,45,230"
       },
       {
         "id": 4,
         "name": "Burger Point",
         "orders": 765,
-        "revenue": "₹1,25,450"
+        "revenue": "\u20b91,25,450"
       },
       {
         "id": 5,
         "name": "Spice House",
         "orders": 654,
-        "revenue": "₹98,750"
+        "revenue": "\u20b998,750"
       }
     ],
     "recentTransactions": [
@@ -347,7 +346,7 @@
         "id": "TXN984512",
         "type": "Order Payment",
         "related": "Order #ORD124587",
-        "amount": "₹589.00",
+        "amount": "\u20b9589.00",
         "method": "UPI",
         "status": "Success",
         "date": "21 May 2024, 10:30 AM"
@@ -356,7 +355,7 @@
         "id": "TXN984511",
         "type": "Payout",
         "related": "Payout to Karthik Raj",
-        "amount": "₹1,245.00",
+        "amount": "\u20b91,245.00",
         "method": "Bank Transfer",
         "status": "Success",
         "date": "21 May 2024, 09:15 AM"
@@ -365,7 +364,7 @@
         "id": "TXN984510",
         "type": "Commission",
         "related": "Order #ORD124586",
-        "amount": "₹52.35",
+        "amount": "\u20b952.35",
         "method": "Wallet",
         "status": "Success",
         "date": "21 May 2024, 09:10 AM"
@@ -374,7 +373,7 @@
         "id": "TXN984509",
         "type": "Refund",
         "related": "Order #ORD124581",
-        "amount": "₹320.00",
+        "amount": "\u20b9320.00",
         "method": "UPI",
         "status": "Refunded",
         "date": "20 May 2024, 08:45 PM"
@@ -383,7 +382,7 @@
         "id": "TXN984508",
         "type": "Order Payment",
         "related": "Order #ORD124582",
-        "amount": "₹420.00",
+        "amount": "\u20b9420.00",
         "method": "Card",
         "status": "Success",
         "date": "20 May 2024, 08:20 PM"
@@ -399,7 +398,7 @@
         "trend": "-3.2%"
       },
       "avgOrderValue": {
-        "value": "₹288.40",
+        "value": "\u20b9288.40",
         "trend": "+11.6%"
       },
       "repeatCustomers": {
@@ -503,5 +502,217 @@
         "color": "var(--color-muted)"
       }
     ]
-  }
+  },
+  "deliveryPartners": [
+    {
+      "partnerId": "DVP12563",
+      "name": "Murugan K",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Online",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "\u20b91,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "\u20b95,680",
+      "totalPayouts": "\u20b926,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "dp-id-0"
+    },
+    {
+      "partnerId": "DVP12562",
+      "name": "Selvam R",
+      "email": "selvam.r@gmail.com",
+      "mobileNumber": "+91 87654 32109",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Scooter",
+      "vehicleName": "Honda Activa 6G",
+      "vehicleNumber": "TN 64 CD 5678",
+      "city": "KK Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 09:30 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 845,
+      "rating": 4.6,
+      "earnings": 18450,
+      "todayEarnings": "\u20b9850",
+      "completionRate": "94.2%",
+      "cancellationRate": "3.1%",
+      "lastOrder": "11 May 2024, 08:15 PM",
+      "dateOfBirth": "10 Jul 1992",
+      "gender": "Male",
+      "alternateMobile": "+91 98765 43210",
+      "emergencyContact": "Kannan P (Father)",
+      "emergencyMobile": "+91 96543 21008",
+      "address": "45, 1st Cross, KK Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "1234 5678 9012",
+      "panNumber": "ABCDE1234F",
+      "rcNumber": "TN642022123456",
+      "insuranceProvider": "HDFC ERGO",
+      "insuranceNumber": "HDF1234567890",
+      "insuranceValidTill": "20 Nov 2024",
+      "thisWeekEarnings": "\u20b93,450",
+      "totalPayouts": "\u20b915,000",
+      "bankName": "HDFC Bank",
+      "accountNumber": "1234 5678 9012",
+      "ifscCode": "HDFC0001234",
+      "accountHolderName": "Selvam R",
+      "id": "dp-id-1"
+    },
+    {
+      "partnerId": "DVP12561",
+      "name": "Kannan P",
+      "email": "kannan.p@gmail.com",
+      "mobileNumber": "+91 96543 21008",
+      "status": "Active",
+      "onlineStatus": "Online",
+      "vehicleType": "Bike",
+      "vehicleName": "Bajaj Pulsar 150",
+      "vehicleNumber": "TN 75 EF 9101",
+      "city": "Thirumangalam, Madurai, Tamil Nadu",
+      "lastActive": "11 May 2024, 11:45 AM",
+      "joinedOn": "11 May 2024",
+      "ordersCompleted": 1024,
+      "rating": 4.7,
+      "earnings": 22100,
+      "todayEarnings": "\u20b91,450",
+      "completionRate": "97.1%",
+      "cancellationRate": "1.8%",
+      "lastOrder": "11 May 2024, 11:30 AM",
+      "dateOfBirth": "05 May 1994",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "22, Main Road, Thirumangalam, Madurai - 625706, Tamil Nadu",
+      "aadhaarNumber": "8765 4321 0987",
+      "panNumber": "QWERT1234Y",
+      "rcNumber": "TN752022123456",
+      "insuranceProvider": "ICICI Lombard",
+      "insuranceNumber": "ICI1234567890",
+      "insuranceValidTill": "10 Jan 2025",
+      "thisWeekEarnings": "\u20b94,120",
+      "totalPayouts": "\u20b918,000",
+      "bankName": "ICICI Bank",
+      "accountNumber": "9876 5432 1098",
+      "ifscCode": "ICIC0009876",
+      "accountHolderName": "Kannan P",
+      "id": "dp-id-2"
+    },
+    {
+      "partnerId": "DVP12557",
+      "name": "Praveen J",
+      "email": "praveen.j@gmail.com",
+      "mobileNumber": "+91 77445 55433",
+      "status": "Inactive",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "Hero Splendor Plus",
+      "vehicleNumber": "TN 75 MN 7890",
+      "city": "Usilampatti, Madurai, Tamil Nadu",
+      "lastActive": "09 May 2024, 05:20 PM",
+      "joinedOn": "09 May 2024",
+      "ordersCompleted": 420,
+      "rating": 4.4,
+      "earnings": 9850,
+      "todayEarnings": "\u20b90",
+      "completionRate": "89.5%",
+      "cancellationRate": "5.2%",
+      "lastOrder": "09 May 2024, 04:30 PM",
+      "dateOfBirth": "18 Sep 1996",
+      "gender": "Male",
+      "alternateMobile": "+91 96543 21008",
+      "emergencyContact": "Kannan P (Cousin)",
+      "emergencyMobile": "+91 96543 21008",
+      "address": "15, North Street, Usilampatti, Madurai - 625532, Tamil Nadu",
+      "aadhaarNumber": "5432 1098 7654",
+      "panNumber": "ZXCVB1234N",
+      "rcNumber": "TN752021987654",
+      "insuranceProvider": "Oriental Insurance",
+      "insuranceNumber": "ORI0987654321",
+      "insuranceValidTill": "05 Dec 2024",
+      "thisWeekEarnings": "\u20b9850",
+      "totalPayouts": "\u20b99,000",
+      "bankName": "Canara Bank",
+      "accountNumber": "4567 8901 2345",
+      "ifscCode": "CNRB0004567",
+      "accountHolderName": "Praveen J",
+      "id": "dp-id-3"
+    }
+  ],
+  "complaints": [
+    {
+      "id": "CMP001",
+      "complaintId": "CMP-2458",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP002",
+      "complaintId": "CMP-2459",
+      "date": "28 May 2024",
+      "userType": "Delivery Partner",
+      "userName": "Sankar M",
+      "issueType": "Payment Issue",
+      "status": "In Progress",
+      "priority": "Medium",
+      "description": "Last week payout is still pending in my account.",
+      "resolution": "Finance team is processing."
+    },
+    {
+      "id": "CMP003",
+      "complaintId": "CMP-2460",
+      "date": "27 May 2024",
+      "userType": "Customer",
+      "userName": "Priya R",
+      "issueType": "Food Quality",
+      "status": "Resolved",
+      "priority": "High",
+      "description": "Food was cold and packaging was torn.",
+      "resolution": "Refund initiated to original payment source."
+    },
+    {
+      "id": "CMP004",
+      "complaintId": "CMP-2461",
+      "date": "26 May 2024",
+      "userType": "Merchant",
+      "userName": "ABC Cafe",
+      "issueType": "App Issue",
+      "status": "Closed",
+      "priority": "Low",
+      "description": "Cannot update menu prices on the merchant app.",
+      "resolution": "Instructed merchant to update the app to v2.1."
+    }
+  ]
 }

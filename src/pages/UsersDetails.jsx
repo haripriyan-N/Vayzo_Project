@@ -71,7 +71,7 @@ function UsersDetails() {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => navigate("/dashboard/user")}
+            onClick={() => navigate("/users")}
             className="mt-4"
           >
             <ArrowLeft size={16} />

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, MoreVertical, Pencil, Plus, RotateCcw } from "lucide-react";
+import { Eye, MoreVertical, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
 
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
@@ -9,6 +9,7 @@ import StatusSelect from "../components/ui/StatusSelect";
 import DateRangeInput from "../components/ui/DateRangeInput";
 import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
+import Modal from "../components/ui/Modal";
 
 import { getUsers } from "../api/usersApi";
 
@@ -56,6 +57,8 @@ function Users() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [deleteModalId, setDeleteModalId] = useState(null);
 
   const [searchText, setSearchText] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
@@ -153,6 +156,12 @@ function Users() {
   const toTitleCase = (str) => {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
+  const handleDeleteUser = async () => {
+    // Call API here in future, for now just update state
+    setUsers(users.filter(u => u.userId !== deleteModalId));
+    setDeleteModalId(null);
   };
 
   return (
@@ -340,18 +349,36 @@ function Users() {
                       <button
                         type="button"
                         aria-label={`Edit ${user.name}`}
+                        onClick={() => navigate(`/users/edit/${user.userId}`)}
                         className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
                       >
                         <Pencil size={17} strokeWidth={1.8} />
                       </button>
 
-                      <button
-                        type="button"
-                        aria-label={`More actions for ${user.name}`}
-                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                      >
-                        <MoreVertical size={17} strokeWidth={1.8} />
-                      </button>
+                      <div className="relative">
+                        <button
+                          type="button"
+                          aria-label={`More actions for ${user.name}`}
+                          onClick={() => setOpenMenuId(openMenuId === user.userId ? null : user.userId)}
+                          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
+                        >
+                          <MoreVertical size={17} strokeWidth={1.8} />
+                        </button>
+                        
+                        {openMenuId === user.userId && (
+                          <div className="absolute right-0 top-full mt-1 z-10 w-32 rounded-md border border-border bg-surface shadow-md py-1">
+                            <button
+                              onClick={() => {
+                                setDeleteModalId(user.userId);
+                                setOpenMenuId(null);
+                              }}
+                              className="w-full text-left px-3 py-1.5 text-sm text-danger hover:bg-danger/10 flex items-center gap-2"
+                            >
+                              <Trash2 size={14} /> Delete
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -369,6 +396,18 @@ function Users() {
           </Table>
         )}
       </Card>
+      
+      <Modal 
+        isOpen={!!deleteModalId} 
+        onClose={() => setDeleteModalId(null)} 
+        title="Delete User"
+      >
+        <p className="text-sm text-muted">Are you sure you want to delete this user? This action cannot be undone.</p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="secondary" onClick={() => setDeleteModalId(null)}>Cancel</Button>
+          <Button className="bg-danger hover:bg-danger/90 text-white" onClick={handleDeleteUser}>Delete</Button>
+        </div>
+      </Modal>
     </section>
   );
 }

@@ -35,7 +35,7 @@ function Header({ onMenuClick }) {
     : currentRoute?.title || currentPage?.label || "Dashboard";
 
   const parentPage = isOrderDetailsPage ? null : currentRoute?.parent || null;
-  
+
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { unreadCount } = useNotifications();
   const messageCount = 5;
@@ -45,7 +45,7 @@ function Header({ onMenuClick }) {
   const user = storedUser
     ? JSON.parse(storedUser)
     : {
-        name: "VAYZO Admin",
+        name: "HariPriyan",
         profileImage: UserImg,
         role: "Super Admin",
       };

@@ -53,3 +53,19 @@ export async function createUser(userData) {
 
   return response.json();
 }
+
+export async function updateUser(id, userData) {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to update user");
+  }
+
+  return response.json();
+}

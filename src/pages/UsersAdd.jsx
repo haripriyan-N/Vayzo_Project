@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
+  AlertCircle,
   ArrowLeft,
   CloudUpload,
   Eye,
@@ -7,12 +8,13 @@ import {
   ShieldCheck,
   UserRound,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
-import { createUser } from "../api/usersApi";
+import StatusSelect from "../components/ui/StatusSelect";
+import { createUser, getUserById, updateUser } from "../api/usersApi";
 
 const types = [
   "Select user type",
@@ -21,10 +23,31 @@ const types = [
   "Delivery Partner",
   "Merchant",
 ];
-const roles = ["Select role", "Admin", "Manager", "Support", "Operations", "User"];
+const roles = [
+  "Select role",
+  "Admin",
+  "Manager",
+  "Support",
+  "Operations",
+  "User",
+];
+
+const statusOptions = ["Active", "Inactive", "Blocked"];
+
+function RequiredLabel({ text }) {
+  return (
+    <span className="flex items-center gap-1.5">
+      {text}
+      <AlertCircle size={12} className="text-warning" strokeWidth={3} />
+    </span>
+  );
+}
 
 function AddUsers() {
   const navigate = useNavigate();
+  const { userId } = useParams();
+  const isEditing = !!userId;
+  
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
@@ -35,15 +58,49 @@ function AddUsers() {
     mobile: "",
     type: types[0],
     role: roles[0],
+    status: statusOptions[0],
     password: "",
     confirm: "",
   });
+  
+  const [userDbId, setUserDbId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (isEditing) {
+      loadUserData();
+    }
+  }, [userId]);
+
+  const loadUserData = async () => {
+    try {
+      setLoading(true);
+      const data = await getUserById(userId);
+      setUserDbId(data.id);
+      setForm({
+        name: data.name || "",
+        email: data.email || "",
+        mobile: data.mobileNumber || "",
+        type: data.userType || types[0],
+        role: data.role || roles[0],
+        status: data.status || statusOptions[0],
+        password: "",
+        confirm: "",
+      });
+      setEmailVerified(data.isVerified || false);
+    } catch (err) {
+      setError("Unable to load user details.");
+    } finally {
+      setLoading(false);
+    }
+  };
   const update = (key) => (event) =>
     setForm({ ...form, [key]: event.target.value });
-  const field = (id, label, key, type = "text", placeholder = "") => (
+  const field = (id, labelText, key, type = "text", placeholder = "") => (
     <Input
       id={id}
-      label={label}
+      label={<RequiredLabel text={labelText} />}
       type={type}
       value={form[key]}
       onChange={update(key)}
@@ -52,13 +109,10 @@ function AddUsers() {
     />
   );
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (form.password !== form.confirm) {
+    if (form.password && form.password !== form.confirm) {
       setError("Passwords do not match.");
       return;
     }
@@ -67,17 +121,32 @@ function AddUsers() {
       setLoading(true);
       setError("");
 
-      await createUser({
-        name: form.name,
-        email: form.email,
-        mobileNumber: form.mobile,
-        userType: form.type,
-        role: form.role,
-      });
+      if (isEditing) {
+        const existing = await getUserById(userId);
+        await updateUser(userDbId, {
+          ...existing,
+          name: form.name,
+          email: form.email,
+          mobileNumber: form.mobile,
+          userType: form.type,
+          role: form.role,
+          status: form.status,
+          isVerified: emailVerified,
+        });
+      } else {
+        await createUser({
+          name: form.name,
+          email: form.email,
+          mobileNumber: form.mobile,
+          userType: form.type,
+          role: form.role,
+          status: form.status,
+        });
+      }
 
       navigate("/users");
     } catch (err) {
-      setError("Unable to create user.");
+      setError("Unable to save user.");
     } finally {
       setLoading(false);
     }
@@ -86,7 +155,6 @@ function AddUsers() {
   return (
     <section className="min-h-full bg-background p-4 sm:p-6">
       <div className="mx-auto max-w-7xl space-y-4">
-       
         <div className="grid gap-6 xl:grid-cols-[minmax(0,2.2fr)_minmax(300px,0.8fr)] items-start">
           <form
             onSubmit={handleSubmit}
@@ -96,27 +164,54 @@ function AddUsers() {
               <h2 className="text-lg font-semibold text-foreground">
                 User Information
               </h2>
-              
+
               <div className="mt-8 grid gap-8 md:grid-cols-2">
                 <div className="space-y-6">
-                  {field("full-name", "Full Name", "name", "text", "Enter full name")}
-                  {field("email", "Email Address", "email", "email", "Enter email address")}
-                  {field("mobile", "Mobile Number", "mobile", "tel", "Enter mobile number")}
+                  {field(
+                    "full-name",
+                    "Full Name",
+                    "name",
+                    "text",
+                    "Enter full name",
+                  )}
+                  {field(
+                    "email",
+                    "Email Address",
+                    "email",
+                    "email",
+                    "Enter email address",
+                  )}
+                  {field(
+                    "mobile",
+                    "Mobile Number",
+                    "mobile",
+                    "tel",
+                    "Enter mobile number",
+                  )}
                 </div>
 
                 <div className="flex flex-col">
                   <span className="mb-1.5 block text-sm font-medium text-foreground">
                     Profile Image
                   </span>
-                  <label htmlFor="profile-image" className="cursor-pointer flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-background hover:bg-surface-hover hover:border-primary/40 transition-all text-center p-6 group">
-                    <input type="file" id="profile-image" className="hidden" accept="image/png, image/jpeg, image/webp" />
-                    <CloudUpload size={32} className="text-primary mb-4 transition-transform group-hover:scale-110" />
+                  <label
+                    htmlFor="profile-image"
+                    className="cursor-pointer flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-background hover:bg-surface-hover hover:border-primary/40 transition-all text-center p-6 group"
+                  >
+                    <input
+                      type="file"
+                      id="profile-image"
+                      className="hidden"
+                      accept="image/png, image/jpeg, image/webp"
+                    />
+                    <CloudUpload
+                      size={32}
+                      className="text-primary mb-4 transition-transform group-hover:scale-110"
+                    />
                     <p className="text-sm font-medium text-foreground">
                       Click to upload
                     </p>
-                    <p className="mt-1 text-xs text-muted">
-                      or drag and drop
-                    </p>
+                    <p className="mt-1 text-xs text-muted">or drag and drop</p>
                     <p className="mt-2 text-[10px] text-muted">
                       JPG, PNG or WEBP (Max 2MB)
                     </p>
@@ -125,48 +220,38 @@ function AddUsers() {
               </div>
 
               <div className="mt-6 grid gap-8 md:grid-cols-2">
-                <Select
+                <StatusSelect
                   id="user-type"
-                  label="User Type *"
+                  label={<RequiredLabel text="User Type" />}
                   value={form.type}
+                  options={types}
                   onChange={update("type")}
                   required
-                >
-                  {types.map((item) => (
-                    <option key={item}>{item}</option>
-                  ))}
-                </Select>
+                />
 
-                <Select
+                <StatusSelect
                   id="user-role"
-                  label="Role *"
+                  label={<RequiredLabel text="Role" />}
                   value={form.role}
+                  options={roles}
                   onChange={update("role")}
                   required
-                >
-                  {roles.map((item) => (
-                    <option key={item}>{item}</option>
-                  ))}
-                </Select>
+                />
 
-                <Select
+                <StatusSelect
                   id="user-status"
-                  label="Status *"
-                  value="Active"
-                  onChange={() => {}}
+                  label={<RequiredLabel text="Status" />}
+                  value={form.status}
+                  options={statusOptions}
+                  onChange={update("status")}
                   required
-                >
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                  <option value="Blocked">Blocked</option>
-                </Select>
+                />
 
-                <div className="flex flex-col">
-                  <span className="mb-1.5 block text-sm font-medium text-foreground">
-                    Email Verified
-                  </span>
-                  <div className="flex h-[42px] items-center justify-between rounded-lg border border-border bg-background px-4">
-                    <span className="text-xs text-muted">If enabled, the user will be marked as email verified.</span>
+                <div className="flex flex-col pt-1">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="block text-sm font-medium text-foreground">
+                      Email Verified
+                    </span>
                     <button
                       type="button"
                       onClick={() => setEmailVerified(!emailVerified)}
@@ -174,9 +259,14 @@ function AddUsers() {
                       role="switch"
                       aria-checked={emailVerified}
                     >
-                      <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${emailVerified ? "translate-x-2" : "-translate-x-2"}`} />
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${emailVerified ? "translate-x-2" : "-translate-x-2"}`}
+                      />
                     </button>
                   </div>
+                  <span className="text-xs text-muted mt-0.5">
+                    If enabled, the user will be marked as email verified.
+                  </span>
                 </div>
               </div>
             </div>
@@ -189,7 +279,7 @@ function AddUsers() {
                 <div className="relative">
                   {field(
                     "password",
-                    "Password *",
+                    "Password",
                     "password",
                     showPassword ? "text" : "password",
                     "Enter password",
@@ -200,7 +290,7 @@ function AddUsers() {
                     className="absolute right-3 bottom-2.5 text-muted hover:text-foreground transition-colors"
                     aria-label="Toggle password"
                   >
-                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
                   </button>
                 </div>
                 <div className="relative">
@@ -217,7 +307,7 @@ function AddUsers() {
                     className="absolute right-3 bottom-2.5 text-muted hover:text-foreground transition-colors"
                     aria-label="Toggle confirm password"
                   >
-                    {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                    {showConfirm ? <Eye size={18} /> : <EyeOff size={18} />}
                   </button>
                 </div>
               </div>
@@ -232,32 +322,47 @@ function AddUsers() {
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={loading} className="w-full sm:w-auto h-11 px-8 font-medium">
-                {loading ? "Creating..." : "Create User"}
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full sm:w-auto h-11 px-8 font-medium"
+              >
+                {loading ? "Saving..." : isEditing ? "Update User" : "Create User"}
               </Button>
             </div>
           </form>
-          
+
           <aside className="flex flex-col gap-6">
             <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
               <h2 className="text-base font-semibold text-foreground border-b border-border pb-4 mb-4">
                 User Type & Role Guide
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-2">
                 {[
-                  ["Customer", "Normal app users who can place orders and avail services."],
+                  [
+                    "Customer",
+                    "Normal app users who can place orders and avail services.",
+                  ],
                   [
                     "Delivery Partner",
                     "Delivery partners who can accept and deliver orders.",
                   ],
-                  ["Admin", "System administrators who can access the admin panel."],
+                  [
+                    "Admin",
+                    "System administrators who can access the admin panel.",
+                  ],
                 ].map(([title, text]) => (
-                  <div key={title} className="rounded-lg bg-background p-4 border border-border/50">
+                  <div
+                    key={title}
+                    className="rounded-lg bg-background p-4 border border-border/50"
+                  >
                     <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
                       <UserRound size={16} className="text-primary" />
                       {title}
                     </p>
-                    <p className="mt-1.5 text-xs text-muted leading-relaxed">{text}</p>
+                    <p className="mt-1.5 text-xs text-muted leading-relaxed">
+                      {text}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -267,18 +372,47 @@ function AddUsers() {
               <h2 className="text-base font-semibold text-foreground border-b border-border pb-4 mb-4">
                 Status Guide
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {[
-                  { title: "Active", text: "User can login and access the system.", color: "text-success", bg: "bg-success", varName: "success" },
-                  { title: "Inactive", text: "User cannot login and access the system.", color: "text-warning", bg: "bg-warning", varName: "warning" },
-                  { title: "Blocked", text: "User is blocked and cannot access the system.", color: "text-danger", bg: "bg-danger", varName: "danger" },
-                ].map(({title, text, color, bg, varName}) => (
-                  <div key={title} className="rounded-lg bg-background p-4 border-l-[3px] shadow-sm" style={{borderLeftColor: `var(--color-${varName})`, borderTop: '1px solid var(--color-border)', borderRight: '1px solid var(--color-border)', borderBottom: '1px solid var(--color-border)'}}>
+                  {
+                    title: "Active",
+                    text: "User can login and access the system.",
+                    color: "text-success",
+                    bg: "bg-success",
+                    varName: "success",
+                  },
+                  {
+                    title: "Inactive",
+                    text: "User cannot login and access the system.",
+                    color: "text-warning",
+                    bg: "bg-warning",
+                    varName: "warning",
+                  },
+                  {
+                    title: "Blocked",
+                    text: "User is blocked and cannot access the system.",
+                    color: "text-danger",
+                    bg: "bg-danger",
+                    varName: "danger",
+                  },
+                ].map(({ title, text, color, bg, varName }) => (
+                  <div
+                    key={title}
+                    className="rounded-lg bg-background p-4 border-l-[3px] shadow-sm"
+                    style={{
+                      borderLeftColor: `var(--color-${varName})`,
+                      borderTop: "1px solid var(--color-border)",
+                      borderRight: "1px solid var(--color-border)",
+                      borderBottom: "1px solid var(--color-border)",
+                    }}
+                  >
                     <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
                       <span className={`h-2.5 w-2.5 rounded-full ${bg}`}></span>
                       <span className={color}>{title}</span>
                     </p>
-                    <p className="mt-1.5 text-xs text-muted leading-relaxed">{text}</p>
+                    <p className="mt-1.5 text-xs text-muted leading-relaxed">
+                      {text}
+                    </p>
                   </div>
                 ))}
               </div>

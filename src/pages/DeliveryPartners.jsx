@@ -1,303 +1,452 @@
-import { Eye, MapPin, Search, Star } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Eye, MoreVertical, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
 
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
+import SearchInput from "../components/ui/SearchInput";
+import StatusSelect from "../components/ui/StatusSelect";
+import DateRangeInput from "../components/ui/DateRangeInput";
 import Input from "../components/ui/Input";
-import Select from "../components/ui/Select";
+import Table from "../components/ui/Table";
+import Card from "../components/ui/Card";
+import Modal from "../components/ui/Modal";
 
-import {
-  deliveryPartners,
-  deliveryPartnerStats,
-} from "../mock/deliveryPartners";
+import { getDeliveryPartners } from "../api/deliveryPartnersApi";
 
 const statusBadgeMap = {
-  ACTIVE: "success",
-  VERIFIED: "info",
-  PENDING: "warning",
-  BLOCKED: "danger",
+  Active: "success",
+  Verified: "info",
+  Pending: "warning",
+  Blocked: "danger",
+  Inactive: "danger",
 };
+
+const statusOptions = ["All Status", "Active", "Inactive"];
+const vehicleOptions = ["All Vehicle Type", "Bike", "Scooter", "Car", "Auto"];
+const onlineStatusOptions = ["All Online Status", "Online", "Offline"];
+
+const deliveryPartnerTableHeaders = [
+  "ID",
+  "Partner",
+  "Mobile",
+  "Vehicle",
+  "Vehicle No.",
+  "Status",
+  "Online Status",
+  "Earnings (Today)",
+  "Joined On",
+  "Actions",
+];
 
 function DeliveryPartners() {
   const navigate = useNavigate();
 
+  const [partners, setPartners] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [deleteModalId, setDeleteModalId] = useState(null);
+
+  // Filters
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("ALL");
-  const [vehicleType, setVehicleType] = useState("ALL");
+  const [status, setStatus] = useState("All Status");
+  const [vehicleType, setVehicleType] = useState("All Vehicle Type");
+  const [onlineStatus, setOnlineStatus] = useState("All Online Status");
+  const [joinedFrom, setJoinedFrom] = useState("");
+  const [joinedTo, setJoinedTo] = useState("");
+  const [minEarnings, setMinEarnings] = useState("");
+  const [maxEarnings, setMaxEarnings] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadPartners = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const data = await getDeliveryPartners();
+        
+        if (isMounted) {
+          setPartners(data);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err.message || "Failed to load delivery partners");
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadPartners();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const filteredPartners = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
 
-    return deliveryPartners.filter((partner) => {
+    return partners.filter((partner) => {
       const matchesSearch =
         !searchValue ||
-        partner.name.toLowerCase().includes(searchValue) ||
-        partner.partnerId.toLowerCase().includes(searchValue) ||
-        partner.email.toLowerCase().includes(searchValue) ||
-        partner.mobileNumber.toLowerCase().includes(searchValue);
+        partner.name?.toLowerCase().includes(searchValue) ||
+        partner.email?.toLowerCase().includes(searchValue) ||
+        partner.mobileNumber?.toLowerCase().includes(searchValue);
 
-      const matchesStatus = status === "ALL" || partner.status === status;
-
+      const matchesStatus =
+        status === "All Status" || partner.status === status;
       const matchesVehicle =
-        vehicleType === "ALL" || partner.vehicleType === vehicleType;
+        vehicleType === "All Vehicle Type" ||
+        partner.vehicleType === vehicleType;
+      const matchesOnline =
+        onlineStatus === "All Online Status" ||
+        partner.onlineStatus === onlineStatus;
 
-      return matchesSearch && matchesStatus && matchesVehicle;
+      // Date filtering
+      const partnerDate = new Date(partner.joinedOn);
+      const fromDate = joinedFrom ? new Date(joinedFrom) : null;
+      const toDate = joinedTo ? new Date(joinedTo) : null;
+      const matchesJoinedDate =
+        (!fromDate || partnerDate >= fromDate) &&
+        (!toDate || partnerDate <= toDate);
+
+      // Earnings filtering
+      const partnerEarnings = parseInt(partner.todayEarnings?.replace(/[^0-9]/g, '')) || 0;
+      const minE = minEarnings ? parseInt(minEarnings) : 0;
+      const maxE = maxEarnings ? parseInt(maxEarnings) : Infinity;
+      const matchesEarnings = partnerEarnings >= minE && partnerEarnings <= maxE;
+
+      return matchesSearch && matchesStatus && matchesVehicle && matchesOnline && matchesJoinedDate && matchesEarnings;
     });
-  }, [search, status, vehicleType]);
+  }, [search, status, vehicleType, onlineStatus, partners, joinedFrom, joinedTo, minEarnings, maxEarnings]);
 
-  const handleViewPartner = (partnerId) => {
-    navigate(`/dashboard/Delivery/Partner/${partnerId}`);
+  const handleReset = () => {
+    setSearch("");
+    setStatus("All Status");
+    setVehicleType("All Vehicle Type");
+    setOnlineStatus("All Online Status");
+    setJoinedFrom("");
+    setJoinedTo("");
+    setMinEarnings("");
+    setMaxEarnings("");
+  };
+
+  const toTitleCase = (str) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
+  const handleDeletePartner = async () => {
+    // Call API here in future, for now just update state
+    setPartners(partners.filter(p => p.partnerId !== deleteModalId));
+    setDeleteModalId(null);
   };
 
   return (
     <section className="min-h-full bg-background p-4 sm:p-6">
-      <div className="space-y-5">
-        {/* Header */}
-        <header className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-xs text-muted">
-              Dashboard &gt; Delivery Partners
-            </p>
-
-            <h1 className="mt-1 text-2xl font-semibold text-foreground">
-              Delivery Partners
-            </h1>
-
-            <p className="mt-1 text-sm text-muted">
-              Manage and monitor all delivery partners.
-            </p>
-          </div>
-
-          <Button size="sm">+ Add Partner</Button>
-        </header>
-
-        {/* Stats */}
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {deliveryPartnerStats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-xl border border-border bg-surface p-4 shadow-sm"
-            >
-              <p className="text-xs text-muted">{stat.label}</p>
-
-              <div className="mt-2 flex items-end justify-between gap-2">
-                <p className="text-2xl font-semibold text-foreground">
-                  {stat.value}
-                </p>
-
-                <span className="text-xs font-medium text-success">
-                  {stat.trend}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Filters */}
-        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm">
-          <div className="grid gap-3 md:grid-cols-[1fr_180px_180px]">
-            <div className="relative">
-              <Search
-                size={17}
-                className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted"
-              />
-
-              <Input
+      <Card noPadding className="flex flex-col">
+        {/* Filter Section */}
+        <div className="p-4 sm:p-6 pb-4">
+          <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
+            {/* Search Input */}
+            <div className="flex-1 w-full min-w-0 xl:max-w-sm">
+              <SearchInput
+                id="partner-search"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search partner..."
-                className="pl-9"
+                placeholder="Search delivery partners by name, mobile or email..."
               />
             </div>
 
-            <Select
-              value={status}
-              onChange={(event) => setStatus(event.target.value)}
-              options={[
-                { label: "All Status", value: "ALL" },
-                { label: "Active", value: "ACTIVE" },
-                { label: "Verified", value: "VERIFIED" },
-                { label: "Pending", value: "PENDING" },
-                { label: "Blocked", value: "BLOCKED" },
-              ]}
-            />
+            {/* Selects and Button */}
+            <div className="grid grid-cols-1 sm:grid-cols-4 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
+              <StatusSelect
+                id="partner-status"
+                value={status}
+                options={statusOptions}
+                onChange={(event) => setStatus(event.target.value)}
+                className="w-full xl:w-[150px]"
+              />
 
-            <Select
-              value={vehicleType}
-              onChange={(event) => setVehicleType(event.target.value)}
-              options={[
-                { label: "All Vehicles", value: "ALL" },
-                { label: "Bike", value: "Bike" },
-                { label: "Car", value: "Car" },
-                { label: "Auto", value: "Auto" },
-              ]}
-            />
+              <StatusSelect
+                id="partner-vehicle"
+                value={vehicleType}
+                options={vehicleOptions}
+                onChange={(event) => setVehicleType(event.target.value)}
+                className="w-full xl:w-[160px]"
+              />
+
+              <StatusSelect
+                id="partner-online"
+                value={onlineStatus}
+                options={onlineStatusOptions}
+                onChange={(event) => setOnlineStatus(event.target.value)}
+                className="w-full xl:w-[160px]"
+              />
+
+              <Button
+                size="sm"
+                onClick={() => navigate("/delivery/add")}
+                className="col-span-1 sm:col-span-4 xl:col-span-1 h-10 w-full flex items-center justify-center text-[0.8rem] gap-2"
+              >
+                <Plus size={18} strokeWidth={2.5} />
+                Add Delivery Partner
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <DateRangeInput
+                id="joined-date"
+                label="Joined Date"
+                fromValue={joinedFrom}
+                toValue={joinedTo}
+                onFromChange={(event) => setJoinedFrom(event.target.value)}
+                onToChange={(event) => setJoinedTo(event.target.value)}
+              />
+
+              <div className="w-full sm:w-[260px]">
+                <label className="text-xs font-medium text-muted mb-1.5 block">
+                  Earnings Range
+                </label>
+                <div className="flex items-center gap-2">
+                  <Input
+                    placeholder="Min"
+                    value={minEarnings}
+                    onChange={(e) => setMinEarnings(e.target.value)}
+                    className="h-10"
+                  />
+                  <span className="text-muted">-</span>
+                  <Input
+                    placeholder="Max"
+                    value={maxEarnings}
+                    onChange={(e) => setMaxEarnings(e.target.value)}
+                    className="h-10"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleReset}
+              className="h-10 w-full sm:w-auto shrink-0"
+            >
+              <RotateCcw size={16} strokeWidth={2} className="mr-1" />
+              Reset
+            </Button>
           </div>
         </div>
 
-        {/* Partners Table */}
-        <div className="overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[900px] text-left text-sm">
-              <thead className="border-b border-border bg-background">
-                <tr>
-                  <th className="px-4 py-3 text-xs font-semibold text-muted">
-                    Partner
-                  </th>
+        {error ? (
+          <div className="m-6 rounded-xl border border-danger/30 bg-danger/5 p-8 text-center text-sm font-medium text-danger">
+            {error}
+          </div>
+        ) : (
+          <Table
+            headers={deliveryPartnerTableHeaders}
+            currentCount={filteredPartners.length}
+            totalCount={partners.length}
+            minWidth="1000px"
+            className="border-0 shadow-none rounded-none border-t border-border"
+          >
+            {loading ? (
+              <tr>
+                <td
+                  colSpan={deliveryPartnerTableHeaders.length}
+                  className="p-10 text-center text-sm text-muted"
+                >
+                  Loading delivery partners...
+                </td>
+              </tr>
+            ) : filteredPartners.length ? (
+              filteredPartners.map((partner) => (
+                <tr
+                  key={partner.partnerId}
+                  className="border-t border-border transition-colors hover:bg-background"
+                >
+                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                    {partner.partnerId}
+                  </td>
 
-                  <th className="px-4 py-3 text-xs font-semibold text-muted">
-                    Contact
-                  </th>
-
-                  <th className="px-4 py-3 text-xs font-semibold text-muted">
-                    Vehicle
-                  </th>
-
-                  <th className="px-4 py-3 text-xs font-semibold text-muted">
-                    Location
-                  </th>
-
-                  <th className="px-4 py-3 text-xs font-semibold text-muted">
-                    Orders
-                  </th>
-
-                  <th className="px-4 py-3 text-xs font-semibold text-muted">
-                    Rating
-                  </th>
-
-                  <th className="px-4 py-3 text-xs font-semibold text-muted">
-                    Status
-                  </th>
-
-                  <th className="px-4 py-3 text-right text-xs font-semibold text-muted">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody className="divide-y divide-border">
-                {filteredPartners.map((partner) => (
-                  <tr
-                    key={partner.partnerId}
-                    className="transition hover:bg-primary-light/40"
-                  >
-                    {/* Partner */}
-                    <td className="px-4 py-4">
-                      <button
-                        type="button"
-                        onClick={() => handleViewPartner(partner.partnerId)}
-                        className="flex items-center gap-3 text-left"
-                      >
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-white">
-                          {partner.name
-                            .split(" ")
-                            .map((part) => part[0])
-                            .join("")
-                            .toUpperCase()}
-                        </div>
-
-                        <div className="min-w-0">
-                          <p className="font-semibold text-foreground">
-                            {partner.name}
-                          </p>
-
-                          <p className="text-xs text-muted">
-                            {partner.partnerId}
-                          </p>
-                        </div>
-                      </button>
-                    </td>
-
-                    {/* Contact */}
-                    <td className="px-4 py-4">
-                      <p className="text-xs font-medium text-foreground">
-                        {partner.mobileNumber}
-                      </p>
-
-                      <p className="mt-1 max-w-[180px] truncate text-xs text-muted">
-                        {partner.email}
-                      </p>
-                    </td>
-
-                    {/* Vehicle */}
-                    <td className="px-4 py-4">
-                      <p className="font-medium text-foreground">
-                        {partner.vehicleType}
-                      </p>
-                    </td>
-
-                    {/* Location */}
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-1.5 text-xs text-muted">
-                        <MapPin size={14} />
-                        {partner.city}
-                      </div>
-                    </td>
-
-                    {/* Orders */}
-                    <td className="px-4 py-4">
-                      <span className="font-semibold text-foreground">
-                        {partner.ordersCompleted}
-                      </span>
-                    </td>
-
-                    {/* Rating */}
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-1 text-xs font-medium text-foreground">
-                        <Star
-                          size={14}
-                          className="text-amber-500"
-                          fill="currentColor"
+                  <td className="px-3 py-3">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary overflow-hidden">
+                        <img
+                          src={`https://ui-avatars.com/api/?name=${partner.name}&background=random&color=fff`}
+                          alt={partner.name}
+                          className="h-full w-full object-cover"
                         />
-                        {partner.rating.toFixed(1)}
                       </div>
-                    </td>
 
-                    {/* Status */}
-                    <td className="px-4 py-4">
-                      <Badge variant={statusBadgeMap[partner.status] || "info"}>
-                        {partner.status}
-                      </Badge>
+                      <div className="flex flex-col">
+                        <span className="truncate font-medium text-foreground">
+                          {partner.name}
+                        </span>
+                        <span className="flex items-center gap-1 text-xs font-medium text-amber-500">
+                          <span className="text-amber-500 text-sm">★</span>{" "}
+                          {partner.rating}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
 
-                      <p className="mt-1 text-[11px] text-muted">
-                        {partner.lastActive}
-                      </p>
-                    </td>
+                  <td className="whitespace-nowrap px-3 py-3 text-muted">
+                    {partner.mobileNumber}
+                  </td>
 
-                    {/* Action */}
-                    <td className="px-4 py-4 text-right">
+                  <td className="px-3 py-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-primary bg-primary/10 p-1.5 rounded-md">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <circle cx="5.5" cy="17.5" r="3.5" />
+                          <circle cx="18.5" cy="17.5" r="3.5" />
+                          <path d="M15 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-3 11.5V14l-3-3 4-3 2 3h2" />
+                        </svg>
+                      </span>
+                      <span className="truncate font-medium text-muted">
+                        {partner.vehicleType}
+                      </span>
+                    </div>
+                  </td>
+
+                  <td className="whitespace-nowrap px-3 py-3 text-muted">
+                    {partner.vehicleNumber}
+                  </td>
+
+                  <td className="px-3 py-3">
+                    <Badge
+                      variant={
+                        statusBadgeMap[toTitleCase(partner.status)] || "default"
+                      }
+                      className="whitespace-nowrap px-3"
+                    >
+                      {toTitleCase(partner.status)}
+                    </Badge>
+                  </td>
+
+                  <td className="px-3 py-3">
+                    <span
+                      className={[
+                        "inline-flex items-center gap-1.5 rounded-md p-1.5",
+                        "text-[11px] font-semibold",
+                        partner.onlineStatus === "Online"
+                          ? "bg-success/15 text-success"
+                          : "bg-danger/15 text-danger",
+                      ].join(" ")}
+                    >
+                      <span
+                        className={`h-1.5 w-1.5 rounded-full ${
+                          partner.onlineStatus === "Online"
+                            ? "bg-success"
+                            : "bg-danger"
+                        }`}
+                      />
+                      {partner.onlineStatus}
+                    </span>
+                  </td>
+
+                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                    {partner.todayEarnings}
+                  </td>
+
+                  <td className="whitespace-nowrap px-3 py-3 text-muted">
+                    {partner.joinedOn}
+                  </td>
+
+                  <td className="px-3 py-3">
+                    <div className="flex items-center justify-end gap-2">
                       <button
                         type="button"
-                        onClick={() => handleViewPartner(partner.partnerId)}
-                        className="inline-flex items-center gap-1.5 rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"
                         aria-label={`View ${partner.name}`}
+                        onClick={() =>
+                          navigate(`/delivery/${partner.partnerId}`)
+                        }
+                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
                       >
-                        <Eye size={17} />
+                        <Eye size={17} strokeWidth={1.8} />
                       </button>
-                    </td>
-                  </tr>
-                ))}
 
-                {/* Empty State */}
-                {filteredPartners.length === 0 && (
-                  <tr>
-                    <td colSpan={8} className="px-4 py-12 text-center">
-                      <p className="font-medium text-foreground">
-                        No delivery partners found
-                      </p>
+                      <button
+                        type="button"
+                        aria-label={`Edit ${partner.name}`}
+                        onClick={() => navigate(`/delivery/edit/${partner.partnerId}`)}
+                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
+                      >
+                        <Pencil size={17} strokeWidth={1.8} />
+                      </button>
 
-                      <p className="mt-1 text-xs text-muted">
-                        Try changing your search or filters.
-                      </p>
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                      <div className="relative">
+                        <button
+                          type="button"
+                          aria-label={`More actions for ${partner.name}`}
+                          onClick={() => setOpenMenuId(openMenuId === partner.partnerId ? null : partner.partnerId)}
+                          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
+                        >
+                          <MoreVertical size={17} strokeWidth={1.8} />
+                        </button>
+                        
+                        {openMenuId === partner.partnerId && (
+                          <div className="absolute right-0 top-full mt-1 z-10 w-32 rounded-md border border-border bg-surface shadow-md py-1">
+                            <button
+                              onClick={() => {
+                                setDeleteModalId(partner.partnerId);
+                                setOpenMenuId(null);
+                              }}
+                              className="w-full text-left px-3 py-1.5 text-sm text-danger hover:bg-danger/10 flex items-center gap-2"
+                            >
+                              <Trash2 size={14} /> Delete
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan={deliveryPartnerTableHeaders.length}
+                  className="p-10 text-center text-sm text-muted"
+                >
+                  No delivery partners found for the selected search and
+                  filters.
+                </td>
+              </tr>
+            )}
+          </Table>
+        )}
+      </Card>
+      
+      <Modal 
+        isOpen={!!deleteModalId} 
+        onClose={() => setDeleteModalId(null)} 
+        title="Delete Delivery Partner"
+      >
+        <p className="text-sm text-muted">Are you sure you want to delete this partner? This action cannot be undone.</p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="secondary" onClick={() => setDeleteModalId(null)}>Cancel</Button>
+          <Button className="bg-danger hover:bg-danger/90 text-white" onClick={handleDeletePartner}>Delete</Button>
         </div>
-      </div>
+      </Modal>
     </section>
   );
 }
