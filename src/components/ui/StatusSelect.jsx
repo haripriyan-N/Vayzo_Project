@@ -1,17 +1,9 @@
 import Select from "./Select";
 
-const defaultStatuses = [
-  "All Status",
-  "Active",
-  "Verified",
-  "Pending",
-  "Blocked",
-];
-
 function StatusSelect({
   value,
   onChange,
-  statuses = defaultStatuses,
+  options = [],
   id = "status",
   className = "",
 }) {
@@ -22,9 +14,9 @@ function StatusSelect({
       onChange={onChange}
       className={className}
     >
-      {statuses.map((status) => (
-        <option key={status} value={status}>
-          {status}
+      {options.map((option) => (
+        <option key={option} value={option}>
+          {option}
         </option>
       ))}
     </Select>
@@ -32,3 +24,4 @@ function StatusSelect({
 }
 
 export default StatusSelect;
+

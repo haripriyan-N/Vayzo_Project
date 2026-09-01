@@ -15,7 +15,7 @@ import {
   XCircle,
 } from "lucide-react";
 
-const API_URL = "http://localhost:3001/orders";
+const API_URL = "http://localhost:3000/orders";
 
 const statusConfig = {
   PENDING: {

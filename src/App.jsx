@@ -6,7 +6,7 @@ import ProtectedRoute from "./components/layout/ProtectedRoute";
 import AdminLayout from "./components/layout/AdminLayout";
 
 import Dashboard from "./pages/Dashboard";
-import User from "./pages/Users";
+import Users from "./pages/Users";
 import UsersAdd from "./pages/UsersAdd";
 import UsersDetails from "./pages/UsersDetails";
 import Orders from "./pages/Orders";
@@ -15,6 +15,8 @@ import Complaints from "./pages/Complaints";
 import OrderDetails from "./pages/OrderDetails";
 
 import { NotificationProvider } from "./context/NotificationContext";
+import DeliveryPartner from "./pages/DeliveryPartner";
+import DeliveryPartners from "./pages/DeliveryPartners";
 
 function App() {
   return (
@@ -30,16 +32,17 @@ function App() {
             <Route element={<AdminLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
 
-              <Route path="/users" element={<User />} />
+              <Route path="/users" element={<Users />} />
               <Route path="/users/:userId" element={<UsersDetails />} />
               <Route path="/users/add" element={<UsersAdd />} />
 
               <Route path="/orders" element={<Orders />} />
               <Route path="/orders/:orderId" element={<OrderDetails />} />
 
-              <Route path="/delivery" element={<Complaints />} />
+              <Route path="/delivery" element={<DeliveryPartners />} />
+              <Route path="/delivery/:partnerId" element={<DeliveryPartner />} />
+              
               <Route path="/notifications" element={<Notifications />} />
-
               <Route path="/complaints" element={<Complaints />} />
             </Route>
           </Route>

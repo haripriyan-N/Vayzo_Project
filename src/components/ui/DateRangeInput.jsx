@@ -1,155 +1,53 @@
 import { CalendarDays } from "lucide-react";
-import { useRef, useState } from "react";
+
+function getToday() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
 
 function DateRangeInput({
-  label = "Joined Date",
+  label = "Date Range",
   fromValue = "",
   toValue = "",
   onFromChange,
   onToChange,
   id = "date-range",
 }) {
-  const fromDateRef = useRef(null);
-  const toDateRef = useRef(null);
-
-  const [fromText, setFromText] = useState("");
-  const [toText, setToText] = useState("");
-  const [error, setError] = useState("");
-
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const formatDate = (value) => {
-    if (!value) return "";
-
-    const [year, month, day] = value.split("-");
-    return `${day}/${month}/${year}`;
-  };
-
-  const isValidDate = (day, month, year) => {
-    if (
-      day < 1 ||
-      day > 31 ||
-      month < 1 ||
-      month > 12 ||
-      year < 1000 ||
-      year > 9999
-    ) {
-      return false;
-    }
-
-    const date = new Date(year, month - 1, day);
-
-    if (
-      date.getFullYear() !== year ||
-      date.getMonth() !== month - 1 ||
-      date.getDate() !== day
-    ) {
-      return false;
-    }
-
-    return date <= today;
-  };
-
-  const toIso = (text) => {
-    const digits = text.replace(/\D/g, "");
-
-    if (digits.length !== 8) return null;
-
-    const day = Number(digits.slice(0, 2));
-    const month = Number(digits.slice(2, 4));
-    const year = Number(digits.slice(4, 8));
-
-    if (!isValidDate(day, month, year)) return null;
-
-    return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(
-      2,
-      "0",
-    )}`;
-  };
-
-  const maskDate = (value) => {
-    const digits = value.replace(/\D/g, "").slice(0, 8);
-
-    if (digits.length <= 2) return digits;
-    if (digits.length <= 4) {
-      return `${digits.slice(0, 2)}/${digits.slice(2)}`;
-    }
-
-    return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
-  };
-
-  const handleTextChange = (event, type) => {
-    const masked = maskDate(event.target.value);
-
-    if (type === "from") {
-      setFromText(masked);
-    } else {
-      setToText(masked);
-    }
-
-    const digits = masked.replace(/\D/g, "");
-
-    if (digits.length < 8) {
-      setError("");
-      return;
-    }
-
-    const isoDate = toIso(masked);
-
-    if (!isoDate) {
-      setError("Invalid date");
-      return;
-    }
-
-    if (type === "from") {
-      if (toValue && isoDate > toValue) {
-        setError("From date cannot be after To date");
-        return;
-      }
-
-      setError("");
-      onFromChange?.({ target: { value: isoDate } });
-    } else {
-      if (fromValue && isoDate < fromValue) {
-        setError("To date cannot be before From date");
-        return;
-      }
-
-      setError("");
-      onToChange?.({ target: { value: isoDate } });
-    }
-  };
+  const today = getToday();
 
   const handleFromChange = (event) => {
-    const value = event.target.value;
+    const newFrom = event.target.value;
 
-    setFromText(formatDate(value));
-
-    if (toValue && value > toValue) {
-      setError("From date cannot be after To date");
+    // Reject future dates typed manually
+    if (newFrom > today) {
       return;
     }
 
-    setError("");
-    onFromChange?.(event);
+    // Clear To Date if it becomes earlier than the new From Date
+    if (toValue && newFrom > toValue) {
+      onToChange?.({ target: { value: "" } });
+    }
 
-    setTimeout(() => {
-      toDateRef.current?.showPicker?.();
-    }, 100);
+    onFromChange?.(event);
   };
 
   const handleToChange = (event) => {
-    const value = event.target.value;
+    const newTo = event.target.value;
 
-    setToText(formatDate(value));
-
-    if (fromValue && value < fromValue) {
-      setError("To date cannot be before From date");
+    // Reject future dates typed manually
+    if (newTo > today) {
       return;
     }
 
-    setError("");
+    // Reject dates earlier than From Date
+    if (fromValue && newTo < fromValue) {
+      return;
+    }
+
     onToChange?.(event);
   };
 
@@ -157,84 +55,49 @@ function DateRangeInput({
     <div>
       {label && (
         <label
-          htmlFor={`${id}-from-text`}
+          htmlFor={`${id}-from`}
           className="mb-1.5 block text-xs font-medium text-muted"
         >
           {label}
         </label>
       )}
 
-      <div className="relative w-full sm:w-64">
-        <div
-          className={[
-            "flex h-10 items-center rounded-lg border bg-background px-3",
-            "text-xs transition focus-within:ring-1",
-            error
-              ? "border-danger focus-within:border-danger focus-within:ring-danger"
-              : "border-border focus-within:border-primary focus-within:ring-primary",
-          ].join(" ")}
-        >
-          <CalendarDays
-            size={17}
-            strokeWidth={1.8}
-            className="mr-2 shrink-0 text-muted"
-          />
-
-          <input
-            id={`${id}-from-text`}
-            type="text"
-            inputMode="numeric"
-            placeholder="dd/mm/yyyy"
-            value={fromText}
-            onChange={(event) => handleTextChange(event, "from")}
-            className="w-[78px] bg-transparent p-0 text-xs text-foreground outline-none placeholder:text-muted"
-          />
-
-          <span className="mx-1.5 shrink-0 text-xs text-muted">-</span>
-
-          <input
-            id={`${id}-to-text`}
-            type="text"
-            inputMode="numeric"
-            placeholder="dd/mm/yyyy"
-            value={toText}
-            onChange={(event) => handleTextChange(event, "to")}
-            className="w-[78px] bg-transparent p-0 text-xs text-foreground outline-none placeholder:text-muted"
-          />
-        </div>
+      <div
+        className={[
+          "flex h-10 items-center rounded-lg border bg-background px-3",
+          "text-xs transition focus-within:ring-1",
+          "border-border focus-within:border-primary focus-within:ring-primary",
+        ].join(" ")}
+      >
+        <CalendarDays
+          size={17}
+          strokeWidth={1.8}
+          className="mr-2 shrink-0 text-muted"
+        />
 
         <input
-          ref={fromDateRef}
+          id={`${id}-from`}
           type="date"
           value={fromValue}
-          max={new Date().toISOString().split("T")[0]}
+          max={today}
           onChange={handleFromChange}
-          className="absolute h-0 w-0 opacity-0"
-          tabIndex="-1"
+          className="flex-1 bg-transparent p-0 text-xs text-foreground outline-none"
         />
+
+        <span className="mx-1.5 shrink-0 text-xs text-muted">–</span>
 
         <input
-          ref={toDateRef}
+          id={`${id}-to`}
           type="date"
           value={toValue}
-          max={new Date().toISOString().split("T")[0]}
+          min={fromValue || undefined}
+          max={today}
           onChange={handleToChange}
-          className="absolute h-0 w-0 opacity-0"
-          tabIndex="-1"
+          className="flex-1 bg-transparent p-0 text-xs text-foreground outline-none"
         />
-
-        <button
-          type="button"
-          onClick={() => fromDateRef.current?.showPicker?.()}
-          className="absolute left-0 top-0 h-10 w-10"
-          aria-label="Select start date"
-        />
-
-        {error && <p className="mt-1 text-[11px] text-danger">{error}</p>}
       </div>
     </div>
   );
 }
 
 export default DateRangeInput;
-  

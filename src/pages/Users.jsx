@@ -8,14 +8,16 @@ import SearchInput from "../components/ui/SearchInput";
 import StatusSelect from "../components/ui/StatusSelect";
 import DateRangeInput from "../components/ui/DateRangeInput";
 import Table from "../components/ui/Table";
+import Card from "../components/ui/Card";
 
 import { getUsers } from "../api/usersApi";
 
 const statusBadgeMap = {
-  ACTIVE: "success",
-  VERIFIED: "info",
-  PENDING: "warning",
-  BLOCKED: "danger",
+  Active: "success",
+  Verified: "info",
+  Pending: "warning",
+  Blocked: "danger",
+  Inactive: "danger",
 };
 
 const statusOptions = [
@@ -148,50 +150,65 @@ function Users() {
     setJoinedTo("");
   };
 
+  const toTitleCase = (str) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
   return (
     <section className="min-h-full bg-background p-4 sm:p-6">
-      <div className="space-y-4">
-        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm">
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-[minmax(240px,1.5fr)_minmax(160px,1fr)_minmax(160px,1fr)_minmax(160px,1fr)_auto]">
-            <SearchInput
-              id="user-search"
-              value={searchText}
-              onChange={(event) => setSearchText(event.target.value)}
-              placeholder="Search users by name, email or mobile..."
-            />
+      <Card noPadding className="flex flex-col">
+        {/* Filter Section */}
+        <div className="p-4 sm:p-6 pb-4">
+          <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
+            {/* Search Input */}
+            <div className="flex-1 w-full min-w-0 xl:max-w-sm">
+              <SearchInput
+                id="user-search"
+                value={searchText}
+                onChange={(event) => setSearchText(event.target.value)}
+                placeholder="Search users by name, email or mobile..."
+              />
+            </div>
 
-            <StatusSelect
-              id="user-status"
-              value={statusFilter}
-              options={statusOptions}
-              onChange={(event) => setStatusFilter(event.target.value)}
-            />
+            {/* Selects and Button */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
+              <StatusSelect
+                id="user-status"
+                value={statusFilter}
+                options={statusOptions}
+                onChange={(event) => setStatusFilter(event.target.value)}
+                className="w-full xl:w-[150px]"
+              />
 
-            <StatusSelect
-              id="user-type"
-              value={userTypeFilter}
-              options={userTypeOptions}
-              onChange={(event) => setUserTypeFilter(event.target.value)}
-            />
+              <StatusSelect
+                id="user-type"
+                value={userTypeFilter}
+                options={userTypeOptions}
+                onChange={(event) => setUserTypeFilter(event.target.value)}
+                className="w-full xl:w-[160px]"
+              />
 
-            <StatusSelect
-              id="user-verification"
-              value={verificationFilter}
-              options={verificationOptions}
-              onChange={(event) => setVerificationFilter(event.target.value)}
-            />
+              <StatusSelect
+                id="user-verification"
+                value={verificationFilter}
+                options={verificationOptions}
+                onChange={(event) => setVerificationFilter(event.target.value)}
+                className="w-full xl:w-[150px]"
+              />
 
-            <Button
-              size="sm"
-              onClick={() => navigate("/users/add")}
-              className="h-10"
-            >
-              <Plus size={17} strokeWidth={2} />
-              Add User
-            </Button>
+              <Button
+                size="sm"
+                onClick={() => navigate("/users/add")}
+                className="col-span-1 sm:col-span-3 xl:col-span-1 h-10 w-full flex items-center justify-center gap-2"
+              >
+                <Plus size={18} strokeWidth={2.5} />
+                Add User
+              </Button>
+            </div>
           </div>
 
-          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <DateRangeInput
               id="joined-date"
               label="Joined Date"
@@ -205,16 +222,16 @@ function Users() {
               variant="secondary"
               size="sm"
               onClick={resetFilters}
-              className="h-10"
+              className="h-10 w-full sm:w-auto"
             >
-              <RotateCcw size={15} strokeWidth={1.8} />
+              <RotateCcw size={16} strokeWidth={2} className="mr-1" />
               Reset
             </Button>
           </div>
         </div>
 
         {error ? (
-          <div className="rounded-xl border border-danger/30 bg-surface p-8 text-center text-sm text-danger">
+          <div className="m-6 rounded-xl border border-danger/30 bg-danger/5 p-8 text-center text-sm font-medium text-danger">
             {error}
           </div>
         ) : (
@@ -223,6 +240,7 @@ function Users() {
             currentCount={filteredUsers.length}
             totalCount={users.length}
             minWidth="1000px"
+            className="border-0 shadow-none rounded-none border-t border-border"
           >
             {loading ? (
               <tr>
@@ -269,8 +287,13 @@ function Users() {
 
                   <td className="px-3 py-3">
                     <Badge
-                      variant="info"
-                      className="whitespace-nowrap rounded-md px-2 py-1 text-xs"
+                      variant={
+                        user.userType === "Customer" ? "info" :
+                        user.userType === "Delivery Partner" ? "default" :
+                        user.userType === "Merchant" ? "warning" :
+                        user.userType === "Business" ? "success" : "default"
+                      }
+                      className="whitespace-nowrap px-3"
                     >
                       {user.userType}
                     </Badge>
@@ -278,10 +301,10 @@ function Users() {
 
                   <td className="px-3 py-3">
                     <Badge
-                      variant={statusBadgeMap[user.status] || "default"}
-                      className="whitespace-nowrap rounded-md px-2 py-1 text-xs"
+                      variant={statusBadgeMap[toTitleCase(user.status)] || "default"}
+                      className="whitespace-nowrap px-3"
                     >
-                      {user.status}
+                      {toTitleCase(user.status)}
                     </Badge>
                   </td>
 
@@ -345,7 +368,7 @@ function Users() {
             )}
           </Table>
         )}
-      </div>
+      </Card>
     </section>
   );
 }

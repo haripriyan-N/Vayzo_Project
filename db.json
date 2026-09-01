@@ -132,74 +132,376 @@
       "id": "lcI6YtJ1OBw"
     }
   ],
- "orders": [
-  {
-    "orderId": "ORD1001",
-    "customerName": "Prathap M",
-    "restaurantName": "Murugan Kadai",
-    "status": "DELIVERED",
-    "paymentStatus": "PAID",
-    "amount": 420,
-    "orderDate": "2026-08-27 11:20",
-    "deliveryPartner": "Sankar P",
-    "city": "Madurai"
-  },
-  {
-    "orderId": "ORD1002",
-    "customerName": "Priya Nair",
-    "restaurantName": "Pizza Hub",
-    "status": "IN_TRANSIT",
-    "paymentStatus": "PAID",
-    "amount": 680,
-    "orderDate": "2026-08-27 10:45",
-    "deliveryPartner": "Raja M",
-    "city": "Chennai"
-  },
-  {
-    "orderId": "ORD1003",
-    "customerName": "Arun Kumar",
-    "restaurantName": "Sangeetha Veg",
-    "status": "PENDING",
-    "paymentStatus": "PENDING",
-    "amount": 290,
-    "orderDate": "2026-08-27 09:15",
-    "deliveryPartner": "Kabilan S",
-    "city": "Coimbatore"
-  },
-  {
-    "orderId": "ORD1004",
-    "customerName": "Deepa Rani",
-    "restaurantName": "A2B",
-    "status": "CANCELLED",
-    "paymentStatus": "REFUNDED",
-    "amount": 360,
-    "orderDate": "2026-08-26 18:40",
-    "deliveryPartner": "Naveen R",
-    "city": "Trichy"
-  },
-  {
-    "orderId": "ORD1005",
-    "customerName": "Sathish V",
-    "restaurantName": "KFC",
-    "status": "PREPARING",
-    "paymentStatus": "PAID",
-    "amount": 540,
-    "orderDate": "2026-08-27 12:05",
-    "deliveryPartner": "Vignesh K",
-    "city": "Madurai"
-  },
-  {
-    "orderId": "ORD1006",
-    "customerName": "Meera Suresh",
-    "restaurantName": "Biryani Plaza",
-    "status": "DELIVERED",
-    "paymentStatus": "PAID",
-    "amount": 780,
-    "orderDate": "2026-08-27 08:30",
-    "deliveryPartner": "Anandh B",
-    "city": "Salem"
+  "orders": [
+    {
+      "orderId": "ORD1001",
+      "customerName": "Prathap M",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai"
+    },
+    {
+      "orderId": "ORD1002",
+      "customerName": "Priya Nair",
+      "restaurantName": "Pizza Hub",
+      "status": "IN_TRANSIT",
+      "paymentStatus": "PAID",
+      "amount": 680,
+      "orderDate": "2026-08-27 10:45",
+      "deliveryPartner": "Raja M",
+      "city": "Chennai"
+    },
+    {
+      "orderId": "ORD1003",
+      "customerName": "Arun Kumar",
+      "restaurantName": "Sangeetha Veg",
+      "status": "PENDING",
+      "paymentStatus": "PENDING",
+      "amount": 290,
+      "orderDate": "2026-08-27 09:15",
+      "deliveryPartner": "Kabilan S",
+      "city": "Coimbatore"
+    },
+    {
+      "orderId": "ORD1004",
+      "customerName": "Deepa Rani",
+      "restaurantName": "A2B",
+      "status": "CANCELLED",
+      "paymentStatus": "REFUNDED",
+      "amount": 360,
+      "orderDate": "2026-08-26 18:40",
+      "deliveryPartner": "Naveen R",
+      "city": "Trichy"
+    },
+    {
+      "orderId": "ORD1005",
+      "customerName": "Sathish V",
+      "restaurantName": "KFC",
+      "status": "PREPARING",
+      "paymentStatus": "PAID",
+      "amount": 540,
+      "orderDate": "2026-08-27 12:05",
+      "deliveryPartner": "Vignesh K",
+      "city": "Madurai"
+    },
+    {
+      "orderId": "ORD1006",
+      "customerName": "Meera Suresh",
+      "restaurantName": "Biryani Plaza",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 780,
+      "orderDate": "2026-08-27 08:30",
+      "deliveryPartner": "Anandh B",
+      "city": "Salem"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json",
+  "dashboard": {
+    "stats": {
+      "totalOrders": {
+        "value": 8465,
+        "trend": "+15.6% vs last week"
+      },
+      "grossRevenue": {
+        "value": "₹12,48,650",
+        "trend": "+18.3% vs last week"
+      },
+      "commission": {
+        "value": "₹1,87,425",
+        "trend": "+16.7% vs last week"
+      },
+      "netRevenue": {
+        "value": "₹10,61,225",
+        "trend": "+17.2% vs last week"
+      },
+      "newUsers": {
+        "value": 2318,
+        "trend": "+12.4% vs last week"
+      }
+    },
+    "recentOrders": [
+      {
+        "id": "ORD124587",
+        "restaurant": "ABC Cafe",
+        "amount": "₹589.00",
+        "date": "21 May, 10:30 AM",
+        "status": "Delivered"
+      },
+      {
+        "id": "ORD124586",
+        "restaurant": "Pizza Hub",
+        "amount": "₹349.00",
+        "date": "21 May, 10:20 AM",
+        "status": "Out for Delivery"
+      },
+      {
+        "id": "ORD124585",
+        "restaurant": "Food Express",
+        "amount": "₹678.00",
+        "date": "21 May, 10:15 AM",
+        "status": "Preparing"
+      },
+      {
+        "id": "ORD124584",
+        "restaurant": "Burger Point",
+        "amount": "₹420.00",
+        "date": "21 May, 10:05 AM",
+        "status": "Confirmed"
+      },
+      {
+        "id": "ORD124583",
+        "restaurant": "Spice House",
+        "amount": "₹315.00",
+        "date": "21 May, 09:55 AM",
+        "status": "Pending"
+      }
+    ],
+    "ordersByService": [
+      {
+        "name": "Food Delivery",
+        "value": 5642,
+        "trend": "+14.2%"
+      },
+      {
+        "name": "Buy & Get It",
+        "value": 1245,
+        "trend": "+12.8%"
+      },
+      {
+        "name": "Bike Ride",
+        "value": 985,
+        "trend": "+10.7%"
+      },
+      {
+        "name": "Car Booking",
+        "value": 643,
+        "trend": "+9.3%"
+      },
+      {
+        "name": "Parcel Delivery",
+        "value": 130,
+        "trend": "+8.4%"
+      }
+    ],
+    "deliveryPartnerOverview": [
+      {
+        "name": "Total Partners",
+        "value": 2856,
+        "color": "text-primary"
+      },
+      {
+        "name": "Online Partners",
+        "value": 1256,
+        "color": "text-success"
+      },
+      {
+        "name": "Busy Partners",
+        "value": 342,
+        "color": "text-warning"
+      },
+      {
+        "name": "Offline Partners",
+        "value": 1258,
+        "color": "text-muted"
+      }
+    ],
+    "topRestaurants": [
+      {
+        "id": 1,
+        "name": "ABC Cafe",
+        "orders": 1245,
+        "revenue": "₹2,45,320"
+      },
+      {
+        "id": 2,
+        "name": "Food Express",
+        "orders": 985,
+        "revenue": "₹1,87,650"
+      },
+      {
+        "id": 3,
+        "name": "Pizza Hub",
+        "orders": 876,
+        "revenue": "₹1,45,230"
+      },
+      {
+        "id": 4,
+        "name": "Burger Point",
+        "orders": 765,
+        "revenue": "₹1,25,450"
+      },
+      {
+        "id": 5,
+        "name": "Spice House",
+        "orders": 654,
+        "revenue": "₹98,750"
+      }
+    ],
+    "recentTransactions": [
+      {
+        "id": "TXN984512",
+        "type": "Order Payment",
+        "related": "Order #ORD124587",
+        "amount": "₹589.00",
+        "method": "UPI",
+        "status": "Success",
+        "date": "21 May 2024, 10:30 AM"
+      },
+      {
+        "id": "TXN984511",
+        "type": "Payout",
+        "related": "Payout to Karthik Raj",
+        "amount": "₹1,245.00",
+        "method": "Bank Transfer",
+        "status": "Success",
+        "date": "21 May 2024, 09:15 AM"
+      },
+      {
+        "id": "TXN984510",
+        "type": "Commission",
+        "related": "Order #ORD124586",
+        "amount": "₹52.35",
+        "method": "Wallet",
+        "status": "Success",
+        "date": "21 May 2024, 09:10 AM"
+      },
+      {
+        "id": "TXN984509",
+        "type": "Refund",
+        "related": "Order #ORD124581",
+        "amount": "₹320.00",
+        "method": "UPI",
+        "status": "Refunded",
+        "date": "20 May 2024, 08:45 PM"
+      },
+      {
+        "id": "TXN984508",
+        "type": "Order Payment",
+        "related": "Order #ORD124582",
+        "amount": "₹420.00",
+        "method": "Card",
+        "status": "Success",
+        "date": "20 May 2024, 08:20 PM"
+      }
+    ],
+    "quickSummary": {
+      "cancelledOrders": {
+        "value": 236,
+        "trend": "-5.4%"
+      },
+      "returnRefunds": {
+        "value": 78,
+        "trend": "-3.2%"
+      },
+      "avgOrderValue": {
+        "value": "₹288.40",
+        "trend": "+11.6%"
+      },
+      "repeatCustomers": {
+        "value": "68.3%",
+        "trend": "+8.9%"
+      }
+    },
+    "lineChartData": [
+      {
+        "name": "21 May",
+        "thisWeek": 500,
+        "lastWeek": 800
+      },
+      {
+        "name": "22 May",
+        "thisWeek": 900,
+        "lastWeek": 1100
+      },
+      {
+        "name": "23 May",
+        "thisWeek": 1600,
+        "lastWeek": 1300
+      },
+      {
+        "name": "24 May",
+        "thisWeek": 2100,
+        "lastWeek": 1400
+      },
+      {
+        "name": "25 May",
+        "thisWeek": 1700,
+        "lastWeek": 1100
+      },
+      {
+        "name": "26 May",
+        "thisWeek": 1500,
+        "lastWeek": 900
+      },
+      {
+        "name": "27 May",
+        "thisWeek": 1100,
+        "lastWeek": 1400
+      }
+    ],
+    "barChartData": [
+      {
+        "name": "21 May",
+        "gross": 1.5,
+        "net": 0.8
+      },
+      {
+        "name": "22 May",
+        "gross": 1.1,
+        "net": 0.9
+      },
+      {
+        "name": "23 May",
+        "gross": 1.1,
+        "net": 0.9
+      },
+      {
+        "name": "24 May",
+        "gross": 2.3,
+        "net": 1.8
+      },
+      {
+        "name": "25 May",
+        "gross": 1.6,
+        "net": 1.2
+      },
+      {
+        "name": "26 May",
+        "gross": 1.5,
+        "net": 1
+      },
+      {
+        "name": "27 May",
+        "gross": 0.9,
+        "net": 0.7
+      }
+    ],
+    "pieData": [
+      {
+        "name": "Customers",
+        "value": 38542,
+        "color": "var(--color-primary)"
+      },
+      {
+        "name": "Delivery Partners",
+        "value": 4856,
+        "color": "var(--color-success)"
+      },
+      {
+        "name": "Store Owners",
+        "value": 1233,
+        "color": "var(--color-warning)"
+      },
+      {
+        "name": "Others",
+        "value": 600,
+        "color": "var(--color-muted)"
+      }
+    ]
   }
-],
-
-  "$schema": "./node_modules/json-server/schema.json"
 }
