@@ -78,13 +78,18 @@ function AddUsers() {
       setLoading(true);
       const data = await getUserById(userId);
       setUserDbId(data.id);
+      const toTitleCase = (str) => {
+        if (!str) return "";
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+      };
+
       setForm({
         name: data.name || "",
         email: data.email || "",
         mobile: data.mobileNumber || "",
         type: data.userType || types[0],
         role: data.role || roles[0],
-        status: data.status || statusOptions[0],
+        status: data.status ? toTitleCase(data.status) : statusOptions[0],
         password: "",
         confirm: "",
       });

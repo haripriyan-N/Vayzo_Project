@@ -299,7 +299,7 @@ export const mockAdminCredentials = {
 
 export const mockAdmin = {
   email: "admin@vayzo.com",
-  name: "VAYZO Admin",
+  name: "Haripriyan",
   role: "Super Admin",
   profileImage: null,
 };

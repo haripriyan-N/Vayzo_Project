@@ -142,7 +142,8 @@
       "amount": 420,
       "orderDate": "2026-08-27 11:20",
       "deliveryPartner": "Sankar P",
-      "city": "Madurai"
+      "city": "Madurai",
+      "id": "3wgpK_Fhauk"
     },
     {
       "orderId": "ORD1002",
@@ -153,7 +154,8 @@
       "amount": 680,
       "orderDate": "2026-08-27 10:45",
       "deliveryPartner": "Raja M",
-      "city": "Chennai"
+      "city": "Chennai",
+      "id": "j3OKeM_okRA"
     },
     {
       "orderId": "ORD1003",
@@ -164,7 +166,8 @@
       "amount": 290,
       "orderDate": "2026-08-27 09:15",
       "deliveryPartner": "Kabilan S",
-      "city": "Coimbatore"
+      "city": "Coimbatore",
+      "id": "XtZOEdbaJl8"
     },
     {
       "orderId": "ORD1004",
@@ -175,7 +178,8 @@
       "amount": 360,
       "orderDate": "2026-08-26 18:40",
       "deliveryPartner": "Naveen R",
-      "city": "Trichy"
+      "city": "Trichy",
+      "id": "RYqAxVB7V5Q"
     },
     {
       "orderId": "ORD1005",
@@ -186,7 +190,8 @@
       "amount": 540,
       "orderDate": "2026-08-27 12:05",
       "deliveryPartner": "Vignesh K",
-      "city": "Madurai"
+      "city": "Madurai",
+      "id": "Jg9MQwhI9xY"
     },
     {
       "orderId": "ORD1006",
@@ -197,7 +202,8 @@
       "amount": 780,
       "orderDate": "2026-08-27 08:30",
       "deliveryPartner": "Anandh B",
-      "city": "Salem"
+      "city": "Salem",
+      "id": "JtBXVp3RAHA"
     }
   ],
   "dashboard": {
@@ -207,15 +213,15 @@
         "trend": "+15.6% vs last week"
       },
       "grossRevenue": {
-        "value": "\u20b912,48,650",
+        "value": "₹12,48,650",
         "trend": "+18.3% vs last week"
       },
       "commission": {
-        "value": "\u20b91,87,425",
+        "value": "₹1,87,425",
         "trend": "+16.7% vs last week"
       },
       "netRevenue": {
-        "value": "\u20b910,61,225",
+        "value": "₹10,61,225",
         "trend": "+17.2% vs last week"
       },
       "newUsers": {
@@ -227,35 +233,35 @@
       {
         "id": "ORD124587",
         "restaurant": "ABC Cafe",
-        "amount": "\u20b9589.00",
+        "amount": "₹589.00",
         "date": "21 May, 10:30 AM",
         "status": "Delivered"
       },
       {
         "id": "ORD124586",
         "restaurant": "Pizza Hub",
-        "amount": "\u20b9349.00",
+        "amount": "₹349.00",
         "date": "21 May, 10:20 AM",
         "status": "Out for Delivery"
       },
       {
         "id": "ORD124585",
         "restaurant": "Food Express",
-        "amount": "\u20b9678.00",
+        "amount": "₹678.00",
         "date": "21 May, 10:15 AM",
         "status": "Preparing"
       },
       {
         "id": "ORD124584",
         "restaurant": "Burger Point",
-        "amount": "\u20b9420.00",
+        "amount": "₹420.00",
         "date": "21 May, 10:05 AM",
         "status": "Confirmed"
       },
       {
         "id": "ORD124583",
         "restaurant": "Spice House",
-        "amount": "\u20b9315.00",
+        "amount": "₹315.00",
         "date": "21 May, 09:55 AM",
         "status": "Pending"
       }
@@ -314,31 +320,31 @@
         "id": 1,
         "name": "ABC Cafe",
         "orders": 1245,
-        "revenue": "\u20b92,45,320"
+        "revenue": "₹2,45,320"
       },
       {
         "id": 2,
         "name": "Food Express",
         "orders": 985,
-        "revenue": "\u20b91,87,650"
+        "revenue": "₹1,87,650"
       },
       {
         "id": 3,
         "name": "Pizza Hub",
         "orders": 876,
-        "revenue": "\u20b91,45,230"
+        "revenue": "₹1,45,230"
       },
       {
         "id": 4,
         "name": "Burger Point",
         "orders": 765,
-        "revenue": "\u20b91,25,450"
+        "revenue": "₹1,25,450"
       },
       {
         "id": 5,
         "name": "Spice House",
         "orders": 654,
-        "revenue": "\u20b998,750"
+        "revenue": "₹98,750"
       }
     ],
     "recentTransactions": [
@@ -346,7 +352,7 @@
         "id": "TXN984512",
         "type": "Order Payment",
         "related": "Order #ORD124587",
-        "amount": "\u20b9589.00",
+        "amount": "₹589.00",
         "method": "UPI",
         "status": "Success",
         "date": "21 May 2024, 10:30 AM"
@@ -355,7 +361,7 @@
         "id": "TXN984511",
         "type": "Payout",
         "related": "Payout to Karthik Raj",
-        "amount": "\u20b91,245.00",
+        "amount": "₹1,245.00",
         "method": "Bank Transfer",
         "status": "Success",
         "date": "21 May 2024, 09:15 AM"
@@ -364,7 +370,7 @@
         "id": "TXN984510",
         "type": "Commission",
         "related": "Order #ORD124586",
-        "amount": "\u20b952.35",
+        "amount": "₹52.35",
         "method": "Wallet",
         "status": "Success",
         "date": "21 May 2024, 09:10 AM"
@@ -373,7 +379,7 @@
         "id": "TXN984509",
         "type": "Refund",
         "related": "Order #ORD124581",
-        "amount": "\u20b9320.00",
+        "amount": "₹320.00",
         "method": "UPI",
         "status": "Refunded",
         "date": "20 May 2024, 08:45 PM"
@@ -382,7 +388,7 @@
         "id": "TXN984508",
         "type": "Order Payment",
         "related": "Order #ORD124582",
-        "amount": "\u20b9420.00",
+        "amount": "₹420.00",
         "method": "Card",
         "status": "Success",
         "date": "20 May 2024, 08:20 PM"
@@ -398,7 +404,7 @@
         "trend": "-3.2%"
       },
       "avgOrderValue": {
-        "value": "\u20b9288.40",
+        "value": "₹288.40",
         "trend": "+11.6%"
       },
       "repeatCustomers": {
@@ -520,7 +526,7 @@
       "ordersCompleted": 1245,
       "rating": 4.8,
       "earnings": 28450,
-      "todayEarnings": "\u20b91,250",
+      "todayEarnings": "₹1,250",
       "completionRate": "96.3%",
       "cancellationRate": "2.1%",
       "lastOrder": "12 May 2024, 10:15 AM",
@@ -536,8 +542,8 @@
       "insuranceProvider": "Bajaj Allianz",
       "insuranceNumber": "BZJ1234567890",
       "insuranceValidTill": "15 Mar 2025",
-      "thisWeekEarnings": "\u20b95,680",
-      "totalPayouts": "\u20b926,750",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
       "bankName": "State Bank of India",
       "accountNumber": "5010 1234 5678",
       "ifscCode": "SBIN0012345",
@@ -560,7 +566,7 @@
       "ordersCompleted": 845,
       "rating": 4.6,
       "earnings": 18450,
-      "todayEarnings": "\u20b9850",
+      "todayEarnings": "₹850",
       "completionRate": "94.2%",
       "cancellationRate": "3.1%",
       "lastOrder": "11 May 2024, 08:15 PM",
@@ -576,8 +582,8 @@
       "insuranceProvider": "HDFC ERGO",
       "insuranceNumber": "HDF1234567890",
       "insuranceValidTill": "20 Nov 2024",
-      "thisWeekEarnings": "\u20b93,450",
-      "totalPayouts": "\u20b915,000",
+      "thisWeekEarnings": "₹3,450",
+      "totalPayouts": "₹15,000",
       "bankName": "HDFC Bank",
       "accountNumber": "1234 5678 9012",
       "ifscCode": "HDFC0001234",
@@ -600,7 +606,7 @@
       "ordersCompleted": 1024,
       "rating": 4.7,
       "earnings": 22100,
-      "todayEarnings": "\u20b91,450",
+      "todayEarnings": "₹1,450",
       "completionRate": "97.1%",
       "cancellationRate": "1.8%",
       "lastOrder": "11 May 2024, 11:30 AM",
@@ -616,8 +622,8 @@
       "insuranceProvider": "ICICI Lombard",
       "insuranceNumber": "ICI1234567890",
       "insuranceValidTill": "10 Jan 2025",
-      "thisWeekEarnings": "\u20b94,120",
-      "totalPayouts": "\u20b918,000",
+      "thisWeekEarnings": "₹4,120",
+      "totalPayouts": "₹18,000",
       "bankName": "ICICI Bank",
       "accountNumber": "9876 5432 1098",
       "ifscCode": "ICIC0009876",
@@ -640,7 +646,7 @@
       "ordersCompleted": 420,
       "rating": 4.4,
       "earnings": 9850,
-      "todayEarnings": "\u20b90",
+      "todayEarnings": "₹0",
       "completionRate": "89.5%",
       "cancellationRate": "5.2%",
       "lastOrder": "09 May 2024, 04:30 PM",
@@ -656,8 +662,8 @@
       "insuranceProvider": "Oriental Insurance",
       "insuranceNumber": "ORI0987654321",
       "insuranceValidTill": "05 Dec 2024",
-      "thisWeekEarnings": "\u20b9850",
-      "totalPayouts": "\u20b99,000",
+      "thisWeekEarnings": "₹850",
+      "totalPayouts": "₹9,000",
       "bankName": "Canara Bank",
       "accountNumber": "4567 8901 2345",
       "ifscCode": "CNRB0004567",
@@ -713,6 +719,400 @@
       "priority": "Low",
       "description": "Cannot update menu prices on the merchant app.",
       "resolution": "Instructed merchant to update the app to v2.1."
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "categoryId": "CAT1001",
+      "name": "Food",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15"
+    },
+    {
+      "id": "2",
+      "categoryId": "CAT1002",
+      "name": "Groceries",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15"
+    },
+    {
+      "id": "3",
+      "categoryId": "CAT1003",
+      "name": "Pharmacy",
+      "type": "Product",
+      "itemCount": 850,
+      "status": "Active",
+      "description": "Medicines and health supplements.",
+      "createdDate": "2024-02-05"
+    },
+    {
+      "id": "4",
+      "categoryId": "CAT1004",
+      "name": "Home Services",
+      "type": "Service",
+      "itemCount": 45,
+      "status": "Inactive",
+      "description": "Cleaning, repair, and maintenance services.",
+      "createdDate": "2024-03-20"
+    },
+    {
+      "id": "5",
+      "categoryId": "CAT1005",
+      "name": "Electronics",
+      "type": "Product",
+      "itemCount": 320,
+      "status": "Active",
+      "description": "Gadgets, appliances, and accessories.",
+      "createdDate": "2024-04-12"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json",
+  "offers": [
+    {
+      "id": "1",
+      "offerId": "OFF001",
+      "name": "FIRST50",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "2",
+      "offerId": "OFF002",
+      "name": "FLAT100",
+      "title": "Flat ₹100 OFF",
+      "type": "Flat",
+      "discountText": "₹100 OFF",
+      "discountDetail": "Min. order ₹249",
+      "usageLimit": 865,
+      "usageMax": 2000,
+      "validFrom": "2024-05-01",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "info"
+    },
+    {
+      "id": "3",
+      "offerId": "OFF003",
+      "name": "FREESHIP",
+      "title": "Free Delivery",
+      "type": "Free Delivery",
+      "discountText": "100% OFF",
+      "discountDetail": "Delivery Charges",
+      "usageLimit": 2310,
+      "usageMax": 10000,
+      "validFrom": "2024-05-05",
+      "validTo": "2024-05-25",
+      "status": "ACTIVE",
+      "color": "warning"
+    },
+    {
+      "id": "4",
+      "offerId": "OFF004",
+      "name": "WEEKEND20",
+      "title": "Weekend Special",
+      "type": "Percentage",
+      "discountText": "20% OFF",
+      "discountDetail": "Max ₹200",
+      "usageLimit": 632,
+      "usageMax": 3000,
+      "validFrom": "2024-06-01",
+      "validTo": "2024-06-30",
+      "status": "SCHEDULED",
+      "color": "primary"
+    },
+    {
+      "id": "5",
+      "offerId": "OFF005",
+      "name": "FOODIES15",
+      "title": "Foodies Special",
+      "type": "Percentage",
+      "discountText": "15% OFF",
+      "discountDetail": "Max ₹150",
+      "usageLimit": 1028,
+      "usageMax": 4000,
+      "validFrom": "2024-05-15",
+      "validTo": "2024-06-15",
+      "status": "ACTIVE",
+      "color": "danger"
+    },
+    {
+      "id": "6",
+      "offerId": "OFF006",
+      "name": "NEWUSER75",
+      "title": "New User Offer",
+      "type": "Flat",
+      "discountText": "₹75 OFF",
+      "discountDetail": "Min. order ₹199",
+      "usageLimit": 3451,
+      "usageMax": 8000,
+      "validFrom": "2024-04-01",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "warning"
+    },
+    {
+      "id": "7",
+      "offerId": "OFF007",
+      "name": "SUMMER25",
+      "title": "Summer Offer",
+      "type": "Percentage",
+      "discountText": "25% OFF",
+      "discountDetail": "Max ₹250",
+      "usageLimit": 1987,
+      "usageMax": 5000,
+      "validFrom": "2024-05-01",
+      "validTo": "2024-05-10",
+      "status": "EXPIRED",
+      "color": "muted"
+    },
+    {
+      "id": "8",
+      "offerId": "OFF008",
+      "name": "APRILDEAL",
+      "title": "April Deal",
+      "type": "Flat",
+      "discountText": "₹120 OFF",
+      "discountDetail": "Min. order ₹299",
+      "usageLimit": 921,
+      "usageMax": 3000,
+      "validFrom": "2024-04-01",
+      "validTo": "2024-04-30",
+      "status": "EXPIRED",
+      "color": "info"
+    }
+  ],
+  "locations": [
+    {
+      "id": "1",
+      "name": "Anna Nagar",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "2",
+      "name": "Bharath Nagar",
+      "fullName": "Bharath Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 980,
+      "color": "success"
+    },
+    {
+      "id": "3",
+      "name": "KK Nagar",
+      "fullName": "KK Nagar, Madurai, Tamil Nadu",
+      "zone": "West Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1120,
+      "color": "info"
+    },
+    {
+      "id": "4",
+      "name": "Meenakshi Puram",
+      "fullName": "Meenakshi Puram, Madurai, Tamil Nadu",
+      "zone": "East Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 860,
+      "color": "danger"
+    },
+    {
+      "id": "5",
+      "name": "Tallakulam",
+      "fullName": "Tallakulam, Madurai, Tamil Nadu",
+      "zone": "South Zone",
+      "city": "Madurai",
+      "status": "INACTIVE",
+      "orders30d": 210,
+      "color": "warning"
+    },
+    {
+      "id": "6",
+      "name": "Thirunagar",
+      "fullName": "Thirunagar, Madurai, Tamil Nadu",
+      "zone": "West Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 760,
+      "color": "success"
+    },
+    {
+      "id": "7",
+      "name": "Villapuram",
+      "fullName": "Villapuram, Madurai, Tamil Nadu",
+      "zone": "East Zone",
+      "city": "Madurai",
+      "status": "INACTIVE",
+      "orders30d": 145,
+      "color": "primary"
+    },
+    {
+      "id": "8",
+      "name": "Alagarkovil Road",
+      "fullName": "Alagarkovil Road, Madurai, Tamil Nadu",
+      "zone": "South Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 540,
+      "color": "info"
+    },
+    {
+      "id": "9",
+      "name": "Simmakkal",
+      "fullName": "Simmakkal, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "RESTRICTED",
+      "orders30d": 90,
+      "color": "danger"
+    },
+    {
+      "id": "10",
+      "name": "Koodal Nagar",
+      "fullName": "Koodal Nagar, Madurai, Tamil Nadu",
+      "zone": "West Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 620,
+      "color": "primary"
+    }
+  ],
+  "earnings": [
+    {
+      "id": "1",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
     }
   ]
 }

@@ -198,11 +198,11 @@ function DeliveryPartner() {
             <span className="ml-2 font-medium">Back to List</span>
           </Button>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <Button
               variant="secondary"
               size="sm"
-              className="text-foreground hover:bg-surface-hover hover:text-foreground"
+              className="border-border bg-surface hover:bg-surface-hover text-foreground shadow-sm"
             >
               <MessageSquare size={16} />
               <span className="ml-2 font-medium">Send Message</span>
@@ -210,7 +210,7 @@ function DeliveryPartner() {
             <Button
               variant="secondary"
               size="sm"
-              className="text-danger hover:bg-danger/10 hover:text-danger border-transparent"
+              className="border-danger/20 bg-danger/5 hover:bg-danger/10 text-danger shadow-sm"
             >
               <Ban size={16} />
               <span className="ml-2 font-medium">Block Partner</span>
@@ -292,7 +292,7 @@ function DeliveryPartner() {
                 </div>
                 <div className="flex flex-col min-w-0">
                   <p className="text-muted text-[11px] mb-1 truncate">{label}</p>
-                  <p className="truncate font-semibold text-foreground text-sm">
+                  <p className="font-semibold text-foreground text-[13px] leading-snug break-words">
                     {getValue(value)}
                   </p>
                 </div>
@@ -318,7 +318,38 @@ function DeliveryPartner() {
                 <InfoRows items={vehicleInformation} />
               </DetailCard>
 
-              {/* Earnings Summary */}
+              {/* Bank Information */}
+              <DetailCard title="Bank Information" icon={Wallet}>
+                <InfoRows items={bankInformation} />
+              </DetailCard>
+            </>
+          )}
+
+          {activeTab === "Documents" && (
+            <div className="col-span-1 md:col-span-2 xl:col-span-3">
+              <DetailCard title="All Documents" icon={FileText}>
+                <div className="space-y-3 text-sm mt-1">
+                  {documents.map((document) => (
+                    <div key={document} className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface-hover transition-colors border border-border/50">
+                      <FileText size={18} className="text-primary/70 shrink-0" />
+                      <span className="flex-1 font-medium text-foreground">
+                        {document}
+                      </span>
+                      <Badge variant="success" className="h-6 px-2 text-[11px] font-semibold bg-success/10 text-success border-success/20">
+                        Verified
+                      </Badge>
+                      <button className="h-8 w-8 flex items-center justify-center rounded-md hover:bg-background text-muted hover:text-foreground transition-colors ml-1 border border-border/50">
+                        <Eye size={16} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </DetailCard>
+            </div>
+          )}
+
+          {activeTab === "Earnings" && (
+            <div className="col-span-1 md:col-span-2 xl:col-span-3">
               <DetailCard 
                 title="Earnings Summary" 
                 icon={Wallet}
@@ -329,90 +360,24 @@ function DeliveryPartner() {
                   </select>
                 }
               >
-                <div className="grid grid-cols-2 gap-3 mb-3">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-3">
                   {earningsSummary.map((item, idx) => (
-                    <div key={idx} className={`rounded-xl ${item.bg} p-4 border border-border/50`}>
-                      <div className="flex justify-between items-start mb-2">
-                         <div className={`h-8 w-8 rounded-full bg-background flex items-center justify-center ${item.color} shadow-sm font-semibold`}>
+                    <div key={idx} className={`rounded-xl ${item.bg} p-5 border border-border/50`}>
+                      <div className="flex justify-between items-start mb-3">
+                         <div className={`h-10 w-10 rounded-full bg-background flex items-center justify-center ${item.color} shadow-sm font-semibold text-lg`}>
                             {item.icon}
                          </div>
                       </div>
-                      <p className="text-[11px] text-muted font-medium mb-1">{item.label}</p>
-                      <p className="text-lg font-bold text-foreground">
+                      <p className="text-xs text-muted font-medium mb-1.5">{item.label}</p>
+                      <p className="text-xl font-bold text-foreground">
                         {getValue(item.value)}
                       </p>
                       {item.change && (
-                        <p className="text-[10px] text-success mt-1.5 font-medium">{item.change}</p>
+                        <p className="text-xs text-success mt-2 font-medium">{item.change}</p>
                       )}
                     </div>
                   ))}
                 </div>
-              </DetailCard>
-
-              {/* Documents */}
-              <DetailCard title="Documents" icon={FileText}>
-                <div className="space-y-3 text-xs mt-1">
-                  {documents.map((document) => (
-                    <div key={document} className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-hover transition-colors">
-                      <FileText size={16} className="text-primary/70 shrink-0" />
-                      <span className="flex-1 font-medium text-foreground">
-                        {document}
-                      </span>
-                      <Badge variant="success" className="h-5 px-1.5 text-[10px] font-semibold bg-success/10 text-success border-success/20">
-                        Verified
-                      </Badge>
-                      <button className="h-6 w-6 flex items-center justify-center rounded-md hover:bg-background text-muted hover:text-foreground transition-colors ml-1">
-                        <Eye size={14} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 pt-4 border-t border-border/50 text-center">
-                   <button onClick={() => setActiveTab("Documents")} className="text-xs font-semibold text-primary hover:underline">View All Documents</button>
-                </div>
-              </DetailCard>
-
-              {/* Bank Information */}
-              <DetailCard title="Bank Information" icon={Wallet}>
-                <InfoRows items={bankInformation} />
-              </DetailCard>
-
-              {/* Recent Activity */}
-              <DetailCard title="Recent Activity" icon={CalendarDays}>
-                <div className="space-y-4 text-xs mt-1">
-                  {activities.map((activity, idx) => (
-                    <div key={idx} className="flex gap-3">
-                      <div className="mt-0.5 shrink-0 h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                        <FileText size={10} />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-foreground truncate">{activity.text}</p>
-                        <p className="text-[10px] text-muted mt-1">
-                          {activity.time}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-4 pt-4 border-t border-border/50 text-center">
-                   <button onClick={() => setActiveTab("Activity Logs")} className="text-xs font-semibold text-primary hover:underline">View All Activity</button>
-                </div>
-              </DetailCard>
-            </>
-          )}
-
-          {activeTab === "Documents" && (
-            <div className="col-span-1 md:col-span-2 xl:col-span-3">
-              <DetailCard title="All Documents" icon={FileText}>
-                 <p className="text-muted text-sm p-4 text-center">Documents section content</p>
-              </DetailCard>
-            </div>
-          )}
-
-          {activeTab === "Earnings" && (
-            <div className="col-span-1 md:col-span-2 xl:col-span-3">
-              <DetailCard title="Detailed Earnings" icon={Wallet}>
-                 <p className="text-muted text-sm p-4 text-center">Earnings section content</p>
               </DetailCard>
             </div>
           )}
@@ -444,7 +409,21 @@ function DeliveryPartner() {
           {activeTab === "Activity Logs" && (
             <div className="col-span-1 md:col-span-2 xl:col-span-3">
               <DetailCard title="Activity Logs" icon={CalendarDays}>
-                 <p className="text-muted text-sm p-4 text-center">Activity Logs section content</p>
+                <div className="space-y-4 text-sm mt-1 max-w-3xl">
+                  {activities.map((activity, idx) => (
+                    <div key={idx} className="flex gap-4 p-3 rounded-lg hover:bg-surface-hover transition-colors">
+                      <div className="mt-0.5 shrink-0 h-8 w-8 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                        <FileText size={14} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-foreground truncate">{activity.text}</p>
+                        <p className="text-xs text-muted mt-1.5">
+                          {activity.time}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </DetailCard>
             </div>
           )}

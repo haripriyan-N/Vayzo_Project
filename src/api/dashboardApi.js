@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/dashboard";
+const API_URL = "http://localhost:3001/dashboard";
 
 export async function getDashboardData() {
   const response = await fetch(API_URL);

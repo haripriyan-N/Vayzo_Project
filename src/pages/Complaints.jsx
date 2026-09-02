@@ -7,9 +7,9 @@ import SearchInput from "../components/ui/SearchInput";
 import StatusSelect from "../components/ui/StatusSelect";
 import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
-import ComplaintStatCard from "../components/ui/ComplaintStatCard";
+import StatCard from "../components/ui/StatCard";
 
-import { getComplaints } from "../api/complaintsApi";
+import { getComplaints, updateComplaint } from "../api/complaintsApi";
 
 const statusBadgeMap = {
   Open: "danger",
@@ -76,6 +76,18 @@ function Complaints() {
     return () => { isMounted = false; };
   }, []);
 
+  const handleUpdateStatus = async (complaint, newStatus) => {
+    try {
+      const updated = { ...complaint, status: newStatus };
+      await updateComplaint(complaint.id, updated);
+      
+      setComplaints(prev => prev.map(c => c.id === complaint.id ? updated : c));
+      setSelectedComplaint(updated);
+    } catch (err) {
+      alert("Failed to update status");
+    }
+  };
+
   const filteredComplaints = useMemo(() => {
     const searchValue = search.trim().toLowerCase();
 
@@ -92,6 +104,19 @@ function Complaints() {
     });
   }, [search, status, priority, userType, complaints]);
 
+  const hasFilters =
+    search ||
+    status !== "All Status" ||
+    priority !== "All Priority" ||
+    userType !== "All Types";
+
+  const resetFilters = () => {
+    setSearch("");
+    setStatus("All Status");
+    setPriority("All Priority");
+    setUserType("All Types");
+  };
+
   const stats = [
     { title: "Total Complaints", value: complaints.length, icon: MessageSquare, color: "text-primary", bg: "bg-primary/10" },
     { title: "Open Issues", value: complaints.filter(c => c.status === "Open").length, icon: AlertCircle, color: "text-danger", bg: "bg-danger/10" },
@@ -104,18 +129,19 @@ function Complaints() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6">
         {stats.map((stat, idx) => (
-          <ComplaintStatCard
+          <StatCard
             key={idx}
             title={stat.title}
             value={stat.value}
             icon={stat.icon}
             colorClass={stat.color}
             bgClass={stat.bg}
+            variant="horizontal"
           />
         ))}
       </div>
 
-      <div className={`grid gap-6 ${selectedComplaint ? 'lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_450px]' : 'grid-cols-1'} items-start`}>
+      <div className={`grid gap-6 ${selectedComplaint ? 'lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_350px]' : 'grid-cols-1'} items-start`}>
         <Card noPadding className="flex flex-col overflow-x-auto min-w-0">
         <div className="p-4 sm:p-6 pb-4">
           <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
@@ -149,6 +175,12 @@ function Complaints() {
                 onChange={(e) => setUserType(e.target.value)}
                 className="w-full xl:w-[160px]"
               />
+              {hasFilters && (
+                <Button variant="secondary" onClick={resetFilters} className="px-3 xl:ml-2">
+                  <X size={16} className="mr-1" />
+                  Reset
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -179,7 +211,7 @@ function Complaints() {
                   <td className="px-3 py-3">
                     <div className="flex min-w-0 items-center gap-2">
                       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-[10px] font-semibold border border-primary/20 overflow-hidden">
-                        <img src={`https://ui-avatars.com/api/?name=${c.userName}&background=random&color=fff&size=100`} alt={c.userName} className="h-full w-full object-cover" />
+                        <img src={c.avatar || `https://ui-avatars.com/api/?name=${c.userName}&background=random&color=fff&size=100`} alt={c.userName} className="h-full w-full object-cover" />
                       </div>
                       <span className="truncate font-medium text-foreground">
                         {c.userName}
@@ -214,7 +246,7 @@ function Complaints() {
 
         {/* Detail Panel */}
         {selectedComplaint && (
-          <div className="flex flex-col bg-surface border border-border rounded-xl shadow-sm h-[calc(100vh-250px)] sticky top-6">
+          <div className="flex flex-col bg-surface border border-border rounded-xl shadow-sm h-auto lg:h-[calc(100vh-250px)] lg:sticky lg:top-6">
             {/* Panel Header */}
             <div className="flex items-center justify-between p-5 border-b border-border bg-background rounded-t-xl">
               <div>
@@ -250,7 +282,7 @@ function Complaints() {
                 </h3>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20 overflow-hidden">
-                    <img src={`https://ui-avatars.com/api/?name=${selectedComplaint.userName}&background=random&color=fff&size=100`} alt={selectedComplaint.userName} className="h-full w-full object-cover" />
+                    <img src={selectedComplaint.avatar || `https://ui-avatars.com/api/?name=${selectedComplaint.userName}&background=random&color=fff&size=100`} alt={selectedComplaint.userName} className="h-full w-full object-cover" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground text-sm">{selectedComplaint.userName}</p>
@@ -294,9 +326,14 @@ function Complaints() {
             </div>
 
             {/* Panel Footer Actions */}
-            <div className="p-5 border-t border-border bg-background flex gap-3 rounded-b-xl">
-              <Button variant="secondary" className="flex-1" onClick={() => setSelectedComplaint(null)}>Close</Button>
-              <Button className="flex-1">Update Status</Button>
+            <div className="p-5 border-t border-border bg-background flex items-center gap-3 rounded-b-xl">
+              <StatusSelect 
+                options={["Open", "In Progress", "Resolved", "Closed"]}
+                value={selectedComplaint.status}
+                onChange={(e) => handleUpdateStatus(selectedComplaint, e.target.value)}
+                className="flex-1"
+              />
+              <Button variant="secondary" className="px-4" onClick={() => setSelectedComplaint(null)}>Close</Button>
             </div>
           </div>
         )}

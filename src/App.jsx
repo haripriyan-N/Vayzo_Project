@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/Login";
-import ForgetPassword from "./pages/ForgetPassword";
+import Forgetpassword from "./pages/Forgetpassword";
+import OtpVerification from "./pages/OtpVerification";
+import ResetPassword from "./pages/ResetPassword";
 import ProtectedRoute from "./components/layout/ProtectedRoute";
 import AdminLayout from "./components/layout/AdminLayout";
 
@@ -18,6 +20,12 @@ import { NotificationProvider } from "./context/NotificationContext";
 import DeliveryPartner from "./pages/DeliveryPartner";
 import DeliveryPartners from "./pages/DeliveryPartners";
 import DeliveryPartnersAdd from "./pages/DeliveryPartnersAdd";
+import Categories from "./pages/Categories";
+import CategoriesAdd from "./pages/CategoriesAdd";
+import CategoriesDetails from "./pages/CategoriesDetails";
+import Offers from "./pages/Offers";
+import Locations from "./pages/Locations";
+import Earnings from "./pages/Earnings";
 
 function App() {
   return (
@@ -26,7 +34,10 @@ function App() {
         <Routes>
           {/* Public Routes */}
           <Route path="/" element={<Login />} />
-          <Route path="/forgetpassword" element={<ForgetPassword />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgetpassword" element={<Forgetpassword />} />
+          <Route path="/otp" element={<OtpVerification />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* Protected Admin Routes */}
           <Route element={<ProtectedRoute />}>
@@ -45,6 +56,15 @@ function App() {
               <Route path="/delivery/add" element={<DeliveryPartnersAdd />} />
               <Route path="/delivery/edit/:partnerId" element={<DeliveryPartnersAdd />} />
               <Route path="/delivery/:partnerId" element={<DeliveryPartner />} />
+
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/categories/add" element={<CategoriesAdd />} />
+              <Route path="/categories/edit/:categoryId" element={<CategoriesAdd />} />
+              <Route path="/categories/:categoryId" element={<CategoriesDetails />} />
+              
+              <Route path="/offers" element={<Offers />} />
+              <Route path="/locations" element={<Locations />} />
+              <Route path="/earnings" element={<Earnings />} />
               
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/complaints" element={<Complaints />} />

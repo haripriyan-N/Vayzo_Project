@@ -10,9 +10,47 @@ function StatCard({
   colorClass = "text-primary",
   bgClass = "bg-primary-light",
   className = "",
+  variant = "vertical",
+  isNegative: explicitIsNegative,
 }) {
   const isPositive = trend && trend.includes("+");
-  const isNegative = trend && trend.includes("-");
+  const isNegative = explicitIsNegative !== undefined ? explicitIsNegative : (trend && trend.includes("-"));
+
+  if (variant === "compact") {
+    return (
+      <Card className={`p-3 ${className}`}>
+        <div className="flex items-center gap-2 h-12">
+          {Icon && <Icon size={17} strokeWidth={1.8} className={colorClass} />}
+          <span className="text-xs text-muted">{title}</span>
+        </div>
+        <div className="mt-2">
+          <span className="text-xl font-semibold text-foreground">{value}</span>
+        </div>
+      </Card>
+    );
+  }
+
+  if (variant === "horizontal") {
+    return (
+      <Card className={`p-4 sm:p-5 flex items-center gap-4 ${className}`}>
+        <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${bgClass} ${colorClass}`}>
+          {Icon && <Icon size={24} />}
+        </div>
+        <div className="flex flex-col">
+          <p className="text-xs font-medium text-muted mb-1">{title}</p>
+          <h3 className="text-xl font-bold text-foreground leading-none mb-1.5">{value}</h3>
+          {trend && (
+            <span className={`flex items-center text-[10px] font-medium text-muted`}>
+              <span className={`flex items-center ${isNegative ? "text-danger" : "text-success"} mr-1 font-semibold`}>
+                {isNegative ? "↓" : "↑"} {trend.replace("-", "").replace("+", "").trim()}
+              </span>
+              from last month
+            </span>
+          )}
+        </div>
+      </Card>
+    );
+  }
 
   return (
     <Card className={`flex flex-col justify-between relative overflow-hidden ${className}`}>
