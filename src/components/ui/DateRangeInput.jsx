@@ -10,7 +10,7 @@ function getToday() {
 }
 
 function DateRangeInput({
-  label = "Date Range",
+  label = "",
   fromValue = "",
   toValue = "",
   onFromChange,
@@ -22,10 +22,8 @@ function DateRangeInput({
   const handleFromChange = (event) => {
     const newFrom = event.target.value;
 
-    // Reject future dates typed manually
-    if (newFrom > today) {
-      return;
-    }
+    // Note: We intentionally do not reject partial typing here to allow manual entry.
+    // HTML5 native min/max attributes will handle visual calendar constraints.
 
     // Clear To Date if it becomes earlier than the new From Date
     if (toValue && newFrom > toValue) {
@@ -38,10 +36,7 @@ function DateRangeInput({
   const handleToChange = (event) => {
     const newTo = event.target.value;
 
-    // Reject future dates typed manually
-    if (newTo > today) {
-      return;
-    }
+    // Note: We intentionally do not reject partial typing here to allow manual entry.
 
     // Reject dates earlier than From Date
     if (fromValue && newTo < fromValue) {

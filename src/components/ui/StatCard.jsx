@@ -32,7 +32,7 @@ function StatCard({
 
   if (variant === "horizontal") {
     return (
-      <Card className={`p-4 sm:p-5 flex items-center gap-4 ${className}`}>
+      <Card className={`p-4 flex items-center gap-4 ${className}`}>
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${bgClass} ${colorClass}`}>
           {Icon && <Icon size={24} />}
         </div>

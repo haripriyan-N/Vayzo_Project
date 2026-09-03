@@ -9,7 +9,8 @@ import {
   Edit2,
   MoreVertical,
   Eye,
-  Maximize
+  Maximize,
+  RotateCcw
 } from "lucide-react";
 
 import Badge from "../components/ui/Badge";
@@ -19,8 +20,10 @@ import StatusSelect from "../components/ui/StatusSelect";
 import StatCard from "../components/ui/StatCard";
 import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
+import ActionMenu from "../components/ui/ActionMenu";
+import Modal from "../components/ui/Modal";
 
-import { getLocations } from "../api/locationsApi";
+import { getLocations, deleteLocation } from "../api/locationsApi";
 
 const STATUS_MAP = {
   ACTIVE: "success",
@@ -58,6 +61,10 @@ export default function Locations() {
   const [city, setCity] = useState("All Cities");
   const [zone, setZone] = useState("All Zones");
   const [activeTab, setActiveTab] = useState("All Locations");
+  const [deleteModalId, setDeleteModalId] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   const loadLocations = async () => {
     try {
@@ -91,9 +98,50 @@ export default function Locations() {
       const matchesCity = city === "All Cities" || loc.city === city;
       const matchesZone = zone === "All Zones" || loc.zone === zone;
 
-      return matchesSearch && matchesStatus && matchesTab && matchesCity && matchesZone;
+      return matchesSearch && matchesStatus && matchesCity && matchesZone && matchesTab;
     });
-  }, [locations, query, status, activeTab, city, zone]);
+  }, [locations, query, status, city, zone, activeTab]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredLocations.length / itemsPerPage);
+  const paginatedLocations = filteredLocations.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, status, city, zone, activeTab]);
+
+  const hasFilters =
+    query !== "" ||
+    status !== "All Status" ||
+    city !== "All Cities" ||
+    zone !== "All Zones";
+
+  const resetFilters = () => {
+    setQuery("");
+    setStatus("All Status");
+    setCity("All Cities");
+    setZone("All Zones");
+  };
+
+  const handleDeleteLocation = async () => {
+    if (!deleteModalId) return;
+    try {
+      await deleteLocation(deleteModalId);
+      setLocations((prev) => prev.filter((loc) => loc.id !== deleteModalId));
+      setDeleteModalId(null);
+      const newFilteredLength = filteredLocations.length - 1;
+      const newTotalPages = Math.ceil(newFilteredLength / itemsPerPage) || 1;
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete location.");
+    }
+  };
 
   return (
     <section className="min-h-full bg-background p-4 sm:p-6 pb-20">
@@ -142,10 +190,10 @@ export default function Locations() {
 
       <div className="flex flex-col xl:flex-row gap-6 items-start">
         {/* LEFT COLUMN: List & Filters */}
-        <div className="flex-1 w-full xl:w-2/3">
+        <div className="flex flex-col gap-6 flex-1 w-full xl:w-2/3">
           <Card noPadding className="flex flex-col">
-            {/* Filters Top Bar */}
-            <div className="p-4 sm:p-5 border-b border-border">
+            {/* Filters */}
+          <div className="p-4 sm:p-5">
               <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:justify-between">
                 {/* Search */}
                 <div className="flex-1 w-full min-w-0 lg:max-w-xs">
@@ -181,9 +229,11 @@ export default function Locations() {
                     className="w-full sm:w-[130px]"
                   />
                   <div className="flex gap-2 w-full sm:w-auto">
-                    <Button variant="secondary" className="px-3 gap-2 border border-border shadow-sm">
-                      <Filter size={16} /> Filter
-                    </Button>
+                    {hasFilters && (
+                      <Button variant="secondary" onClick={resetFilters} className="px-3 gap-2 border border-border shadow-sm">
+                        <RotateCcw size={16} /> Reset
+                      </Button>
+                    )}
                     <Button className="gap-2 shrink-0 shadow-md">
                       <Plus size={16} /> Add Location
                     </Button>
@@ -191,7 +241,9 @@ export default function Locations() {
                 </div>
               </div>
             </div>
+        </Card>
 
+        <Card noPadding className="flex flex-col">
             {/* Tabs */}
             <div className="border-b border-border px-2 flex overflow-x-auto">
               {TABS.map((tab) => (
@@ -210,26 +262,38 @@ export default function Locations() {
             </div>
 
             {/* Table */}
-            {error ? (
-              <div className="m-6 rounded-xl border border-danger/30 bg-danger/5 p-8 text-center text-sm font-medium text-danger">
-                {error}
-              </div>
-            ) : (
-              <Table
-                headers={["Location Name", "Zone", "City", "Status", "Orders (30D)", "Actions"]}
-                currentCount={filteredLocations.length}
-                totalCount={locations.length}
-                minWidth="900px"
-                className="border-0 shadow-none rounded-none"
-              >
-                {loading ? (
-                  <tr>
-                    <td colSpan={6} className="p-10 text-center text-sm text-muted">
-                      Loading locations...
-                    </td>
-                  </tr>
-                ) : filteredLocations.length > 0 ? (
-                  filteredLocations.map((loc) => {
+            <div className="w-full overflow-hidden rounded-xl border border-border bg-surface shadow-sm">
+          {error ? (
+            <div className="p-8 text-center text-sm font-medium text-danger">
+              {error}
+            </div>
+          ) : (
+            <Table
+              headers={[
+                "No.",
+                "Location Name",
+                "Zone",
+                "City",
+                "Status",
+                "Orders (30D)",
+                "Actions"
+              ]}
+              currentCount={paginatedLocations.length}
+              totalCount={filteredLocations.length}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              minWidth="800px"
+              className="border-0 shadow-none rounded-none"
+            >
+              {loading ? (
+                <tr>
+                  <td colSpan={7} className="p-10 text-center text-sm text-muted">
+                    Loading locations...
+                  </td>
+                </tr>
+              ) : paginatedLocations.length > 0 ? (
+                paginatedLocations.map((loc, index) => {
                     const bgAndColor = COLOR_MAP[loc.color] || COLOR_MAP.primary;
 
                     return (
@@ -237,6 +301,9 @@ export default function Locations() {
                         key={loc.id}
                         className="border-b border-border transition-colors hover:bg-background last:border-0"
                       >
+                        <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                          {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                        </td>
                         <td className="px-4 py-4 min-w-[220px]">
                           <div className="flex items-center gap-3">
                             <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${bgAndColor}`}>
@@ -269,15 +336,26 @@ export default function Locations() {
 
                         <td className="px-4 py-4">
                           <div className="flex items-center gap-2">
-                            <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary/10 hover:text-primary">
-                              <Eye size={14} strokeWidth={2} />
-                            </button>
-                            <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary/10 hover:text-primary">
-                              <Edit2 size={14} strokeWidth={2} />
-                            </button>
-                            <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary/10 hover:text-primary">
-                              <MoreVertical size={14} strokeWidth={2} />
-                            </button>
+                            <ActionMenu
+                              actions={[
+                                {
+                                  label: "View",
+                                  icon: Eye,
+                                  onClick: () => {},
+                                },
+                                {
+                                  label: "Edit",
+                                  icon: Edit2,
+                                  onClick: () => {},
+                                },
+                                {
+                                  label: "Delete",
+                                  icon: Trash2,
+                                  danger: true,
+                                  onClick: () => setDeleteModalId(loc.id),
+                                },
+                              ]}
+                            />
                           </div>
                         </td>
                       </tr>
@@ -285,13 +363,14 @@ export default function Locations() {
                   })
                 ) : (
                   <tr>
-                    <td colSpan={6} className="p-10 text-center text-sm text-muted">
+                    <td colSpan={7} className="p-10 text-center text-sm text-muted">
                       No locations found.
                     </td>
                   </tr>
                 )}
               </Table>
             )}
+            </div>
           </Card>
         </div>
 
@@ -367,6 +446,18 @@ export default function Locations() {
           </Card>
         </div>
       </div>
+
+      <Modal 
+        isOpen={!!deleteModalId} 
+        onClose={() => setDeleteModalId(null)} 
+        title="Delete Location"
+      >
+        <p className="text-sm text-muted">Are you sure you want to delete this location? This action cannot be undone.</p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="secondary" onClick={() => setDeleteModalId(null)}>Cancel</Button>
+          <Button className="bg-danger hover:bg-danger/90 text-white" onClick={handleDeleteLocation}>Delete</Button>
+        </div>
+      </Modal>
     </section>
   );
 }

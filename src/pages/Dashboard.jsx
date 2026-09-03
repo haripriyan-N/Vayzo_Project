@@ -397,7 +397,7 @@ function Dashboard() {
             minWidth="700px"
           >
             {recentTransactions.map((txn, idx) => (
-              <tr key={idx} className="border-b border-border last:border-0 hover:bg-surface-hover">
+              <tr key={idx} >
                 <td className="px-3 py-3 text-center font-medium text-foreground">{txn.id}</td>
                 <td className="px-3 py-3 text-center text-foreground">{txn.type}</td>
                 <td className="px-3 py-3 text-center text-muted">{txn.related}</td>

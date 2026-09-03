@@ -42,7 +42,7 @@ function Sidebar({ isOpen, onClose }) {
           "flex h-screen shrink-0 flex-col",
           "transition-transform duration-500 ease-in-out lg:transition-[width,transform] lg:duration-300",
           "lg:sticky lg:top-0 lg:translate-x-0",
-          isCollapsed ? "w-16" : "w-50",
+          isCollapsed ? "w-16" : "w-44",
           isOpen ? "translate-x-0" : "-translate-x-full",
         ].join(" ")}
       >

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { AlertCircle, CheckCircle, Clock, Search, X, MessageSquare, AlertTriangle, FileText, User } from "lucide-react";
+import { AlertCircle, CheckCircle, Clock, Search, X, MessageSquare, AlertTriangle, FileText, User, RotateCcw, Trash2, Eye } from "lucide-react";
+import Avatar from "../components/ui/Avatar";
 
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
@@ -8,8 +9,10 @@ import StatusSelect from "../components/ui/StatusSelect";
 import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import StatCard from "../components/ui/StatCard";
+import Modal from "../components/ui/Modal";
+import ActionMenu from "../components/ui/ActionMenu";
 
-import { getComplaints, updateComplaint } from "../api/complaintsApi";
+import { getComplaints, updateComplaint, deleteComplaint } from "../api/complaintsApi";
 
 const statusBadgeMap = {
   Open: "danger",
@@ -29,6 +32,7 @@ const priorityOptions = ["All Priority", "High", "Medium", "Low"];
 const typeOptions = ["All Types", "Customer", "Delivery Partner", "Merchant"];
 
 const tableHeaders = [
+  "No.",
   "Complaint ID",
   "Date",
   "Reported By",
@@ -50,8 +54,12 @@ function Complaints() {
   const [priority, setPriority] = useState("All Priority");
   const [userType, setUserType] = useState("All Types");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+
   // Selection
   const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [deleteModalId, setDeleteModalId] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -102,7 +110,18 @@ function Complaints() {
 
       return matchesSearch && matchesStatus && matchesPriority && matchesType;
     });
-  }, [search, status, priority, userType, complaints]);
+  }, [complaints, search, status, priority, userType]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredComplaints.length / itemsPerPage);
+  const paginatedComplaints = filteredComplaints.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, status, priority, userType]);
 
   const hasFilters =
     search ||
@@ -115,6 +134,26 @@ function Complaints() {
     setStatus("All Status");
     setPriority("All Priority");
     setUserType("All Types");
+  };
+
+  const handleDeleteComplaint = async () => {
+    if (!deleteModalId) return;
+    try {
+      await deleteComplaint(deleteModalId);
+      setComplaints((prev) => prev.filter((c) => c.id !== deleteModalId));
+      if (selectedComplaint?.id === deleteModalId) {
+        setSelectedComplaint(null);
+      }
+      setDeleteModalId(null);
+      const newFilteredLength = filteredComplaints.length - 1;
+      const newTotalPages = Math.ceil(newFilteredLength / itemsPerPage) || 1;
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete complaint.");
+    }
   };
 
   const stats = [
@@ -142,107 +181,129 @@ function Complaints() {
       </div>
 
       <div className={`grid gap-6 ${selectedComplaint ? 'lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_350px]' : 'grid-cols-1'} items-start`}>
-        <Card noPadding className="flex flex-col overflow-x-auto min-w-0">
-        <div className="p-4 sm:p-6 pb-4">
-          <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
-            <div className="flex-1 w-full min-w-0 xl:max-w-sm">
-              <SearchInput
-                id="complaint-search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by ID or name..."
-              />
+        <div className="flex flex-col gap-6 min-w-0">
+          <Card className="p-4 sm:p-6">
+            <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
+              <div className="flex-1 w-full min-w-0 xl:max-w-sm">
+                <SearchInput
+                  id="complaint-search"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search by ID or name..."
+                />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
+                <StatusSelect
+                  id="c-status"
+                  value={status}
+                  options={statusOptions}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="w-full xl:w-[150px]"
+                />
+                <StatusSelect
+                  id="c-priority"
+                  value={priority}
+                  options={priorityOptions}
+                  onChange={(e) => setPriority(e.target.value)}
+                  className="w-full xl:w-[150px]"
+                />
+                <StatusSelect
+                  id="c-type"
+                  value={userType}
+                  options={typeOptions}
+                  onChange={(e) => setUserType(e.target.value)}
+                  className="w-full xl:w-[160px]"
+                />
+                {hasFilters && (
+                  <Button variant="secondary" onClick={resetFilters} className="px-3 xl:ml-2">
+                    <RotateCcw size={16} strokeWidth={2} className="mr-1" />
+                    Reset
+                  </Button>
+                )}
+              </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-3 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
-              <StatusSelect
-                id="c-status"
-                value={status}
-                options={statusOptions}
-                onChange={(e) => setStatus(e.target.value)}
-                className="w-full xl:w-[150px]"
-              />
-              <StatusSelect
-                id="c-priority"
-                value={priority}
-                options={priorityOptions}
-                onChange={(e) => setPriority(e.target.value)}
-                className="w-full xl:w-[150px]"
-              />
-              <StatusSelect
-                id="c-type"
-                value={userType}
-                options={typeOptions}
-                onChange={(e) => setUserType(e.target.value)}
-                className="w-full xl:w-[160px]"
-              />
-              {hasFilters && (
-                <Button variant="secondary" onClick={resetFilters} className="px-3 xl:ml-2">
-                  <X size={16} className="mr-1" />
-                  Reset
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
+          </Card>
 
-        {error ? (
-          <div className="m-6 rounded-xl border border-danger/30 bg-danger/5 p-8 text-center text-sm font-medium text-danger">
-            {error}
-          </div>
-        ) : (
-          <Table
-            headers={tableHeaders}
-            currentCount={filteredComplaints.length}
-            totalCount={complaints.length}
-            minWidth="900px"
-            className="border-0 shadow-none rounded-none border-t border-border"
-          >
-            {loading ? (
-              <tr>
-                <td colSpan={tableHeaders.length} className="p-10 text-center text-sm text-muted">
-                  Loading complaints...
-                </td>
-              </tr>
-            ) : filteredComplaints.length ? (
-              filteredComplaints.map((c) => (
-                <tr key={c.id} className="border-t border-border transition-colors hover:bg-background">
-                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">{c.complaintId}</td>
-                  <td className="whitespace-nowrap px-3 py-3 text-muted">{c.date}</td>
-                  <td className="px-3 py-3">
-                    <div className="flex min-w-0 items-center gap-2">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-[10px] font-semibold border border-primary/20 overflow-hidden">
-                        <img src={c.avatar || `https://ui-avatars.com/api/?name=${c.userName}&background=random&color=fff&size=100`} alt={c.userName} className="h-full w-full object-cover" />
-                      </div>
-                      <span className="truncate font-medium text-foreground">
-                        {c.userName}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-3 py-3 text-muted">{c.userType}</td>
-                  <td className="px-3 py-3 text-muted">{c.issueType}</td>
-                  <td className="px-3 py-3">
-                    <Badge variant={priorityBadgeMap[c.priority] || "default"} className="px-2">{c.priority}</Badge>
-                  </td>
-                  <td className="px-3 py-3">
-                    <Badge variant={statusBadgeMap[c.status] || "default"} className="px-2">{c.status}</Badge>
-                  </td>
-                  <td className="px-3 py-3">
-                    <Button variant="secondary" size="sm" onClick={() => setSelectedComplaint(c)}>
-                      View Details
-                    </Button>
-                  </td>
-                </tr>
-              ))
+          <Card noPadding className="flex flex-col overflow-x-auto min-w-0">
+            {error ? (
+              <div className="m-6 rounded-xl border border-danger/30 bg-danger/5 p-8 text-center text-sm font-medium text-danger">
+                {error}
+              </div>
             ) : (
-              <tr>
-                <td colSpan={tableHeaders.length} className="p-10 text-center text-sm text-muted">
-                  No complaints found.
-                </td>
-              </tr>
+              <Table
+                headers={tableHeaders}
+                currentCount={paginatedComplaints.length}
+                totalCount={filteredComplaints.length}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                minWidth="900px"
+                className="border-0 shadow-none rounded-none"
+              >
+                {loading ? (
+                  <tr>
+                    <td colSpan={tableHeaders.length} className="p-10 text-center text-sm text-muted">
+                      Loading complaints...
+                    </td>
+                  </tr>
+                ) : paginatedComplaints.length ? (
+                  paginatedComplaints.map((c, index) => (
+                    <tr key={c.id} >
+                      <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                        {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">{c.complaintId}</td>
+                      <td className="whitespace-nowrap px-3 py-3 text-muted">{c.date}</td>
+                      <td className="px-3 py-3">
+                        <div className="flex min-w-0 items-center gap-2">
+                          <div className="h-8 w-8 rounded-full overflow-hidden shrink-0 border border-border">
+                            <Avatar src={c.avatar} alt={c.userName} identifier={c.userId} className="h-full w-full object-cover" />
+                          </div>
+                          <span className="truncate font-medium text-foreground">
+                            {c.userName}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-3 py-3 text-muted">{c.userType}</td>
+                      <td className="px-3 py-3 text-muted">{c.issueType}</td>
+                      <td className="px-3 py-3">
+                        <Badge variant={priorityBadgeMap[c.priority] || "default"} className="px-2">{c.priority}</Badge>
+                      </td>
+                      <td className="px-3 py-3">
+                        <Badge variant={statusBadgeMap[c.status] || "default"} className="px-2">{c.status}</Badge>
+                      </td>
+                      <td className="px-3 py-3">
+                        <div className="flex justify-end pr-2">
+                          <ActionMenu
+                            actions={[
+                              {
+                                label: "View Details",
+                                icon: Eye,
+                                onClick: () => setSelectedComplaint(c),
+                              },
+                              {
+                                label: "Delete",
+                                icon: Trash2,
+                                danger: true,
+                                onClick: () => setDeleteModalId(c.id),
+                              },
+                            ]}
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={tableHeaders.length} className="p-10 text-center text-sm text-muted">
+                      No complaints found.
+                    </td>
+                  </tr>
+                )}
+              </Table>
             )}
-          </Table>
-        )}
-        </Card>
+          </Card>
+        </div>
 
         {/* Detail Panel */}
         {selectedComplaint && (
@@ -281,8 +342,8 @@ function Complaints() {
                   <User size={15} className="text-primary"/> Reported By
                 </h3>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20 overflow-hidden">
-                    <img src={selectedComplaint.avatar || `https://ui-avatars.com/api/?name=${selectedComplaint.userName}&background=random&color=fff&size=100`} alt={selectedComplaint.userName} className="h-full w-full object-cover" />
+                  <div className="h-10 w-10 rounded-full overflow-hidden shrink-0 border border-border">
+                    <Avatar src={selectedComplaint.avatar} alt={selectedComplaint.userName} identifier={selectedComplaint.userId} className="h-full w-full object-cover" />
                   </div>
                   <div>
                     <p className="font-semibold text-foreground text-sm">{selectedComplaint.userName}</p>
@@ -338,6 +399,18 @@ function Complaints() {
           </div>
         )}
       </div>
+
+      <Modal 
+        isOpen={!!deleteModalId} 
+        onClose={() => setDeleteModalId(null)} 
+        title="Delete Complaint"
+      >
+        <p className="text-sm text-muted">Are you sure you want to delete this complaint? This action cannot be undone.</p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="secondary" onClick={() => setDeleteModalId(null)}>Cancel</Button>
+          <Button className="bg-danger hover:bg-danger/90 text-white" onClick={handleDeleteComplaint}>Delete</Button>
+        </div>
+      </Modal>
     </section>
   );
 }

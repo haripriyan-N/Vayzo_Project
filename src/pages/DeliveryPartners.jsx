@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, MoreVertical, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
+import { Plus, RotateCcw, Eye, Pencil as Edit, Trash2, MoreVertical } from "lucide-react";
+import Avatar from "../components/ui/Avatar";
 
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
@@ -11,8 +12,9 @@ import Input from "../components/ui/Input";
 import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
+import ActionMenu from "../components/ui/ActionMenu";
 
-import { getDeliveryPartners } from "../api/deliveryPartnersApi";
+import { getDeliveryPartners, deleteDeliveryPartner } from "../api/deliveryPartnersApi";
 
 const statusBadgeMap = {
   Active: "success",
@@ -27,6 +29,7 @@ const vehicleOptions = ["All Vehicle Type", "Bike", "Scooter", "Car", "Auto"];
 const onlineStatusOptions = ["All Online Status", "Online", "Offline"];
 
 const deliveryPartnerTableHeaders = [
+  "No.",
   "ID",
   "Partner",
   "Mobile",
@@ -57,6 +60,9 @@ function DeliveryPartners() {
   const [joinedTo, setJoinedTo] = useState("");
   const [minEarnings, setMinEarnings] = useState("");
   const [maxEarnings, setMaxEarnings] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   useEffect(() => {
     let isMounted = true;
@@ -125,6 +131,27 @@ function DeliveryPartners() {
     });
   }, [search, status, vehicleType, onlineStatus, partners, joinedFrom, joinedTo, minEarnings, maxEarnings]);
 
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredPartners.length / itemsPerPage);
+  const paginatedPartners = filteredPartners.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, status, vehicleType, onlineStatus, joinedFrom, joinedTo, minEarnings, maxEarnings]);
+
+  const hasFilters =
+    search !== "" ||
+    status !== "All Status" ||
+    vehicleType !== "All Vehicle Type" ||
+    onlineStatus !== "All Online Status" ||
+    joinedFrom !== "" ||
+    joinedTo !== "" ||
+    minEarnings !== "" ||
+    maxEarnings !== "";
+
   const handleReset = () => {
     setSearch("");
     setStatus("All Status");
@@ -142,16 +169,27 @@ function DeliveryPartners() {
   };
 
   const handleDeletePartner = async () => {
-    // Call API here in future, for now just update state
-    setPartners(partners.filter(p => p.partnerId !== deleteModalId));
-    setDeleteModalId(null);
+    if (!deleteModalId) return;
+    try {
+      await deleteDeliveryPartner(deleteModalId);
+      setPartners((prev) => prev.filter((p) => p.partnerId !== deleteModalId));
+      setDeleteModalId(null);
+      const newFilteredLength = filteredPartners.length - 1;
+      const newTotalPages = Math.ceil(newFilteredLength / itemsPerPage) || 1;
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete partner.");
+    }
   };
 
   return (
-    <section className="min-h-full bg-background p-4 sm:p-6">
+    <section className="min-h-full bg-background p-4 sm:p-6 flex flex-col gap-6">
       <Card noPadding className="flex flex-col">
         {/* Filter Section */}
-        <div className="p-4 sm:p-6 pb-4">
+        <div className="p-4 sm:p-6">
           <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
             {/* Search Input */}
             <div className="flex-1 w-full min-w-0 xl:max-w-sm">
@@ -217,34 +255,48 @@ function DeliveryPartners() {
                 </label>
                 <div className="flex items-center gap-2">
                   <Input
+                    type="number"
+                    min="0"
                     placeholder="Min"
                     value={minEarnings}
-                    onChange={(e) => setMinEarnings(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val === "" || Number(val) >= 0) setMinEarnings(val);
+                    }}
                     className="h-10"
                   />
                   <span className="text-muted">-</span>
                   <Input
+                    type="number"
+                    min="0"
                     placeholder="Max"
                     value={maxEarnings}
-                    onChange={(e) => setMaxEarnings(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      if (val === "" || Number(val) >= 0) setMaxEarnings(val);
+                    }}
                     className="h-10"
                   />
                 </div>
               </div>
             </div>
 
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={handleReset}
-              className="h-10 w-full sm:w-auto shrink-0"
-            >
-              <RotateCcw size={16} strokeWidth={2} className="mr-1" />
-              Reset
-            </Button>
+            {hasFilters && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleReset}
+                className="h-10 w-full sm:w-auto shrink-0"
+              >
+                <RotateCcw size={16} strokeWidth={2} className="mr-1" />
+                Reset
+              </Button>
+            )}
           </div>
         </div>
+      </Card>
 
+      <Card noPadding className="flex flex-col">
         {error ? (
           <div className="m-6 rounded-xl border border-danger/30 bg-danger/5 p-8 text-center text-sm font-medium text-danger">
             {error}
@@ -252,8 +304,11 @@ function DeliveryPartners() {
         ) : (
           <Table
             headers={deliveryPartnerTableHeaders}
-            currentCount={filteredPartners.length}
-            totalCount={partners.length}
+            currentCount={paginatedPartners.length}
+            totalCount={filteredPartners.length}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
             minWidth="1000px"
             className="border-0 shadow-none rounded-none border-t border-border"
           >
@@ -266,22 +321,27 @@ function DeliveryPartners() {
                   Loading delivery partners...
                 </td>
               </tr>
-            ) : filteredPartners.length ? (
-              filteredPartners.map((partner) => (
+            ) : paginatedPartners.length ? (
+              paginatedPartners.map((partner, index) => (
                 <tr
                   key={partner.partnerId}
-                  className="border-t border-border transition-colors hover:bg-background"
+                  className="border-b border-border last:border-0 transition-colors hover:bg-background"
                 >
+                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                    {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                  </td>
+
                   <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
                     {partner.partnerId}
                   </td>
 
                   <td className="px-3 py-3">
                     <div className="flex min-w-0 items-center gap-2">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary overflow-hidden">
-                        <img
-                          src={`https://ui-avatars.com/api/?name=${partner.name}&background=random&color=fff`}
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-primary overflow-hidden">
+                        <Avatar
+                          src={partner.image}
                           alt={partner.name}
+                          identifier={partner.partnerId}
                           className="h-full w-full object-cover"
                         />
                       </div>
@@ -373,50 +433,28 @@ function DeliveryPartners() {
 
                   <td className="px-3 py-3">
                     <div className="flex items-center justify-end gap-2">
-                      <button
-                        type="button"
-                        aria-label={`View ${partner.name}`}
-                        onClick={() =>
-                          navigate(`/delivery/${partner.partnerId}`)
-                        }
-                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                      >
-                        <Eye size={17} strokeWidth={1.8} />
-                      </button>
 
-                      <button
-                        type="button"
-                        aria-label={`Edit ${partner.name}`}
-                        onClick={() => navigate(`/delivery/edit/${partner.partnerId}`)}
-                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                      >
-                        <Pencil size={17} strokeWidth={1.8} />
-                      </button>
 
-                      <div className="relative">
-                        <button
-                          type="button"
-                          aria-label={`More actions for ${partner.name}`}
-                          onClick={() => setOpenMenuId(openMenuId === partner.partnerId ? null : partner.partnerId)}
-                          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                        >
-                          <MoreVertical size={17} strokeWidth={1.8} />
-                        </button>
-                        
-                        {openMenuId === partner.partnerId && (
-                          <div className="absolute right-0 top-full mt-1 z-10 w-32 rounded-md border border-border bg-surface shadow-md py-1">
-                            <button
-                              onClick={() => {
-                                setDeleteModalId(partner.partnerId);
-                                setOpenMenuId(null);
-                              }}
-                              className="w-full text-left px-3 py-1.5 text-sm text-danger hover:bg-danger/10 flex items-center gap-2"
-                            >
-                              <Trash2 size={14} /> Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                      <ActionMenu
+                        actions={[
+                          {
+                            label: "View",
+                            icon: Eye,
+                            onClick: () => navigate(`/delivery/${partner.partnerId}`),
+                          },
+                          {
+                            label: "Edit",
+                            icon: Edit,
+                            onClick: () => navigate(`/delivery/edit/${partner.partnerId}`),
+                          },
+                          {
+                            label: "Delete",
+                            icon: Trash2,
+                            danger: true,
+                            onClick: () => setDeleteModalId(partner.partnerId),
+                          },
+                        ]}
+                      />
                     </div>
                   </td>
                 </tr>

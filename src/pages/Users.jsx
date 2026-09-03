@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, MoreVertical, Pencil, Plus, RotateCcw, Trash2 } from "lucide-react";
+import { Plus, RotateCcw, Eye, Pencil as Edit, Trash2, Check, X, MoreVertical } from "lucide-react";
+import Avatar from "../components/ui/Avatar";
 
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
@@ -11,7 +12,9 @@ import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
 
-import { getUsers } from "../api/usersApi";
+import ActionMenu from "../components/ui/ActionMenu";
+
+import { getUsers, deleteUser } from "../api/usersApi";
 
 const statusBadgeMap = {
   Active: "success",
@@ -40,6 +43,7 @@ const userTypeOptions = [
 const verificationOptions = ["All Verified", "Verified", "Not Verified"];
 
 const userTableHeaders = [
+  "No.",
   "ID",
   "User",
   "Mobile",
@@ -66,6 +70,9 @@ function Users() {
   const [verificationFilter, setVerificationFilter] = useState("All Verified");
   const [joinedFrom, setJoinedFrom] = useState("");
   const [joinedTo, setJoinedTo] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   useEffect(() => {
     let isMounted = true;
@@ -135,14 +142,33 @@ function Users() {
       );
     });
   }, [
-    users,
     searchText,
+    users,
     statusFilter,
     userTypeFilter,
     verificationFilter,
     joinedFrom,
     joinedTo,
   ]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const paginatedUsers = filteredUsers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchText, statusFilter, userTypeFilter, verificationFilter, joinedFrom, joinedTo]);
+
+  const hasFilters =
+    searchText !== "" ||
+    statusFilter !== "All Status" ||
+    userTypeFilter !== "All User Type" ||
+    verificationFilter !== "All Verified" ||
+    joinedFrom !== "" ||
+    joinedTo !== "";
 
   const resetFilters = () => {
     setSearchText("");
@@ -153,22 +179,37 @@ function Users() {
     setJoinedTo("");
   };
 
+  const handleDeleteUser = async () => {
+    if (!deleteModalId) return;
+    try {
+      await deleteUser(deleteModalId);
+      setUsers((prev) => prev.filter((u) => u.userId !== deleteModalId));
+      setDeleteModalId(null);
+      // Pagination handled automatically by recalculated totalPages,
+      // but let's ensure we don't end up on an empty page if possible
+      const newFilteredLength = filteredUsers.length - 1;
+      const newTotalPages = Math.ceil(newFilteredLength / itemsPerPage) || 1;
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete user.");
+    }
+  };
+
   const toTitleCase = (str) => {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   };
 
-  const handleDeleteUser = async () => {
-    // Call API here in future, for now just update state
-    setUsers(users.filter(u => u.userId !== deleteModalId));
-    setDeleteModalId(null);
-  };
+
 
   return (
-    <section className="min-h-full bg-background p-4 sm:p-6">
+    <section className="min-h-full bg-background p-4 sm:p-6 flex flex-col gap-6">
       <Card noPadding className="flex flex-col">
         {/* Filter Section */}
-        <div className="p-4 sm:p-6 pb-4">
+        <div className="p-4 sm:p-6">
           <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
             {/* Search Input */}
             <div className="flex-1 w-full min-w-0 xl:max-w-sm">
@@ -227,18 +268,23 @@ function Users() {
               onToChange={(event) => setJoinedTo(event.target.value)}
             />
 
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={resetFilters}
-              className="h-10 w-full sm:w-auto"
-            >
-              <RotateCcw size={16} strokeWidth={2} className="mr-1" />
-              Reset
-            </Button>
+            {hasFilters && (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={resetFilters}
+                className="h-10 w-full sm:w-auto"
+              >
+                <RotateCcw size={16} strokeWidth={2} className="mr-1" />
+                Reset
+              </Button>
+            )}
           </div>
         </div>
+      </Card>
 
+      <Card noPadding className="flex flex-col">
+        {/* Table Section */}
         {error ? (
           <div className="m-6 rounded-xl border border-danger/30 bg-danger/5 p-8 text-center text-sm font-medium text-danger">
             {error}
@@ -246,8 +292,11 @@ function Users() {
         ) : (
           <Table
             headers={userTableHeaders}
-            currentCount={filteredUsers.length}
-            totalCount={users.length}
+            currentCount={paginatedUsers.length}
+            totalCount={filteredUsers.length}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
             minWidth="1000px"
             className="border-0 shadow-none rounded-none border-t border-border"
           >
@@ -260,25 +309,28 @@ function Users() {
                   Loading users...
                 </td>
               </tr>
-            ) : filteredUsers.length ? (
-              filteredUsers.map((user) => (
+            ) : paginatedUsers.length > 0 ? (
+              paginatedUsers.map((user, index) => (
                 <tr
                   key={user.userId}
-                  className="border-t border-border transition-colors hover:bg-background"
+                  className="border-b border-border last:border-0 transition-colors hover:bg-background"
                 >
+                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                    {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                  </td>
+
                   <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
                     {user.userId}
                   </td>
 
                   <td className="px-3 py-3">
                     <div className="flex min-w-0 items-center gap-2">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-[10px] font-semibold text-white">
-                        {user.name
-                          ?.split(" ")
-                          .map((part) => part[0])
-                          .join("")
-                          .toUpperCase()}
-                      </div>
+                      <Avatar 
+                        src={user.image} 
+                        alt={user.name} 
+                        identifier={user.userId} 
+                        className="h-8 w-8 rounded-full shadow-sm"
+                      />
 
                       <span className="truncate font-medium text-foreground">
                         {user.name}
@@ -321,13 +373,12 @@ function Users() {
                     <span
                       className={[
                         "flex h-6 w-6 items-center justify-center rounded-full",
-                        "text-xs font-semibold",
                         user.isVerified
                           ? "bg-success/15 text-success"
                           : "bg-danger/15 text-danger",
                       ].join(" ")}
                     >
-                      {user.isVerified ? "✓" : "×"}
+                      {user.isVerified ? <Check size={14} strokeWidth={3} /> : <X size={14} strokeWidth={3} />}
                     </span>
                   </td>
 
@@ -337,48 +388,26 @@ function Users() {
 
                   <td className="px-3 py-3">
                     <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        aria-label={`View ${user.name}`}
-                        onClick={() => navigate(`/users/${user.userId}`)}
-                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                      >
-                        <Eye size={17} strokeWidth={1.8} />
-                      </button>
-
-                      <button
-                        type="button"
-                        aria-label={`Edit ${user.name}`}
-                        onClick={() => navigate(`/users/edit/${user.userId}`)}
-                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                      >
-                        <Pencil size={17} strokeWidth={1.8} />
-                      </button>
-
-                      <div className="relative">
-                        <button
-                          type="button"
-                          aria-label={`More actions for ${user.name}`}
-                          onClick={() => setOpenMenuId(openMenuId === user.userId ? null : user.userId)}
-                          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                        >
-                          <MoreVertical size={17} strokeWidth={1.8} />
-                        </button>
-                        
-                        {openMenuId === user.userId && (
-                          <div className="absolute right-0 top-full mt-1 z-10 w-32 rounded-md border border-border bg-surface shadow-md py-1">
-                            <button
-                              onClick={() => {
-                                setDeleteModalId(user.userId);
-                                setOpenMenuId(null);
-                              }}
-                              className="w-full text-left px-3 py-1.5 text-sm text-danger hover:bg-danger/10 flex items-center gap-2"
-                            >
-                              <Trash2 size={14} /> Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                      <ActionMenu
+                        actions={[
+                          {
+                            label: "View",
+                            icon: Eye,
+                            onClick: () => navigate(`/users/${user.userId}`),
+                          },
+                          {
+                            label: "Edit",
+                            icon: Edit,
+                            onClick: () => navigate(`/users/edit/${user.userId}`),
+                          },
+                          {
+                            label: "Delete",
+                            icon: Trash2,
+                            danger: true,
+                            onClick: () => setDeleteModalId(user.userId),
+                          },
+                        ]}
+                      />
                     </div>
                   </td>
                 </tr>
@@ -397,6 +426,7 @@ function Users() {
         )}
       </Card>
       
+      {/* Delete Confirmation Modal */}
       <Modal 
         isOpen={!!deleteModalId} 
         onClose={() => setDeleteModalId(null)} 

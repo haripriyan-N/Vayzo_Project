@@ -6,6 +6,7 @@ import {
   User,
   MapPin,
   Bike,
+  CheckCircle
 } from "lucide-react";
 
 import Button from "../components/ui/Button";
@@ -13,7 +14,7 @@ import Badge from "../components/ui/Badge";
 import Card from "../components/ui/Card";
 import Select from "../components/ui/Select";
 
-const API_URL = "http://localhost:3001/orders";
+const API_URL = "http://localhost:3000/orders";
 
 const STATUS_MAP = {
   DELIVERED: "success",
@@ -176,7 +177,7 @@ export default function OrderDetails() {
                 </thead>
                 <tbody className="divide-y divide-border">
                   {/* Mock items based on reference */}
-                  <tr className="hover:bg-background/50">
+                  <tr >
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-10 rounded-md bg-border/50 shrink-0 overflow-hidden">
@@ -192,7 +193,7 @@ export default function OrderDetails() {
                     <td className="px-5 py-4 text-center font-semibold text-foreground">1</td>
                     <td className="px-5 py-4 text-right font-semibold text-foreground">₹199.00</td>
                   </tr>
-                  <tr className="hover:bg-background/50">
+                  <tr >
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-10 rounded-md bg-border/50 shrink-0 overflow-hidden">
@@ -208,7 +209,7 @@ export default function OrderDetails() {
                     <td className="px-5 py-4 text-center font-semibold text-foreground">1</td>
                     <td className="px-5 py-4 text-right font-semibold text-foreground">₹129.00</td>
                   </tr>
-                  <tr className="hover:bg-background/50">
+                  <tr >
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
                         <div className="h-10 w-10 rounded-md bg-border/50 shrink-0 overflow-hidden">

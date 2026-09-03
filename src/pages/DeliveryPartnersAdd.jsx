@@ -235,9 +235,9 @@ function DeliveryPartnersAdd() {
                   onChange={update("gender")}
                   required
                 />
-                {field("alternateMobile", "Alternate Mobile", "alternateMobile", "text", "")}
-                {field("aadhaarNumber", "Aadhaar Number", "aadhaarNumber", "text", "")}
-                {field("panNumber", "PAN Number", "panNumber", "text", "")}
+                {field("alternateMobile", "Alternate Mobile", "alternateMobile", "text", "Enter alternate mobile number")}
+                {field("aadhaarNumber", "Aadhaar Number", "aadhaarNumber", "text", "Enter Aadhaar number")}
+                {field("panNumber", "PAN Number", "panNumber", "text", "Enter PAN number")}
                 <div className="md:col-span-2">
                   {field("address", "Full Address", "address", "text", "Enter full address")}
                 </div>
@@ -250,7 +250,7 @@ function DeliveryPartnersAdd() {
             </h2>
             <div className="mt-8 grid gap-8 md:grid-cols-2">
               {field("emergencyContact", "Contact Name (Relation)", "emergencyContact", "text", "e.g. Selvam R (Brother)")}
-              {field("emergencyMobile", "Emergency Mobile", "emergencyMobile", "text", "")}
+              {field("emergencyMobile", "Emergency Mobile", "emergencyMobile", "text", "Enter emergency mobile number")}
             </div>
           </div>
 
@@ -269,10 +269,10 @@ function DeliveryPartnersAdd() {
               />
               {field("vehicle-name", "Vehicle Name", "vehicleName", "text", "e.g. Honda Activa")}
               {field("vehicle-number", "Vehicle Number", "vehicleNumber", "text", "e.g. TN 01 AB 1234")}
-              {field("rcNumber", "RC Number", "rcNumber", "text", "")}
-              {field("insuranceProvider", "Insurance Provider", "insuranceProvider", "text", "")}
-              {field("insuranceNumber", "Insurance Number", "insuranceNumber", "text", "")}
-              {field("insuranceValidTill", "Insurance Valid Till", "insuranceValidTill", "text", "")}
+              {field("rcNumber", "RC Number", "rcNumber", "text", "Enter RC number")}
+              {field("insuranceProvider", "Insurance Provider", "insuranceProvider", "text", "Enter insurance provider")}
+              {field("insuranceNumber", "Insurance Number", "insuranceNumber", "text", "Enter insurance number")}
+              {field("insuranceValidTill", "Insurance Valid Till", "insuranceValidTill", "text", "e.g. 10 Dec 2025")}
             </div>
           </div>
           
@@ -281,10 +281,10 @@ function DeliveryPartnersAdd() {
               Bank Details
             </h2>
             <div className="mt-8 grid gap-8 md:grid-cols-2">
-              {field("bankName", "Bank Name", "bankName", "text", "")}
-              {field("accountNumber", "Account Number", "accountNumber", "text", "")}
-              {field("ifscCode", "IFSC Code", "ifscCode", "text", "")}
-              {field("accountHolderName", "Account Holder Name", "accountHolderName", "text", "")}
+              {field("bankName", "Bank Name", "bankName", "text", "Enter bank name")}
+              {field("accountNumber", "Account Number", "accountNumber", "text", "Enter account number")}
+              {field("ifscCode", "IFSC Code", "ifscCode", "text", "Enter IFSC code")}
+              {field("accountHolderName", "Account Holder Name", "accountHolderName", "text", "Enter account holder name")}
             </div>
           </div>
           

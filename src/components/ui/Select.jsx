@@ -107,7 +107,7 @@ function Select({
         </button>
 
         {isOpen && (
-          <div className="absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-auto rounded-lg border border-border bg-surface shadow-lg">
+          <div className="absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-auto scrollbar-none rounded-lg border border-border bg-surface shadow-lg">
             {optionsList.map((option) => {
               const isSelected = option.value === value;
 

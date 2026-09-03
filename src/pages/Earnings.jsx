@@ -5,8 +5,10 @@ import {
   BarChart3,
   Undo2,
   Download,
-  Info
+  Info,
+  RotateCcw
 } from "lucide-react";
+import Avatar from "../components/ui/Avatar";
 import {
   LineChart,
   Line,
@@ -25,6 +27,7 @@ import DateRangeInput from "../components/ui/DateRangeInput";
 import Select from "../components/ui/Select";
 import StatCard from "../components/ui/StatCard";
 import Card from "../components/ui/Card";
+import Table from "../components/ui/Table";
 
 import { getEarnings } from "../api/earningsApi";
 
@@ -56,6 +59,9 @@ export default function Earnings() {
   const [compareWith, setCompareWith] = useState("Previous Period");
   const [earningsType, setEarningsType] = useState("All Earnings");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+
   useEffect(() => {
     const loadEarnings = async () => {
       try {
@@ -71,6 +77,19 @@ export default function Earnings() {
     loadEarnings();
   }, []);
 
+  const hasFilters = 
+    fromDate !== "" || 
+    toDate !== "" || 
+    compareWith !== "Previous Period" || 
+    earningsType !== "All Earnings";
+
+  const resetFilters = () => {
+    setFromDate("");
+    setToDate("");
+    setCompareWith("Previous Period");
+    setEarningsType("All Earnings");
+  };
+
   if (loading) return <div className="p-6 text-muted">Loading earnings...</div>;
   if (error || !data) return <div className="p-6 text-danger">{error || "No data"}</div>;
 
@@ -81,6 +100,13 @@ export default function Earnings() {
     { name: "Platform Commission", value: stats.platform },
     { name: "Other Earnings", value: summary.other.current }
   ];
+
+  // Pagination Logic
+  const totalPages = Math.ceil(topPartners.length / itemsPerPage);
+  const paginatedPartners = topPartners.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <section className="min-h-full bg-background p-4 sm:p-6 pb-20">
@@ -127,42 +153,50 @@ export default function Earnings() {
       </div>
 
       {/* Filters Top Bar */}
-      <div className="flex flex-col lg:flex-row lg:items-end gap-4 justify-between mb-6">
-        <div className="flex flex-col sm:flex-row gap-4 flex-1">
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted">Date Range</label>
-            <DateRangeInput
-              fromValue={fromDate}
-              toValue={toDate}
-              onFromChange={(e) => setFromDate(e.target.value)}
-              onToChange={(e) => setToDate(e.target.value)}
-              className="bg-surface"
-            />
+      <Card noPadding className="mb-6 p-4 sm:p-5 flex flex-col gap-4">
+        <div className="flex flex-col lg:flex-row lg:items-end gap-4 justify-between">
+          <div className="flex flex-col sm:flex-row gap-4 flex-1">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-muted">Date Range</label>
+              <DateRangeInput
+                fromValue={fromDate}
+                toValue={toDate}
+                onFromChange={(e) => setFromDate(e.target.value)}
+                onToChange={(e) => setToDate(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-muted">Compare With</label>
+              <Select 
+                options={["Previous Period", "Previous Year"]} 
+                value={compareWith} 
+                onChange={(e) => setCompareWith(e.target.value)} 
+                className="w-full sm:w-[180px]"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-xs font-semibold text-muted">Type</label>
+              <Select 
+                options={["All Earnings", "Platform Commission", "Delivery Earnings"]} 
+                value={earningsType} 
+                onChange={(e) => setEarningsType(e.target.value)} 
+                className="w-full sm:w-[180px]"
+              />
+            </div>
           </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted">Compare With</label>
-            <Select 
-              options={["Previous Period", "Previous Year"]} 
-              value={compareWith} 
-              onChange={(e) => setCompareWith(e.target.value)} 
-              className="w-full sm:w-[180px] bg-surface"
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <label className="text-xs font-semibold text-muted">Type</label>
-            <Select 
-              options={["All Earnings", "Platform Commission", "Delivery Earnings"]} 
-              value={earningsType} 
-              onChange={(e) => setEarningsType(e.target.value)} 
-              className="w-full sm:w-[180px] bg-surface"
-            />
+
+          <div className="flex gap-2 w-full sm:w-auto">
+            {hasFilters && (
+              <Button variant="secondary" onClick={resetFilters} className="gap-2 shrink-0 shadow-sm border border-border h-10">
+                <RotateCcw size={16} /> Reset
+              </Button>
+            )}
+            <Button variant="secondary" className="gap-2 bg-surface text-foreground font-semibold px-4 h-10 shadow-sm border border-border shrink-0 w-full sm:w-auto">
+              <Download size={16} /> Export Report
+            </Button>
           </div>
         </div>
-
-        <Button variant="secondary" className="gap-2 bg-surface text-foreground font-semibold px-4 h-10 shadow-sm border border-border shrink-0">
-          <Download size={16} /> Export Report
-        </Button>
-      </div>
+      </Card>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
         
@@ -263,7 +297,7 @@ export default function Earnings() {
               <tbody className="divide-y divide-border font-semibold">
                 
                 {/* Partner Earnings */}
-                <tr className="hover:bg-background/50">
+                <tr >
                   <td className="px-5 py-4 text-foreground">Delivery Partner Earnings</td>
                   <td className="px-5 py-4 text-right text-foreground">{formatAmount(summary.partner.current)}</td>
                   <td className="px-5 py-4 text-right text-muted">{formatAmount(summary.partner.previous)}</td>
@@ -276,7 +310,7 @@ export default function Earnings() {
                 </tr>
 
                 {/* Platform Commission */}
-                <tr className="hover:bg-background/50">
+                <tr >
                   <td className="px-5 py-4 text-foreground">Platform Commission</td>
                   <td className="px-5 py-4 text-right text-foreground">{formatAmount(summary.platform.current)}</td>
                   <td className="px-5 py-4 text-right text-muted">{formatAmount(summary.platform.previous)}</td>
@@ -289,7 +323,7 @@ export default function Earnings() {
                 </tr>
 
                 {/* Other Earnings */}
-                <tr className="hover:bg-background/50">
+                <tr >
                   <td className="px-5 py-4 text-foreground">Other Earnings</td>
                   <td className="px-5 py-4 text-right text-foreground">{formatAmount(summary.other.current)}</td>
                   <td className="px-5 py-4 text-right text-muted">{formatAmount(summary.other.previous)}</td>
@@ -302,7 +336,7 @@ export default function Earnings() {
                 </tr>
 
                 {/* Refunds */}
-                <tr className="hover:bg-background/50">
+                <tr >
                   <td className="px-5 py-4 text-foreground">Refunds & Adjustments</td>
                   <td className="px-5 py-4 text-right text-danger">-{formatAmount(summary.refunds.current)}</td>
                   <td className="px-5 py-4 text-right text-muted">-{formatAmount(summary.refunds.previous)}</td>
@@ -339,35 +373,38 @@ export default function Earnings() {
             <h3 className="font-bold text-foreground">Top Earning Delivery Partners</h3>
             <button className="text-primary text-sm font-semibold hover:underline">View All</button>
           </div>
-          <div className="p-0 overflow-y-auto max-h-[350px] custom-scrollbar">
-            <table className="w-full text-left text-sm whitespace-nowrap">
-              <thead className="bg-surface text-muted font-medium border-b border-border sticky top-0 z-10">
-                <tr>
-                  <th className="px-5 py-3 font-medium">Partner</th>
-                  <th className="px-5 py-3 font-medium text-center">Orders</th>
-                  <th className="px-5 py-3 font-medium text-right">Earnings</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                {topPartners.map((dp, i) => (
-                  <tr key={i} className="hover:bg-background/50">
-                    <td className="px-5 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="h-9 w-9 rounded-full overflow-hidden border border-border">
-                          <img src={`https://i.pravatar.cc/100?img=${20+i}`} alt={dp.name} />
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="font-bold text-foreground text-sm">{dp.name}</span>
-                          <span className="text-[10px] text-muted">{dp.id}</span>
-                        </div>
+          <div className="p-0 custom-scrollbar">
+            <Table
+              headers={["No.", "Partner", "Orders", "Earnings"]}
+              currentCount={paginatedPartners.length}
+              totalCount={topPartners.length}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              minWidth="auto"
+              className="border-0 shadow-none rounded-none border-t-0"
+            >
+              {paginatedPartners.map((dp, index) => (
+                <tr key={index} >
+                  <td className="whitespace-nowrap px-5 py-4 font-medium text-foreground">
+                    {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                  </td>
+                  <td className="px-5 py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="h-9 w-9 rounded-full overflow-hidden border border-border shrink-0">
+                        <Avatar src={dp.image} alt={dp.name} identifier={dp.id} className="h-full w-full object-cover" />
                       </div>
-                    </td>
-                    <td className="px-5 py-4 text-center font-semibold text-muted">{dp.orders}</td>
-                    <td className="px-5 py-4 text-right font-bold text-foreground">{formatAmount(dp.earnings)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-bold text-foreground text-sm truncate">{dp.name}</span>
+                        <span className="text-[10px] text-muted truncate">{dp.id}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-5 py-4 text-center font-semibold text-muted">{dp.orders}</td>
+                  <td className="px-5 py-4 text-right font-bold text-foreground">{formatAmount(dp.earnings)}</td>
+                </tr>
+              ))}
+            </Table>
           </div>
         </Card>
 

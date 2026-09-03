@@ -90,8 +90,8 @@ function AddUsers() {
         type: data.userType || types[0],
         role: data.role || roles[0],
         status: data.status ? toTitleCase(data.status) : statusOptions[0],
-        password: "",
-        confirm: "",
+        password: data.password || "",
+        confirm: data.password || "",
       });
       setEmailVerified(data.isVerified || false);
     } catch (err) {
@@ -136,6 +136,7 @@ function AddUsers() {
           userType: form.type,
           role: form.role,
           status: form.status,
+          password: form.password || existing.password,
           isVerified: emailVerified,
         });
       } else {
@@ -145,6 +146,7 @@ function AddUsers() {
           mobileNumber: form.mobile,
           userType: form.type,
           role: form.role,
+          password: form.password,
           status: form.status,
         });
       }
@@ -160,10 +162,10 @@ function AddUsers() {
   return (
     <section className="min-h-full bg-background p-4 sm:p-6">
       <div className="mx-auto max-w-7xl space-y-4">
-        <div className="grid gap-6 xl:grid-cols-[minmax(0,2.2fr)_minmax(300px,0.8fr)] items-start">
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,2.2fr)_minmax(300px,0.8fr)] items-stretch">
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col rounded-xl border border-border bg-surface shadow-sm"
+            className="flex flex-col rounded-xl border border-border bg-surface shadow-sm h-full"
           >
             <div className="border-b border-border p-6 sm:p-8">
               <h2 className="text-lg font-semibold text-foreground">
@@ -301,7 +303,7 @@ function AddUsers() {
                 <div className="relative">
                   {field(
                     "confirm-password",
-                    "Confirm Password *",
+                    "Confirm Password",
                     "confirm",
                     showConfirm ? "text" : "password",
                     "Confirm password",
@@ -337,7 +339,7 @@ function AddUsers() {
             </div>
           </form>
 
-          <aside className="flex flex-col gap-6">
+          <aside className="flex flex-col gap-6 h-full">
             <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
               <h2 className="text-base font-semibold text-foreground border-b border-border pb-4 mb-4">
                 User Type & Role Guide
@@ -373,7 +375,7 @@ function AddUsers() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-border bg-surface p-6 shadow-sm">
+            <div className="rounded-xl border border-border bg-surface p-6 shadow-sm flex-1">
               <h2 className="text-base font-semibold text-foreground border-b border-border pb-4 mb-4">
                 Status Guide
               </h2>

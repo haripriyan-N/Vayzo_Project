@@ -1,10 +1,10 @@
 function Badge({ children, variant = "default", className = "" }) {
   const variants = {
-    default: "bg-primary-light text-primary",
-    success: "bg-success/15 text-success",
-    warning: "bg-warning/15 text-warning",
-    danger: "bg-danger/15 text-danger",
-    info: "bg-info/15 text-info",
+    default: "bg-primary/10 text-primary border border-primary/20",
+    success: "bg-success/20 text-success border border-success/30 shadow-sm",
+    warning: "bg-warning/20 text-warning border border-warning/30 shadow-sm",
+    danger: "bg-danger/20 text-danger border border-danger/30 shadow-sm",
+    info: "bg-info/20 text-info border border-info/30 shadow-sm",
   };
 
   return (

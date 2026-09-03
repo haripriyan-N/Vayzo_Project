@@ -8,6 +8,9 @@ import {
   Plus,
   Edit2,
   MoreVertical,
+  RotateCcw,
+  Trash2,
+  Eye,
 } from "lucide-react";
 
 import Badge from "../components/ui/Badge";
@@ -19,8 +22,10 @@ import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
+import Modal from "../components/ui/Modal";
+import ActionMenu from "../components/ui/ActionMenu";
 
-import { getOffers } from "../api/offersApi";
+import { getOffers, deleteOffer } from "../api/offersApi";
 
 const STATUS_MAP = {
   ACTIVE: "success",
@@ -60,6 +65,10 @@ export default function Offers() {
   
   // Side panel state
   const [isFormOpen, setIsFormOpen] = useState(true); // Default open as per reference image (to show the split layout)
+  const [deleteModalId, setDeleteModalId] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
 
   const loadOffers = async () => {
     try {
@@ -90,10 +99,52 @@ export default function Offers() {
       const matchesSearch = searchValue === "" || searchableText.includes(searchValue);
       const matchesStatus = status === "All Status" || offer.status.toUpperCase() === status.toUpperCase();
       const matchesType = type === "All Types" || offer.type.toUpperCase() === type.toUpperCase();
+      const matchesPlatform = platform === "All Platforms" || offer.platform.toUpperCase() === platform.toUpperCase();
 
-      return matchesSearch && matchesStatus && matchesType;
+      return matchesSearch && matchesStatus && matchesType && matchesPlatform;
     });
-  }, [offers, query, status, type]);
+  }, [offers, query, status, type, platform]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredOffers.length / itemsPerPage);
+  const paginatedOffers = filteredOffers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, status, type, platform]);
+
+  const hasFilters =
+    query !== "" ||
+    status !== "All Status" ||
+    type !== "All Types" ||
+    platform !== "All Platforms";
+
+  const resetFilters = () => {
+    setQuery("");
+    setStatus("All Status");
+    setType("All Types");
+    setPlatform("All Platforms");
+  };
+
+  const handleDeleteOffer = async () => {
+    if (!deleteModalId) return;
+    try {
+      await deleteOffer(deleteModalId);
+      setOffers((prev) => prev.filter((o) => o.offerId !== deleteModalId));
+      setDeleteModalId(null);
+      const newFilteredLength = filteredOffers.length - 1;
+      const newTotalPages = Math.ceil(newFilteredLength / itemsPerPage) || 1;
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete offer.");
+    }
+  };
 
   return (
     <section className="min-h-full bg-background p-4 sm:p-6 pb-20">
@@ -141,10 +192,10 @@ export default function Offers() {
 
       <div className="flex flex-col xl:flex-row gap-6 items-start">
         {/* LEFT COLUMN: List & Filters */}
-        <div className={`flex-1 w-full transition-all duration-300 ${isFormOpen ? 'xl:w-2/3' : 'xl:w-full'}`}>
+        <div className={`flex flex-col gap-6 w-full transition-all duration-300 ${isFormOpen ? 'xl:w-2/3' : 'xl:w-full'}`}>
           <Card noPadding className="flex flex-col">
             {/* Filters Top Bar */}
-            <div className="p-4 sm:p-5 border-b border-border">
+            <div className="p-4 sm:p-5">
               <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:justify-between">
                 {/* Search */}
                 <div className="flex-1 w-full min-w-0 lg:max-w-xs">
@@ -180,9 +231,11 @@ export default function Offers() {
                     className="w-full sm:w-[140px]"
                   />
                   <div className="flex gap-2 w-full sm:w-auto">
-                    <Button variant="secondary" className="px-3 gap-2 border border-border shadow-sm">
-                      <Filter size={16} /> Filter
-                    </Button>
+                    {hasFilters && (
+                      <Button variant="secondary" onClick={resetFilters} className="px-3 gap-2 border border-border shadow-sm">
+                        <RotateCcw size={16} /> Reset
+                      </Button>
+                    )}
                     {!isFormOpen && (
                       <Button onClick={() => setIsFormOpen(true)} className="gap-2 shrink-0 shadow-md">
                         <Plus size={16} /> Create Offer
@@ -192,28 +245,43 @@ export default function Offers() {
                 </div>
               </div>
             </div>
+          </Card>
 
+          <Card noPadding className="flex flex-col">
             {/* Table */}
             {error ? (
-              <div className="m-6 rounded-xl border border-danger/30 bg-danger/5 p-8 text-center text-sm font-medium text-danger">
+              <div className="p-8 text-center text-sm font-medium text-danger">
                 {error}
               </div>
             ) : (
               <Table
-                headers={["Offer Details", "Type", "Discount", "Usage", "Validity", "Status", "Actions"]}
-                currentCount={filteredOffers.length}
-                totalCount={offers.length}
-                minWidth="900px"
+                headers={[
+                  "No.",
+                  "Offer Details",
+                  "Type",
+                  "Discount",
+                  "Usage",
+                  "Validity",
+                  "Status",
+                  "Actions"
+                ]}
+                currentCount={paginatedOffers.length}
+                totalCount={filteredOffers.length}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                minWidth="800px"
                 className="border-0 shadow-none rounded-none"
               >
                 {loading ? (
                   <tr>
-                    <td colSpan={7} className="p-10 text-center text-sm text-muted">
+                    <td colSpan={8} className="p-10 text-center text-sm text-muted">
                       Loading offers...
                     </td>
                   </tr>
-                ) : filteredOffers.length > 0 ? (
-                  filteredOffers.map((offer) => {
+                ) : paginatedOffers.length ? (
+                  paginatedOffers.map((offer, index) => {
+                    const Icon = ICON_MAP[offer.type] || Tag;
                     const bgAndColor = COLOR_MAP[offer.color] || COLOR_MAP.muted;
                     
                     const formatDt = (dt) => {
@@ -224,9 +292,12 @@ export default function Offers() {
 
                     return (
                       <tr
-                        key={offer.id}
+                        key={offer.offerId}
                         className="border-b border-border transition-colors hover:bg-background last:border-0"
                       >
+                        <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                          {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                        </td>
                         <td className="px-4 py-4 min-w-[220px]">
                           <div className="flex items-center gap-3">
                             <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${bgAndColor}`}>
@@ -272,12 +343,21 @@ export default function Offers() {
 
                         <td className="px-4 py-4">
                           <div className="flex items-center gap-2">
-                            <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary/10 hover:text-primary">
-                              <Edit2 size={14} strokeWidth={2} />
-                            </button>
-                            <button className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary/10 hover:text-primary">
-                              <MoreVertical size={14} strokeWidth={2} />
-                            </button>
+                            <ActionMenu
+                              actions={[
+                                {
+                                  label: "Edit",
+                                  icon: Edit2,
+                                  onClick: () => {},
+                                },
+                                {
+                                  label: "Delete",
+                                  icon: Trash2,
+                                  danger: true,
+                                  onClick: () => setDeleteModalId(offer.offerId),
+                                },
+                              ]}
+                            />
                           </div>
                         </td>
                       </tr>
@@ -430,6 +510,18 @@ export default function Offers() {
           </div>
         )}
       </div>
+
+      <Modal 
+        isOpen={!!deleteModalId} 
+        onClose={() => setDeleteModalId(null)} 
+        title="Delete Offer"
+      >
+        <p className="text-sm text-muted">Are you sure you want to delete this offer? This action cannot be undone.</p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="secondary" onClick={() => setDeleteModalId(null)}>Cancel</Button>
+          <Button className="bg-danger hover:bg-danger/90 text-white" onClick={handleDeleteOffer}>Delete</Button>
+        </div>
+      </Modal>
     </section>
   );
 }

@@ -15,6 +15,7 @@ import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
 import StatCard from "../components/ui/StatCard";
+import ActionMenu from "../components/ui/ActionMenu";
 
 import { getCategories, deleteCategory } from "../api/categoriesApi";
 
@@ -37,6 +38,7 @@ const parentOptions = [
 ];
 
 const categoryTableHeaders = [
+  "No.",
   "Category Name",
   "Parent Category",
   "Description",
@@ -84,6 +86,9 @@ function Categories() {
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [parentFilter, setParentFilter] = useState("All Parent Categories");
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+
   const loadCategories = async () => {
     try {
       setLoading(true);
@@ -130,15 +135,29 @@ function Categories() {
     setParentFilter("All Parent Categories");
   };
 
+  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
+  const paginatedCategories = filteredCategories.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchText, statusFilter, parentFilter]);
+
   const handleDeleteCategory = async () => {
     if (!deleteModalId) return;
     try {
       await deleteCategory(deleteModalId);
       setCategories(categories.filter((c) => c.id !== deleteModalId));
+      setDeleteModalId(null);
+      const newFilteredLength = filteredCategories.length - 1;
+      const newTotalPages = Math.ceil(newFilteredLength / itemsPerPage) || 1;
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);
+      }
     } catch (err) {
       alert("Failed to delete category");
-    } finally {
-      setDeleteModalId(null);
     }
   };
 
@@ -247,8 +266,11 @@ function Categories() {
         ) : (
           <Table
             headers={categoryTableHeaders}
-            currentCount={filteredCategories.length}
-            totalCount={categories.length}
+            currentCount={paginatedCategories.length}
+            totalCount={filteredCategories.length}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
             minWidth="1000px"
             className="border-0 shadow-none rounded-none"
           >
@@ -261,12 +283,15 @@ function Categories() {
                   Loading categories...
                 </td>
               </tr>
-            ) : filteredCategories.length ? (
-              filteredCategories.map((category, index) => (
+            ) : paginatedCategories.length ? (
+              paginatedCategories.map((category, index) => (
                 <tr
                   key={category.id}
                   className="border-b border-border last:border-0 transition-colors hover:bg-background"
                 >
+                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                    {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                  </td>
                   {/* Category Name with Icon */}
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
@@ -323,48 +348,26 @@ function Categories() {
                   {/* Actions */}
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        aria-label="Edit"
-                        onClick={() => navigate(`/categories/edit/${category.id}`)}
-                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                      >
-                        <Pencil size={15} strokeWidth={2} />
-                      </button>
-
-                      <button
-                        type="button"
-                        aria-label="View"
-                        onClick={() => navigate(`/categories/${category.id}`)}
-                        className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                      >
-                        <Eye size={15} strokeWidth={2} />
-                      </button>
-
-                      <div className="relative">
-                        <button
-                          type="button"
-                          aria-label="More actions"
-                          onClick={() => setOpenMenuId(openMenuId === category.id ? null : category.id)}
-                          className="flex h-8 w-8 items-center justify-center rounded-md border border-border bg-background text-muted transition hover:bg-primary-light hover:text-primary"
-                        >
-                          <MoreVertical size={15} strokeWidth={2} />
-                        </button>
-                        
-                        {openMenuId === category.id && (
-                          <div className="absolute right-0 top-full mt-1 z-10 w-32 rounded-md border border-border bg-surface shadow-md py-1">
-                            <button
-                              onClick={() => {
-                                setDeleteModalId(category.id);
-                                setOpenMenuId(null);
-                              }}
-                              className="w-full text-left px-3 py-1.5 text-sm text-danger hover:bg-danger/10 flex items-center gap-2"
-                            >
-                              <Trash2 size={14} /> Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                      <ActionMenu
+                        actions={[
+                          {
+                            label: "View",
+                            icon: Eye,
+                            onClick: () => navigate(`/categories/${category.id}`),
+                          },
+                          {
+                            label: "Edit",
+                            icon: Pencil,
+                            onClick: () => navigate(`/categories/edit/${category.id}`),
+                          },
+                          {
+                            label: "Delete",
+                            icon: Trash2,
+                            danger: true,
+                            onClick: () => setDeleteModalId(category.id),
+                          },
+                        ]}
+                      />
                     </div>
                   </td>
                 </tr>

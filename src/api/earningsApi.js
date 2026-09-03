@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001/earnings";
+const API_URL = "http://localhost:3000/earnings";
 
 export async function getEarnings() {
   const response = await fetch(API_URL);
@@ -15,4 +15,14 @@ export async function getEarnings() {
   }
   
   return null;
+}
+
+export async function deleteEarning(id) {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error('Unable to delete earning');
+  }
+  return response.json();
 }

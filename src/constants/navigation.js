@@ -38,11 +38,11 @@ export const navigationItems = [
     path: "/orders",
     icon: ShoppingCart,
   },
-  {
-    label: "Transactions",
-    path: "/transactions",
-    icon: ArrowLeftRight,
-  },
+  // {
+  //   label: "Transactions",
+  //   path: "/transactions",
+  //   icon: ArrowLeftRight,
+  // },
   {
     label: "Earnings",
     path: "/earnings",

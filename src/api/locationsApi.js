@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001/locations";
+const API_URL = "http://localhost:3000/locations";
 
 export async function getLocations() {
   const response = await fetch(API_URL);
@@ -69,3 +69,4 @@ export async function deleteLocation(id) {
 
   return response.json();
 }
+
