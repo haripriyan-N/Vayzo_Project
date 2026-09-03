@@ -1,83 +1,14 @@
-import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
-import {
-  Bell,
-  CreditCard,
-  Database,
-  FileText,
-  Globe,
-  LayoutGrid,
-  Mail,
-  MonitorCog,
-  Settings as SettingsIcon,
-  Shield,
-  Smartphone,
-  TrendingUp,
-  Truck,
-} from "lucide-react";
+import sys
 
-import Button from "../../components/ui/button";
-import Input from "../../components/ui/input";
-import Select from "../../components/ui/Select";
-import { generalSettings } from "../../mock/vayzoApiMock";
+file_path = 'src/pages/settings/GeneralSettings.jsx'
+with open(file_path, 'r', encoding='utf-8') as f:
+    content = f.read()
 
-const settingsMenu = [
-  { label: "General Settings", path: "/settings/general", icon: LayoutGrid },
-  { label: "Site Settings", path: "/settings", icon: Globe },
-  { label: "Commission Settings", path: "/settings/commission", icon: TrendingUp },
-  { label: "Payment Settings", path: "/settings/payment", icon: CreditCard },
-  { label: "Delivery Settings", path: "/settings", icon: Truck },
-  { label: "Notification Settings", path: "/settings", icon: Bell },
-  { label: "Email Settings", path: "/settings", icon: Mail },
-  { label: "SMS Settings", path: "/settings", icon: Smartphone },
-  { label: "App Settings", path: "/settings", icon: Smartphone },
-  { label: "Security Settings", path: "/settings", icon: Shield },
-  { label: "SEO Settings", path: "/settings", icon: FileText },
-  { label: "Maintenance Mode", path: "/settings", icon: MonitorCog },
-  { label: "Third Party Integrations", path: "/settings", icon: Database },
-];
+start_idx = content.find('<div className="flex-1 space-y-5">')
+end_idx = content.find('</section>')
 
-function GeneralSettings() {
-  const location = useLocation();
-  const [formValues, setFormValues] = useState({
-    platformName: generalSettings.platformName,
-    platformTagline: generalSettings.platformTagline,
-    supportEmail: generalSettings.supportEmail,
-    supportPhone: generalSettings.supportPhone,
-    timezone: generalSettings.timezone,
-    dateFormat: generalSettings.dateFormat,
-    timeFormat: generalSettings.timeFormat,
-    defaultCurrency: generalSettings.defaultCurrency,
-    currencyPosition: generalSettings.currencyPosition,
-    numberFormat: generalSettings.numberFormat,
-    language: generalSettings.language,
-    contactAddress: generalSettings.contactAddress,
-    facebook: generalSettings.socialLinks.facebook,
-    instagram: generalSettings.socialLinks.instagram,
-    twitter: generalSettings.socialLinks.twitter,
-    platformStatus: true,
-    maintenanceMode: generalSettings.maintenanceMode,
-  });
-  const [saveMessage, setSaveMessage] = useState("");
-
-  const activePath =
-    location.pathname === "/settings" || location.pathname === "/settings/general"
-      ? "/settings/general"
-      : location.pathname;
-
-  const handleChange = (field, value) => {
-    setFormValues((prev) => ({ ...prev, [field]: value }));
-    if (saveMessage) setSaveMessage("");
-  };
-
-  const handleSave = (event) => {
-    event.preventDefault();
-    setSaveMessage("Changes saved successfully.");
-  };
-
-  return (
-    <>
-      <div className="flex-1 space-y-6">
+if start_idx != -1 and end_idx != -1:
+    new_layout = '''<div className="flex-1 space-y-6">
             {/* TOP SECTION: General Settings (Left) | Site Status & Quick Links (Right) */}
             <div className="grid gap-6 xl:grid-cols-[2.5fr_1fr]">
               
@@ -366,8 +297,9 @@ function GeneralSettings() {
 
             </div>
           </div>
-    </>
-  );
-}
-
-export default GeneralSettings;
+'''
+    
+    content = content[:start_idx] + new_layout + '\n        </div>\n      </div>\n    </section>\n  );\n}\n\nexport default GeneralSettings;\n'
+    with open('src/pages/settings/GeneralSettings.jsx', 'w', encoding='utf-8') as f:
+        f.write(content)
+    print('Layout matched perfectly with image!')
