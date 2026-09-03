@@ -23,6 +23,7 @@ import Settings from "./pages/Settings";
 import GeneralSettings from "./pages/settings/GeneralSettings";
 import TeamUsers from "./pages/TeamUsers";
 import ActivityLogs from "./pages/ActivityLogs";
+import PaymentSettings from "./pages/settings/PaymentSettings";
 
 import { NotificationProvider } from "./context/NotificationContext";
 
@@ -56,6 +57,7 @@ function App() {
               <Route path="/settings/payment" element={<Settings />} />
               <Route path="/team-users" element={<TeamUsers />} />
               <Route path="/activity-logs" element={<ActivityLogs />} />
+              <Route path="/settings/payment" element={<PaymentSettings />} />
             </Route>
           </Route>
         </Routes>
