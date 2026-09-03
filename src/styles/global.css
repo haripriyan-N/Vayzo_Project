@@ -19,6 +19,7 @@
   --color-warning: var(--vayzo-warning);
   --color-danger: var(--vayzo-danger);
   --color-info: var(--vayzo-info);
+  --font-sans: "Instrument Sans", sans-serif;
 }
 
 @layer base {
@@ -33,11 +34,12 @@
   html,
   body,
   #root {
+    margin: 0;
     min-height: 100%;
+    font-family: "Instrument Sans", sans-serif;
   }
 
   body {
-    font-family: "Poppins", sans-serif;
     background: var(--color-background);
     color: var(--color-foreground);
   }
@@ -111,3 +113,35 @@
 .sidebar-scroll:hover::-webkit-scrollbar-thumb {
   background: var(--vayzo-text-secondary);
 } */
+
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("./assets/fonts/InstrumentSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("./assets/fonts/InstrumentSans-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("./assets/fonts/InstrumentSans-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("./assets/fonts/InstrumentSans-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

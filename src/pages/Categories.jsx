@@ -16,6 +16,7 @@ import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
 import StatCard from "../components/ui/StatCard";
 import ActionMenu from "../components/ui/ActionMenu";
+import BadgeCell from "../components/ui/BadgeCell";
 
 import { getCategories, deleteCategory } from "../api/categoriesApi";
 
@@ -140,6 +141,13 @@ function Categories() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const maxStatus = useMemo(() => {
+    return paginatedCategories.reduce((max, c) => {
+      const val = c.status || "Active";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedCategories]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -316,11 +324,12 @@ function Categories() {
 
                   {/* Status */}
                   <td className="px-4 py-4">
-                    <span className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-semibold ${
-                      category.status === 'Active' ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning'
-                    }`}>
-                      {category.status || "Active"}
-                    </span>
+                    <BadgeCell
+                      maxContent={maxStatus}
+                      content={category.status || "Active"}
+                      variant={category.status === 'Active' ? 'success' : 'warning'}
+                      className="px-3"
+                    />
                   </td>
 
                   {/* Items */}

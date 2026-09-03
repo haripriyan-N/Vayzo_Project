@@ -4,6 +4,7 @@ import {
   Download,
   Eye,
   MoreVertical,
+  Trash2,
   Package,
   Truck,
   XCircle,
@@ -22,8 +23,10 @@ import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import DateRangeInput from "../components/ui/DateRangeInput";
 import SearchInput from "../components/ui/SearchInput";
+import StatusSelect from "../components/ui/StatusSelect";
 import Modal from "../components/ui/Modal";
 import ActionMenu from "../components/ui/ActionMenu";
+import BadgeCell from "../components/ui/BadgeCell";
 import { getOrders, deleteOrder } from "../api/ordersApi";
 
 const STATUS_MAP = {
@@ -228,7 +231,8 @@ function Orders() {
     const searchValue = query.trim().toLowerCase();
 
     return orders.filter((order) => {
-      const phoneStr = order.mobileNumber || order.customerPhone || "+91 98765 43210";
+      const phoneStr =
+        order.mobileNumber || order.customerPhone || "+91 98765 43210";
       const searchableText = [
         order.orderId,
         order.customerName,
@@ -328,6 +332,20 @@ function Orders() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage,
   );
+
+  const maxPaymentStatus = useMemo(() => {
+    return paginatedOrders.reduce((max, o) => {
+      const val = o.paymentStatus || "--";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedOrders]);
+
+  const maxStatus = useMemo(() => {
+    return paginatedOrders.reduce((max, o) => {
+      const val = formatStatus(o.status) || "--";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedOrders]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -489,7 +507,9 @@ function Orders() {
               paginatedOrders.map((order, index) => (
                 <tr key={order.orderId}>
                   <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
-                    {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                    {String(
+                      (currentPage - 1) * itemsPerPage + index + 1,
+                    ).padStart(2, "0")}
                   </td>
                   <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
                     <button
@@ -568,7 +588,9 @@ function Orders() {
                       : "--"}
                   </td>
                   <td className="px-3 py-3">
-                    <Badge
+                    <BadgeCell
+                      maxContent={maxPaymentStatus}
+                      content={order.paymentStatus || "--"}
                       variant={
                         order.paymentStatus === "PAID"
                           ? "success"
@@ -576,18 +598,16 @@ function Orders() {
                             ? "default"
                             : "warning"
                       }
-                      className="whitespace-nowrap px-3"
-                    >
-                      {order.paymentStatus || "--"}
-                    </Badge>
+                      className="px-3"
+                    />
                   </td>
                   <td className="px-3 py-3">
-                    <Badge
+                    <BadgeCell
+                      maxContent={maxStatus}
+                      content={formatStatus(order.status) || "--"}
                       variant={STATUS_MAP[order.status] || "default"}
-                      className="whitespace-nowrap px-3"
-                    >
-                      {formatStatus(order.status) || "--"}
-                    </Badge>
+                      className="px-3"
+                    />
                   </td>
                   <td className="whitespace-nowrap px-3 py-3">
                     <div className="flex flex-col">
@@ -641,15 +661,25 @@ function Orders() {
         ========================== */}
       </div>
 
-      <Modal 
-        isOpen={!!deleteModalId} 
-        onClose={() => setDeleteModalId(null)} 
+      <Modal
+        isOpen={!!deleteModalId}
+        onClose={() => setDeleteModalId(null)}
         title="Delete Order"
       >
-        <p className="text-sm text-muted">Are you sure you want to delete this order? This action cannot be undone.</p>
+        <p className="text-sm text-muted">
+          Are you sure you want to delete this order? This action cannot be
+          undone.
+        </p>
         <div className="mt-6 flex justify-end gap-3">
-          <Button variant="secondary" onClick={() => setDeleteModalId(null)}>Cancel</Button>
-          <Button className="bg-danger hover:bg-danger/90 text-white" onClick={handleDeleteOrder}>Delete</Button>
+          <Button variant="secondary" onClick={() => setDeleteModalId(null)}>
+            Cancel
+          </Button>
+          <Button
+            className="bg-danger hover:bg-danger/90 text-white"
+            onClick={handleDeleteOrder}
+          >
+            Delete
+          </Button>
         </div>
       </Modal>
     </section>

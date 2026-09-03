@@ -17,33 +17,50 @@ function Table({
     if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
-    
+
     if (currentPage <= 3) {
-      return [1, 2, 3, 4, '...', totalPages];
+      return [1, 2, 3, 4, "...", totalPages];
     }
-    
+
     if (currentPage >= totalPages - 2) {
-      return [1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+      return [
+        1,
+        "...",
+        totalPages - 3,
+        totalPages - 2,
+        totalPages - 1,
+        totalPages,
+      ];
     }
-    
-    return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+
+    return [
+      1,
+      "...",
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      "...",
+      totalPages,
+    ];
   };
 
   const pages = getPageNumbers();
 
   // Determine starting and ending record indices safely
-  const startIndex = Math.min((currentPage - 1) * itemsPerPage + 1, totalCount > 0 ? totalCount : 0);
+  const startIndex = Math.min(
+    (currentPage - 1) * itemsPerPage + 1,
+    totalCount > 0 ? totalCount : 0,
+  );
   const endIndex = Math.min(currentPage * itemsPerPage, totalCount);
 
   return (
     <div
       className={[
-        "w-full overflow-hidden rounded-xl border border-border bg-surface shadow-sm",
+        "w-full overflow-clip rounded-xl border border-border bg-surface shadow-sm",
         className,
       ].join(" ")}
     >
-      {/* Scrollable table container */}
-      <div className="w-full overflow-auto scrollbar-none">
+      <div className="w-full">
         <div style={{ minWidth }} className="flex flex-col">
           <table className="w-full border-collapse text-left text-xs">
             <thead className="bg-surface border-b border-border shadow-sm sticky top-0 z-10">
@@ -72,25 +89,32 @@ function Table({
         </p>
 
         <div className="flex items-center gap-1.5 text-xs font-semibold">
-          <button 
+          <button
             onClick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1 || totalCount === 0}
             className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-muted hover:bg-background transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <ChevronLeft size={16} />
           </button>
-          
+
           {pages.map((p, index) => {
-            if (p === '...') {
-              return <span key={`ellipsis-${index}`} className="flex h-8 w-4 items-center justify-center text-muted">...</span>;
+            if (p === "...") {
+              return (
+                <span
+                  key={`ellipsis-${index}`}
+                  className="flex h-8 w-4 items-center justify-center text-muted"
+                >
+                  ...
+                </span>
+              );
             }
             return (
               <button
                 key={p}
                 onClick={() => onPageChange(p)}
                 className={`flex h-8 min-w-[32px] px-2 items-center justify-center rounded-md transition ${
-                  currentPage === p 
-                    ? "bg-primary text-white shadow-sm" 
+                  currentPage === p
+                    ? "bg-primary text-white shadow-sm"
                     : "text-foreground hover:bg-background border border-transparent"
                 }`}
               >
@@ -99,7 +123,7 @@ function Table({
             );
           })}
 
-          <button 
+          <button
             onClick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages || totalCount === 0}
             className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-foreground hover:bg-background transition disabled:opacity-50 disabled:cursor-not-allowed"

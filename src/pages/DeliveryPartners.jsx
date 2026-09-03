@@ -13,6 +13,7 @@ import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
 import ActionMenu from "../components/ui/ActionMenu";
+import BadgeCell from "../components/ui/BadgeCell";
 
 import { getDeliveryPartners, deleteDeliveryPartner } from "../api/deliveryPartnersApi";
 
@@ -138,6 +139,25 @@ function DeliveryPartners() {
     currentPage * itemsPerPage
   );
 
+  const toTitleCase = (str) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
+  const maxStatus = useMemo(() => {
+    return paginatedPartners.reduce((max, p) => {
+      const val = p.status || "--";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedPartners]);
+
+  const maxOnline = useMemo(() => {
+    return paginatedPartners.reduce((max, p) => {
+      const val = p.isOnline ? "Online" : "Offline";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedPartners]);
+
   useEffect(() => {
     setCurrentPage(1);
   }, [search, status, vehicleType, onlineStatus, joinedFrom, joinedTo, minEarnings, maxEarnings]);
@@ -163,10 +183,6 @@ function DeliveryPartners() {
     setMaxEarnings("");
   };
 
-  const toTitleCase = (str) => {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  };
 
   const handleDeletePartner = async () => {
     if (!deleteModalId) return;
@@ -392,35 +408,29 @@ function DeliveryPartners() {
                   </td>
 
                   <td className="px-3 py-3">
-                    <Badge
+                    <BadgeCell
+                      maxContent={maxStatus}
+                      content={toTitleCase(partner.status)}
                       variant={
-                        statusBadgeMap[toTitleCase(partner.status)] || "default"
+                        partner.status === "Active"
+                          ? "success"
+                          : partner.status === "Inactive"
+                            ? "danger"
+                            : partner.status === "Blocked"
+                              ? "warning"
+                              : "default"
                       }
-                      className="whitespace-nowrap px-3"
-                    >
-                      {toTitleCase(partner.status)}
-                    </Badge>
+                      className="px-3"
+                    />
                   </td>
 
                   <td className="px-3 py-3">
-                    <span
-                      className={[
-                        "inline-flex items-center gap-1.5 rounded-md p-1.5",
-                        "text-[11px] font-semibold",
-                        partner.onlineStatus === "Online"
-                          ? "bg-success/15 text-success"
-                          : "bg-danger/15 text-danger",
-                      ].join(" ")}
-                    >
-                      <span
-                        className={`h-1.5 w-1.5 rounded-full ${
-                          partner.onlineStatus === "Online"
-                            ? "bg-success"
-                            : "bg-danger"
-                        }`}
-                      />
-                      {partner.onlineStatus}
-                    </span>
+                    <BadgeCell
+                      maxContent={maxOnline}
+                      content={partner.isOnline ? "Online" : "Offline"}
+                      variant={partner.isOnline ? "success" : "danger"}
+                      className="px-3"
+                    />
                   </td>
 
                   <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">

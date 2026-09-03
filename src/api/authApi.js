@@ -4,8 +4,11 @@ const API_URL = "http://localhost:3000/otpSessions";
 
 export async function login(email, password) {
   // Simulate delay
-  await new Promise(res => setTimeout(res, 500));
-  if (email === mockAdminCredentials.email && password === mockAdminCredentials.password) {
+  await new Promise((res) => setTimeout(res, 500));
+  if (
+    email === mockAdminCredentials.email &&
+    password === mockAdminCredentials.password
+  ) {
     return {
       success: true,
       user: mockAdmin,
@@ -18,13 +21,14 @@ export async function requestLoginOtp(contact) {
   if (!contact) {
     throw new Error("Contact is required");
   }
-  
+
   const mockOtp = "123456"; // Predictable test OTP
-  
+
   // Clean up any existing OTP for this contact
   const res = await fetch(`${API_URL}?contact=${contact}`);
   const existing = await res.json();
-  for (const session of existing) {
+  const sessions = Array.isArray(existing) ? existing : [];
+  for (const session of sessions) {
     await fetch(`${API_URL}/${session.id}`, { method: "DELETE" });
   }
 
@@ -32,7 +36,7 @@ export async function requestLoginOtp(contact) {
   const createRes = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ contact, otp: mockOtp, createdAt: Date.now() })
+    body: JSON.stringify({ contact, otp: mockOtp, createdAt: Date.now() }),
   });
 
   if (!createRes.ok) throw new Error("Failed to send OTP");
@@ -42,27 +46,28 @@ export async function requestLoginOtp(contact) {
 
 export async function verifyLoginOtp(contact, otp) {
   const res = await fetch(`${API_URL}?contact=${contact}&otp=${otp}`);
-  const sessions = await res.json();
+  const data = await res.json();
+  const sessions = Array.isArray(data) ? data : [];
 
   if (sessions.length > 0) {
     // Delete the verified session
     await fetch(`${API_URL}/${sessions[0].id}`, { method: "DELETE" });
     return { success: true, user: mockAdmin, message: "OTP verified" };
   }
-  
+
   throw new Error("Invalid OTP");
 }
 
 export async function resetPassword(contact, newPassword) {
-  await new Promise(res => setTimeout(res, 500));
+  await new Promise((res) => setTimeout(res, 500));
   // In a real app this updates the user DB
   return { success: true, message: "Password reset successfully" };
 }
 
 export async function requestPasswordReset(email) {
   // Simulate delay
-  await new Promise(res => setTimeout(res, 500));
-  
+  await new Promise((res) => setTimeout(res, 500));
+
   if (email !== mockAdminCredentials.email) {
     throw new Error("Admin email not found");
   }

@@ -191,7 +191,7 @@ export default function Earnings() {
                 <RotateCcw size={16} /> Reset
               </Button>
             )}
-            <Button variant="secondary" className="gap-2 bg-surface text-foreground font-semibold px-4 h-10 shadow-sm border border-border shrink-0 w-full sm:w-auto">
+            <Button variant="secondary" className="gap-2 bg-surface text-foreground font-medium px-4 h-10 shadow-sm border border-border shrink-0 w-full sm:w-auto">
               <Download size={16} /> Export Report
             </Button>
           </div>

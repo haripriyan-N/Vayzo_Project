@@ -54,20 +54,35 @@ function App() {
 
               <Route path="/delivery" element={<DeliveryPartners />} />
               <Route path="/delivery/add" element={<DeliveryPartnersAdd />} />
-              <Route path="/delivery/edit/:partnerId" element={<DeliveryPartnersAdd />} />
-              <Route path="/delivery/:partnerId" element={<DeliveryPartner />} />
+              <Route
+                path="/delivery/edit/:partnerId"
+                element={<DeliveryPartnersAdd />}
+              />
+              <Route
+                path="/delivery/:partnerId"
+                element={<DeliveryPartner />}
+              />
 
               <Route path="/categories" element={<Categories />} />
               <Route path="/categories/add" element={<CategoriesAdd />} />
-              <Route path="/categories/edit/:categoryId" element={<CategoriesAdd />} />
-              <Route path="/categories/:categoryId" element={<CategoriesDetails />} />
-              
+              <Route
+                path="/categories/edit/:categoryId"
+                element={<CategoriesAdd />}
+              />
+              <Route
+                path="/categories/:categoryId"
+                element={<CategoriesDetails />}
+              />
+
               <Route path="/offers" element={<Offers />} />
               <Route path="/locations" element={<Locations />} />
               <Route path="/earnings" element={<Earnings />} />
-              
+
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/complaints" element={<Complaints />} />
+              <Route path="/settings" element={<Complaints />}>
+                <Route path="payment-settings" element={<Complaints />} />
+              </Route>
             </Route>
           </Route>
         </Routes>

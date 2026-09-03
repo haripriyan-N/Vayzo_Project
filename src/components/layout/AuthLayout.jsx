@@ -1,20 +1,18 @@
 import vayzoLogo from "../../assets/logo/Vayzo_logo.png";
+import vayzoLoginBg from "../../assets/loginpage.png";
 import { ShieldCheck } from "lucide-react";
 
 const AuthLayout = ({ children }) => {
   return (
     <main className="flex h-screen items-center justify-center bg-background overflow-hidden p-0 sm:p-6">
       <div className="grid h-screen w-full max-w-5xl overflow-hidden bg-surface shadow-xl sm:h-[600px] sm:grid-cols-[0.9fr_1.1fr] sm:rounded-2xl">
-        {/* Left Brand Section - Image Based (Original Vayzo visual structure) */}
-        <section className="relative hidden overflow-hidden bg-gradient-to-br from-primary to-primary-hover sm:flex sm:items-center sm:justify-center">
-          <div className="relative z-10 flex flex-col items-center justify-center p-10">
-            <img src={vayzoLogo} alt="VAYZO" className="w-full max-w-md" />
-            <p className="mt-8 text-center text-sm text-white/80">
-              Super Admin Portal
-            </p>
-          </div>
-          <div className="absolute -right-32 -top-28 h-80 w-80 rounded-full border border-white/10" />
-          <div className="absolute -bottom-48 -left-48 h-[30rem] w-[30rem] rounded-full border border-white/10" />
+        {/* Left Brand Section - Image Based */}
+        <section className="relative hidden overflow-hidden sm:flex sm:items-center sm:justify-center">
+          <img 
+            src={vayzoLoginBg} 
+            alt="VAYZO Admin Portal" 
+            className="h-full w-full object-cover"
+          />
         </section>
 
         {/* Right Auth Section */}

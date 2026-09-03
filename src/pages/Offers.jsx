@@ -24,6 +24,7 @@ import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import Modal from "../components/ui/Modal";
 import ActionMenu from "../components/ui/ActionMenu";
+import BadgeCell from "../components/ui/BadgeCell";
 
 import { getOffers, deleteOffer } from "../api/offersApi";
 
@@ -111,6 +112,20 @@ export default function Offers() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const maxStatus = useMemo(() => {
+    return paginatedOffers.reduce((max, o) => {
+      const val = o.status || "Active";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedOffers]);
+
+  const maxType = useMemo(() => {
+    return paginatedOffers.reduce((max, o) => {
+      const val = o.type || "Discount";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedOffers]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -336,9 +351,12 @@ export default function Offers() {
                         </td>
 
                         <td className="px-4 py-4">
-                          <Badge variant={STATUS_MAP[offer.status] || "default"} className="px-2.5 py-1 text-xs">
-                            {toTitleCase(offer.status)}
-                          </Badge>
+                          <BadgeCell
+                            maxContent={maxStatus}
+                            content={offer.status}
+                            variant={statusBadgeMap[offer.status] || "default"}
+                            className="px-2"
+                          />
                         </td>
 
                         <td className="px-4 py-4">

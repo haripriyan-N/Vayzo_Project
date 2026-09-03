@@ -4,6 +4,7 @@ import { Plus, RotateCcw, Eye, Pencil as Edit, Trash2, Check, X, MoreVertical } 
 import Avatar from "../components/ui/Avatar";
 
 import Badge from "../components/ui/Badge";
+import BadgeCell from "../components/ui/BadgeCell";
 import Button from "../components/ui/Button";
 import SearchInput from "../components/ui/SearchInput";
 import StatusSelect from "../components/ui/StatusSelect";
@@ -158,6 +159,24 @@ function Users() {
     currentPage * itemsPerPage
   );
 
+  const maxUserType = useMemo(() => {
+    return paginatedUsers.reduce((max, u) => 
+      (u.userType || "").length > max.length ? (u.userType || "") : max, 
+    "");
+  }, [paginatedUsers]);
+
+  const toTitleCase = (str) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
+  const maxStatus = useMemo(() => {
+    return paginatedUsers.reduce((max, u) => {
+      const statusStr = toTitleCase(u.status || "");
+      return statusStr.length > max.length ? statusStr : max;
+    }, "");
+  }, [paginatedUsers]);
+
   useEffect(() => {
     setCurrentPage(1);
   }, [searchText, statusFilter, userTypeFilter, verificationFilter, joinedFrom, joinedTo]);
@@ -198,10 +217,7 @@ function Users() {
     }
   };
 
-  const toTitleCase = (str) => {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  };
+
 
 
 
@@ -347,26 +363,26 @@ function Users() {
                   </td>
 
                   <td className="px-3 py-3">
-                    <Badge
+                    <BadgeCell
+                      maxContent={maxUserType}
+                      content={user.userType}
                       variant={
                         user.userType === "Customer" ? "info" :
                         user.userType === "Delivery Partner" ? "default" :
                         user.userType === "Merchant" ? "warning" :
                         user.userType === "Business" ? "success" : "default"
                       }
-                      className="whitespace-nowrap px-3"
-                    >
-                      {user.userType}
-                    </Badge>
+                      className="px-3"
+                    />
                   </td>
 
                   <td className="px-3 py-3">
-                    <Badge
+                    <BadgeCell
+                      maxContent={maxStatus}
+                      content={toTitleCase(user.status)}
                       variant={statusBadgeMap[toTitleCase(user.status)] || "default"}
-                      className="whitespace-nowrap px-3"
-                    >
-                      {toTitleCase(user.status)}
-                    </Badge>
+                      className="px-3"
+                    />
                   </td>
 
                   <td className="px-3 py-3">

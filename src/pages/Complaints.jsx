@@ -3,6 +3,7 @@ import { AlertCircle, CheckCircle, Clock, Search, X, MessageSquare, AlertTriangl
 import Avatar from "../components/ui/Avatar";
 
 import Badge from "../components/ui/Badge";
+import BadgeCell from "../components/ui/BadgeCell";
 import Button from "../components/ui/Button";
 import SearchInput from "../components/ui/SearchInput";
 import StatusSelect from "../components/ui/StatusSelect";
@@ -118,6 +119,20 @@ function Complaints() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const maxStatus = useMemo(() => {
+    return paginatedComplaints.reduce((max, c) => {
+      const val = c.status || "--";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedComplaints]);
+
+  const maxPriority = useMemo(() => {
+    return paginatedComplaints.reduce((max, c) => {
+      const val = c.priority || "--";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedComplaints]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -267,10 +282,32 @@ function Complaints() {
                       <td className="px-3 py-3 text-muted">{c.userType}</td>
                       <td className="px-3 py-3 text-muted">{c.issueType}</td>
                       <td className="px-3 py-3">
-                        <Badge variant={priorityBadgeMap[c.priority] || "default"} className="px-2">{c.priority}</Badge>
+                        <BadgeCell
+                          maxContent={maxPriority}
+                          content={c.priority}
+                          variant={
+                            c.priority === "High"
+                              ? "danger"
+                              : c.priority === "Medium"
+                                ? "warning"
+                                : "default"
+                          }
+                          className="px-3"
+                        />
                       </td>
                       <td className="px-3 py-3">
-                        <Badge variant={statusBadgeMap[c.status] || "default"} className="px-2">{c.status}</Badge>
+                        <BadgeCell
+                          maxContent={maxStatus}
+                          content={c.status}
+                          variant={
+                            c.status === "Open"
+                              ? "warning"
+                              : c.status === "In Progress"
+                                ? "info"
+                                : "success"
+                          }
+                          className="px-3"
+                        />
                       </td>
                       <td className="px-3 py-3">
                         <div className="flex justify-end pr-2">

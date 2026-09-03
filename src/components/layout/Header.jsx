@@ -11,30 +11,59 @@ import { navigationItems } from "../../constants/navigation";
 import UserImg from "../../assets/logo/Trans_full.png";
 import { useNotifications } from "../../context/NotificationContext";
 
+const getRouteInfo = (pathname) => {
+  const mainRoute = navigationItems.find(
+    (item) => pathname === item.path || pathname.startsWith(`${item.path}/`),
+  );
+
+  if (!mainRoute) {
+    return {
+      title: "Dashboard",
+      parent: null,
+      parentPath: null,
+    };
+  }
+
+  if (pathname === mainRoute.path) {
+    return {
+      title: mainRoute.label,
+      parent: null,
+      parentPath: null,
+    };
+  }
+
+  const segments = pathname.split("/").filter(Boolean);
+  const action = segments[1];
+
+  const actionTitles = {
+    add: `Add ${mainRoute.label.replace(/s$/, "")}`,
+    edit: `Edit ${mainRoute.label.replace(/s$/, "")}`,
+  };
+
+  if (action === "add" || action === "edit") {
+    return {
+      title: actionTitles[action],
+      parent: mainRoute.label,
+      parentPath: mainRoute.path,
+    };
+  }
+
+  return {
+    title: `${mainRoute.label.replace(/s$/, "")} Details`,
+    parent: mainRoute.label,
+    parentPath: mainRoute.path,
+  };
+};
+
 function Header({ onMenuClick }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const currentPage = navigationItems.find(
-    (item) => item.path === location.pathname,
-  );
-
-  const pageConfig = {
-    "/users/add": {
-      title: "Add User",
-      parent: "Users",
-    },
-  };
-
-  const isOrderDetailsPage = location.pathname.startsWith("/orders/");
-
-  const currentRoute = pageConfig[location.pathname];
-
-  const pageTitle = isOrderDetailsPage
-    ? "Order Details"
-    : currentRoute?.title || currentPage?.label || "Dashboard";
-
-  const parentPage = isOrderDetailsPage ? null : currentRoute?.parent || null;
+  const {
+    title: pageTitle,
+    parent: parentPage,
+    parentPath,
+  } = getRouteInfo(location.pathname);
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { unreadCount } = useNotifications();
@@ -64,7 +93,7 @@ function Header({ onMenuClick }) {
       <div>
         <p className="text-lg font-semibold text-foreground">{pageTitle}</p>
 
-        {pageTitle !== "Dashboard" && (
+        {parentPage && (
           <div className="flex items-center gap-1 text-xs text-muted">
             <NavLink
               to="/dashboard"
@@ -75,18 +104,29 @@ function Header({ onMenuClick }) {
 
             <ChevronRight size={14} strokeWidth={1.8} />
 
-            {parentPage && (
-              <>
-                <NavLink
-                  to="/users"
-                  className="transition-colors hover:text-primary"
-                >
-                  {parentPage}
-                </NavLink>
+            <NavLink
+              to={parentPath}
+              className="transition-colors hover:text-primary"
+            >
+              {parentPage}
+            </NavLink>
 
-                <ChevronRight size={14} strokeWidth={1.8} />
-              </>
-            )}
+            <ChevronRight size={14} strokeWidth={1.8} />
+
+            <span>{pageTitle}</span>
+          </div>
+        )}
+
+        {!parentPage && pageTitle !== "Dashboard" && (
+          <div className="flex items-center gap-1 text-xs text-muted">
+            <NavLink
+              to="/dashboard"
+              className="transition-colors hover:text-primary"
+            >
+              Dashboard
+            </NavLink>
+
+            <ChevronRight size={14} strokeWidth={1.8} />
 
             <span>{pageTitle}</span>
           </div>
@@ -108,6 +148,7 @@ function Header({ onMenuClick }) {
             </span>
           )}
         </NavLink>
+
         <NavLink
           to="/complaints"
           className="relative rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"

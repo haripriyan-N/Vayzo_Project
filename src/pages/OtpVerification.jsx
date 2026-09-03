@@ -93,7 +93,7 @@ const OtpVerification = () => {
       )}
 
       {step === 1 ? (
-        <div className="space-y-4 sm:space-y-5">
+        <form onSubmit={handleSendOtp} className="space-y-4 sm:space-y-5">
           <div>
             <label htmlFor="mobile" className="mb-2 block text-xs font-semibold text-foreground sm:text-sm">
               Mobile Number
@@ -106,7 +106,6 @@ const OtpVerification = () => {
                 placeholder="Enter your mobile number"
                 value={mobileNumber}
                 onChange={(e) => setMobileNumber(e.target.value.replace(/\D/g, ''))}
-                onKeyDown={(e) => e.key === 'Enter' && handleSendOtp(e)}
                 required
                 className="h-11 w-full rounded-lg border border-border bg-background pl-10 pr-3 text-xs text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 sm:h-12 sm:pl-11 sm:pr-4 sm:text-sm"
               />
@@ -114,8 +113,7 @@ const OtpVerification = () => {
           </div>
 
           <button
-            type="button"
-            onClick={handleSendOtp}
+            type="submit"
             disabled={loading || mobileNumber.length < 10}
             className="h-11 w-full rounded-lg bg-primary text-xs font-bold text-white shadow-lg shadow-primary/20 transition hover:bg-primary-hover sm:h-12 sm:text-sm disabled:opacity-50"
           >
@@ -129,9 +127,9 @@ const OtpVerification = () => {
           >
             <ArrowLeft size={16} /> Back to Login
           </button>
-        </div>
+        </form>
       ) : (
-        <div className="space-y-4 sm:space-y-5">
+        <form onSubmit={handleVerifyOtp} className="space-y-4 sm:space-y-5">
           <div>
             <label htmlFor="otp" className="mb-2 block text-xs font-semibold text-foreground sm:text-sm">
               Enter OTP
@@ -145,7 +143,6 @@ const OtpVerification = () => {
                 maxLength={6}
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))}
-                onKeyDown={(e) => e.key === 'Enter' && handleVerifyOtp(e)}
                 required
                 className="h-11 w-full rounded-lg border border-border bg-background pl-10 pr-3 text-xs tracking-widest text-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10 sm:h-12 sm:pl-11 sm:pr-4 sm:text-lg"
               />
@@ -153,8 +150,7 @@ const OtpVerification = () => {
           </div>
 
           <button
-            type="button"
-            onClick={handleVerifyOtp}
+            type="submit"
             disabled={loading || otp.length < 6}
             className="h-11 w-full rounded-lg bg-primary text-xs font-bold text-white shadow-lg shadow-primary/20 transition hover:bg-primary-hover sm:h-12 sm:text-sm disabled:opacity-50"
           >
@@ -182,7 +178,7 @@ const OtpVerification = () => {
           >
             <ArrowLeft size={16} /> Change Mobile Number
           </button>
-        </div>
+        </form>
       )}
     </AuthLayout>
   );

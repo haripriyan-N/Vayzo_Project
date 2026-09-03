@@ -1,10 +1,10 @@
-const API_URL = "http://localhost:3000/offers";
+const API_URL = "http://localhost:3000/offe rs";
 
 export async function getOffers() {
   const response = await fetch(API_URL);
 
   if (!response.ok) {
-    throw new Error("Unable to load offers");
+    throw new Error("Unable to load offers"); 
   }
 
   return response.json();
