@@ -36,15 +36,16 @@ function StatCard({
         <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${bgClass} ${colorClass}`}>
           {Icon && <Icon size={24} />}
         </div>
-        <div className="flex flex-col">
-          <p className="text-xs font-medium text-muted mb-1">{title}</p>
+        <div className="flex flex-col min-w-0">
+          <p className="text-[11px] xl:text-xs font-medium text-muted mb-1 whitespace-nowrap tracking-tight">{title}</p>
           <h3 className="text-xl font-bold text-foreground leading-none mb-1.5">{value}</h3>
           {trend && (
-            <span className={`flex items-center text-[10px] font-medium text-muted`}>
+            <span className="flex items-center text-xs font-medium text-muted mt-1 whitespace-nowrap truncate">
               <span className={`flex items-center ${isNegative ? "text-danger" : "text-success"} mr-1 font-semibold`}>
-                {isNegative ? "↓" : "↑"} {trend.replace("-", "").replace("+", "").trim()}
+                {isNegative ? <TrendingDown size={14} className="mr-0.5" /> : <TrendingUp size={14} className="mr-0.5" />}
+                {trend.replace("-", "").replace("+", "").trim()}
               </span>
-              from last month
+              <span className="truncate">from last month</span>
             </span>
           )}
         </div>

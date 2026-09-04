@@ -24,9 +24,9 @@ const onlineStatusOptions = ["Online", "Offline"];
 
 function RequiredLabel({ text }) {
   return (
-    <span className="flex items-center gap-1.5">
+    <span className="flex items-center gap-1">
       {text}
-      <AlertCircle size={12} className="text-warning" strokeWidth={3} />
+      <span className="text-danger text-sm">*</span>
     </span>
   );
 }

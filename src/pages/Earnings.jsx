@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Wallet,
   UserCheck,
@@ -6,7 +7,9 @@ import {
   Undo2,
   Download,
   Info,
-  RotateCcw
+  RotateCcw,
+  TrendingUp,
+  TrendingDown
 } from "lucide-react";
 import Avatar from "../components/ui/Avatar";
 import {
@@ -42,7 +45,12 @@ const formatDelta = (curr, prev) => {
   const pct = prev > 0 ? (diff / prev) * 100 : 0;
   return {
     diff: diff > 0 ? `+${formatAmount(diff)}` : formatAmount(diff),
-    pct: `${diff > 0 ? '↑' : '↓'} ${Math.abs(pct).toFixed(2)}%`,
+    pct: (
+      <span className="flex items-center gap-0.5">
+        {diff >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+        {Math.abs(pct).toFixed(2)}%
+      </span>
+    ),
     isPositive: diff >= 0
   };
 };
@@ -89,6 +97,22 @@ export default function Earnings() {
     setCompareWith("Previous Period");
     setEarningsType("All Earnings");
   };
+
+  useEffect(() => {
+    const loadEarnings = async () => {
+      try {
+        setLoading(true);
+        const result = await getEarnings();
+        // Mimic API filtering behavior
+        setData(result);
+      } catch (err) {
+        setError("Failed to load earnings data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadEarnings();
+  }, [compareWith, fromDate, toDate, earningsType]);
 
   if (loading) return <div className="p-6 text-muted">Loading earnings...</div>;
   if (error || !data) return <div className="p-6 text-danger">{error || "No data"}</div>;
@@ -279,72 +303,74 @@ export default function Earnings() {
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         
-        {/* Earnings Summary Table */}
-        <Card className="p-0 xl:col-span-2 overflow-hidden flex flex-col">
-          <div className="p-5 border-b border-border font-bold text-foreground">
+        {/* Left Column Wrapper */}
+        <div className="xl:col-span-2 flex flex-col justify-between">
+          {/* Earnings Summary Table */}
+          <Card className="p-0 overflow-hidden flex flex-col self-start w-full">
+            <div className="p-5 border-b border-border font-bold text-foreground">
             Earnings Summary
           </div>
           <div className="overflow-x-auto flex-1">
             <table className="w-full text-left text-sm whitespace-nowrap">
               <thead className="bg-surface text-muted font-medium border-b border-border">
                 <tr>
-                  <th className="px-5 py-4 font-medium">Earning Type</th>
-                  <th className="px-5 py-4 font-medium text-right">This Period (12 May - 20 May)</th>
-                  <th className="px-5 py-4 font-medium text-right">Previous Period (04 May - 11 May)</th>
-                  <th className="px-5 py-4 font-medium text-right">Change %</th>
+                  <th className="px-5 py-4 font-medium text-foreground">Earning Type</th>
+                  <th className="px-5 py-4 font-medium text-right text-foreground">This Period (12 May - 20 May)</th>
+                  <th className="px-5 py-4 font-medium text-right text-foreground">Previous Period (04 May - 11 May)</th>
+                  <th className="px-5 py-4 font-medium text-right text-foreground">Change %</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border font-semibold">
                 
                 {/* Partner Earnings */}
                 <tr >
-                  <td className="px-5 py-4 text-foreground">Delivery Partner Earnings</td>
-                  <td className="px-5 py-4 text-right text-foreground">{formatAmount(summary.partner.current)}</td>
-                  <td className="px-5 py-4 text-right text-muted">{formatAmount(summary.partner.previous)}</td>
+                  <td className="px-5 py-4 text-foreground font-normal">Delivery Partner Earnings</td>
+                  <td className="px-5 py-4 text-right text-foreground font-normal">{formatAmount(summary.partner.current)}</td>
+                  <td className="px-5 py-4 text-right text-foreground font-normal">{formatAmount(summary.partner.previous)}</td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-3 text-success">
                       <span className="text-xs">{formatDelta(summary.partner.current, summary.partner.previous).diff}</span>
-                      <span className="bg-success/10 px-2 py-0.5 rounded text-xs">{formatDelta(summary.partner.current, summary.partner.previous).pct}</span>
+                      <span className="text-xs font-semibold">{formatDelta(summary.partner.current, summary.partner.previous).pct}</span>
                     </div>
                   </td>
                 </tr>
 
                 {/* Platform Commission */}
                 <tr >
-                  <td className="px-5 py-4 text-foreground">Platform Commission</td>
-                  <td className="px-5 py-4 text-right text-foreground">{formatAmount(summary.platform.current)}</td>
-                  <td className="px-5 py-4 text-right text-muted">{formatAmount(summary.platform.previous)}</td>
+                  <td className="px-5 py-4 text-foreground font-normal">Platform Commission</td>
+                  <td className="px-5 py-4 text-right text-foreground font-normal">{formatAmount(summary.platform.current)}</td>
+                  <td className="px-5 py-4 text-right text-foreground font-normal">{formatAmount(summary.platform.previous)}</td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-3 text-success">
                       <span className="text-xs">{formatDelta(summary.platform.current, summary.platform.previous).diff}</span>
-                      <span className="bg-success/10 px-2 py-0.5 rounded text-xs">{formatDelta(summary.platform.current, summary.platform.previous).pct}</span>
+                      <span className="text-xs font-semibold">{formatDelta(summary.platform.current, summary.platform.previous).pct}</span>
                     </div>
                   </td>
                 </tr>
 
                 {/* Other Earnings */}
                 <tr >
-                  <td className="px-5 py-4 text-foreground">Other Earnings</td>
-                  <td className="px-5 py-4 text-right text-foreground">{formatAmount(summary.other.current)}</td>
-                  <td className="px-5 py-4 text-right text-muted">{formatAmount(summary.other.previous)}</td>
+                  <td className="px-5 py-4 text-foreground font-normal">Other Earnings</td>
+                  <td className="px-5 py-4 text-right text-foreground font-normal">{formatAmount(summary.other.current)}</td>
+                  <td className="px-5 py-4 text-right text-foreground font-normal">{formatAmount(summary.other.previous)}</td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-3 text-success">
                       <span className="text-xs">{formatDelta(summary.other.current, summary.other.previous).diff}</span>
-                      <span className="bg-success/10 px-2 py-0.5 rounded text-xs">{formatDelta(summary.other.current, summary.other.previous).pct}</span>
+                      <span className="text-xs font-semibold">{formatDelta(summary.other.current, summary.other.previous).pct}</span>
                     </div>
                   </td>
                 </tr>
 
                 {/* Refunds */}
                 <tr >
-                  <td className="px-5 py-4 text-foreground">Refunds & Adjustments</td>
-                  <td className="px-5 py-4 text-right text-danger">-{formatAmount(summary.refunds.current)}</td>
-                  <td className="px-5 py-4 text-right text-muted">-{formatAmount(summary.refunds.previous)}</td>
+                  <td className="px-5 py-4 text-foreground font-normal">Refunds & Adjustments</td>
+                  <td className="px-5 py-4 text-right text-danger font-normal">-{formatAmount(summary.refunds.current)}</td>
+                  <td className="px-5 py-4 text-right text-danger font-normal">-{formatAmount(summary.refunds.previous)}</td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-3 text-danger">
                        {/* Refunds increase means bad (negative trend visually), but math diff is diff */}
                       <span className="text-xs">+{formatAmount(summary.refunds.current - summary.refunds.previous)}</span>
-                      <span className="bg-danger/10 px-2 py-0.5 rounded text-xs">↓ {(((summary.refunds.current - summary.refunds.previous)/summary.refunds.previous)*100).toFixed(2)}%</span>
+                      <span className="text-xs font-semibold flex items-center gap-0.5"><TrendingDown size={14} /> {(((summary.refunds.current - summary.refunds.previous)/summary.refunds.previous)*100).toFixed(2)}%</span>
                     </div>
                   </td>
                 </tr>
@@ -354,11 +380,13 @@ export default function Earnings() {
                 <tr className="bg-primary/5 border-t-2 border-border font-bold">
                   <td className="px-5 py-4 text-foreground text-base">Total Earnings</td>
                   <td className="px-5 py-4 text-right text-foreground text-base">{formatAmount(stats.total)}</td>
-                  <td className="px-5 py-4 text-right text-muted text-base">{formatAmount(1021538)}</td>
+                  <td className="px-5 py-4 text-right text-foreground text-base">{formatAmount(1021538)}</td>
                   <td className="px-5 py-4 text-right">
                     <div className="flex items-center justify-end gap-3 text-success">
                       <span className="text-xs">+{formatAmount(stats.total - 1021538)}</span>
-                      <span className="bg-success/10 px-2 py-0.5 rounded text-sm">↑ 21.95%</span>
+                      <span className="text-sm font-semibold flex items-center gap-1">
+                        <TrendingUp size={16} strokeWidth={2.5} /> 21.95%
+                      </span>
                     </div>
                   </td>
                 </tr>
@@ -366,12 +394,17 @@ export default function Earnings() {
             </table>
           </div>
         </Card>
+        
+        <div className="text-xs text-muted flex items-center gap-1.5 mt-6 xl:mb-4">
+          <Info size={14} /> Earnings are updated every 24 hours. Last updated on <span className="font-semibold text-foreground">20 May 2024, 11:30 PM</span>
+        </div>
+      </div>
 
         {/* Top Earning Partners */}
         <Card className="p-0 overflow-hidden flex flex-col">
           <div className="p-5 border-b border-border flex justify-between items-center bg-surface">
             <h3 className="font-bold text-foreground">Top Earning Delivery Partners</h3>
-            <button className="text-primary text-sm font-semibold hover:underline">View All</button>
+            <Link to="/delivery" className="text-primary text-sm hover:underline pr-2">View All</Link>
           </div>
           <div className="p-0 custom-scrollbar">
             <Table
@@ -395,7 +428,7 @@ export default function Earnings() {
                         <Avatar src={dp.image} alt={dp.name} identifier={dp.id} className="h-full w-full object-cover" />
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="font-bold text-foreground text-sm truncate">{dp.name}</span>
+                        <span className="font-normal text-foreground text-sm truncate">{dp.name}</span>
                         <span className="text-[10px] text-muted truncate">{dp.id}</span>
                       </div>
                     </div>
@@ -409,11 +442,6 @@ export default function Earnings() {
         </Card>
 
       </div>
-      
-      <div className="text-xs text-muted flex items-center gap-1.5 mt-2">
-        <Info size={14} /> Earnings are updated every 24 hours. Last updated on <span className="font-semibold text-foreground">20 May 2024, 11:30 PM</span>
-      </div>
-
     </section>
   );
 }

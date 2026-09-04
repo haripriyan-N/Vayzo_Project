@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { AlertCircle, ArrowLeft, Eye, EyeOff, ShieldCheck, UserRound } from "lucide-react";
-import { useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, ShieldCheck } from "lucide-react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import StatusSelect from "../components/ui/StatusSelect";
-import { createCategory, getCategoryById, updateCategory } from "../api/categoriesApi";
+import { createCategory, getCategoryById, updateCategory, getCategories } from "../api/categoriesApi";
 
 const types = [
   "Select type",
@@ -17,9 +17,9 @@ const statusOptions = ["Active", "Inactive"];
 
 function RequiredLabel({ text }) {
   return (
-    <span className="flex items-center gap-1.5">
+    <span className="flex items-center gap-1">
       {text}
-      <AlertCircle size={12} className="text-warning" strokeWidth={3} />
+      <span className="text-danger text-sm">*</span>
     </span>
   );
 }
@@ -27,6 +27,9 @@ function RequiredLabel({ text }) {
 function CategoriesAdd() {
   const navigate = useNavigate();
   const { categoryId } = useParams();
+  const [searchParams] = useSearchParams();
+  const queryParentId = searchParams.get("parentId") || "";
+  
   const isEditing = !!categoryId;
   
   const [form, setForm] = useState({
@@ -36,17 +39,31 @@ function CategoriesAdd() {
     itemCount: 0,
     status: statusOptions[0],
     description: "",
+    parentId: queryParentId,
   });
   
+  const [parents, setParents] = useState([]);
   const [dbId, setDbId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
+    loadParents();
     if (isEditing) {
       loadCategoryData();
     }
   }, [categoryId]);
+
+  const loadParents = async () => {
+    try {
+        const allCats = await getCategories();
+        // filter out itself if editing to prevent circular dependency
+        const possibleParents = allCats.filter(c => !c.parentId && c.id !== categoryId);
+        setParents(possibleParents);
+    } catch (err) {
+        console.error("Failed to load parents", err);
+    }
+  };
 
   const loadCategoryData = async () => {
     try {
@@ -66,6 +83,7 @@ function CategoriesAdd() {
           itemCount: data.itemCount || 0,
           status: data.status ? toTitleCase(data.status) : statusOptions[0],
           description: data.description || "",
+          parentId: data.parentId || "",
         });
       }
     } catch (err) {
@@ -109,16 +127,25 @@ function CategoriesAdd() {
         itemCount: Number(form.itemCount),
         status: form.status,
         description: form.description,
+        parentId: form.parentId === "null" ? "" : form.parentId
       };
 
       if (isEditing) {
         await updateCategory(dbId, payload);
+        if (payload.parentId) {
+            navigate(`/categories/${payload.parentId}`);
+        } else {
+            navigate("/categories");
+        }
       } else {
         payload.createdDate = new Date().toISOString().split("T")[0];
         await createCategory(payload);
+        if (payload.parentId) {
+            navigate(`/categories/${payload.parentId}`);
+        } else {
+            navigate("/categories");
+        }
       }
-
-      navigate("/categories");
     } catch (err) {
       setError("Unable to save category.");
     } finally {
@@ -138,7 +165,7 @@ function CategoriesAdd() {
               <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => navigate("/categories")}
+                  onClick={() => navigate(-1)}
                   className="mr-1 rounded-md p-1 hover:bg-background transition-colors text-muted hover:text-foreground"
                 >
                   <ArrowLeft size={18} />
@@ -168,6 +195,23 @@ function CategoriesAdd() {
                   onChange={update("status")}
                   required
                 />
+
+                <div className="w-full flex flex-col gap-1.5">
+                    <label className="text-sm font-medium text-foreground">
+                        Parent Category
+                    </label>
+                    <select
+                        value={form.parentId || ""}
+                        onChange={update("parentId")}
+                        className="w-full h-10 px-3 bg-surface border border-border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all cursor-pointer disabled:opacity-50"
+                    >
+                        <option value="">None (Top-Level Category)</option>
+                        {parents.map(p => (
+                            <option key={p.id} value={p.id}>{p.name}</option>
+                        ))}
+                    </select>
+                </div>
+
               </div>
 
               <div className="mt-8">
@@ -194,7 +238,7 @@ function CategoriesAdd() {
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => navigate("/categories")}
+                onClick={() => navigate(-1)}
                 className="px-6"
                 disabled={loading}
               >
@@ -218,7 +262,7 @@ function CategoriesAdd() {
               <p className="text-sm text-muted mb-4">
                 {isEditing 
                   ? "Update the category's details, status, and classification." 
-                  : "Fill out the required information to create a new category in the Vayzo system."}
+                  : "Fill out the required information to create a new category in the Vayzo system. Choose a Parent Category to make this a Child Category."}
               </p>
               
               <div className="w-full flex items-center justify-between py-3 border-y border-border">
@@ -227,6 +271,14 @@ function CategoriesAdd() {
                   {form.status}
                 </Badge>
               </div>
+              
+              <div className="w-full flex items-center justify-between py-3 border-b border-border">
+                <span className="text-xs font-medium text-muted">Type</span>
+                <span className="text-xs font-bold text-foreground">
+                  {form.parentId ? "Child Category" : "Parent Category"}
+                </span>
+              </div>
+
             </div>
           </div>
         </div>

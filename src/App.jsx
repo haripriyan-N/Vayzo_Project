@@ -24,9 +24,12 @@ import Categories from "./pages/Categories";
 import CategoriesAdd from "./pages/CategoriesAdd";
 import CategoriesDetails from "./pages/CategoriesDetails";
 import Offers from "./pages/Offers";
+import OffersAdd from "./pages/OffersAdd";
+import OffersDetails from "./pages/OffersDetails";
 import Locations from "./pages/Locations";
+import LocationsAdd from "./pages/LocationsAdd";
 import Earnings from "./pages/Earnings";
-
+import Restaurants from "./pages/Restaurants";
 function App() {
   return (
     <BrowserRouter>
@@ -75,11 +78,17 @@ function App() {
               />
 
               <Route path="/offers" element={<Offers />} />
+              <Route path="/offers/add" element={<OffersAdd />} />
+              <Route path="/offers/:offerId" element={<OffersDetails />} />
               <Route path="/locations" element={<Locations />} />
+              <Route path="/locations/add" element={<LocationsAdd />} />
               <Route path="/earnings" element={<Earnings />} />
 
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/complaints" element={<Complaints />} />
+              <Route path="/restaurants" element={<Restaurants />} />
+              <Route path="/restaurants/add" element={<Restaurants />} />
+
               <Route path="/settings" element={<Complaints />}>
                 <Route path="payment-settings" element={<Complaints />} />
               </Route>

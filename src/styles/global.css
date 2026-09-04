@@ -42,6 +42,7 @@
   body {
     background: var(--color-background);
     color: var(--color-foreground);
+    font-variant-numeric: tabular-nums lining-nums;
   }
 
   button,
@@ -89,30 +90,6 @@
   height: 0 !important;
   background: transparent !important;
 }
-/* .sidebar-scroll {
-  scrollbar-color: transparent transparent;
-}
-
-.sidebar-scroll:hover {
-  scrollbar-color: var(--vayzo-text-secondary) transparent;
-}
-
-.sidebar-scroll::-webkit-scrollbar {
-  width: 5px;
-}
-
-.sidebar-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.sidebar-scroll::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 999px;
-}
-
-.sidebar-scroll:hover::-webkit-scrollbar-thumb {
-  background: var(--vayzo-text-secondary);
-} */
 
 @font-face {
   font-family: "Instrument Sans";
@@ -144,4 +121,13 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

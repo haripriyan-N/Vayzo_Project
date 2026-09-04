@@ -1,29 +1,23 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
-  Eye, MoreVertical, Pencil, Plus, RotateCcw, 
+  Eye, Pencil, Plus, RotateCcw, 
   Trash2, LayoutGrid, CheckCircle, AlertCircle, 
   Filter, ShoppingBag, Utensils, Pill, Store,
-  Carrot, Baby, Milk, Coffee
+  Carrot, Baby, Coffee, Download
 } from "lucide-react";
 
-import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import SearchInput from "../components/ui/SearchInput";
-import StatusSelect from "../components/ui/StatusSelect";
+import Select from "../components/ui/Select";
 import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
 import StatCard from "../components/ui/StatCard";
-import ActionMenu from "../components/ui/ActionMenu";
 import BadgeCell from "../components/ui/BadgeCell";
+import ActionMenu from "../components/ui/ActionMenu";
 
 import { getCategories, deleteCategory } from "../api/categoriesApi";
-
-const statusBadgeMap = {
-  Active: "success",
-  Inactive: "danger",
-};
 
 const statusOptions = [
   "All Status",
@@ -31,28 +25,19 @@ const statusOptions = [
   "Inactive",
 ];
 
-const parentOptions = [
-  "All Parent Categories",
-  "Food",
-  "Grocery",
-  "Retail",
-];
-
 const categoryTableHeaders = [
   "No.",
-  "Category Name",
   "Parent Category",
   "Description",
   "Status",
   "Items",
-  "Order",
   "Created At",
   "Actions",
 ];
 
 // Helper to assign a random icon based on name
 const getCategoryIcon = (name) => {
-  const n = name.toLowerCase();
+  const n = name?.toLowerCase() || "";
   if (n.includes('food') || n.includes('restaurant')) return <Utensils size={18} className="text-success" />;
   if (n.includes('grocer') || n.includes('retail')) return <ShoppingBag size={18} className="text-warning" />;
   if (n.includes('pharmacy') || n.includes('medicine')) return <Pill size={18} className="text-primary" />;
@@ -63,29 +48,25 @@ const getCategoryIcon = (name) => {
 };
 
 const getCategoryIconBg = (name) => {
-  const n = name.toLowerCase();
+  const n = name?.toLowerCase() || "";
   if (n.includes('food') || n.includes('restaurant') || n.includes('fruit') || n.includes('veg')) return "bg-success/10";
   if (n.includes('grocer') || n.includes('retail')) return "bg-warning/10";
   if (n.includes('beverage') || n.includes('drink')) return "bg-info/10";
   return "bg-primary/10";
 };
 
-// Removed custom CategoryStatCard, relying on updated StatCard instead
-
-function Categories() {
+export default function Categories() {
   const navigate = useNavigate();
 
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   
-  const [openMenuId, setOpenMenuId] = useState(null);
   const [deleteModalId, setDeleteModalId] = useState(null);
 
   // Filters
   const [searchText, setSearchText] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
-  const [parentFilter, setParentFilter] = useState("All Parent Categories");
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
@@ -95,7 +76,8 @@ function Categories() {
       setLoading(true);
       setError("");
       const data = await getCategories();
-      setCategories(data);
+      // Only keep top-level categories (parentId is empty or null)
+      setCategories(data.filter(c => !c.parentId));
     } catch (err) {
       setError("Unable to load categories.");
     } finally {
@@ -116,27 +98,19 @@ function Categories() {
       const matchStatus =
         statusFilter === "All Status" || category.status === statusFilter;
 
-      // Note: Since real data might not have parentCategory, this is just visual mock logic
-      const parentCat = category.parentCategory || "-";
-      const matchParent =
-        parentFilter === "All Parent Categories" || parentCat === parentFilter;
-
-      return matchSearch && matchStatus && matchParent;
+      return matchSearch && matchStatus;
     });
-  }, [categories, searchText, statusFilter, parentFilter]);
+  }, [categories, searchText, statusFilter]);
 
-  const hasFilters =
-    searchText !== "" ||
-    statusFilter !== "All Status" ||
-    parentFilter !== "All Parent Categories";
+  const hasFilters = searchText !== "" || statusFilter !== "All Status";
 
   const resetFilters = () => {
     setSearchText("");
     setStatusFilter("All Status");
-    setParentFilter("All Parent Categories");
+    setCurrentPage(1);
   };
 
-  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage) || 1;
   const paginatedCategories = filteredCategories.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -151,7 +125,7 @@ function Categories() {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchText, statusFilter, parentFilter]);
+  }, [searchText, statusFilter]);
 
   const handleDeleteCategory = async () => {
     if (!deleteModalId) return;
@@ -170,10 +144,10 @@ function Categories() {
   };
 
   return (
-    <section className="min-h-full bg-background p-4 sm:p-6">
+    <section className="min-h-full bg-background p-4 sm:p-6 pb-20 flex flex-col gap-6">
       
-      {/* Stat Cards Row */}
-      <div className="mb-6 grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      {/* 2. Stat Cards Row */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           variant="horizontal"
           title="Total Categories"
@@ -214,186 +188,182 @@ function Categories() {
         />
       </div>
 
-      <Card noPadding className="flex flex-col">
-        {/* Filter Section */}
-        <div className="p-4 sm:p-6 pb-4 border-b border-border">
-          <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
-            {/* Search Input */}
-            <div className="flex-1 w-full min-w-0 xl:max-w-md">
-              <SearchInput
-                id="category-search"
-                value={searchText}
-                onChange={(event) => setSearchText(event.target.value)}
-                placeholder="Search category by name..."
-              />
-            </div>
+      {/* 3. Search + Select/filter controls */}
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between flex-wrap">
+          <div className="w-full xl:w-[400px] shrink-0">
+            <SearchInput
+              id="category-search"
+              value={searchText}
+              onChange={(event) => setSearchText(event.target.value)}
+              placeholder="Search category by name..."
+            />
+          </div>
 
-            {/* Selects and Buttons */}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
-              <StatusSelect
+              <Select
                 id="category-status"
                 value={statusFilter}
                 options={statusOptions}
                 onChange={(event) => setStatusFilter(event.target.value)}
                 className="w-full xl:w-[150px]"
               />
+            </div>
 
-              <StatusSelect
-                id="category-parent"
-                value={parentFilter}
-                options={parentOptions}
-                onChange={(event) => setParentFilter(event.target.value)}
-                className="w-full xl:w-[200px]"
-              />
-
+            <div className="flex gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
+              {hasFilters && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  type="button"
+                  onClick={resetFilters}
+                  className="h-10 w-full sm:w-auto px-4"
+                >
+                  <RotateCcw size={14} className="mr-1" />
+                  Reset
+                </Button>
+              )}
               <Button
                 variant="secondary"
                 size="sm"
-                className="h-10 px-4 w-full xl:w-auto flex items-center justify-center gap-2"
+                type="button"
+                className="h-10 w-full sm:w-auto px-4"
               >
-                <Filter size={16} />
-                Filter
+                <Download size={14} className="mr-1" />
+                Export
               </Button>
-
-              <Button
-                size="sm"
+              <Button 
+                size="sm" 
+                className="gap-2 shrink-0 shadow-md h-10 w-full sm:w-auto px-4" 
                 onClick={() => navigate("/categories/add")}
-                className="h-10 w-full xl:w-auto px-5 flex items-center justify-center gap-2 whitespace-nowrap"
               >
-                <Plus size={18} strokeWidth={2.5} />
-                Add Category
+                <Plus size={16} /> Add Category
               </Button>
             </div>
           </div>
         </div>
+      </div>
 
-        {error ? (
-          <div className="m-6 rounded-xl border border-danger/30 bg-danger/5 p-8 text-center text-sm font-medium text-danger">
-            {error}
-          </div>
-        ) : (
-          <Table
-            headers={categoryTableHeaders}
-            currentCount={paginatedCategories.length}
-            totalCount={filteredCategories.length}
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            minWidth="1000px"
-            className="border-0 shadow-none rounded-none"
-          >
-            {loading ? (
-              <tr>
-                <td
-                  colSpan={categoryTableHeaders.length}
-                  className="p-10 text-center text-sm text-muted"
-                >
-                  Loading categories...
-                </td>
-              </tr>
-            ) : paginatedCategories.length ? (
-              paginatedCategories.map((category, index) => (
-                <tr
-                  key={category.id}
-                  className="border-b border-border last:border-0 transition-colors hover:bg-background"
-                >
-                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
-                    {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
-                  </td>
-                  {/* Category Name with Icon */}
-                  <td className="px-4 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${getCategoryIconBg(category.name)}`}>
-                        {getCategoryIcon(category.name)}
-                      </div>
-                      <span className="font-semibold text-foreground text-sm">
-                        {category.name}
-                      </span>
-                    </div>
-                  </td>
-
-                  {/* Parent Category */}
-                  <td className="px-4 py-4 text-sm text-muted">
-                    {category.parentCategory || "-"}
-                  </td>
-
-                  {/* Description */}
-                  <td className="px-4 py-4 text-sm text-muted max-w-[200px] truncate">
-                    {category.description || "-"}
-                  </td>
-
-                  {/* Status */}
-                  <td className="px-4 py-4">
-                    <BadgeCell
-                      maxContent={maxStatus}
-                      content={category.status || "Active"}
-                      variant={category.status === 'Active' ? 'success' : 'warning'}
-                      className="px-3"
-                    />
-                  </td>
-
-                  {/* Items */}
-                  <td className="px-4 py-4 text-sm font-medium text-muted">
-                    {category.itemCount || (Math.floor(Math.random() * 100) + 10)}
-                  </td>
-
-                  {/* Order */}
-                  <td className="px-4 py-4 text-sm text-muted">
-                    {index + 1}
-                  </td>
-
-                  {/* Created At */}
-                  <td className="whitespace-nowrap px-4 py-4">
-                    <div className="flex flex-col">
-                      <span className="text-sm font-medium text-foreground">
-                        {category.createdDate ? new Date(category.createdDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : "12 May 2024"}
-                      </span>
-                      <span className="text-xs text-muted">
-                        10:15 AM
-                      </span>
-                    </div>
-                  </td>
-
-                  {/* Actions */}
-                  <td className="px-4 py-4">
-                    <div className="flex items-center gap-2">
-                      <ActionMenu
-                        actions={[
-                          {
-                            label: "View",
-                            icon: Eye,
-                            onClick: () => navigate(`/categories/${category.id}`),
-                          },
-                          {
-                            label: "Edit",
-                            icon: Pencil,
-                            onClick: () => navigate(`/categories/edit/${category.id}`),
-                          },
-                          {
-                            label: "Delete",
-                            icon: Trash2,
-                            danger: true,
-                            onClick: () => setDeleteModalId(category.id),
-                          },
-                        ]}
-                      />
-                    </div>
+      {/* 4. Categories table */}
+      <div className="flex flex-col gap-6 mt-2">
+        <Card noPadding className="w-full overflow-hidden flex flex-col">
+          {error ? (
+            <div className="p-8 text-center text-sm font-medium text-danger">
+              {error}
+            </div>
+          ) : (
+            <Table
+              headers={categoryTableHeaders}
+              currentCount={paginatedCategories.length}
+              totalCount={filteredCategories.length}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              minWidth="1000px"
+              className="border-0 shadow-none rounded-none"
+            >
+              {loading ? (
+                <tr>
+                  <td
+                    colSpan={categoryTableHeaders.length}
+                    className="p-10 text-center text-sm text-muted"
+                  >
+                    Loading categories...
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan={categoryTableHeaders.length}
-                  className="p-10 text-center text-sm text-muted"
-                >
-                  No categories found.
-                </td>
-              </tr>
-            )}
-          </Table>
-        )}
-      </Card>
+              ) : paginatedCategories.length ? (
+                paginatedCategories.map((category, index) => (
+                  <tr
+                    key={category.id}
+                    className="border-b border-border last:border-0 transition-colors hover:bg-background"
+                  >
+                    <td className="whitespace-nowrap px-5 py-4 font-medium text-foreground">
+                      {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                    </td>
+                    
+                    <td className="px-5 py-4">
+                      <div 
+                        className="flex items-center gap-3 cursor-pointer group"
+                        onClick={() => navigate(`/categories/${category.id}`)}
+                      >
+                        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${getCategoryIconBg(category.name)}`}>
+                          {getCategoryIcon(category.name)}
+                        </div>
+                        <span className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">
+                          {category.name}
+                        </span>
+                      </div>
+                    </td>
+
+                    <td className="px-5 py-4 text-sm text-muted max-w-[200px] truncate">
+                      {category.description || "-"}
+                    </td>
+
+                    <td className="px-5 py-4">
+                      <BadgeCell
+                        maxContent={maxStatus}
+                        content={category.status || "Active"}
+                        variant={category.status === 'Active' ? 'success' : 'warning'}
+                        className="px-3"
+                      />
+                    </td>
+
+                    <td className="px-5 py-4 text-sm font-medium text-muted">
+                      {category.itemCount || (Math.floor(Math.random() * 100) + 10)}
+                    </td>
+
+                    <td className="whitespace-nowrap px-5 py-4">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium text-foreground">
+                          {category.createdDate ? new Date(category.createdDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : "12 May 2024"}
+                        </span>
+                        <span className="text-xs text-muted">
+                          10:15 AM
+                        </span>
+                      </div>
+                    </td>
+
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-2">
+                        <ActionMenu
+                          actions={[
+                            {
+                              label: "View",
+                              icon: Eye,
+                              onClick: () => navigate(`/categories/${category.id}`),
+                            },
+                            {
+                              label: "Edit",
+                              icon: Pencil,
+                              onClick: () => navigate(`/categories/edit/${category.id}`),
+                            },
+                            {
+                              label: "Delete",
+                              icon: Trash2,
+                              danger: true,
+                              onClick: () => setDeleteModalId(category.id),
+                            },
+                          ]}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={categoryTableHeaders.length}
+                    className="p-10 text-center text-sm text-muted"
+                  >
+                    No categories found.
+                  </td>
+                </tr>
+              )}
+            </Table>
+          )}
+        </Card>
+      </div>
       
       <Modal 
         isOpen={!!deleteModalId} 
@@ -403,11 +373,9 @@ function Categories() {
         <p className="text-sm text-muted">Are you sure you want to delete this category? This action cannot be undone.</p>
         <div className="mt-6 flex justify-end gap-3">
           <Button variant="secondary" onClick={() => setDeleteModalId(null)}>Cancel</Button>
-          <Button className="bg-danger hover:bg-danger/90 text-white" onClick={handleDeleteCategory}>Delete</Button>
+          <Button className="bg-danger hover:bg-danger/90 text-white border-0" onClick={handleDeleteCategory}>Delete</Button>
         </div>
       </Modal>
     </section>
   );
 }
-
-export default Categories;

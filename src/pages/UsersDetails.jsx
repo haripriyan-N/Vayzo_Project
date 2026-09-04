@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, Mail, Phone, CalendarDays, UserRound } from "lucide-react";
+import { ArrowLeft, Mail, Phone, CalendarDays, UserRound, Pencil } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Badge from "../components/ui/Badge";
@@ -119,6 +119,17 @@ function UsersDetails() {
               </div>
 
               <p className="mt-1 text-xs text-muted">User ID: {user.userId}</p>
+            </div>
+
+            <div className="flex items-center gap-2 sm:ml-auto mt-2 sm:mt-0">
+              <Button
+                size="sm"
+                onClick={() => navigate(`/users/edit/${user.userId}`)}
+                className="gap-1.5"
+              >
+                <Pencil size={14} />
+                Edit
+              </Button>
             </div>
           </div>
         </div>

@@ -5,11 +5,12 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { navigationItems } from "../../constants/navigation";
 import UserImg from "../../assets/logo/Trans_full.png";
 import { useNotifications } from "../../context/NotificationContext";
+import { getComplaints } from "../../api/complaintsApi";
 
 const getRouteInfo = (pathname) => {
   const mainRoute = navigationItems.find(
@@ -67,14 +68,40 @@ function Header({ onMenuClick }) {
 
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { unreadCount } = useNotifications();
-  const messageCount = 5;
+  const [messageCount, setMessageCount] = useState(0);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchComplaints = async () => {
+      try {
+        const complaints = await getComplaints();
+        if (isMounted) {
+          const activeComplaints = complaints.filter(
+            (c) => c.status === "Open" || c.status === "In Progress"
+          );
+          setMessageCount(activeComplaints.length);
+        }
+      } catch (err) {
+        console.error("Failed to fetch complaints for header badge", err);
+      }
+    };
+    
+    fetchComplaints();
+    
+    // Optional polling could be added here if real-time isn't set up via context
+    const intervalId = setInterval(fetchComplaints, 30000); // 30s
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const storedUser = localStorage.getItem("vayzo_admin_user");
 
   const user = storedUser
     ? JSON.parse(storedUser)
     : {
-        name: "HariPriyan",
+        name: "Pradhap",
         profileImage: UserImg,
         role: "Super Admin",
       };

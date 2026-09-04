@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/offe rs";
+const API_URL = "http://localhost:3000/offers";
 
 export async function getOffers() {
   const response = await fetch(API_URL);

@@ -462,7 +462,8 @@
       "deliveryPartner": "Raja M",
       "city": "Chennai",
       "id": "j3OKeM_okRA",
-      "deliveryPartnerVehicle": "Van"
+      "deliveryPartnerVehicle": "Van",
+      "deliveryPartnerId": "dp-id-2"
     },
     {
       "orderId": "ORD1003",
@@ -663,14 +664,15 @@
       "orderId": "ORD2012",
       "customerName": "Prathap M 12",
       "restaurantName": "Murugan Kadai",
-      "status": "DELIVERED",
+      "status": "IN_TRANSIT",
       "paymentStatus": "PAID",
       "amount": 420,
       "orderDate": "2026-08-27 11:20",
       "deliveryPartner": "Sankar P",
       "city": "Madurai",
       "id": "ORD2012",
-      "deliveryPartnerVehicle": "Bike"
+      "deliveryPartnerVehicle": "Bike",
+      "deliveryPartnerId": "dp-id-1"
     },
     {
       "orderId": "ORD2013",
@@ -2290,10 +2292,11 @@
       "userType": "Customer",
       "userName": "Rahul S",
       "issueType": "Late Delivery",
-      "status": "Open",
+      "status": "Resolved",
       "priority": "High",
       "description": "My order took 2 hours to deliver instead of 30 mins.",
-      "resolution": ""
+      "resolution": "",
+      "assignTo": "Support Agent 2"
     },
     {
       "id": "CMP002",
@@ -2459,9 +2462,10 @@
       "userName": "Rahul S",
       "issueType": "Late Delivery",
       "status": "Open",
-      "priority": "High",
+      "priority": "Medium",
       "description": "My order took 2 hours to deliver instead of 30 mins.",
-      "resolution": ""
+      "resolution": "",
+      "assignTo": "Support Agent 1"
     },
     {
       "id": "CMP2012",
@@ -2542,7 +2546,7 @@
       "userType": "Customer",
       "userName": "Rahul S",
       "issueType": "Late Delivery",
-      "status": "Open",
+      "status": "Resolved",
       "priority": "High",
       "description": "My order took 2 hours to deliver instead of 30 mins.",
       "resolution": ""
@@ -2581,7 +2585,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "2",
@@ -2591,7 +2596,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "3",
@@ -2601,7 +2607,8 @@
       "itemCount": 850,
       "status": "Active",
       "description": "Medicines and health supplements.",
-      "createdDate": "2024-02-05"
+      "createdDate": "2024-02-05",
+      "parentId": ""
     },
     {
       "id": "4",
@@ -2611,7 +2618,8 @@
       "itemCount": 45,
       "status": "Inactive",
       "description": "Cleaning, repair, and maintenance services.",
-      "createdDate": "2024-03-20"
+      "createdDate": "2024-03-20",
+      "parentId": ""
     },
     {
       "id": "5",
@@ -2621,7 +2629,8 @@
       "itemCount": 320,
       "status": "Active",
       "description": "Gadgets, appliances, and accessories.",
-      "createdDate": "2024-04-12"
+      "createdDate": "2024-04-12",
+      "parentId": ""
     },
     {
       "name": "Fastfood",
@@ -2631,7 +2640,8 @@
       "status": "Active",
       "description": "Fast foods",
       "createdDate": "2026-09-02",
-      "id": "EvXNbJd406E"
+      "id": "EvXNbJd406E",
+      "parentId": ""
     },
     {
       "id": "CAT2001",
@@ -2641,7 +2651,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2002",
@@ -2651,7 +2662,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2003",
@@ -2661,7 +2673,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2004",
@@ -2671,7 +2684,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2005",
@@ -2681,7 +2695,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2006",
@@ -2691,7 +2706,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2007",
@@ -2701,7 +2717,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2008",
@@ -2711,7 +2728,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2009",
@@ -2721,7 +2739,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2010",
@@ -2731,7 +2750,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2011",
@@ -2741,7 +2761,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2012",
@@ -2751,7 +2772,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2013",
@@ -2761,7 +2783,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2014",
@@ -2771,7 +2794,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2015",
@@ -2781,7 +2805,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2016",
@@ -2791,7 +2816,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2017",
@@ -2801,7 +2827,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2018",
@@ -2811,7 +2838,8 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
       "id": "CAT2019",
@@ -2821,17 +2849,52 @@
       "itemCount": 1200,
       "status": "Active",
       "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "createdDate": "2024-01-15",
+      "parentId": ""
     },
     {
-      "id": "CAT2020",
-      "categoryId": "CAT2020",
-      "name": "Food 20",
+      "id": "101",
+      "categoryId": "CAT1101",
+      "name": "Chicken",
       "type": "Product",
-      "itemCount": 1200,
+      "itemCount": 45,
       "status": "Active",
-      "description": "Fresh produce, staples, and daily needs.",
-      "createdDate": "2024-01-15"
+      "description": "Fresh chicken",
+      "createdDate": "2024-05-10",
+      "parentId": "1"
+    },
+    {
+      "id": "102",
+      "categoryId": "CAT1102",
+      "name": "Mutton",
+      "type": "Product",
+      "itemCount": 12,
+      "status": "Active",
+      "description": "Fresh mutton",
+      "createdDate": "2024-05-11",
+      "parentId": "1"
+    },
+    {
+      "id": "501",
+      "categoryId": "CAT1501",
+      "name": "Samsung",
+      "type": "Product",
+      "itemCount": 150,
+      "status": "Active",
+      "description": "Samsung electronics",
+      "createdDate": "2024-05-12",
+      "parentId": "5"
+    },
+    {
+      "id": "502",
+      "categoryId": "CAT1502",
+      "name": "Apple",
+      "type": "Product",
+      "itemCount": 80,
+      "status": "Active",
+      "description": "Apple electronics",
+      "createdDate": "2024-05-13",
+      "parentId": "5"
     }
   ],
   "offers": [
@@ -3510,16 +3573,6 @@
     {
       "id": "LOC2016",
       "name": "Anna Nagar 16",
-      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
-      "zone": "North Zone",
-      "city": "Madurai",
-      "status": "ACTIVE",
-      "orders30d": 1250,
-      "color": "primary"
-    },
-    {
-      "id": "LOC2017",
-      "name": "Anna Nagar 17",
       "fullName": "Anna Nagar, Madurai, Tamil Nadu",
       "zone": "North Zone",
       "city": "Madurai",
@@ -6041,6 +6094,388 @@
       "otp": "123456",
       "createdAt": 1788440975659,
       "id": "OmKVe3uZ62A"
+    }
+  ],
+  "restaurants": [
+    {
+      "id": "RST001",
+      "name": "Murugan Kadai",
+      "ownerName": "Murugan S",
+      "cuisineType": "South Indian",
+      "address": "12, Anna Salai, Chennai - 600002",
+      "city": "Chennai",
+      "phone": "+91 98765 43210",
+      "email": "murugan@kadai.com",
+      "status": "Active",
+      "rating": 4.7,
+      "totalOrders": 3420,
+      "deliveryTime": "25-35 mins",
+      "minimumOrder": 80,
+      "deliveryCharge": 20,
+      "openingTime": "07:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2023-01-15"
+    },
+    {
+      "id": "RST002",
+      "name": "Pizza Hub",
+      "ownerName": "Ravi Kumar",
+      "cuisineType": "Italian, Fast Food",
+      "address": "45, MG Road, Bangalore - 560001",
+      "city": "Bangalore",
+      "phone": "+91 98765 43211",
+      "email": "info@pizzahub.in",
+      "status": "Active",
+      "rating": 4.4,
+      "totalOrders": 2180,
+      "deliveryTime": "30-40 mins",
+      "minimumOrder": 120,
+      "deliveryCharge": 30,
+      "openingTime": "11:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-03-20"
+    },
+    {
+      "id": "RST003",
+      "name": "Sangeetha Veg",
+      "ownerName": "Sangeetha R",
+      "cuisineType": "South Indian",
+      "address": "78, T Nagar, Chennai - 600017",
+      "city": "Chennai",
+      "phone": "+91 98765 43212",
+      "email": "sangeetha@veg.com",
+      "status": "Active",
+      "rating": 4.5,
+      "totalOrders": 1895,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 60,
+      "deliveryCharge": 15,
+      "openingTime": "07:30 AM",
+      "closingTime": "10:30 PM",
+      "joinedOn": "2023-02-10"
+    },
+    {
+      "id": "RST004",
+      "name": "A2B Restaurant",
+      "ownerName": "Adyar Ananda B",
+      "cuisineType": "South Indian, North Indian",
+      "address": "23, Adyar, Chennai - 600020",
+      "city": "Chennai",
+      "phone": "+91 98765 43213",
+      "email": "a2b@restaurant.com",
+      "status": "Active",
+      "rating": 4.6,
+      "totalOrders": 2950,
+      "deliveryTime": "25-35 mins",
+      "minimumOrder": 100,
+      "deliveryCharge": 25,
+      "openingTime": "08:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2022-11-05"
+    },
+    {
+      "id": "RST005",
+      "name": "KFC Express",
+      "ownerName": "Yum Brands India",
+      "cuisineType": "Fast Food",
+      "address": "56, Phoenix Mall, Velachery, Chennai - 600042",
+      "city": "Chennai",
+      "phone": "+91 98765 43214",
+      "email": "kfc@express.in",
+      "status": "Active",
+      "rating": 4.2,
+      "totalOrders": 3750,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 150,
+      "deliveryCharge": 30,
+      "openingTime": "10:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2022-08-12"
+    },
+    {
+      "id": "RST006",
+      "name": "Biryani Plaza",
+      "ownerName": "Hameed Khan",
+      "cuisineType": "Biryani, North Indian",
+      "address": "34, Triplicane, Chennai - 600005",
+      "city": "Chennai",
+      "phone": "+91 98765 43215",
+      "email": "biryani@plaza.com",
+      "status": "Active",
+      "rating": 4.8,
+      "totalOrders": 4120,
+      "deliveryTime": "35-45 mins",
+      "minimumOrder": 90,
+      "deliveryCharge": 20,
+      "openingTime": "11:00 AM",
+      "closingTime": "12:00 AM",
+      "joinedOn": "2022-06-18"
+    },
+    {
+      "id": "RST007",
+      "name": "ABC Cafe",
+      "ownerName": "Anita B",
+      "cuisineType": "Cafe, Beverages",
+      "address": "123, Anna Salai, Teynampet, Chennai - 600018",
+      "city": "Chennai",
+      "phone": "+91 98765 43216",
+      "email": "info@abccafe.com",
+      "status": "Active",
+      "rating": 4.3,
+      "totalOrders": 980,
+      "deliveryTime": "15-25 mins",
+      "minimumOrder": 50,
+      "deliveryCharge": 10,
+      "openingTime": "08:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-05-01"
+    },
+    {
+      "id": "RST008",
+      "name": "Food Express",
+      "ownerName": "Suresh V",
+      "cuisineType": "Multi-Cuisine",
+      "address": "67, Nungambakkam, Chennai - 600034",
+      "city": "Chennai",
+      "phone": "+91 98765 43217",
+      "email": "food@express.in",
+      "status": "Inactive",
+      "rating": 3.9,
+      "totalOrders": 740,
+      "deliveryTime": "30-40 mins",
+      "minimumOrder": 70,
+      "deliveryCharge": 25,
+      "openingTime": "10:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2023-04-14"
+    },
+    {
+      "id": "RST009",
+      "name": "Burger Point",
+      "ownerName": "Kevin D",
+      "cuisineType": "Fast Food",
+      "address": "89, Anna Nagar, Chennai - 600040",
+      "city": "Chennai",
+      "phone": "+91 98765 43218",
+      "email": "burger@point.com",
+      "status": "Active",
+      "rating": 4.1,
+      "totalOrders": 1560,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 100,
+      "deliveryCharge": 20,
+      "openingTime": "11:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-01-28"
+    },
+    {
+      "id": "RST010",
+      "name": "Spice House",
+      "ownerName": "Priya M",
+      "cuisineType": "North Indian, Mughlai",
+      "address": "12, Egmore, Chennai - 600008",
+      "city": "Chennai",
+      "phone": "+91 98765 43219",
+      "email": "spice@house.in",
+      "status": "Active",
+      "rating": 4.5,
+      "totalOrders": 2340,
+      "deliveryTime": "30-40 mins",
+      "minimumOrder": 110,
+      "deliveryCharge": 25,
+      "openingTime": "12:00 PM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2022-09-22"
+    },
+    {
+      "id": "RST011",
+      "name": "Saravana Bhavan",
+      "ownerName": "Saravana P",
+      "cuisineType": "South Indian",
+      "address": "77, Pondy Bazaar, Chennai - 600017",
+      "city": "Chennai",
+      "phone": "+91 98765 43220",
+      "email": "saravana@bhavan.com",
+      "status": "Active",
+      "rating": 4.9,
+      "totalOrders": 5200,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 75,
+      "deliveryCharge": 15,
+      "openingTime": "07:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2022-04-01"
+    },
+    {
+      "id": "RST012",
+      "name": "Mainland China",
+      "ownerName": "Anjan C",
+      "cuisineType": "Chinese",
+      "address": "34, Nungambakkam High Rd, Chennai - 600034",
+      "city": "Chennai",
+      "phone": "+91 98765 43221",
+      "email": "mainland@china.in",
+      "status": "Active",
+      "rating": 4.4,
+      "totalOrders": 1870,
+      "deliveryTime": "35-45 mins",
+      "minimumOrder": 200,
+      "deliveryCharge": 40,
+      "openingTime": "12:00 PM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-06-10"
+    },
+    {
+      "id": "RST013",
+      "name": "Domino's Pizza",
+      "ownerName": "Jubilant FoodWorks",
+      "cuisineType": "Pizza, Fast Food",
+      "address": "23, Velachery Main Rd, Chennai - 600042",
+      "city": "Chennai",
+      "phone": "+91 98765 43222",
+      "email": "dominoes@pizza.in",
+      "status": "Active",
+      "rating": 4,
+      "totalOrders": 4500,
+      "deliveryTime": "25-35 mins",
+      "minimumOrder": 120,
+      "deliveryCharge": 30,
+      "openingTime": "10:00 AM",
+      "closingTime": "12:00 AM",
+      "joinedOn": "2022-07-15"
+    },
+    {
+      "id": "RST014",
+      "name": "Hotel Tamil Nadu",
+      "ownerName": "TN Tourism",
+      "cuisineType": "South Indian",
+      "address": "88, Madurai Main Rd, Madurai - 625001",
+      "city": "Madurai",
+      "phone": "+91 98765 43223",
+      "email": "hotel@tamilnadu.in",
+      "status": "Inactive",
+      "rating": 3.7,
+      "totalOrders": 620,
+      "deliveryTime": "30-45 mins",
+      "minimumOrder": 60,
+      "deliveryCharge": 20,
+      "openingTime": "07:30 AM",
+      "closingTime": "09:30 PM",
+      "joinedOn": "2023-07-20"
+    },
+    {
+      "id": "RST015",
+      "name": "The Cream & Fudge",
+      "ownerName": "Deepa R",
+      "cuisineType": "Desserts, Cafe",
+      "address": "45, Besant Nagar, Chennai - 600090",
+      "city": "Chennai",
+      "phone": "+91 98765 43224",
+      "email": "cream@fudge.com",
+      "status": "Active",
+      "rating": 4.6,
+      "totalOrders": 1120,
+      "deliveryTime": "15-25 mins",
+      "minimumOrder": 50,
+      "deliveryCharge": 10,
+      "openingTime": "11:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-08-05"
+    },
+    {
+      "id": "RST016",
+      "name": "Punjab Grill",
+      "ownerName": "Gurpreet S",
+      "cuisineType": "North Indian, Punjabi",
+      "address": "56, Coimbatore Main Rd, Coimbatore - 641001",
+      "city": "Coimbatore",
+      "phone": "+91 98765 43225",
+      "email": "punjab@grill.in",
+      "status": "Active",
+      "rating": 4.3,
+      "totalOrders": 1340,
+      "deliveryTime": "30-40 mins",
+      "minimumOrder": 150,
+      "deliveryCharge": 30,
+      "openingTime": "12:00 PM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-02-28"
+    },
+    {
+      "id": "RST017",
+      "name": "Sea Shell",
+      "ownerName": "Marina K",
+      "cuisineType": "Seafood, Coastal",
+      "address": "9, ECR, Thiruvanmiyur, Chennai - 600041",
+      "city": "Chennai",
+      "phone": "+91 98765 43226",
+      "email": "seashell@coastal.com",
+      "status": "Active",
+      "rating": 4.7,
+      "totalOrders": 890,
+      "deliveryTime": "40-50 mins",
+      "minimumOrder": 200,
+      "deliveryCharge": 40,
+      "openingTime": "12:00 PM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-09-12"
+    },
+    {
+      "id": "RST018",
+      "name": "Green Bowl",
+      "ownerName": "Aarthi N",
+      "cuisineType": "Healthy, Salads",
+      "address": "14, OMR, Sholinganallur, Chennai - 600119",
+      "city": "Chennai",
+      "phone": "+91 98765 43227",
+      "email": "green@bowl.in",
+      "status": "Active",
+      "rating": 4.5,
+      "totalOrders": 760,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 100,
+      "deliveryCharge": 15,
+      "openingTime": "09:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2023-10-01"
+    },
+    {
+      "id": "RST019",
+      "name": "Chaat Corner",
+      "ownerName": "Vijay S",
+      "cuisineType": "Street Food, Chaat",
+      "address": "4, Tambaram, Chennai - 600045",
+      "city": "Chennai",
+      "phone": "+91 98765 43228",
+      "email": "chaat@corner.in",
+      "status": "Inactive",
+      "rating": 3.8,
+      "totalOrders": 430,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 40,
+      "deliveryCharge": 10,
+      "openingTime": "04:00 PM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2023-11-15"
+    },
+    {
+      "id": "RST020",
+      "name": "The Grand Kitchen",
+      "ownerName": "Raj Mohan",
+      "cuisineType": "Multi-Cuisine, Continental",
+      "address": "102, OMR IT Corridor, Chennai - 600096",
+      "city": "Chennai",
+      "phone": "+91 98765 43229",
+      "email": "grand@kitchen.in",
+      "status": "Active",
+      "rating": 4.8,
+      "totalOrders": 3100,
+      "deliveryTime": "35-45 mins",
+      "minimumOrder": 250,
+      "deliveryCharge": 50,
+      "openingTime": "11:00 AM",
+      "closingTime": "11:30 PM",
+      "joinedOn": "2022-12-01"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

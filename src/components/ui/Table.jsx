@@ -60,9 +60,9 @@ function Table({
         className,
       ].join(" ")}
     >
-      <div className="w-full">
+      <div className="w-full overflow-auto no-scrollbar max-h-[600px] relative">
         <div style={{ minWidth }} className="flex flex-col">
-          <table className="w-full border-collapse text-left text-xs">
+          <table className="w-full border-collapse text-left text-xs relative">
             <thead className="bg-surface border-b border-border shadow-sm sticky top-0 z-10">
               <tr>
                 {headers.map((header) => (

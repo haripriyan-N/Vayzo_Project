@@ -57,3 +57,19 @@ export async function deleteOrder(id) {
   }
   return response.json();
 }
+
+export async function updateOrder(id, orderData) {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(orderData),
+  });
+
+  if (!response.ok) {
+    throw new Error('Unable to update order');
+  }
+
+  return response.json();
+}

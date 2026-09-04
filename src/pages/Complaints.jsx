@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { AlertCircle, CheckCircle, Clock, Search, X, MessageSquare, AlertTriangle, FileText, User, RotateCcw, Trash2, Eye } from "lucide-react";
+import { AlertCircle, CheckCircle, Clock, Search, X, MessageSquare, AlertTriangle, FileText, User, RotateCcw, Trash2, Eye, Download, Plus } from "lucide-react";
 import Avatar from "../components/ui/Avatar";
 
 import Badge from "../components/ui/Badge";
@@ -12,6 +12,7 @@ import Card from "../components/ui/Card";
 import StatCard from "../components/ui/StatCard";
 import Modal from "../components/ui/Modal";
 import ActionMenu from "../components/ui/ActionMenu";
+import DateRangeInput from "../components/ui/DateRangeInput";
 
 import { getComplaints, updateComplaint, deleteComplaint } from "../api/complaintsApi";
 
@@ -54,13 +55,40 @@ function Complaints() {
   const [status, setStatus] = useState("All Status");
   const [priority, setPriority] = useState("All Priority");
   const [userType, setUserType] = useState("All Types");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
   // Selection
   const [selectedComplaint, setSelectedComplaint] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [deleteModalId, setDeleteModalId] = useState(null);
+
+  // Pending drawer form state (not persisted until Update clicked)
+  const [pendingStatus, setPendingStatus] = useState("");
+  const [pendingAssignTo, setPendingAssignTo] = useState("");
+  const [pendingPriority, setPendingPriority] = useState("");
+  const [updateError, setUpdateError] = useState("");
+  const [updateLoading, setUpdateLoading] = useState(false);
+
+  const assignOptions = ["Support Agent 1", "Support Agent 2", "Support Agent 3", "Manager", "Unassigned"];
+  const drawerPriorityOptions = ["High", "Medium", "Low"];
+
+  const openDrawer = (complaint) => {
+    setSelectedComplaint(complaint);
+    setPendingStatus(complaint.status);
+    setPendingAssignTo(complaint.assignTo || "Unassigned");
+    setPendingPriority(complaint.priority || "Medium");
+    setUpdateError("");
+    setDrawerOpen(true);
+  };
+
+  const closeDrawer = () => {
+    setDrawerOpen(false);
+    setUpdateError("");
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -71,9 +99,7 @@ function Complaints() {
         const data = await getComplaints();
         if (isMounted) {
           setComplaints(data);
-          if (data.length > 0) {
-            setSelectedComplaint(data[0]);
-          }
+          // Do NOT auto-open the drawer — user must click View Details
         }
       } catch (err) {
         if (isMounted) setError("Failed to load complaints");
@@ -85,15 +111,24 @@ function Complaints() {
     return () => { isMounted = false; };
   }, []);
 
-  const handleUpdateStatus = async (complaint, newStatus) => {
+  const handleUpdateComplaint = async () => {
+    if (!selectedComplaint) return;
+    setUpdateLoading(true);
+    setUpdateError("");
     try {
-      const updated = { ...complaint, status: newStatus };
-      await updateComplaint(complaint.id, updated);
-      
-      setComplaints(prev => prev.map(c => c.id === complaint.id ? updated : c));
+      const updated = {
+        ...selectedComplaint,
+        status: pendingStatus,
+        assignTo: pendingAssignTo,
+        priority: pendingPriority,
+      };
+      await updateComplaint(selectedComplaint.id, updated);
+      setComplaints(prev => prev.map(c => c.id === selectedComplaint.id ? updated : c));
       setSelectedComplaint(updated);
     } catch (err) {
-      alert("Failed to update status");
+      setUpdateError("Failed to update. Please try again.");
+    } finally {
+      setUpdateLoading(false);
     }
   };
 
@@ -142,13 +177,17 @@ function Complaints() {
     search ||
     status !== "All Status" ||
     priority !== "All Priority" ||
-    userType !== "All Types";
+    userType !== "All Types" ||
+    fromDate ||
+    toDate;
 
   const resetFilters = () => {
     setSearch("");
     setStatus("All Status");
     setPriority("All Priority");
     setUserType("All Types");
+    setFromDate("");
+    setToDate("");
   };
 
   const handleDeleteComplaint = async () => {
@@ -172,10 +211,10 @@ function Complaints() {
   };
 
   const stats = [
-    { title: "Total Complaints", value: complaints.length, icon: MessageSquare, color: "text-primary", bg: "bg-primary/10" },
-    { title: "Open Issues", value: complaints.filter(c => c.status === "Open").length, icon: AlertCircle, color: "text-danger", bg: "bg-danger/10" },
-    { title: "In Progress", value: complaints.filter(c => c.status === "In Progress").length, icon: Clock, color: "text-warning", bg: "bg-warning/10" },
-    { title: "Resolved", value: complaints.filter(c => c.status === "Resolved" || c.status === "Closed").length, icon: CheckCircle, color: "text-success", bg: "bg-success/10" },
+    { title: "Total Complaints", value: complaints.length, icon: MessageSquare, color: "text-primary", bg: "bg-primary/10", trend: "12.5%", isNegative: false },
+    { title: "Open Issues", value: complaints.filter(c => c.status === "Open").length, icon: AlertCircle, color: "text-danger", bg: "bg-danger/10", trend: "8.3%", isNegative: false },
+    { title: "In Progress", value: complaints.filter(c => c.status === "In Progress").length, icon: Clock, color: "text-warning", bg: "bg-warning/10", trend: "15.7%", isNegative: false },
+    { title: "Resolved", value: complaints.filter(c => c.status === "Resolved" || c.status === "Closed").length, icon: CheckCircle, color: "text-success", bg: "bg-success/10", trend: "18.2%", isNegative: false },
   ];
 
   return (
@@ -190,12 +229,14 @@ function Complaints() {
             icon={stat.icon}
             colorClass={stat.color}
             bgClass={stat.bg}
+            trend={stat.trend}
+            isNegative={stat.isNegative}
             variant="horizontal"
           />
         ))}
       </div>
 
-      <div className={`grid gap-6 ${selectedComplaint ? 'lg:grid-cols-[1fr_300px] xl:grid-cols-[1fr_350px]' : 'grid-cols-1'} items-start`}>
+      <div className={`grid gap-6 grid-cols-1 items-start`}>
         <div className="flex flex-col gap-6 min-w-0">
           <Card className="p-4 sm:p-6">
             <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
@@ -230,11 +271,22 @@ function Complaints() {
                   className="w-full xl:w-[160px]"
                 />
                 {hasFilters && (
-                  <Button variant="secondary" onClick={resetFilters} className="px-3 xl:ml-2">
+                  <Button variant="secondary" onClick={resetFilters} className="px-3 xl:ml-2 h-10">
                     <RotateCcw size={16} strokeWidth={2} className="mr-1" />
                     Reset
                   </Button>
                 )}
+                <DateRangeInput
+                  id="complaints-date"
+                  fromDate={fromDate}
+                  toDate={toDate}
+                  onFromChange={(e) => setFromDate(e.target.value)}
+                  onToChange={(e) => setToDate(e.target.value)}
+                  className="w-full xl:w-[250px]"
+                />
+                <Button variant="secondary" className="px-4 h-10 w-full xl:w-auto shrink-0 shadow-sm">
+                  <Download size={16} className="mr-1" /> Export
+                </Button>
               </div>
             </div>
           </Card>
@@ -267,7 +319,12 @@ function Complaints() {
                       <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
                         {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
                       </td>
-                      <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">{c.complaintId}</td>
+                      <td 
+                        className="whitespace-nowrap px-3 py-3 font-medium text-primary cursor-pointer hover:underline"
+                        onClick={() => openDrawer(c)}
+                      >
+                        {c.complaintId}
+                      </td>
                       <td className="whitespace-nowrap px-3 py-3 text-muted">{c.date}</td>
                       <td className="px-3 py-3">
                         <div className="flex min-w-0 items-center gap-2">
@@ -316,7 +373,7 @@ function Complaints() {
                               {
                                 label: "View Details",
                                 icon: Eye,
-                                onClick: () => setSelectedComplaint(c),
+                                onClick: () => openDrawer(c),
                               },
                               {
                                 label: "Delete",
@@ -342,99 +399,172 @@ function Complaints() {
           </Card>
         </div>
 
-        {/* Detail Panel */}
-        {selectedComplaint && (
-          <div className="flex flex-col bg-surface border border-border rounded-xl shadow-sm h-auto lg:h-[calc(100vh-250px)] lg:sticky lg:top-6">
-            {/* Panel Header */}
-            <div className="flex items-center justify-between p-5 border-b border-border bg-background rounded-t-xl">
-              <div>
-                <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                  Complaint Details
-                </h2>
-                <p className="text-xs text-muted mt-0.5">{selectedComplaint.complaintId}</p>
-              </div>
-              <button 
-                onClick={() => setSelectedComplaint(null)}
-                className="h-8 w-8 rounded-md flex items-center justify-center text-muted hover:bg-surface-hover hover:text-foreground transition-colors"
-              >
-                <X size={18} />
-              </button>
-            </div>
+        {/* Drawer Backdrop */}
+        {drawerOpen && (
+          <div 
+            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity" 
+            onClick={closeDrawer} 
+          />
+        )}
 
-            {/* Panel Content */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-6">
-              {/* Status & Priority */}
-              <div className="flex gap-3">
-                <Badge variant={statusBadgeMap[selectedComplaint.status] || "default"} className="px-3 py-1 text-xs">
-                  Status: {selectedComplaint.status}
-                </Badge>
-                <Badge variant={priorityBadgeMap[selectedComplaint.priority] || "default"} className="px-3 py-1 text-xs">
-                  Priority: {selectedComplaint.priority}
-                </Badge>
+        {/* Right-Side Drawer */}
+        <div 
+          className={`fixed inset-y-0 right-0 z-50 w-full sm:w-[450px] bg-surface border-l border-border shadow-2xl transform transition-transform duration-300 flex flex-col ${drawerOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        >
+          {drawerOpen && selectedComplaint && (
+            <>
+              {/* Drawer Header */}
+              <div className="flex items-center justify-between p-5 border-b border-border bg-background">
+                <h2 className="text-lg font-bold text-foreground">Complaint Details</h2>
+                <button 
+                  onClick={closeDrawer}
+                  className="h-8 w-8 rounded-md flex items-center justify-center text-muted hover:bg-surface-hover hover:text-foreground transition-colors"
+                >
+                  <X size={18} />
+                </button>
               </div>
 
-              {/* User Info */}
-              <div className="bg-background rounded-xl p-4 border border-border space-y-3">
-                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-2 border-b border-border pb-2">
-                  <User size={15} className="text-primary"/> Reported By
-                </h3>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-full overflow-hidden shrink-0 border border-border">
-                    <Avatar src={selectedComplaint.avatar} alt={selectedComplaint.userName} identifier={selectedComplaint.userId} className="h-full w-full object-cover" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground text-sm">{selectedComplaint.userName}</p>
-                    <p className="text-xs text-muted">{selectedComplaint.userType}</p>
+              {/* Drawer Content */}
+              <div className="flex-1 overflow-y-auto p-5 space-y-6">
+                
+                {/* ID and Status Row */}
+                <div className="flex items-center justify-between">
+                  <Badge variant="secondary" className="px-3 py-1 font-medium bg-secondary text-secondary-foreground">{selectedComplaint.complaintId}</Badge>
+                  <Badge variant={statusBadgeMap[selectedComplaint.status] || "default"} className="px-3 py-1">
+                    {selectedComplaint.status}
+                  </Badge>
+                </div>
+
+                {/* Raised By */}
+                <div>
+                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-3">Raised By</h3>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-full overflow-hidden shrink-0 border border-border">
+                        <Avatar src={selectedComplaint.avatar} alt={selectedComplaint.userName} identifier={selectedComplaint.userId} className="h-full w-full object-cover" />
+                      </div>
+                      <div>
+                        <p className="font-bold text-foreground text-sm">{selectedComplaint.userName}</p>
+                        <p className="text-xs text-muted font-medium">+91 98765 43210</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button className="h-8 w-8 flex items-center justify-center rounded-full border border-border text-muted hover:text-primary transition-colors">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                      </button>
+                      <button className="h-8 w-8 flex items-center justify-center rounded-full border border-border text-muted hover:text-primary transition-colors">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4 text-xs">
+
+                <div className="border-t border-border/50" />
+
+                {/* Details Grid */}
+                <div className="grid grid-cols-2 gap-y-4 text-sm">
                   <div>
-                    <span className="text-muted block mb-1">Date Reported</span>
+                    <span className="block text-xs font-medium text-muted mb-1">Type</span>
+                    <span className="font-medium text-foreground">{selectedComplaint.userType}</span>
+                  </div>
+                  <div>
+                    <span className="block text-xs font-medium text-muted mb-1">Category</span>
+                    <span className="font-medium text-foreground">{selectedComplaint.issueType}</span>
+                  </div>
+                  <div>
+                    <span className="block text-xs font-medium text-muted mb-1">Related To</span>
+                    <span className="font-medium text-foreground block">Order #ORD12458</span>
+                    <span className="text-xs text-muted">ABC Cafe</span>
+                  </div>
+                  <div>
+                    <span className="block text-xs font-medium text-muted mb-1">Order Date</span>
+                    <span className="font-medium text-foreground">{selectedComplaint.date}</span>
+                  </div>
+                  <div className="col-span-2">
+                    <span className="block text-xs font-medium text-muted mb-1">Complaint Date</span>
                     <span className="font-medium text-foreground">{selectedComplaint.date}</span>
                   </div>
                 </div>
-              </div>
 
-              {/* Complaint Details */}
-              <div className="bg-background rounded-xl p-4 border border-border space-y-3">
-                <h3 className="text-sm font-semibold text-foreground flex items-center gap-2 mb-2 border-b border-border pb-2">
-                  <FileText size={15} className="text-primary"/> Issue Information
-                </h3>
-                <div className="space-y-4 text-xs">
-                  <div>
-                    <span className="text-muted block mb-1 font-medium">Issue Type</span>
-                    <span className="text-foreground">{selectedComplaint.issueType}</span>
+                {/* Description */}
+                <div>
+                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">Description</h3>
+                  <p className="text-sm text-foreground leading-relaxed">
+                    {selectedComplaint.description || "My order is very late. It was supposed to be delivered by 9:45 AM but I received at 10:25 AM. Please take necessary action."}
+                  </p>
+                </div>
+
+                {/* Attachments */}
+                <div>
+                  <h3 className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">Attachments</h3>
+                  <div className="flex gap-3">
+                    <div className="h-16 w-16 bg-surface-hover rounded-lg border border-border overflow-hidden">
+                       <div className="h-full w-full bg-muted/20 flex items-center justify-center text-muted">Img</div>
+                    </div>
+                    <button className="h-16 w-16 rounded-lg border border-dashed border-border flex items-center justify-center text-muted hover:text-primary hover:border-primary transition-colors">
+                      <Plus size={20} />
+                    </button>
                   </div>
+                </div>
+
+                <div className="border-t border-border/50" />
+
+                {/* Form Controls */}
+                <div className="space-y-4">
                   <div>
-                    <span className="text-muted block mb-1 font-medium">Description</span>
-                    <div className="p-3 bg-surface rounded-lg border border-border text-foreground leading-relaxed">
-                      {selectedComplaint.description}
+                    <label className="block text-xs font-medium text-foreground mb-1">Status</label>
+                    <StatusSelect 
+                      options={statusOptions.filter(o => o !== "All Status")}
+                      value={pendingStatus}
+                      onChange={(e) => setPendingStatus(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="flex gap-4">
+                    <div className="flex-1">
+                      <label className="block text-xs font-medium text-foreground mb-1">Assign To</label>
+                      <StatusSelect
+                        options={assignOptions}
+                        value={pendingAssignTo}
+                        onChange={(e) => setPendingAssignTo(e.target.value)}
+                        className="w-full"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <label className="block text-xs font-medium text-foreground mb-1">Priority</label>
+                      <StatusSelect
+                        options={drawerPriorityOptions}
+                        value={pendingPriority}
+                        onChange={(e) => setPendingPriority(e.target.value)}
+                        className="w-full"
+                      />
                     </div>
                   </div>
-                  {selectedComplaint.resolution && (
-                    <div>
-                      <span className="text-muted block mb-1 font-medium">Resolution Notes</span>
-                      <div className="p-3 bg-success/10 rounded-lg border border-success/20 text-foreground leading-relaxed">
-                        {selectedComplaint.resolution}
-                      </div>
-                    </div>
-                  )}
+                  <div>
+                    <label className="block text-xs font-medium text-foreground mb-1">Internal Note</label>
+                    <textarea 
+                      placeholder="Add internal note..."
+                      className="w-full min-h-[80px] p-3 rounded-lg border border-border bg-background text-sm focus:outline-none focus:ring-1 focus:ring-primary resize-y"
+                    ></textarea>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Panel Footer Actions */}
-            <div className="p-5 border-t border-border bg-background flex items-center gap-3 rounded-b-xl">
-              <StatusSelect 
-                options={["Open", "In Progress", "Resolved", "Closed"]}
-                value={selectedComplaint.status}
-                onChange={(e) => handleUpdateStatus(selectedComplaint, e.target.value)}
-                className="flex-1"
-              />
-              <Button variant="secondary" className="px-4" onClick={() => setSelectedComplaint(null)}>Close</Button>
-            </div>
-          </div>
-        )}
+              {/* Drawer Footer */}
+              <div className="p-5 border-t border-border bg-background flex flex-col gap-3">
+                {updateError && (
+                  <p className="text-xs text-danger">{updateError}</p>
+                )}
+                <div className="flex items-center gap-3">
+                  <Button variant="secondary" className="flex-1" onClick={closeDrawer}>Close</Button>
+                  <Button className="flex-1" onClick={handleUpdateComplaint} disabled={updateLoading}>
+                    {updateLoading ? "Updating..." : "Update"}
+                  </Button>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       <Modal 

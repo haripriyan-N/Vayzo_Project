@@ -7,10 +7,16 @@ export async function getCategories() {
 }
 
 export async function getCategoryById(id) {
-  const res = await fetch(`${API_URL}?categoryId=${id}`);
+  const res = await fetch(`${API_URL}?id=${id}`);
   if (!res.ok) throw new Error("Failed to fetch category");
   const data = await res.json();
   return data[0];
+}
+
+export async function getCategoriesByParentId(parentId) {
+  const res = await fetch(`${API_URL}?parentId=${parentId}`);
+  if (!res.ok) throw new Error("Failed to fetch child categories");
+  return res.json();
 }
 
 export async function createCategory(categoryData) {
