@@ -38,7 +38,7 @@ function SettingsLayout() {
     <section className="min-h-full bg-background p-4 sm:p-6">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-5 xl:flex-row">
-          <aside className="w-full xl:max-w-[280px] sticky top-6 h-fit">
+          <aside className="w-full xl:w-[280px] shrink-0 sticky top-6 h-fit">
             <div className="rounded-2xl border border-border bg-surface p-3 shadow-sm">
               <div className="mb-3 flex items-center gap-2 px-2 py-2">
                 <SettingsIcon size={18} className="text-primary" />
@@ -49,7 +49,6 @@ function SettingsLayout() {
 
               <nav className="space-y-1">
                 {settingsMenu.map(({ label, path, icon: Icon }) => {
-                  // Ensure strict matching for root "/settings" or start matching for others
                   const isActive = location.pathname === path || (path !== "/settings" && location.pathname.startsWith(path));
 
                   return (
@@ -71,7 +70,7 @@ function SettingsLayout() {
             </div>
           </aside>
 
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <Outlet />
           </div>
         </div>
