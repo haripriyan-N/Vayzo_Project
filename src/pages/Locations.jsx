@@ -332,7 +332,8 @@ export default function Locations() {
                           <td className="px-5 py-4 min-w-[220px]">
                             <div 
                               className="flex items-center gap-3 cursor-pointer group"
-                              onClick={() => navigate(`/locations/${loc.id}`)}
+                              // onClick={() => navigate(`/locations/${loc.id}`)}
+                              onClick={() => navigate(`/locations/`)}
                             >
                               <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${bgAndColor}`}>
                                 <Building2 size={18} strokeWidth={2.5}/>

@@ -30,6 +30,10 @@ import Locations from "./pages/Locations";
 import LocationsAdd from "./pages/LocationsAdd";
 import Earnings from "./pages/Earnings";
 import Restaurants from "./pages/Restaurants";
+import RestaurantsAdd from "./pages/RestaurantsAdd";
+import RestaurantsDetails from "./pages/RestaurantsDetails";
+import Profile from "./pages/Profile";
+import ProfileEdit from "./pages/ProfileEdit";
 function App() {
   return (
     <BrowserRouter>
@@ -46,6 +50,9 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<AdminLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/edit" element={<ProfileEdit />} />
 
               <Route path="/users" element={<Users />} />
               <Route path="/users/add" element={<UsersAdd />} />
@@ -79,6 +86,7 @@ function App() {
 
               <Route path="/offers" element={<Offers />} />
               <Route path="/offers/add" element={<OffersAdd />} />
+              <Route path="/offers/edit/:offerId" element={<OffersAdd />} />
               <Route path="/offers/:offerId" element={<OffersDetails />} />
               <Route path="/locations" element={<Locations />} />
               <Route path="/locations/add" element={<LocationsAdd />} />
@@ -87,8 +95,9 @@ function App() {
               <Route path="/notifications" element={<Notifications />} />
               <Route path="/complaints" element={<Complaints />} />
               <Route path="/restaurants" element={<Restaurants />} />
-              <Route path="/restaurants/add" element={<Restaurants />} />
-
+              <Route path="/restaurants/add" element={<RestaurantsAdd />} />
+              <Route path="/restaurants/edit/:restaurantId" element={<RestaurantsAdd />} />
+              <Route path="/restaurants/:restaurantId" element={<RestaurantsDetails />} />
               <Route path="/settings" element={<Complaints />}>
                 <Route path="payment-settings" element={<Complaints />} />
               </Route>

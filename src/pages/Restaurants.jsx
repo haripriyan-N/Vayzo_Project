@@ -16,10 +16,12 @@ import ActionMenu from "../components/ui/ActionMenu";
 import { getRestaurants, deleteRestaurant } from "../api/restaurantsApi";
 
 const statusOptions = ["All Status", "Active", "Inactive"];
-const cuisineOptions = [
-  "All Cuisine", "South Indian", "North Indian", "Fast Food",
+export const RESTAURANT_CUISINES = [
+  "South Indian", "North Indian", "Fast Food",
   "Chinese", "Italian", "Biryani", "Multi-Cuisine", "Cafe",
 ];
+
+const cuisineOptions = ["All Cuisine", ...RESTAURANT_CUISINES];
 
 const tableHeaders = ["No.", "Restaurant", "Owner", "City", "Cuisine", "Rating", "Orders", "Status", "Actions"];
 

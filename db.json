@@ -6476,6 +6476,22 @@
       "openingTime": "11:00 AM",
       "closingTime": "11:30 PM",
       "joinedOn": "2022-12-01"
+    },
+    {
+      "name": "Dias Restaurant",
+      "ownerName": "Dias",
+      "cuisineType": "Fast Food",
+      "address": "88,EAST STREET",
+      "city": "BOODHAMANGALAM",
+      "phone": "+919751775024",
+      "email": "dias@gmail.com",
+      "status": "Inactive",
+      "deliveryTime": "40",
+      "minimumOrder": 2,
+      "deliveryCharge": 50,
+      "openingTime": "10:00 AM",
+      "closingTime": "08:00 PM",
+      "id": "9gcd9B-tyrY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

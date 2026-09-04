@@ -28,7 +28,7 @@ export const notifications = [
     title: "Payment Received",
     message: "Payment for Order #ORD1004 was received successfully.",
     type: "PAYMENT",
-    isRead: true,
+    isRead: false,
     createdAt: "2026-08-29T18:20:00",
   },
 ];

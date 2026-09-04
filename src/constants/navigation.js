@@ -38,11 +38,7 @@ export const navigationItems = [
     path: "/orders",
     icon: ShoppingCart,
   },
-  // {
-  //   label: "Transactions",
-  //   path: "/transactions",
-  //   icon: ArrowLeftRight,
-  // },
+
   {
     label: "Earnings",
     path: "/earnings",
@@ -77,6 +73,11 @@ export const navigationItems = [
     label: "Notifications",
     path: "/notifications",
     icon: Bell,
+  },
+  {
+    label: "Transactions",
+    path: "/transactions",
+    icon: ArrowLeftRight,
   },
   {
     label: "Reports",

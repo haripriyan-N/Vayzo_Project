@@ -368,12 +368,12 @@ export default function Offers() {
                             {
                               label: "View",
                               icon: Eye,
-                              onClick: () => navigate(`/offers/${offer.id}`),
+                              onClick: () => navigate(`/offers/${offer.offerId}`),
                             },
                             {
                               label: "Edit",
                               icon: Pencil,
-                              onClick: () => navigate(`/offers/edit/${offer.id}`),
+                              onClick: () => navigate(`/offers/edit/${offer.offerId}`),
                             },
                             {
                               label: "Delete",

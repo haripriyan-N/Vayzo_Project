@@ -4,6 +4,9 @@ import {
   MessageSquareWarning,
   ChevronDown,
   ChevronRight,
+  User,
+  Settings,
+  LogOut,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -228,16 +231,24 @@ function Header({ onMenuClick }) {
             <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-border bg-surface p-1 shadow-lg">
               <button
                 type="button"
-                className="flex w-full items-center rounded-md px-3 py-2 text-sm text-foreground hover:bg-primary-light hover:text-primary"
+                onClick={() => {
+                  navigate("/profile");
+                  setIsProfileOpen(false);
+                }}
+                className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-primary-light hover:text-primary"
               >
-                Profile
+                <User size={16} /> Profile
               </button>
 
               <button
                 type="button"
-                className="flex w-full items-center rounded-md px-3 py-2 text-sm text-foreground hover:bg-primary-light hover:text-primary"
+                onClick={() => {
+                  navigate("/settings");
+                  setIsProfileOpen(false);
+                }}
+                className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-primary-light hover:text-primary"
               >
-                Settings
+                <Settings size={16} /> Settings
               </button>
 
               <div className="my-1 border-t border-border" />
@@ -250,9 +261,9 @@ function Header({ onMenuClick }) {
                   setIsProfileOpen(false);
                   navigate("/");
                 }}
-                className="flex w-full items-center rounded-md px-3 py-2 text-sm text-danger hover:bg-primary-light"
+                className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-danger hover:bg-danger/10"
               >
-                Sign out
+                <LogOut size={16} /> Sign out
               </button>
             </div>
           )}
