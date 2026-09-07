@@ -54,3 +54,13 @@ export async function getReportSummary() {
   const data = await response.json();
   return Array.isArray(data) ? data[0] : data;
 }
+
+export async function deleteReport(id) {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Unable to delete report");
+  }
+  return response.json();
+}

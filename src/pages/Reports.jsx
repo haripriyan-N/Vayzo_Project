@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { Download, RefreshCw, DollarSign, Package, Users, Percent, Eye } from "lucide-react";
+import { Download, RefreshCw, DollarSign, Package, Users, Percent, Edit, Trash2 } from "lucide-react";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Select from "../components/ui/Select";
 import DateRangeInput from "../components/ui/DateRangeInput";
 import StatCard from "../components/ui/StatCard";
 import Table from "../components/ui/Table";
-import { getReports, getReportSummary } from "../api/reportsApi";
+import ActionMenu from "../components/ui/ActionMenu";
+import { getReports, getReportSummary, deleteReport } from "../api/reportsApi";
 
 function Reports() {
   const [reportType, setReportType] = useState("All");
@@ -66,6 +67,25 @@ function Reports() {
       // Mock safe export behavior
       alert("Report successfully downloaded as CSV.");
     }, 1500);
+  };
+
+  const handleView = (report) => {
+    alert(`Viewing details for ${report.title}`);
+  };
+
+  const handleEdit = (report) => {
+    alert(`Editing report ${report.title}`);
+  };
+
+  const handleDelete = async (report) => {
+    if (window.confirm(`Are you sure you want to delete "${report.title}"?`)) {
+      try {
+        await deleteReport(report.id);
+        fetchReportsData(); // Refresh the list
+      } catch (err) {
+        alert("Failed to delete report: " + err.message);
+      }
+    }
   };
 
   const badgeVariant = {
@@ -242,9 +262,13 @@ function Reports() {
                         </Badge>
                       </td>
                       <td className="px-4 py-4 whitespace-nowrap text-center sm:text-left">
-                        <button type="button" className="text-primary hover:text-primary-hover transition-colors rounded-md p-1 border border-border bg-surface shadow-sm" title="View Details">
-                          <Eye size={15} />
-                        </button>
+                        <ActionMenu
+                          actions={[
+                            { label: "View", onClick: () => handleView(report) },
+                            { label: "Edit", icon: Edit, onClick: () => handleEdit(report) },
+                            { label: "Delete", icon: Trash2, danger: true, onClick: () => handleDelete(report) }
+                          ]}
+                        />
                       </td>
                     </tr>
                   ))

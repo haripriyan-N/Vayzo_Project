@@ -2286,19 +2286,6 @@
   ],
   "complaints": [
     {
-      "id": "CMP001",
-      "complaintId": "CMP-2458",
-      "date": "28 May 2024",
-      "userType": "Customer",
-      "userName": "Rahul S",
-      "issueType": "Late Delivery",
-      "status": "Resolved",
-      "priority": "High",
-      "description": "My order took 2 hours to deliver instead of 30 mins.",
-      "resolution": "",
-      "assignTo": "Support Agent 2"
-    },
-    {
       "id": "CMP002",
       "complaintId": "CMP-2459",
       "date": "28 May 2024",
@@ -2308,19 +2295,8 @@
       "status": "In Progress",
       "priority": "Medium",
       "description": "Last week payout is still pending in my account.",
-      "resolution": "Finance team is processing."
-    },
-    {
-      "id": "CMP003",
-      "complaintId": "CMP-2460",
-      "date": "27 May 2024",
-      "userType": "Customer",
-      "userName": "Priya R",
-      "issueType": "Food Quality",
-      "status": "Resolved",
-      "priority": "High",
-      "description": "Food was cold and packaging was torn.",
-      "resolution": "Refund initiated to original payment source."
+      "resolution": "Finance team is processing.",
+      "assignTo": "Unassigned"
     },
     {
       "id": "CMP004",
@@ -2332,7 +2308,8 @@
       "status": "Closed",
       "priority": "Low",
       "description": "Cannot update menu prices on the merchant app.",
-      "resolution": "Instructed merchant to update the app to v2.1."
+      "resolution": "Instructed merchant to update the app to v2.1.",
+      "assignTo": "Unassigned"
     },
     {
       "id": "CMP2001",
@@ -6362,7 +6339,7 @@
       "openingTime": "07:30 AM",
       "closingTime": "09:30 PM",
       "joinedOn": "2023-07-20"
-    },s
+    },
     {
       "id": "RST015",
       "name": "The Cream & Fudge",
@@ -6478,7 +6455,6 @@
       "joinedOn": "2022-12-01"
     }
   ],
-  "$schema": "./node_modules/json-server/schema.json",
   "reportsSummary": [
     {
       "id": "1",
@@ -6609,5 +6585,128 @@
       "lastLogin": "2026-09-07 10:30",
       "joinedDate": "2025-01-10"
     }
-  ]
+  ],
+  "activityLogs": [
+    {
+      "id": "ACT1001",
+      "user": "Pradhap",
+      "action": "LOGIN",
+      "module": "System",
+      "details": "Logged into the system successfully.",
+      "timestamp": "2026-09-07T10:30:00Z",
+      "ipAddress": "192.168.1.10",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1002",
+      "user": "Pradhap",
+      "action": "UPDATE",
+      "module": "Settings",
+      "details": "Updated system payment configuration.",
+      "timestamp": "2026-09-07T10:35:00Z",
+      "ipAddress": "192.168.1.10",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1003",
+      "user": "Aisha",
+      "action": "CREATE",
+      "module": "Users",
+      "details": "Created new customer user: John Doe",
+      "timestamp": "2026-09-07T09:15:00Z",
+      "ipAddress": "192.168.1.12",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1004",
+      "user": "Ramesh",
+      "action": "DELETE",
+      "module": "Orders",
+      "details": "Cancelled order #ORD5678",
+      "timestamp": "2026-09-06T18:45:00Z",
+      "ipAddress": "192.168.1.15",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1005",
+      "user": "System",
+      "action": "EXPORT",
+      "module": "Reports",
+      "details": "Automated daily sales report exported.",
+      "timestamp": "2026-09-06T23:59:00Z",
+      "ipAddress": "127.0.0.1",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1006",
+      "user": "Sarah",
+      "action": "LOGIN",
+      "module": "System",
+      "details": "Failed login attempt (Invalid credentials).",
+      "timestamp": "2026-08-20T14:15:00Z",
+      "ipAddress": "192.168.1.42",
+      "status": "Failed"
+    },
+    {
+      "id": "ACT1007",
+      "user": "Karthik",
+      "action": "UPDATE",
+      "module": "Restaurants",
+      "details": "Updated opening hours for Restaurant #RST015",
+      "timestamp": "2026-09-07T11:05:00Z",
+      "ipAddress": "192.168.1.20",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1008",
+      "user": "Pradhap",
+      "action": "CREATE",
+      "module": "Admin Users",
+      "details": "Added new admin user: System Operator",
+      "timestamp": "2026-09-07T15:30:00Z",
+      "ipAddress": "192.168.1.10",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1009",
+      "user": "Aisha",
+      "action": "VIEW",
+      "module": "Complaints",
+      "details": "Viewed complaint details for CMP902",
+      "timestamp": "2026-09-07T09:20:00Z",
+      "ipAddress": "192.168.1.12",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1010",
+      "user": "Ramesh",
+      "action": "UPDATE",
+      "module": "Delivery",
+      "details": "Re-assigned delivery partner for order ORD5679",
+      "timestamp": "2026-09-06T18:50:00Z",
+      "ipAddress": "192.168.1.15",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1011",
+      "user": "Pradhap",
+      "action": "CREATE",
+      "module": "Offers",
+      "details": "Created new promotional campaign 'SUMMER26'",
+      "timestamp": "2026-09-05T10:00:00Z",
+      "ipAddress": "192.168.1.10",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1012",
+      "user": "System",
+      "action": "UPDATE",
+      "module": "Categories",
+      "details": "Sync category images from CDN",
+      "timestamp": "2026-09-05T02:00:00Z",
+      "ipAddress": "127.0.0.1",
+      "status": "Success"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
