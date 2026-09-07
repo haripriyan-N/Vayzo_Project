@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft, CloudUpload, Eye, EyeOff, ShieldCheck, UserRound } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import StatusSelect from "../components/ui/StatusSelect";
-import { createAdminUser } from "../api/adminUsersApi";
+import { createAdminUser, getAdminUserById, updateAdminUser } from "../api/adminUsersApi";
 
 const statusOptions = ["Active", "Inactive"];
 const departmentOptions = ["Select Department", "Operations", "Support", "Finance", "IT", "Management"];
@@ -21,6 +21,8 @@ function RequiredLabel({ text }) {
 
 function AddAdminUser() {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const isEditing = !!id;
   
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -37,6 +39,41 @@ function AddAdminUser() {
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [existingRole, setExistingRole] = useState("Admin");
+
+  useEffect(() => {
+    if (isEditing) {
+      loadUserData();
+    }
+  }, [id]);
+
+  const loadUserData = async () => {
+    try {
+      setLoading(true);
+      const data = await getAdminUserById(id);
+      
+      const toTitleCase = (str) => {
+        if (!str) return "";
+        return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+      };
+
+      setExistingRole(data.role || "Admin");
+      
+      setForm({
+        name: data.name || "",
+        email: data.email || "",
+        mobile: data.phone || data.mobileNumber || "",
+        department: data.department || departmentOptions[0],
+        status: data.status ? toTitleCase(data.status) : statusOptions[0],
+        password: data.password || "",
+        confirm: data.password || "",
+      });
+    } catch (err) {
+      setError("Unable to load admin user details.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const update = (key) => (event) => setForm({ ...form, [key]: event.target.value });
   
@@ -56,7 +93,7 @@ function AddAdminUser() {
     event.preventDefault();
     setError("");
 
-    if (form.password !== form.confirm) {
+    if (form.password && form.password !== form.confirm) {
       setError("Passwords do not match.");
       return;
     }
@@ -68,19 +105,32 @@ function AddAdminUser() {
 
     try {
       setLoading(true);
-      await createAdminUser({
-        name: form.name,
-        email: form.email,
-        phone: form.mobile, // admin uses phone
-        department: form.department,
-        status: form.status,
-        role: "Admin", // Strongly locked
-        password: form.password,
-      });
+      
+      if (isEditing) {
+        await updateAdminUser(id, {
+          name: form.name,
+          email: form.email,
+          phone: form.mobile,
+          department: form.department,
+          status: form.status,
+          role: existingRole, // Keep existing role (Admin or Super Admin)
+          password: form.password,
+        });
+      } else {
+        await createAdminUser({
+          name: form.name,
+          email: form.email,
+          phone: form.mobile,
+          department: form.department,
+          status: form.status,
+          role: "Admin", // Strongly locked
+          password: form.password,
+        });
+      }
 
       navigate("/admin-users");
     } catch (err) {
-      setError(err.message || "Unable to create admin user.");
+      setError(err.message || "Unable to save admin user.");
     } finally {
       setLoading(false);
     }
@@ -95,8 +145,12 @@ function AddAdminUser() {
             <ArrowLeft size={18} />
           </button>
           <div>
-            <h1 className="text-2xl font-semibold text-foreground">Add Admin User</h1>
-            <p className="mt-1 text-xs text-muted">Create a new system administrator.</p>
+            <h1 className="text-2xl font-semibold text-foreground">
+              {isEditing ? "Edit Admin User" : "Add Admin User"}
+            </h1>
+            <p className="mt-1 text-xs text-muted">
+              {isEditing ? "Update existing system administrator." : "Create a new system administrator."}
+            </p>
           </div>
         </header>
 
@@ -139,10 +193,10 @@ function AddAdminUser() {
                     Role <span className="text-danger text-sm">*</span>
                   </label>
                   <div className="h-11 w-full rounded-lg border border-border bg-background/50 px-3 flex items-center text-sm text-foreground cursor-not-allowed">
-                    <ShieldCheck size={16} className="text-warning mr-2" />
-                    Admin
+                    <ShieldCheck size={16} className={existingRole === "Super Admin" ? "text-danger mr-2" : "text-warning mr-2"} />
+                    {existingRole}
                   </div>
-                  <p className="mt-1.5 text-xs text-muted">Role is fixed to Admin.</p>
+                  <p className="mt-1.5 text-xs text-muted">Role is fixed to {existingRole}.</p>
                 </div>
 
                 <StatusSelect
@@ -188,7 +242,7 @@ function AddAdminUser() {
                 Cancel
               </Button>
               <Button type="submit" disabled={loading} className="w-full sm:w-auto h-11 px-8 font-medium bg-[#4a00e0] hover:bg-[#3b00b3] text-white">
-                {loading ? "Creating..." : "Create Admin User"}
+                {loading ? "Saving..." : isEditing ? "Update Admin User" : "Create Admin User"}
               </Button>
             </div>
           </form>
@@ -204,7 +258,7 @@ function AddAdminUser() {
                     <ShieldCheck size={16} /> Maximum 2 Admins
                   </p>
                   <p className="mt-1.5 text-xs leading-relaxed">
-                    The system permits exactly ONE Super Admin and ONE Admin. After creating this user, you will not be able to add more.
+                    The system permits exactly ONE Super Admin and ONE Admin.
                   </p>
                 </div>
                 <div className="rounded-lg bg-background p-4 border border-border/50">

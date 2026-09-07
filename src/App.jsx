@@ -128,6 +128,7 @@ function App() {
               <Route path="/reports" element={<Reports />} />
               <Route path="/admin-users" element={<AdminUsers />} />
               <Route path="/admin-users/add" element={<AddAdminUser />} />
+              <Route path="/admin-users/edit/:id" element={<AddAdminUser />} />
               <Route path="/activity-logs" element={<ActivityLogs />} />
 
               {/* Settings */}

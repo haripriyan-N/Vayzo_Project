@@ -128,7 +128,7 @@ function AdminUsers() {
         )}
 
         {/* Filter/Search Card */}
-        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm flex flex-col md:flex-row items-end gap-3 z-10 relative">
+        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm flex flex-col md:flex-row items-end gap-3 z-50 relative">
           <div className="w-full md:w-auto flex-1 relative">
             <label className="text-xs font-medium text-muted mb-1.5 block">Search</label>
             <div className="relative">
@@ -246,7 +246,7 @@ function AdminUsers() {
                     <td className="px-4 py-4 text-muted whitespace-nowrap text-xs">{user.joinedDate}</td>
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
-                        <button type="button" className="text-primary hover:bg-primary-light transition-colors rounded-md p-1.5" title="View/Edit">
+                        <button type="button" onClick={() => navigate(`/admin-users/edit/${user.id}`)} className="text-primary hover:bg-primary-light transition-colors rounded-md p-1.5" title="View/Edit">
                           <Edit size={16} />
                         </button>
                         {user.role !== "Super Admin" && (
