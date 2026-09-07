@@ -33,7 +33,22 @@ import Restaurants from "./pages/Restaurants";
 import RestaurantsAdd from "./pages/RestaurantsAdd";
 import RestaurantsDetails from "./pages/RestaurantsDetails";
 import Profile from "./pages/Profile";
-import ProfileEdit from "./pages/ProfileEdit";
+import ProfileEdit from "./pages/ProfileEdit";  
+import SettingsLayout from "./pages/settings/SettingsLayout";
+import GeneralSettings from "./pages/settings/GeneralSettings";
+import SiteSettings from "./pages/settings/SiteSettings";
+import CommissionSettings from "./pages/settings/CommissionSettings";
+import PaymentSettings from "./pages/settings/PaymentSettings";
+import DeliverySettings from "./pages/settings/DeliverySettings";
+import NotificationSettings from "./pages/settings/NotificationSettings";
+import EmailSettings from "./pages/settings/EmailSettings";
+import SmsSettings from "./pages/settings/SMSSettings";
+import AppSettings from "./pages/settings/AppSettings";
+import SecuritySettings from "./pages/settings/SecuritySettings";
+import SeoSettings from "./pages/settings/SEOSettings";
+import MaintenanceMode from "./pages/settings/MaintenanceMode";
+import ThirdPartyIntegrations from "./pages/settings/ThirdPartyIntegrations";
+
 function App() {
   return (
     <BrowserRouter>
@@ -98,8 +113,21 @@ function App() {
               <Route path="/restaurants/add" element={<RestaurantsAdd />} />
               <Route path="/restaurants/edit/:restaurantId" element={<RestaurantsAdd />} />
               <Route path="/restaurants/:restaurantId" element={<RestaurantsDetails />} />
-              <Route path="/settings" element={<Complaints />}>
-                <Route path="payment-settings" element={<Complaints />} />
+              <Route path="/settings" element={<SettingsLayout />}>
+                <Route index element={<GeneralSettings />} />
+                <Route path="general" element={<GeneralSettings />} />
+                <Route path="site" element={<SiteSettings />} />
+                <Route path="commission" element={<CommissionSettings />} />
+                <Route path="payment" element={<PaymentSettings />} />
+                <Route path="delivery" element={<DeliverySettings />} />
+                <Route path="notification" element={<NotificationSettings />} />
+                <Route path="email" element={<EmailSettings />} />
+                <Route path="sms" element={<SmsSettings />} />
+                <Route path="app" element={<AppSettings />} />
+                <Route path="security" element={<SecuritySettings />} />
+                <Route path="seo" element={<SeoSettings />} />
+                <Route path="maintenance" element={<MaintenanceMode />} />
+                <Route path="integrations" element={<ThirdPartyIntegrations />} />
               </Route>
             </Route>
           </Route>
