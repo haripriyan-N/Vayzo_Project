@@ -1,0 +1,6712 @@
+{
+  "users": [
+    {
+      "userId": "USR1001",
+      "name": "Prathap M",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "3HstH5QBEIk",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR1002",
+      "name": "Priya Nair",
+      "email": "priya.nair@gmail.com",
+      "mobileNumber": "+919876543211",
+      "status": "VERIFIED",
+      "userType": "Business",
+      "city": "Chennai",
+      "lastActive": "14 mins ago",
+      "totalOrders": 64,
+      "walletBalance": 180,
+      "isVerified": false,
+      "joinedOn": "2014-05-12",
+      "id": "di09xFVo4Ts"
+    },
+    {
+      "userId": "USR1003",
+      "name": "Arun Kumar",
+      "email": "arun.kumar@gmail.com",
+      "mobileNumber": "+919876543212",
+      "status": "PENDING",
+      "userType": "Delivery Partner",
+      "city": "Coimbatore",
+      "lastActive": "1 hour ago",
+      "totalOrders": 21,
+      "walletBalance": 95,
+      "id": "Esw_sXuPelE"
+    },
+    {
+      "userId": "USR1004",
+      "name": "Deepa Rani",
+      "email": "deepa@gmail.com",
+      "mobileNumber": "+919876543213",
+      "status": "BLOCKED",
+      "userType": "Customer",
+      "city": "Trichy",
+      "lastActive": "3 days ago",
+      "totalOrders": 10,
+      "walletBalance": 45,
+      "id": "UFt__KjoFIQ"
+    },
+    {
+      "userId": "USR1005",
+      "name": "Sathish V",
+      "email": "sathish.v@gmail.com",
+      "mobileNumber": "+919876543214",
+      "status": "ACTIVE",
+      "userType": "Merchant",
+      "city": "Madurai",
+      "lastActive": "Just now",
+      "totalOrders": 132,
+      "walletBalance": 330,
+      "id": "EU-hE0itLoU"
+    },
+    {
+      "userId": "USR1006",
+      "name": "Meera Suresh",
+      "email": "meera.suresh@gmail.com",
+      "mobileNumber": "+919876543215",
+      "status": "VERIFIED",
+      "userType": "Customer",
+      "city": "Salem",
+      "lastActive": "8 mins ago",
+      "totalOrders": 58,
+      "walletBalance": 210,
+      "id": "xwLm2deEz3g"
+    },
+    {
+      "userId": "USR1007",
+      "name": "Karthik Raja",
+      "email": "karthik.raja@gmail.com",
+      "mobileNumber": "+919876543216",
+      "status": "PENDING",
+      "userType": "Business",
+      "city": "Bengaluru",
+      "lastActive": "Yesterday",
+      "totalOrders": 12,
+      "walletBalance": 70,
+      "id": "WS0HVQLNNX8"
+    },
+    {
+      "userId": "USR1008",
+      "name": "Nandhini P",
+      "email": "nandhini.p@gmail.com",
+      "mobileNumber": "+919876543217",
+      "status": "ACTIVE",
+      "userType": "Delivery Partner",
+      "city": "Namakkal",
+      "lastActive": "5 mins ago",
+      "totalOrders": 143,
+      "walletBalance": 410,
+      "id": "sEaHVai_tRw"
+    },
+    {
+      "name": "Haripriyan N",
+      "email": "hari@gmail.com",
+      "mobileNumber": "8438285161",
+      "userType": "Merchant",
+      "role": "Admin",
+      "status": "ACTIVE",
+      "isVerified": false,
+      "joinedOn": "2026-08-30",
+      "id": "WPWnjce0FRc"
+    },
+    {
+      "userId": "USR1788",
+      "name": "abi",
+      "email": "abi@gmail.com",
+      "mobileNumber": "93829494749",
+      "userType": "Delivery Partner",
+      "role": "Manager",
+      "status": "ACTIVE",
+      "isVerified": false,
+      "joinedOn": "2026-08-30",
+      "id": "lcI6YtJ1OBw"
+    },
+    {
+      "userId": "USR2001",
+      "name": "Prathap M 1",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2001",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2002",
+      "name": "Prathap M 2",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2002",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2003",
+      "name": "Prathap M 3",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2003",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2004",
+      "name": "Prathap M 4",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2004",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2005",
+      "name": "Prathap M 5",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2005",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2006",
+      "name": "Prathap M 6",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2006",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2007",
+      "name": "Prathap M 7",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2007",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2008",
+      "name": "Prathap M 8",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2008",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2009",
+      "name": "Prathap M 9",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2009",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2010",
+      "name": "Prathap M 10",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2010",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2011",
+      "name": "Prathap M 11",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2011",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2012",
+      "name": "Prathap M 12",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2012",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2013",
+      "name": "Prathap M 13",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2013",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2014",
+      "name": "Prathap M 14",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2014",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2016",
+      "name": "Prathap M 16",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2016",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2017",
+      "name": "Prathap M 17",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2017",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2018",
+      "name": "Prathap M 18",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2018",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2019",
+      "name": "Prathap M 19",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2019",
+      "role": "Admin"
+    },
+    {
+      "userId": "USR2020",
+      "name": "Prathap M 20",
+      "email": "prathap@gmail.com",
+      "mobileNumber": "+91-9876543210",
+      "status": "Active",
+      "userType": "Customer",
+      "city": "Madurai",
+      "lastActive": "2 mins ago",
+      "totalOrders": 87,
+      "walletBalance": 250,
+      "isVerified": true,
+      "joinedOn": "2024-05-12",
+      "id": "USR2020",
+      "role": "Admin"
+    }
+  ],
+  "orders": [
+    {
+      "orderId": "ORD1001",
+      "customerName": "Prathap M",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "3wgpK_Fhauk",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD1002",
+      "customerName": "Priya Nair",
+      "restaurantName": "Pizza Hub",
+      "status": "IN_TRANSIT",
+      "paymentStatus": "PAID",
+      "amount": 680,
+      "orderDate": "2026-08-27 10:45",
+      "deliveryPartner": "Raja M",
+      "city": "Chennai",
+      "id": "j3OKeM_okRA",
+      "deliveryPartnerVehicle": "Van",
+      "deliveryPartnerId": "dp-id-2"
+    },
+    {
+      "orderId": "ORD1003",
+      "customerName": "Arun Kumar",
+      "restaurantName": "Sangeetha Veg",
+      "status": "PENDING",
+      "paymentStatus": "PENDING",
+      "amount": 290,
+      "orderDate": "2026-08-27 09:15",
+      "deliveryPartner": "Kabilan S",
+      "city": "Coimbatore",
+      "id": "XtZOEdbaJl8",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD1004",
+      "customerName": "Deepa Rani",
+      "restaurantName": "A2B",
+      "status": "CANCELLED",
+      "paymentStatus": "REFUNDED",
+      "amount": 360,
+      "orderDate": "2026-08-26 18:40",
+      "deliveryPartner": "Naveen R",
+      "city": "Trichy",
+      "id": "RYqAxVB7V5Q",
+      "deliveryPartnerVehicle": "Van"
+    },
+    {
+      "orderId": "ORD1005",
+      "customerName": "Sathish V",
+      "restaurantName": "KFC",
+      "status": "PREPARING",
+      "paymentStatus": "PAID",
+      "amount": 540,
+      "orderDate": "2026-08-27 12:05",
+      "deliveryPartner": "Vignesh K",
+      "city": "Madurai",
+      "id": "Jg9MQwhI9xY",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD1006",
+      "customerName": "Meera Suresh",
+      "restaurantName": "Biryani Plaza",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 780,
+      "orderDate": "2026-08-27 08:30",
+      "deliveryPartner": "Anandh B",
+      "city": "Salem",
+      "id": "JtBXVp3RAHA",
+      "deliveryPartnerVehicle": "Van"
+    },
+    {
+      "orderId": "ORD2001",
+      "customerName": "Prathap M 1",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2001",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2002",
+      "customerName": "Prathap M 2",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2002",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2003",
+      "customerName": "Prathap M 3",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2003",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2004",
+      "customerName": "Prathap M 4",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2004",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2005",
+      "customerName": "Prathap M 5",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2005",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2006",
+      "customerName": "Prathap M 6",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2006",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2007",
+      "customerName": "Prathap M 7",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2007",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2008",
+      "customerName": "Prathap M 8",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2008",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2009",
+      "customerName": "Prathap M 9",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2009",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2010",
+      "customerName": "Prathap M 10",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2010",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2011",
+      "customerName": "Prathap M 11",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2011",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2012",
+      "customerName": "Prathap M 12",
+      "restaurantName": "Murugan Kadai",
+      "status": "IN_TRANSIT",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2012",
+      "deliveryPartnerVehicle": "Bike",
+      "deliveryPartnerId": "dp-id-1"
+    },
+    {
+      "orderId": "ORD2013",
+      "customerName": "Prathap M 13",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2013",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2014",
+      "customerName": "Prathap M 14",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2014",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2015",
+      "customerName": "Prathap M 15",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2015",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2016",
+      "customerName": "Prathap M 16",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2016",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2017",
+      "customerName": "Prathap M 17",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2017",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2018",
+      "customerName": "Prathap M 18",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2018",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2019",
+      "customerName": "Prathap M 19",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2019",
+      "deliveryPartnerVehicle": "Bike"
+    },
+    {
+      "orderId": "ORD2020",
+      "customerName": "Prathap M 20",
+      "restaurantName": "Murugan Kadai",
+      "status": "DELIVERED",
+      "paymentStatus": "PAID",
+      "amount": 420,
+      "orderDate": "2026-08-27 11:20",
+      "deliveryPartner": "Sankar P",
+      "city": "Madurai",
+      "id": "ORD2020",
+      "deliveryPartnerVehicle": "Bike"
+    }
+  ],
+  "dashboard": {
+    "stats": {
+      "totalOrders": {
+        "value": 8465,
+        "trend": "+15.6% vs last week"
+      },
+      "grossRevenue": {
+        "value": "₹12,48,650",
+        "trend": "+18.3% vs last week"
+      },
+      "commission": {
+        "value": "₹1,87,425",
+        "trend": "+16.7% vs last week"
+      },
+      "netRevenue": {
+        "value": "₹10,61,225",
+        "trend": "+17.2% vs last week"
+      },
+      "newUsers": {
+        "value": 2318,
+        "trend": "+12.4% vs last week"
+      }
+    },
+    "recentOrders": [
+      {
+        "id": "ORD124587",
+        "restaurant": "ABC Cafe",
+        "amount": "₹589.00",
+        "date": "21 May, 10:30 AM",
+        "status": "Delivered"
+      },
+      {
+        "id": "ORD124586",
+        "restaurant": "Pizza Hub",
+        "amount": "₹349.00",
+        "date": "21 May, 10:20 AM",
+        "status": "Out for Delivery"
+      },
+      {
+        "id": "ORD124585",
+        "restaurant": "Food Express",
+        "amount": "₹678.00",
+        "date": "21 May, 10:15 AM",
+        "status": "Preparing"
+      },
+      {
+        "id": "ORD124584",
+        "restaurant": "Burger Point",
+        "amount": "₹420.00",
+        "date": "21 May, 10:05 AM",
+        "status": "Confirmed"
+      },
+      {
+        "id": "ORD124583",
+        "restaurant": "Spice House",
+        "amount": "₹315.00",
+        "date": "21 May, 09:55 AM",
+        "status": "Pending"
+      }
+    ],
+    "ordersByService": [
+      {
+        "name": "Food Delivery",
+        "value": 5642,
+        "trend": "+14.2%"
+      },
+      {
+        "name": "Buy & Get It",
+        "value": 1245,
+        "trend": "+12.8%"
+      },
+      {
+        "name": "Bike Ride",
+        "value": 985,
+        "trend": "+10.7%"
+      },
+      {
+        "name": "Car Booking",
+        "value": 643,
+        "trend": "+9.3%"
+      },
+      {
+        "name": "Parcel Delivery",
+        "value": 130,
+        "trend": "+8.4%"
+      }
+    ],
+    "deliveryPartnerOverview": [
+      {
+        "name": "Total Partners",
+        "value": 2856,
+        "color": "text-primary"
+      },
+      {
+        "name": "Online Partners",
+        "value": 1256,
+        "color": "text-success"
+      },
+      {
+        "name": "Busy Partners",
+        "value": 342,
+        "color": "text-warning"
+      },
+      {
+        "name": "Offline Partners",
+        "value": 1258,
+        "color": "text-muted"
+      }
+    ],
+    "topRestaurants": [
+      {
+        "id": 1,
+        "name": "ABC Cafe",
+        "orders": 1245,
+        "revenue": "₹2,45,320"
+      },
+      {
+        "id": 2,
+        "name": "Food Express",
+        "orders": 985,
+        "revenue": "₹1,87,650"
+      },
+      {
+        "id": 3,
+        "name": "Pizza Hub",
+        "orders": 876,
+        "revenue": "₹1,45,230"
+      },
+      {
+        "id": 4,
+        "name": "Burger Point",
+        "orders": 765,
+        "revenue": "₹1,25,450"
+      },
+      {
+        "id": 5,
+        "name": "Spice House",
+        "orders": 654,
+        "revenue": "₹98,750"
+      }
+    ],
+    "recentTransactions": [
+      {
+        "id": "TXN984512",
+        "type": "Order Payment",
+        "related": "Order #ORD124587",
+        "amount": "₹589.00",
+        "method": "UPI",
+        "status": "Success",
+        "date": "21 May 2024, 10:30 AM"
+      },
+      {
+        "id": "TXN984511",
+        "type": "Payout",
+        "related": "Payout to Karthik Raj",
+        "amount": "₹1,245.00",
+        "method": "Bank Transfer",
+        "status": "Success",
+        "date": "21 May 2024, 09:15 AM"
+      },
+      {
+        "id": "TXN984510",
+        "type": "Commission",
+        "related": "Order #ORD124586",
+        "amount": "₹52.35",
+        "method": "Wallet",
+        "status": "Success",
+        "date": "21 May 2024, 09:10 AM"
+      },
+      {
+        "id": "TXN984509",
+        "type": "Refund",
+        "related": "Order #ORD124581",
+        "amount": "₹320.00",
+        "method": "UPI",
+        "status": "Refunded",
+        "date": "20 May 2024, 08:45 PM"
+      },
+      {
+        "id": "TXN984508",
+        "type": "Order Payment",
+        "related": "Order #ORD124582",
+        "amount": "₹420.00",
+        "method": "Card",
+        "status": "Success",
+        "date": "20 May 2024, 08:20 PM"
+      }
+    ],
+    "quickSummary": {
+      "cancelledOrders": {
+        "value": 236,
+        "trend": "-5.4%"
+      },
+      "returnRefunds": {
+        "value": 78,
+        "trend": "-3.2%"
+      },
+      "avgOrderValue": {
+        "value": "₹288.40",
+        "trend": "+11.6%"
+      },
+      "repeatCustomers": {
+        "value": "68.3%",
+        "trend": "+8.9%"
+      }
+    },
+    "lineChartData": [
+      {
+        "name": "21 May",
+        "thisWeek": 500,
+        "lastWeek": 800
+      },
+      {
+        "name": "22 May",
+        "thisWeek": 900,
+        "lastWeek": 1100
+      },
+      {
+        "name": "23 May",
+        "thisWeek": 1600,
+        "lastWeek": 1300
+      },
+      {
+        "name": "24 May",
+        "thisWeek": 2100,
+        "lastWeek": 1400
+      },
+      {
+        "name": "25 May",
+        "thisWeek": 1700,
+        "lastWeek": 1100
+      },
+      {
+        "name": "26 May",
+        "thisWeek": 1500,
+        "lastWeek": 900
+      },
+      {
+        "name": "27 May",
+        "thisWeek": 1100,
+        "lastWeek": 1400
+      }
+    ],
+    "barChartData": [
+      {
+        "name": "21 May",
+        "gross": 1.5,
+        "net": 0.8
+      },
+      {
+        "name": "22 May",
+        "gross": 1.1,
+        "net": 0.9
+      },
+      {
+        "name": "23 May",
+        "gross": 1.1,
+        "net": 0.9
+      },
+      {
+        "name": "24 May",
+        "gross": 2.3,
+        "net": 1.8
+      },
+      {
+        "name": "25 May",
+        "gross": 1.6,
+        "net": 1.2
+      },
+      {
+        "name": "26 May",
+        "gross": 1.5,
+        "net": 1
+      },
+      {
+        "name": "27 May",
+        "gross": 0.9,
+        "net": 0.7
+      }
+    ],
+    "pieData": [
+      {
+        "name": "Customers",
+        "value": 38542,
+        "color": "var(--color-primary)"
+      },
+      {
+        "name": "Delivery Partners",
+        "value": 4856,
+        "color": "var(--color-success)"
+      },
+      {
+        "name": "Store Owners",
+        "value": 1233,
+        "color": "var(--color-warning)"
+      },
+      {
+        "name": "Others",
+        "value": 600,
+        "color": "var(--color-muted)"
+      }
+    ]
+  },
+  "deliveryPartners": [
+    {
+      "partnerId": "DVP12565",
+      "name": "Murugan K",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "dp-id-0"
+    },
+    {
+      "partnerId": "DVP12590",
+      "name": "Selvam R",
+      "email": "selvam.r@gmail.com",
+      "mobileNumber": "+91 87654 32109",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Scooter",
+      "vehicleName": "Honda Activa 6G",
+      "vehicleNumber": "TN 64 CD 5678",
+      "city": "KK Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 09:30 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 845,
+      "rating": 4.6,
+      "earnings": 18450,
+      "todayEarnings": "₹850",
+      "completionRate": "94.2%",
+      "cancellationRate": "3.1%",
+      "lastOrder": "11 May 2024, 08:15 PM",
+      "dateOfBirth": "10 Jul 1992",
+      "gender": "Male",
+      "alternateMobile": "+91 98765 43210",
+      "emergencyContact": "Kannan P (Father)",
+      "emergencyMobile": "+91 96543 21008",
+      "address": "45, 1st Cross, KK Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "1234 5678 9012",
+      "panNumber": "ABCDE1234F",
+      "rcNumber": "TN642022123456",
+      "insuranceProvider": "HDFC ERGO",
+      "insuranceNumber": "HDF1234567890",
+      "insuranceValidTill": "20 Nov 2024",
+      "thisWeekEarnings": "₹3,450",
+      "totalPayouts": "₹15,000",
+      "bankName": "HDFC Bank",
+      "accountNumber": "1234 5678 9012",
+      "ifscCode": "HDFC0001234",
+      "accountHolderName": "Selvam R",
+      "id": "dp-id-1"
+    },
+    {
+      "partnerId": "DVP12569",
+      "name": "Kannan P",
+      "email": "kannan.p@gmail.com",
+      "mobileNumber": "+91 96543 21008",
+      "status": "Active",
+      "onlineStatus": "Online",
+      "vehicleType": "Bike",
+      "vehicleName": "Bajaj Pulsar 150",
+      "vehicleNumber": "TN 75 EF 9101",
+      "city": "Thirumangalam, Madurai, Tamil Nadu",
+      "lastActive": "11 May 2024, 11:45 AM",
+      "joinedOn": "11 May 2024",
+      "ordersCompleted": 1024,
+      "rating": 4.7,
+      "earnings": 22100,
+      "todayEarnings": "₹1,450",
+      "completionRate": "97.1%",
+      "cancellationRate": "1.8%",
+      "lastOrder": "11 May 2024, 11:30 AM",
+      "dateOfBirth": "05 May 1994",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "22, Main Road, Thirumangalam, Madurai - 625706, Tamil Nadu",
+      "aadhaarNumber": "8765 4321 0987",
+      "panNumber": "QWERT1234Y",
+      "rcNumber": "TN752022123456",
+      "insuranceProvider": "ICICI Lombard",
+      "insuranceNumber": "ICI1234567890",
+      "insuranceValidTill": "10 Jan 2025",
+      "thisWeekEarnings": "₹4,120",
+      "totalPayouts": "₹18,000",
+      "bankName": "ICICI Bank",
+      "accountNumber": "9876 5432 1098",
+      "ifscCode": "ICIC0009876",
+      "accountHolderName": "Kannan P",
+      "id": "dp-id-2"
+    },
+    {
+      "partnerId": "DVP12597",
+      "name": "Praveen J",
+      "email": "praveen.j@gmail.com",
+      "mobileNumber": "+91 77445 55433",
+      "status": "Inactive",
+      "onlineStatus": "Online",
+      "vehicleType": "Bike",
+      "vehicleName": "Hero Splendor Plus",
+      "vehicleNumber": "TN 75 MN 7890",
+      "city": "Usilampatti, Madurai, Tamil Nadu",
+      "lastActive": "09 May 2024, 05:20 PM",
+      "joinedOn": "09 May 2024",
+      "ordersCompleted": 420,
+      "rating": 4.4,
+      "earnings": 9850,
+      "todayEarnings": "₹0",
+      "completionRate": "89.5%",
+      "cancellationRate": "5.2%",
+      "lastOrder": "09 May 2024, 04:30 PM",
+      "dateOfBirth": "18 Sep 1996",
+      "gender": "Male",
+      "alternateMobile": "+91 96543 21008",
+      "emergencyContact": "Kannan P (Cousin)",
+      "emergencyMobile": "+91 96543 21008",
+      "address": "15, North Street, Usilampatti, Madurai - 625532, Tamil Nadu",
+      "aadhaarNumber": "5432 1098 7654",
+      "panNumber": "ZXCVB1234N",
+      "rcNumber": "TN752021987654",
+      "insuranceProvider": "Oriental Insurance",
+      "insuranceNumber": "ORI0987654321",
+      "insuranceValidTill": "05 Dec 2024",
+      "thisWeekEarnings": "₹850",
+      "totalPayouts": "₹9,000",
+      "bankName": "Canara Bank",
+      "accountNumber": "4567 8901 2345",
+      "ifscCode": "CNRB0004567",
+      "accountHolderName": "Praveen J",
+      "id": "dp-id-3"
+    },
+    {
+      "partnerId": "DVP12594",
+      "name": "Murugan K",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "dp-id-0"
+    },
+    {
+      "partnerId": "DVP12562",
+      "name": "Selvam R",
+      "email": "selvam.r@gmail.com",
+      "mobileNumber": "+91 87654 32109",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Scooter",
+      "vehicleName": "Honda Activa 6G",
+      "vehicleNumber": "TN 64 CD 5678",
+      "city": "KK Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 09:30 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 845,
+      "rating": 4.6,
+      "earnings": 18450,
+      "todayEarnings": "₹850",
+      "completionRate": "94.2%",
+      "cancellationRate": "3.1%",
+      "lastOrder": "11 May 2024, 08:15 PM",
+      "dateOfBirth": "10 Jul 1992",
+      "gender": "Male",
+      "alternateMobile": "+91 98765 43210",
+      "emergencyContact": "Kannan P (Father)",
+      "emergencyMobile": "+91 96543 21008",
+      "address": "45, 1st Cross, KK Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "1234 5678 9012",
+      "panNumber": "ABCDE1234F",
+      "rcNumber": "TN642022123456",
+      "insuranceProvider": "HDFC ERGO",
+      "insuranceNumber": "HDF1234567890",
+      "insuranceValidTill": "20 Nov 2024",
+      "thisWeekEarnings": "₹3,450",
+      "totalPayouts": "₹15,000",
+      "bankName": "HDFC Bank",
+      "accountNumber": "1234 5678 9012",
+      "ifscCode": "HDFC0001234",
+      "accountHolderName": "Selvam R",
+      "id": "dp-id-1"
+    },
+    {
+      "partnerId": "DVP12561",
+      "name": "Kannan P",
+      "email": "kannan.p@gmail.com",
+      "mobileNumber": "+91 96543 21008",
+      "status": "Active",
+      "onlineStatus": "Online",
+      "vehicleType": "Bike",
+      "vehicleName": "Bajaj Pulsar 150",
+      "vehicleNumber": "TN 75 EF 9101",
+      "city": "Thirumangalam, Madurai, Tamil Nadu",
+      "lastActive": "11 May 2024, 11:45 AM",
+      "joinedOn": "11 May 2024",
+      "ordersCompleted": 1024,
+      "rating": 4.7,
+      "earnings": 22100,
+      "todayEarnings": "₹1,450",
+      "completionRate": "97.1%",
+      "cancellationRate": "1.8%",
+      "lastOrder": "11 May 2024, 11:30 AM",
+      "dateOfBirth": "05 May 1994",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "22, Main Road, Thirumangalam, Madurai - 625706, Tamil Nadu",
+      "aadhaarNumber": "8765 4321 0987",
+      "panNumber": "QWERT1234Y",
+      "rcNumber": "TN752022123456",
+      "insuranceProvider": "ICICI Lombard",
+      "insuranceNumber": "ICI1234567890",
+      "insuranceValidTill": "10 Jan 2025",
+      "thisWeekEarnings": "₹4,120",
+      "totalPayouts": "₹18,000",
+      "bankName": "ICICI Bank",
+      "accountNumber": "9876 5432 1098",
+      "ifscCode": "ICIC0009876",
+      "accountHolderName": "Kannan P",
+      "id": "dp-id-2"
+    },
+    {
+      "partnerId": "DVP12557",
+      "name": "Praveen J",
+      "email": "praveen.j@gmail.com",
+      "mobileNumber": "+91 77445 55433",
+      "status": "Inactive",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "Hero Splendor Plus",
+      "vehicleNumber": "TN 75 MN 7890",
+      "city": "Usilampatti, Madurai, Tamil Nadu",
+      "lastActive": "09 May 2024, 05:20 PM",
+      "joinedOn": "09 May 2024",
+      "ordersCompleted": 420,
+      "rating": 4.4,
+      "earnings": 9850,
+      "todayEarnings": "₹0",
+      "completionRate": "89.5%",
+      "cancellationRate": "5.2%",
+      "lastOrder": "09 May 2024, 04:30 PM",
+      "dateOfBirth": "18 Sep 1996",
+      "gender": "Male",
+      "alternateMobile": "+91 96543 21008",
+      "emergencyContact": "Kannan P (Cousin)",
+      "emergencyMobile": "+91 96543 21008",
+      "address": "15, North Street, Usilampatti, Madurai - 625532, Tamil Nadu",
+      "aadhaarNumber": "5432 1098 7654",
+      "panNumber": "ZXCVB1234N",
+      "rcNumber": "TN752021987654",
+      "insuranceProvider": "Oriental Insurance",
+      "insuranceNumber": "ORI0987654321",
+      "insuranceValidTill": "05 Dec 2024",
+      "thisWeekEarnings": "₹850",
+      "totalPayouts": "₹9,000",
+      "bankName": "Canara Bank",
+      "accountNumber": "4567 8901 2345",
+      "ifscCode": "CNRB0004567",
+      "accountHolderName": "Praveen J",
+      "id": "dp-id-3"
+    },
+    {
+      "partnerId": "DVP12563",
+      "name": "Murugan K",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "dp-id-0"
+    },
+    {
+      "partnerId": "DVP12587",
+      "name": "Selvam R",
+      "email": "selvam.r@gmail.com",
+      "mobileNumber": "+91 87654 32109",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Scooter",
+      "vehicleName": "Honda Activa 6G",
+      "vehicleNumber": "TN 64 CD 5678",
+      "city": "KK Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 09:30 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 845,
+      "rating": 4.6,
+      "earnings": 18450,
+      "todayEarnings": "₹850",
+      "completionRate": "94.2%",
+      "cancellationRate": "3.1%",
+      "lastOrder": "11 May 2024, 08:15 PM",
+      "dateOfBirth": "10 Jul 1992",
+      "gender": "Male",
+      "alternateMobile": "+91 98765 43210",
+      "emergencyContact": "Kannan P (Father)",
+      "emergencyMobile": "+91 96543 21008",
+      "address": "45, 1st Cross, KK Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "1234 5678 9012",
+      "panNumber": "ABCDE1234F",
+      "rcNumber": "TN642022123456",
+      "insuranceProvider": "HDFC ERGO",
+      "insuranceNumber": "HDF1234567890",
+      "insuranceValidTill": "20 Nov 2024",
+      "thisWeekEarnings": "₹3,450",
+      "totalPayouts": "₹15,000",
+      "bankName": "HDFC Bank",
+      "accountNumber": "1234 5678 9012",
+      "ifscCode": "HDFC0001234",
+      "accountHolderName": "Selvam R",
+      "id": "dp-id-1"
+    },
+    {
+      "partnerId": "DVP2001",
+      "name": "Murugan K 1",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2001"
+    },
+    {
+      "partnerId": "DVP2002",
+      "name": "Murugan K 2",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2002"
+    },
+    {
+      "partnerId": "DVP2003",
+      "name": "Murugan K 3",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2003"
+    },
+    {
+      "partnerId": "DVP2004",
+      "name": "Murugan K 4",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2004"
+    },
+    {
+      "partnerId": "DVP2005",
+      "name": "Murugan K 5",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Blocked",
+      "onlineStatus": "Online",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2005"
+    },
+    {
+      "partnerId": "DVP2006",
+      "name": "Murugan K 6",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2006"
+    },
+    {
+      "partnerId": "DVP2007",
+      "name": "Murugan K 7",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2007"
+    },
+    {
+      "partnerId": "DVP2008",
+      "name": "Murugan K 8",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Online",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2008"
+    },
+    {
+      "partnerId": "DVP2009",
+      "name": "Murugan K 9",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2009"
+    },
+    {
+      "partnerId": "DVP2010",
+      "name": "Murugan K 10",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Online",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2010"
+    },
+    {
+      "partnerId": "DVP2011",
+      "name": "Murugan K 11",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2011"
+    },
+    {
+      "partnerId": "DVP2012",
+      "name": "Murugan K 12",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2012"
+    },
+    {
+      "partnerId": "DVP2013",
+      "name": "Murugan K 13",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2013"
+    },
+    {
+      "partnerId": "DVP2014",
+      "name": "Murugan K 14",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2014"
+    },
+    {
+      "partnerId": "DVP2015",
+      "name": "Murugan K 15",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2015"
+    },
+    {
+      "partnerId": "DVP2016",
+      "name": "Murugan K 16",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2016"
+    },
+    {
+      "partnerId": "DVP2017",
+      "name": "Murugan K 17",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2017"
+    },
+    {
+      "partnerId": "DVP2018",
+      "name": "Murugan K 18",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2018"
+    },
+    {
+      "partnerId": "DVP2019",
+      "name": "Murugan K 19",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2019"
+    },
+    {
+      "partnerId": "DVP2020",
+      "name": "Murugan K 20",
+      "email": "murugan.k@gmail.com",
+      "mobileNumber": "+91 98765 43210",
+      "status": "Active",
+      "onlineStatus": "Offline",
+      "vehicleType": "Bike",
+      "vehicleName": "TVS Apache RTR 160",
+      "vehicleNumber": "TN 59 AB 1234",
+      "city": "Anna Nagar, Madurai, Tamil Nadu",
+      "lastActive": "12 May 2024, 10:15 AM",
+      "joinedOn": "12 May 2024",
+      "ordersCompleted": 1245,
+      "rating": 4.8,
+      "earnings": 28450,
+      "todayEarnings": "₹1,250",
+      "completionRate": "96.3%",
+      "cancellationRate": "2.1%",
+      "lastOrder": "12 May 2024, 10:15 AM",
+      "dateOfBirth": "15 Aug 1995",
+      "gender": "Male",
+      "alternateMobile": "+91 87654 32109",
+      "emergencyContact": "Selvam R (Brother)",
+      "emergencyMobile": "+91 87654 32110",
+      "address": "12, 3rd Street, Anna Nagar, Madurai - 625020, Tamil Nadu",
+      "aadhaarNumber": "5678 1234 9876",
+      "panNumber": "BKZPK1234K",
+      "rcNumber": "TN592022123456",
+      "insuranceProvider": "Bajaj Allianz",
+      "insuranceNumber": "BZJ1234567890",
+      "insuranceValidTill": "15 Mar 2025",
+      "thisWeekEarnings": "₹5,680",
+      "totalPayouts": "₹26,750",
+      "bankName": "State Bank of India",
+      "accountNumber": "5010 1234 5678",
+      "ifscCode": "SBIN0012345",
+      "accountHolderName": "Murugan K",
+      "id": "DVP2020"
+    }
+  ],
+  "complaints": [
+    {
+      "id": "CMP002",
+      "complaintId": "CMP-2459",
+      "date": "28 May 2024",
+      "userType": "Delivery Partner",
+      "userName": "Sankar M",
+      "issueType": "Payment Issue",
+      "status": "In Progress",
+      "priority": "Medium",
+      "description": "Last week payout is still pending in my account.",
+      "resolution": "Finance team is processing.",
+      "assignTo": "Unassigned"
+    },
+    {
+      "id": "CMP004",
+      "complaintId": "CMP-2461",
+      "date": "26 May 2024",
+      "userType": "Merchant",
+      "userName": "ABC Cafe",
+      "issueType": "App Issue",
+      "status": "Closed",
+      "priority": "Low",
+      "description": "Cannot update menu prices on the merchant app.",
+      "resolution": "Instructed merchant to update the app to v2.1.",
+      "assignTo": "Unassigned"
+    },
+    {
+      "id": "CMP2001",
+      "complaintId": "CMP2001",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2002",
+      "complaintId": "CMP2002",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2003",
+      "complaintId": "CMP2003",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2004",
+      "complaintId": "CMP2004",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2005",
+      "complaintId": "CMP2005",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2006",
+      "complaintId": "CMP2006",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2007",
+      "complaintId": "CMP2007",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2008",
+      "complaintId": "CMP2008",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2009",
+      "complaintId": "CMP2009",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2010",
+      "complaintId": "CMP2010",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2011",
+      "complaintId": "CMP2011",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "Medium",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": "",
+      "assignTo": "Support Agent 1"
+    },
+    {
+      "id": "CMP2012",
+      "complaintId": "CMP2012",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2013",
+      "complaintId": "CMP2013",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2014",
+      "complaintId": "CMP2014",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2015",
+      "complaintId": "CMP2015",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2016",
+      "complaintId": "CMP2016",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2017",
+      "complaintId": "CMP2017",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2018",
+      "complaintId": "CMP2018",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Resolved",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2019",
+      "complaintId": "CMP2019",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    },
+    {
+      "id": "CMP2020",
+      "complaintId": "CMP2020",
+      "date": "28 May 2024",
+      "userType": "Customer",
+      "userName": "Rahul S",
+      "issueType": "Late Delivery",
+      "status": "Open",
+      "priority": "High",
+      "description": "My order took 2 hours to deliver instead of 30 mins.",
+      "resolution": ""
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "categoryId": "CAT1001",
+      "name": "Food",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "2",
+      "categoryId": "CAT1002",
+      "name": "Groceries",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "3",
+      "categoryId": "CAT1003",
+      "name": "Pharmacy",
+      "type": "Product",
+      "itemCount": 850,
+      "status": "Active",
+      "description": "Medicines and health supplements.",
+      "createdDate": "2024-02-05",
+      "parentId": ""
+    },
+    {
+      "id": "4",
+      "categoryId": "CAT1004",
+      "name": "Home Services",
+      "type": "Service",
+      "itemCount": 45,
+      "status": "Inactive",
+      "description": "Cleaning, repair, and maintenance services.",
+      "createdDate": "2024-03-20",
+      "parentId": ""
+    },
+    {
+      "id": "5",
+      "categoryId": "CAT1005",
+      "name": "Electronics",
+      "type": "Product",
+      "itemCount": 320,
+      "status": "Active",
+      "description": "Gadgets, appliances, and accessories.",
+      "createdDate": "2024-04-12",
+      "parentId": ""
+    },
+    {
+      "name": "Fastfood",
+      "categoryId": "CAT1008",
+      "type": "Product",
+      "itemCount": 22,
+      "status": "Active",
+      "description": "Fast foods",
+      "createdDate": "2026-09-02",
+      "id": "EvXNbJd406E",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2001",
+      "categoryId": "CAT2001",
+      "name": "Food 1",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2002",
+      "categoryId": "CAT2002",
+      "name": "Food 2",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2003",
+      "categoryId": "CAT2003",
+      "name": "Food 3",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2004",
+      "categoryId": "CAT2004",
+      "name": "Food 4",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2005",
+      "categoryId": "CAT2005",
+      "name": "Food 5",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2006",
+      "categoryId": "CAT2006",
+      "name": "Food 6",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2007",
+      "categoryId": "CAT2007",
+      "name": "Food 7",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2008",
+      "categoryId": "CAT2008",
+      "name": "Food 8",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2009",
+      "categoryId": "CAT2009",
+      "name": "Food 9",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2010",
+      "categoryId": "CAT2010",
+      "name": "Food 10",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2011",
+      "categoryId": "CAT2011",
+      "name": "Food 11",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2012",
+      "categoryId": "CAT2012",
+      "name": "Food 12",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2013",
+      "categoryId": "CAT2013",
+      "name": "Food 13",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2014",
+      "categoryId": "CAT2014",
+      "name": "Food 14",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2015",
+      "categoryId": "CAT2015",
+      "name": "Food 15",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2016",
+      "categoryId": "CAT2016",
+      "name": "Food 16",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2017",
+      "categoryId": "CAT2017",
+      "name": "Food 17",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2018",
+      "categoryId": "CAT2018",
+      "name": "Food 18",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "CAT2019",
+      "categoryId": "CAT2019",
+      "name": "Food 19",
+      "type": "Product",
+      "itemCount": 1200,
+      "status": "Active",
+      "description": "Fresh produce, staples, and daily needs.",
+      "createdDate": "2024-01-15",
+      "parentId": ""
+    },
+    {
+      "id": "101",
+      "categoryId": "CAT1101",
+      "name": "Chicken",
+      "type": "Product",
+      "itemCount": 45,
+      "status": "Active",
+      "description": "Fresh chicken",
+      "createdDate": "2024-05-10",
+      "parentId": "1"
+    },
+    {
+      "id": "102",
+      "categoryId": "CAT1102",
+      "name": "Mutton",
+      "type": "Product",
+      "itemCount": 12,
+      "status": "Active",
+      "description": "Fresh mutton",
+      "createdDate": "2024-05-11",
+      "parentId": "1"
+    },
+    {
+      "id": "501",
+      "categoryId": "CAT1501",
+      "name": "Samsung",
+      "type": "Product",
+      "itemCount": 150,
+      "status": "Active",
+      "description": "Samsung electronics",
+      "createdDate": "2024-05-12",
+      "parentId": "5"
+    },
+    {
+      "id": "502",
+      "categoryId": "CAT1502",
+      "name": "Apple",
+      "type": "Product",
+      "itemCount": 80,
+      "status": "Active",
+      "description": "Apple electronics",
+      "createdDate": "2024-05-13",
+      "parentId": "5"
+    }
+  ],
+  "offers": [
+    {
+      "id": "1",
+      "offerId": "OFF001",
+      "name": "FIRST50",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "2",
+      "offerId": "OFF002",
+      "name": "FLAT100",
+      "title": "Flat ₹100 OFF",
+      "type": "Flat",
+      "discountText": "₹100 OFF",
+      "discountDetail": "Min. order ₹249",
+      "usageLimit": 865,
+      "usageMax": 2000,
+      "validFrom": "2024-05-01",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "info"
+    },
+    {
+      "id": "3",
+      "offerId": "OFF003",
+      "name": "FREESHIP",
+      "title": "Free Delivery",
+      "type": "Free Delivery",
+      "discountText": "100% OFF",
+      "discountDetail": "Delivery Charges",
+      "usageLimit": 2310,
+      "usageMax": 10000,
+      "validFrom": "2024-05-05",
+      "validTo": "2024-05-25",
+      "status": "ACTIVE",
+      "color": "warning"
+    },
+    {
+      "id": "4",
+      "offerId": "OFF004",
+      "name": "WEEKEND20",
+      "title": "Weekend Special",
+      "type": "Percentage",
+      "discountText": "20% OFF",
+      "discountDetail": "Max ₹200",
+      "usageLimit": 632,
+      "usageMax": 3000,
+      "validFrom": "2024-06-01",
+      "validTo": "2024-06-30",
+      "status": "SCHEDULED",
+      "color": "primary"
+    },
+    {
+      "id": "5",
+      "offerId": "OFF005",
+      "name": "FOODIES15",
+      "title": "Foodies Special",
+      "type": "Percentage",
+      "discountText": "15% OFF",
+      "discountDetail": "Max ₹150",
+      "usageLimit": 1028,
+      "usageMax": 4000,
+      "validFrom": "2024-05-15",
+      "validTo": "2024-06-15",
+      "status": "ACTIVE",
+      "color": "danger"
+    },
+    {
+      "id": "6",
+      "offerId": "OFF006",
+      "name": "NEWUSER75",
+      "title": "New User Offer",
+      "type": "Flat",
+      "discountText": "₹75 OFF",
+      "discountDetail": "Min. order ₹199",
+      "usageLimit": 3451,
+      "usageMax": 8000,
+      "validFrom": "2024-04-01",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "warning"
+    },
+    {
+      "id": "7",
+      "offerId": "OFF007",
+      "name": "SUMMER25",
+      "title": "Summer Offer",
+      "type": "Percentage",
+      "discountText": "25% OFF",
+      "discountDetail": "Max ₹250",
+      "usageLimit": 1987,
+      "usageMax": 5000,
+      "validFrom": "2024-05-01",
+      "validTo": "2024-05-10",
+      "status": "EXPIRED",
+      "color": "muted"
+    },
+    {
+      "id": "8",
+      "offerId": "OFF008",
+      "name": "APRILDEAL",
+      "title": "April Deal",
+      "type": "Flat",
+      "discountText": "₹120 OFF",
+      "discountDetail": "Min. order ₹299",
+      "usageLimit": 921,
+      "usageMax": 3000,
+      "validFrom": "2024-04-01",
+      "validTo": "2024-04-30",
+      "status": "EXPIRED",
+      "color": "info"
+    },
+    {
+      "id": "OFR2001",
+      "offerId": "OFR2001",
+      "name": "FIRST50 1",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2002",
+      "offerId": "OFR2002",
+      "name": "FIRST50 2",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2003",
+      "offerId": "OFR2003",
+      "name": "FIRST50 3",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2004",
+      "offerId": "OFR2004",
+      "name": "FIRST50 4",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2005",
+      "offerId": "OFR2005",
+      "name": "FIRST50 5",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2006",
+      "offerId": "OFR2006",
+      "name": "FIRST50 6",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2007",
+      "offerId": "OFR2007",
+      "name": "FIRST50 7",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2008",
+      "offerId": "OFR2008",
+      "name": "FIRST50 8",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2009",
+      "offerId": "OFR2009",
+      "name": "FIRST50 9",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2010",
+      "offerId": "OFR2010",
+      "name": "FIRST50 10",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2011",
+      "offerId": "OFR2011",
+      "name": "FIRST50 11",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2012",
+      "offerId": "OFR2012",
+      "name": "FIRST50 12",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2013",
+      "offerId": "OFR2013",
+      "name": "FIRST50 13",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2014",
+      "offerId": "OFR2014",
+      "name": "FIRST50 14",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2015",
+      "offerId": "OFR2015",
+      "name": "FIRST50 15",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2016",
+      "offerId": "OFR2016",
+      "name": "FIRST50 16",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2017",
+      "offerId": "OFR2017",
+      "name": "FIRST50 17",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2018",
+      "offerId": "OFR2018",
+      "name": "FIRST50 18",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2019",
+      "offerId": "OFR2019",
+      "name": "FIRST50 19",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    },
+    {
+      "id": "OFR2020",
+      "offerId": "OFR2020",
+      "name": "FIRST50 20",
+      "title": "First Order Offer",
+      "type": "Percentage",
+      "discountText": "50% OFF",
+      "discountDetail": "Max ₹100",
+      "usageLimit": 1245,
+      "usageMax": 5000,
+      "validFrom": "2024-05-10",
+      "validTo": "2024-05-31",
+      "status": "ACTIVE",
+      "color": "success"
+    }
+  ],
+  "locations": [
+    {
+      "id": "1",
+      "name": "Anna Nagar",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "2",
+      "name": "Bharath Nagar",
+      "fullName": "Bharath Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 980,
+      "color": "success"
+    },
+    {
+      "id": "3",
+      "name": "KK Nagar",
+      "fullName": "KK Nagar, Madurai, Tamil Nadu",
+      "zone": "West Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1120,
+      "color": "info"
+    },
+    {
+      "id": "4",
+      "name": "Meenakshi Puram",
+      "fullName": "Meenakshi Puram, Madurai, Tamil Nadu",
+      "zone": "East Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 860,
+      "color": "danger"
+    },
+    {
+      "id": "5",
+      "name": "Tallakulam",
+      "fullName": "Tallakulam, Madurai, Tamil Nadu",
+      "zone": "South Zone",
+      "city": "Madurai",
+      "status": "INACTIVE",
+      "orders30d": 210,
+      "color": "warning"
+    },
+    {
+      "id": "6",
+      "name": "Thirunagar",
+      "fullName": "Thirunagar, Madurai, Tamil Nadu",
+      "zone": "West Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 760,
+      "color": "success"
+    },
+    {
+      "id": "7",
+      "name": "Villapuram",
+      "fullName": "Villapuram, Madurai, Tamil Nadu",
+      "zone": "East Zone",
+      "city": "Madurai",
+      "status": "INACTIVE",
+      "orders30d": 145,
+      "color": "primary"
+    },
+    {
+      "id": "8",
+      "name": "Alagarkovil Road",
+      "fullName": "Alagarkovil Road, Madurai, Tamil Nadu",
+      "zone": "South Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 540,
+      "color": "info"
+    },
+    {
+      "id": "9",
+      "name": "Simmakkal",
+      "fullName": "Simmakkal, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "RESTRICTED",
+      "orders30d": 90,
+      "color": "danger"
+    },
+    {
+      "id": "10",
+      "name": "Koodal Nagar",
+      "fullName": "Koodal Nagar, Madurai, Tamil Nadu",
+      "zone": "West Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 620,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2001",
+      "name": "Anna Nagar 1",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2002",
+      "name": "Anna Nagar 2",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2003",
+      "name": "Anna Nagar 3",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2004",
+      "name": "Anna Nagar 4",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2005",
+      "name": "Anna Nagar 5",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2006",
+      "name": "Anna Nagar 6",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2007",
+      "name": "Anna Nagar 7",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2008",
+      "name": "Anna Nagar 8",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2009",
+      "name": "Anna Nagar 9",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2010",
+      "name": "Anna Nagar 10",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2011",
+      "name": "Anna Nagar 11",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2012",
+      "name": "Anna Nagar 12",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2013",
+      "name": "Anna Nagar 13",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2014",
+      "name": "Anna Nagar 14",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2015",
+      "name": "Anna Nagar 15",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2016",
+      "name": "Anna Nagar 16",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2018",
+      "name": "Anna Nagar 18",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2019",
+      "name": "Anna Nagar 19",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    },
+    {
+      "id": "LOC2020",
+      "name": "Anna Nagar 20",
+      "fullName": "Anna Nagar, Madurai, Tamil Nadu",
+      "zone": "North Zone",
+      "city": "Madurai",
+      "status": "ACTIVE",
+      "orders30d": 1250,
+      "color": "primary"
+    }
+  ],
+  "earnings": [
+    {
+      "id": "1",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2001",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2002",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2003",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2004",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2005",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2006",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2007",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2008",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2009",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2010",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2011",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2012",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2013",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2014",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2015",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2016",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2017",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2018",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2019",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    },
+    {
+      "id": "ERN2020",
+      "stats": {
+        "total": 1245678,
+        "partner": 876320,
+        "platform": 345210,
+        "refunds": 75852
+      },
+      "chartData": [
+        {
+          "date": "12 May",
+          "total": 80000,
+          "partner": 50000,
+          "commission": 20000
+        },
+        {
+          "date": "13 May",
+          "total": 100000,
+          "partner": 65000,
+          "commission": 25000
+        },
+        {
+          "date": "14 May",
+          "total": 95000,
+          "partner": 60000,
+          "commission": 22000
+        },
+        {
+          "date": "15 May",
+          "total": 120000,
+          "partner": 75000,
+          "commission": 30000
+        },
+        {
+          "date": "16 May",
+          "total": 135000,
+          "partner": 85000,
+          "commission": 35000
+        },
+        {
+          "date": "17 May",
+          "total": 110000,
+          "partner": 70000,
+          "commission": 28000
+        },
+        {
+          "date": "18 May",
+          "total": 145000,
+          "partner": 90000,
+          "commission": 38000
+        },
+        {
+          "date": "19 May",
+          "total": 160000,
+          "partner": 100000,
+          "commission": 45000
+        },
+        {
+          "date": "20 May",
+          "total": 155000,
+          "partner": 95000,
+          "commission": 42000
+        }
+      ],
+      "summary": {
+        "partner": {
+          "current": 876320,
+          "previous": 772310
+        },
+        "platform": {
+          "current": 345210,
+          "previous": 290850
+        },
+        "other": {
+          "current": 24148,
+          "previous": 19632
+        },
+        "refunds": {
+          "current": 75852,
+          "previous": 61254
+        }
+      },
+      "topPartners": [
+        {
+          "name": "Murugan K",
+          "id": "DVP12563",
+          "orders": 156,
+          "earnings": 18760
+        },
+        {
+          "name": "Selvam R",
+          "id": "DVP12562",
+          "orders": 132,
+          "earnings": 15230
+        },
+        {
+          "name": "Kannan P",
+          "id": "DVP12561",
+          "orders": 128,
+          "earnings": 13890
+        },
+        {
+          "name": "Vikram J",
+          "id": "DVP12559",
+          "orders": 110,
+          "earnings": 12340
+        },
+        {
+          "name": "Sangeetha M",
+          "id": "DVP12558",
+          "orders": 98,
+          "earnings": 10450
+        }
+      ]
+    }
+  ],
+  "otpSessions": [
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788439698135,
+      "id": "ewCg5gQ3AKA"
+    },
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788439701453,
+      "id": "ucMN1TrbRPM"
+    },
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788439704207,
+      "id": "SDRod7TWiH4"
+    },
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788439708278,
+      "id": "jH09cqi7Bp0"
+    },
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788440207568,
+      "id": "7evVEMXI-as"
+    },
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788440440713,
+      "id": "XhmUfhcSjgs"
+    },
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788440444115,
+      "id": "ftpnea663o0"
+    },
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788440700231,
+      "id": "EJZTOhYPUmQ"
+    },
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788440718870,
+      "id": "Ij07AwALQFE"
+    },
+    {
+      "contact": "9876543210",
+      "otp": "123456",
+      "createdAt": 1788440722076,
+      "id": "3wEz5AYoaWA"
+    },
+    {
+      "contact": "8438285161",
+      "otp": "123456",
+      "createdAt": 1788440975659,
+      "id": "OmKVe3uZ62A"
+    }
+  ],
+  "restaurants": [
+    {
+      "id": "RST001",
+      "name": "Murugan Kadai",
+      "ownerName": "Murugan S",
+      "cuisineType": "South Indian",
+      "address": "12, Anna Salai, Chennai - 600002",
+      "city": "Chennai",
+      "phone": "+91 98765 43210",
+      "email": "murugan@kadai.com",
+      "status": "Active",
+      "rating": 4.7,
+      "totalOrders": 3420,
+      "deliveryTime": "25-35 mins",
+      "minimumOrder": 80,
+      "deliveryCharge": 20,
+      "openingTime": "07:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2023-01-15"
+    },
+    {
+      "id": "RST002",
+      "name": "Pizza Hub",
+      "ownerName": "Ravi Kumar",
+      "cuisineType": "Italian, Fast Food",
+      "address": "45, MG Road, Bangalore - 560001",
+      "city": "Bangalore",
+      "phone": "+91 98765 43211",
+      "email": "info@pizzahub.in",
+      "status": "Active",
+      "rating": 4.4,
+      "totalOrders": 2180,
+      "deliveryTime": "30-40 mins",
+      "minimumOrder": 120,
+      "deliveryCharge": 30,
+      "openingTime": "11:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-03-20"
+    },
+    {
+      "id": "RST003",
+      "name": "Sangeetha Veg",
+      "ownerName": "Sangeetha R",
+      "cuisineType": "South Indian",
+      "address": "78, T Nagar, Chennai - 600017",
+      "city": "Chennai",
+      "phone": "+91 98765 43212",
+      "email": "sangeetha@veg.com",
+      "status": "Active",
+      "rating": 4.5,
+      "totalOrders": 1895,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 60,
+      "deliveryCharge": 15,
+      "openingTime": "07:30 AM",
+      "closingTime": "10:30 PM",
+      "joinedOn": "2023-02-10"
+    },
+    {
+      "id": "RST004",
+      "name": "A2B Restaurant",
+      "ownerName": "Adyar Ananda B",
+      "cuisineType": "South Indian, North Indian",
+      "address": "23, Adyar, Chennai - 600020",
+      "city": "Chennai",
+      "phone": "+91 98765 43213",
+      "email": "a2b@restaurant.com",
+      "status": "Active",
+      "rating": 4.6,
+      "totalOrders": 2950,
+      "deliveryTime": "25-35 mins",
+      "minimumOrder": 100,
+      "deliveryCharge": 25,
+      "openingTime": "08:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2022-11-05"
+    },
+    {
+      "id": "RST005",
+      "name": "KFC Express",
+      "ownerName": "Yum Brands India",
+      "cuisineType": "Fast Food",
+      "address": "56, Phoenix Mall, Velachery, Chennai - 600042",
+      "city": "Chennai",
+      "phone": "+91 98765 43214",
+      "email": "kfc@express.in",
+      "status": "Active",
+      "rating": 4.2,
+      "totalOrders": 3750,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 150,
+      "deliveryCharge": 30,
+      "openingTime": "10:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2022-08-12"
+    },
+    {
+      "id": "RST006",
+      "name": "Biryani Plaza",
+      "ownerName": "Hameed Khan",
+      "cuisineType": "Biryani, North Indian",
+      "address": "34, Triplicane, Chennai - 600005",
+      "city": "Chennai",
+      "phone": "+91 98765 43215",
+      "email": "biryani@plaza.com",
+      "status": "Active",
+      "rating": 4.8,
+      "totalOrders": 4120,
+      "deliveryTime": "35-45 mins",
+      "minimumOrder": 90,
+      "deliveryCharge": 20,
+      "openingTime": "11:00 AM",
+      "closingTime": "12:00 AM",
+      "joinedOn": "2022-06-18"
+    },
+    {
+      "id": "RST007",
+      "name": "ABC Cafe",
+      "ownerName": "Anita B",
+      "cuisineType": "Cafe, Beverages",
+      "address": "123, Anna Salai, Teynampet, Chennai - 600018",
+      "city": "Chennai",
+      "phone": "+91 98765 43216",
+      "email": "info@abccafe.com",
+      "status": "Active",
+      "rating": 4.3,
+      "totalOrders": 980,
+      "deliveryTime": "15-25 mins",
+      "minimumOrder": 50,
+      "deliveryCharge": 10,
+      "openingTime": "08:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-05-01"
+    },
+    {
+      "id": "RST008",
+      "name": "Food Express",
+      "ownerName": "Suresh V",
+      "cuisineType": "Multi-Cuisine",
+      "address": "67, Nungambakkam, Chennai - 600034",
+      "city": "Chennai",
+      "phone": "+91 98765 43217",
+      "email": "food@express.in",
+      "status": "Inactive",
+      "rating": 3.9,
+      "totalOrders": 740,
+      "deliveryTime": "30-40 mins",
+      "minimumOrder": 70,
+      "deliveryCharge": 25,
+      "openingTime": "10:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2023-04-14"
+    },
+    {
+      "id": "RST009",
+      "name": "Burger Point",
+      "ownerName": "Kevin D",
+      "cuisineType": "Fast Food",
+      "address": "89, Anna Nagar, Chennai - 600040",
+      "city": "Chennai",
+      "phone": "+91 98765 43218",
+      "email": "burger@point.com",
+      "status": "Active",
+      "rating": 4.1,
+      "totalOrders": 1560,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 100,
+      "deliveryCharge": 20,
+      "openingTime": "11:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-01-28"
+    },
+    {
+      "id": "RST010",
+      "name": "Spice House",
+      "ownerName": "Priya M",
+      "cuisineType": "North Indian, Mughlai",
+      "address": "12, Egmore, Chennai - 600008",
+      "city": "Chennai",
+      "phone": "+91 98765 43219",
+      "email": "spice@house.in",
+      "status": "Active",
+      "rating": 4.5,
+      "totalOrders": 2340,
+      "deliveryTime": "30-40 mins",
+      "minimumOrder": 110,
+      "deliveryCharge": 25,
+      "openingTime": "12:00 PM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2022-09-22"
+    },
+    {
+      "id": "RST011",
+      "name": "Saravana Bhavan",
+      "ownerName": "Saravana P",
+      "cuisineType": "South Indian",
+      "address": "77, Pondy Bazaar, Chennai - 600017",
+      "city": "Chennai",
+      "phone": "+91 98765 43220",
+      "email": "saravana@bhavan.com",
+      "status": "Active",
+      "rating": 4.9,
+      "totalOrders": 5200,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 75,
+      "deliveryCharge": 15,
+      "openingTime": "07:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2022-04-01"
+    },
+    {
+      "id": "RST012",
+      "name": "Mainland China",
+      "ownerName": "Anjan C",
+      "cuisineType": "Chinese",
+      "address": "34, Nungambakkam High Rd, Chennai - 600034",
+      "city": "Chennai",
+      "phone": "+91 98765 43221",
+      "email": "mainland@china.in",
+      "status": "Active",
+      "rating": 4.4,
+      "totalOrders": 1870,
+      "deliveryTime": "35-45 mins",
+      "minimumOrder": 200,
+      "deliveryCharge": 40,
+      "openingTime": "12:00 PM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-06-10"
+    },
+    {
+      "id": "RST013",
+      "name": "Domino's Pizza",
+      "ownerName": "Jubilant FoodWorks",
+      "cuisineType": "Pizza, Fast Food",
+      "address": "23, Velachery Main Rd, Chennai - 600042",
+      "city": "Chennai",
+      "phone": "+91 98765 43222",
+      "email": "dominoes@pizza.in",
+      "status": "Active",
+      "rating": 4,
+      "totalOrders": 4500,
+      "deliveryTime": "25-35 mins",
+      "minimumOrder": 120,
+      "deliveryCharge": 30,
+      "openingTime": "10:00 AM",
+      "closingTime": "12:00 AM",
+      "joinedOn": "2022-07-15"
+    },
+    {
+      "id": "RST014",
+      "name": "Hotel Tamil Nadu",
+      "ownerName": "TN Tourism",
+      "cuisineType": "South Indian",
+      "address": "88, Madurai Main Rd, Madurai - 625001",
+      "city": "Madurai",
+      "phone": "+91 98765 43223",
+      "email": "hotel@tamilnadu.in",
+      "status": "Inactive",
+      "rating": 3.7,
+      "totalOrders": 620,
+      "deliveryTime": "30-45 mins",
+      "minimumOrder": 60,
+      "deliveryCharge": 20,
+      "openingTime": "07:30 AM",
+      "closingTime": "09:30 PM",
+      "joinedOn": "2023-07-20"
+    },
+    {
+      "id": "RST015",
+      "name": "The Cream & Fudge",
+      "ownerName": "Deepa R",
+      "cuisineType": "Desserts, Cafe",
+      "address": "45, Besant Nagar, Chennai - 600090",
+      "city": "Chennai",
+      "phone": "+91 98765 43224",
+      "email": "cream@fudge.com",
+      "status": "Active",
+      "rating": 4.6,
+      "totalOrders": 1120,
+      "deliveryTime": "15-25 mins",
+      "minimumOrder": 50,
+      "deliveryCharge": 10,
+      "openingTime": "11:00 AM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-08-05"
+    },
+    {
+      "id": "RST016",
+      "name": "Punjab Grill",
+      "ownerName": "Gurpreet S",
+      "cuisineType": "North Indian, Punjabi",
+      "address": "56, Coimbatore Main Rd, Coimbatore - 641001",
+      "city": "Coimbatore",
+      "phone": "+91 98765 43225",
+      "email": "punjab@grill.in",
+      "status": "Active",
+      "rating": 4.3,
+      "totalOrders": 1340,
+      "deliveryTime": "30-40 mins",
+      "minimumOrder": 150,
+      "deliveryCharge": 30,
+      "openingTime": "12:00 PM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-02-28"
+    },
+    {
+      "id": "RST017",
+      "name": "Sea Shell",
+      "ownerName": "Marina K",
+      "cuisineType": "Seafood, Coastal",
+      "address": "9, ECR, Thiruvanmiyur, Chennai - 600041",
+      "city": "Chennai",
+      "phone": "+91 98765 43226",
+      "email": "seashell@coastal.com",
+      "status": "Active",
+      "rating": 4.7,
+      "totalOrders": 890,
+      "deliveryTime": "40-50 mins",
+      "minimumOrder": 200,
+      "deliveryCharge": 40,
+      "openingTime": "12:00 PM",
+      "closingTime": "11:00 PM",
+      "joinedOn": "2023-09-12"
+    },
+    {
+      "id": "RST018",
+      "name": "Green Bowl",
+      "ownerName": "Aarthi N",
+      "cuisineType": "Healthy, Salads",
+      "address": "14, OMR, Sholinganallur, Chennai - 600119",
+      "city": "Chennai",
+      "phone": "+91 98765 43227",
+      "email": "green@bowl.in",
+      "status": "Active",
+      "rating": 4.5,
+      "totalOrders": 760,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 100,
+      "deliveryCharge": 15,
+      "openingTime": "09:00 AM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2023-10-01"
+    },
+    {
+      "id": "RST019",
+      "name": "Chaat Corner",
+      "ownerName": "Vijay S",
+      "cuisineType": "Street Food, Chaat",
+      "address": "4, Tambaram, Chennai - 600045",
+      "city": "Chennai",
+      "phone": "+91 98765 43228",
+      "email": "chaat@corner.in",
+      "status": "Inactive",
+      "rating": 3.8,
+      "totalOrders": 430,
+      "deliveryTime": "20-30 mins",
+      "minimumOrder": 40,
+      "deliveryCharge": 10,
+      "openingTime": "04:00 PM",
+      "closingTime": "10:00 PM",
+      "joinedOn": "2023-11-15"
+    },
+    {
+      "id": "RST020",
+      "name": "The Grand Kitchen",
+      "ownerName": "Raj Mohan",
+      "cuisineType": "Multi-Cuisine, Continental",
+      "address": "102, OMR IT Corridor, Chennai - 600096",
+      "city": "Chennai",
+      "phone": "+91 98765 43229",
+      "email": "grand@kitchen.in",
+      "status": "Active",
+      "rating": 4.8,
+      "totalOrders": 3100,
+      "deliveryTime": "35-45 mins",
+      "minimumOrder": 250,
+      "deliveryCharge": 50,
+      "openingTime": "11:00 AM",
+      "closingTime": "11:30 PM",
+      "joinedOn": "2022-12-01"
+    }
+  ],
+  "reportsSummary": [
+    {
+      "id": "1",
+      "totalRevenue": 248750,
+      "totalOrders": 1245,
+      "totalUsers": 892,
+      "totalCommission": 37420,
+      "trends": {
+        "totalRevenue": "+12.5%",
+        "totalOrders": "+8.3%",
+        "totalUsers": "+6.1%",
+        "totalCommission": "+10.2%"
+      }
+    }
+  ],
+  "reports": [
+    {
+      "id": "REP001",
+      "date": "2025-05-22",
+      "reportType": "Sales",
+      "title": "Daily Sales Report",
+      "totalAmount": 48750,
+      "orders": 124,
+      "users": 89,
+      "status": "Completed"
+    },
+    {
+      "id": "REP002",
+      "date": "2025-05-21",
+      "reportType": "Orders",
+      "title": "Order Summary Report",
+      "totalAmount": 42680,
+      "orders": 98,
+      "users": 76,
+      "status": "Completed"
+    },
+    {
+      "id": "REP003",
+      "date": "2025-05-20",
+      "reportType": "Revenue",
+      "title": "Revenue Report",
+      "totalAmount": 56320,
+      "orders": 142,
+      "users": 102,
+      "status": "Completed"
+    },
+    {
+      "id": "REP004",
+      "date": "2025-05-19",
+      "reportType": "Commission",
+      "title": "Commission Report",
+      "totalAmount": 12450,
+      "orders": 0,
+      "users": 0,
+      "status": "Completed"
+    },
+    {
+      "id": "REP005",
+      "date": "2025-05-18",
+      "reportType": "Users",
+      "title": "User Activity Report",
+      "totalAmount": 0,
+      "orders": 0,
+      "users": 134,
+      "status": "Completed"
+    },
+    {
+      "id": "REP006",
+      "date": "2025-05-17",
+      "reportType": "Delivery",
+      "title": "Delivery Performance",
+      "totalAmount": 18750,
+      "orders": 67,
+      "users": 0,
+      "status": "Completed"
+    },
+    {
+      "id": "REP007",
+      "date": "2025-05-16",
+      "reportType": "Sales",
+      "title": "Daily Sales Report",
+      "totalAmount": 36890,
+      "orders": 89,
+      "users": 71,
+      "status": "Completed"
+    },
+    {
+      "id": "REP008",
+      "date": "2025-05-15",
+      "reportType": "Orders",
+      "title": "Order Summary Report",
+      "totalAmount": 29340,
+      "orders": 76,
+      "users": 58,
+      "status": "Completed"
+    },
+    {
+      "id": "REP009",
+      "date": "2025-05-14",
+      "reportType": "Revenue",
+      "title": "Revenue Report",
+      "totalAmount": 45120,
+      "orders": 112,
+      "users": 84,
+      "status": "Completed"
+    },
+    {
+      "id": "REP010",
+      "date": "2025-05-13",
+      "reportType": "Commission",
+      "title": "Commission Report",
+      "totalAmount": 16780,
+      "orders": 0,
+      "users": 0,
+      "status": "Completed"
+    }
+  ],
+  "adminUsers": [
+    {
+      "id": "ADM1001",
+      "userId": "ADM1001",
+      "name": "Pradhap",
+      "email": "admin@vayzo.com",
+      "role": "Super Admin",
+      "department": "Management",
+      "status": "Active",
+      "phone": "+919876543210",
+      "lastLogin": "2026-09-07 10:30",
+      "joinedDate": "2025-01-10"
+    }
+  ],
+  "activityLogs": [
+    {
+      "id": "ACT1001",
+      "user": "Pradhap",
+      "action": "LOGIN",
+      "module": "System",
+      "details": "Logged into the system successfully.",
+      "timestamp": "2026-09-07T10:30:00Z",
+      "ipAddress": "192.168.1.10",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1002",
+      "user": "Pradhap",
+      "action": "UPDATE",
+      "module": "Settings",
+      "details": "Updated system payment configuration.",
+      "timestamp": "2026-09-07T10:35:00Z",
+      "ipAddress": "192.168.1.10",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1003",
+      "user": "Aisha",
+      "action": "CREATE",
+      "module": "Users",
+      "details": "Created new customer user: John Doe",
+      "timestamp": "2026-09-07T09:15:00Z",
+      "ipAddress": "192.168.1.12",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1004",
+      "user": "Ramesh",
+      "action": "DELETE",
+      "module": "Orders",
+      "details": "Cancelled order #ORD5678",
+      "timestamp": "2026-09-06T18:45:00Z",
+      "ipAddress": "192.168.1.15",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1005",
+      "user": "System",
+      "action": "EXPORT",
+      "module": "Reports",
+      "details": "Automated daily sales report exported.",
+      "timestamp": "2026-09-06T23:59:00Z",
+      "ipAddress": "127.0.0.1",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1006",
+      "user": "Sarah",
+      "action": "LOGIN",
+      "module": "System",
+      "details": "Failed login attempt (Invalid credentials).",
+      "timestamp": "2026-08-20T14:15:00Z",
+      "ipAddress": "192.168.1.42",
+      "status": "Failed"
+    },
+    {
+      "id": "ACT1007",
+      "user": "Karthik",
+      "action": "UPDATE",
+      "module": "Restaurants",
+      "details": "Updated opening hours for Restaurant #RST015",
+      "timestamp": "2026-09-07T11:05:00Z",
+      "ipAddress": "192.168.1.20",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1008",
+      "user": "Pradhap",
+      "action": "CREATE",
+      "module": "Admin Users",
+      "details": "Added new admin user: System Operator",
+      "timestamp": "2026-09-07T15:30:00Z",
+      "ipAddress": "192.168.1.10",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1009",
+      "user": "Aisha",
+      "action": "VIEW",
+      "module": "Complaints",
+      "details": "Viewed complaint details for CMP902",
+      "timestamp": "2026-09-07T09:20:00Z",
+      "ipAddress": "192.168.1.12",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1010",
+      "user": "Ramesh",
+      "action": "UPDATE",
+      "module": "Delivery",
+      "details": "Re-assigned delivery partner for order ORD5679",
+      "timestamp": "2026-09-06T18:50:00Z",
+      "ipAddress": "192.168.1.15",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1011",
+      "user": "Pradhap",
+      "action": "CREATE",
+      "module": "Offers",
+      "details": "Created new promotional campaign 'SUMMER26'",
+      "timestamp": "2026-09-05T10:00:00Z",
+      "ipAddress": "192.168.1.10",
+      "status": "Success"
+    },
+    {
+      "id": "ACT1012",
+      "user": "System",
+      "action": "UPDATE",
+      "module": "Categories",
+      "details": "Sync category images from CDN",
+      "timestamp": "2026-09-05T02:00:00Z",
+      "ipAddress": "127.0.0.1",
+      "status": "Success"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

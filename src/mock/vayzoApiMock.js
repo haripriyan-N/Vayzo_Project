@@ -21,6 +21,7 @@ export const authResponses = {
       resendAfter: 30,
     },
   },
+
   verifyOtp: {
     success: true,
     message: "OTP verified successfully",
@@ -96,105 +97,6 @@ export const homeData = {
   },
 };
 
-export const users = [
-  {
-    userId: "USR1001",
-    name: "Prathap M",
-    email: "prathap@gmail.com",
-    mobileNumber: "+919876543210",
-    status: "ACTIVE",
-    userType: "Customer",
-    city: "Madurai",
-    lastActive: "2 mins ago",
-    totalOrders: 87,
-    walletBalance: 250,
-  },
-  {
-    userId: "USR1002",
-    name: "Priya Nair",
-    email: "priya.nair@gmail.com",
-    mobileNumber: "+919876543211",
-    status: "VERIFIED",
-    userType: "Business",
-    city: "Chennai",
-    lastActive: "14 mins ago",
-    totalOrders: 64,
-    walletBalance: 180,
-  },
-  {
-    userId: "USR1003",
-    name: "Arun Kumar",
-    email: "arun.kumar@gmail.com",
-    mobileNumber: "+919876543212",
-    status: "PENDING",
-    userType: "Delivery Partner",
-    city: "Coimbatore",
-    lastActive: "1 hour ago",
-    totalOrders: 21,
-    walletBalance: 95,
-  },
-  {
-    userId: "USR1004",
-    name: "Deepa Rani",
-    email: "deepa@gmail.com",
-    mobileNumber: "+919876543213",
-    status: "BLOCKED",
-    userType: "Customer",
-    city: "Trichy",
-    lastActive: "3 days ago",
-    totalOrders: 10,
-    walletBalance: 45,
-  },
-  {
-    userId: "USR1005",
-    name: "Sathish V",
-    email: "sathish.v@gmail.com",
-    mobileNumber: "+919876543214",
-    status: "ACTIVE",
-    userType: "Merchant",
-    city: "Madurai",
-    lastActive: "Just now",
-    totalOrders: 132,
-    walletBalance: 330,
-  },
-  {
-    userId: "USR1006",
-    name: "Meera Suresh",
-    email: "meera.suresh@gmail.com",
-    mobileNumber: "+919876543215",
-    status: "VERIFIED",
-    userType: "Customer",
-    city: "Salem",
-    lastActive: "8 mins ago",
-    totalOrders: 58,
-    walletBalance: 210,
-  },
-  {
-    userId: "USR1007",
-    name: "Karthik Raja",
-    email: "karthik.raja@gmail.com",
-    mobileNumber: "+919876543216",
-    status: "PENDING",
-    userType: "Business",
-    city: "Bengaluru",
-    lastActive: "Yesterday",
-    totalOrders: 12,
-    walletBalance: 70,
-  },
-  {
-    userId: "USR1008",
-    name: "Nandhini P",
-    email: "nandhini.p@gmail.com",
-    mobileNumber: "+919876543217",
-    status: "ACTIVE",
-    userType: "Delivery Partner",
-    city: "Namakkal",
-    lastActive: "5 mins ago",
-    totalOrders: 143,
-    walletBalance: 410,
-  },
-];
-
 export const userStats = [
   { label: "Total Users", value: "12.8K", trend: "+12.4%" },
   { label: "Active Today", value: "4.1K", trend: "+8.1%" },
@@ -202,161 +104,11 @@ export const userStats = [
   { label: "Blocked", value: "184", trend: "-2.8%" },
 ];
 
-export const deliveryPartners = [
-  {
-    partnerId: "DP1001",
-    name: "Sankar P",
-    email: "sankar.p@gmail.com",
-    mobileNumber: "+919876543310",
-    status: "ACTIVE",
-    vehicleType: "Bike",
-    city: "Madurai",
-    lastActive: "2 mins ago",
-    ordersCompleted: 184,
-    rating: 4.8,
-    earnings: 12850,
-  },
-  {
-    partnerId: "DP1002",
-    name: "Raja M",
-    email: "raja.m@gmail.com",
-    mobileNumber: "+919876543311",
-    status: "VERIFIED",
-    vehicleType: "Car",
-    city: "Chennai",
-    lastActive: "10 mins ago",
-    ordersCompleted: 142,
-    rating: 4.7,
-    earnings: 11600,
-  },
-  {
-    partnerId: "DP1003",
-    name: "Kabilan S",
-    email: "kabilan.s@gmail.com",
-    mobileNumber: "+919876543312",
-    status: "PENDING",
-    vehicleType: "Bike",
-    city: "Coimbatore",
-    lastActive: "1 hour ago",
-    ordersCompleted: 64,
-    rating: 4.4,
-    earnings: 4300,
-  },
-  {
-    partnerId: "DP1004",
-    name: "Naveen R",
-    email: "naveen.r@gmail.com",
-    mobileNumber: "+919876543313",
-    status: "BLOCKED",
-    vehicleType: "Auto",
-    city: "Trichy",
-    lastActive: "4 days ago",
-    ordersCompleted: 18,
-    rating: 3.8,
-    earnings: 1200,
-  },
-  {
-    partnerId: "DP1005",
-    name: "Vignesh K",
-    email: "vignesh.k@gmail.com",
-    mobileNumber: "+919876543314",
-    status: "ACTIVE",
-    vehicleType: "Bike",
-    city: "Madurai",
-    lastActive: "Just now",
-    ordersCompleted: 214,
-    rating: 4.9,
-    earnings: 17420,
-  },
-  {
-    partnerId: "DP1006",
-    name: "Anandh B",
-    email: "anandh.b@gmail.com",
-    mobileNumber: "+919876543315",
-    status: "VERIFIED",
-    vehicleType: "Car",
-    city: "Salem",
-    lastActive: "20 mins ago",
-    ordersCompleted: 170,
-    rating: 4.6,
-    earnings: 10980,
-  },
-];
-
 export const deliveryPartnerStats = [
   { label: "Total Partners", value: "3.2K", trend: "+9.4%" },
   { label: "Online Now", value: "1.4K", trend: "+6.7%" },
   { label: "Verified", value: "84.6%", trend: "+2.3%" },
   { label: "Blocked", value: "96", trend: "-1.5%" },
-];
-
-export const orders = [
-  {
-    orderId: "ORD1001",
-    customerName: "Prathap M",
-    restaurantName: "Murugan Kadai",
-    status: "DELIVERED",
-    paymentStatus: "PAID",
-    amount: 420,
-    orderDate: "2026-08-27 11:20",
-    deliveryPartner: "Sankar P",
-    city: "Madurai",
-  },
-  {
-    orderId: "ORD1002",
-    customerName: "Priya Nair",
-    restaurantName: "Pizza Hub",
-    status: "IN_TRANSIT",
-    paymentStatus: "PAID",
-    amount: 680,
-    orderDate: "2026-08-27 10:45",
-    deliveryPartner: "Raja M",
-    city: "Chennai",
-  },
-  {
-    orderId: "ORD1003",
-    customerName: "Arun Kumar",
-    restaurantName: "Sangeetha Veg",
-    status: "PENDING",
-    paymentStatus: "PENDING",
-    amount: 290,
-    orderDate: "2026-08-27 09:15",
-    deliveryPartner: "Kabilan S",
-    city: "Coimbatore",
-  },
-  {
-    orderId: "ORD1004",
-    customerName: "Deepa Rani",
-    restaurantName: "A2B",
-    status: "CANCELLED",
-    paymentStatus: "REFUNDED",
-    amount: 360,
-    orderDate: "2026-08-26 18:40",
-    deliveryPartner: "Naveen R",
-    city: "Trichy",
-  },
-  {
-    orderId: "ORD1005",
-    customerName: "Sathish V",
-    restaurantName: "KFC",
-    status: "PREPARING",
-    paymentStatus: "PAID",
-    amount: 540,
-    orderDate: "2026-08-27 12:05",
-    deliveryPartner: "Vignesh K",
-    city: "Madurai",
-  },
-  {
-    orderId: "ORD1006",
-    customerName: "Meera Suresh",
-    restaurantName: "Biryani Plaza",
-    status: "DELIVERED",
-    paymentStatus: "PAID",
-    amount: 780,
-    orderDate: "2026-08-27 08:30",
-    deliveryPartner: "Anandh B",
-    city: "Salem",
-  },
 ];
 
 export const orderStats = [
@@ -470,7 +222,7 @@ export const walletSummary = {
   success: true,
   data: {
     walletId: "WAL1001",
-    balance: 250.0,
+    balance: 250,
     currency: "INR",
     recentTransactions: [
       {
@@ -528,13 +280,55 @@ export const vayzoApiMock = {
   authResponses,
   locations,
   homeData,
-  users,
   userStats,
+  deliveryPartnerStats,
+  orderStats,
+  transactions,
+  transactionStats,
   recentRequests,
   walletSummary,
   supportTopics,
   settings,
   appAbout,
 };
+
+export const mockAdminCredentials = {
+  email: "admin@vayzo.com",
+  password: "admin@123",
+};
+
+export const mockAdmin = {
+  email: "admin@vayzo.com",
+  name: "Pradhap",
+  role: "Super Admin",
+  profileImage: null,
+};
+
+export const generalSettings = {
+  platformName: "VAYZO",
+  platformTagline: "You Ask. We Get It.",
+  supportEmail: "support@vayzo.com",
+  supportPhone: "9876543210",
+  timezone: "Asia/Kolkata",
+  dateFormat: "DD/MM/YYYY",
+  timeFormat: "12 Hours",
+  defaultCurrency: "INR",
+  currencyPosition: "Before",
+  numberFormat: "1,234.56",
+  language: "English",
+  contactAddress: "123 Main St, City",
+  maintenanceMode: false,
+  socialLinks: {
+    facebook: "https://facebook.com",
+    instagram: "https://instagram.com",
+    twitter: "https://twitter.com",
+  }
+};
+
+export const reports = [];
+export const teamUsers = [];
+export const teamUserStats = [];
+export const activityLogs = [];
+export const paymentSettings = {};
 
 export default vayzoApiMock;

@@ -30,7 +30,7 @@ export const navigationItems = [
   },
   {
     label: "Delivery Partners",
-    path: "/delivery-partners",
+    path: "/delivery",
     icon: Truck,
   },
   {
@@ -89,8 +89,8 @@ export const navigationItems = [
     icon: Settings,
   },
   {
-    label: "Team Users",
-    path: "/team-users",
+    label: "Admin Users",
+    path: "/admin-users",
     icon: ShieldUser,
   },
   {

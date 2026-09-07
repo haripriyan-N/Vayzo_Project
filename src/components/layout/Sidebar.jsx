@@ -6,6 +6,8 @@ import { PanelLeftClose, X } from "lucide-react";
 
 function Sidebar({ isOpen, onClose }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
@@ -40,7 +42,7 @@ function Sidebar({ isOpen, onClose }) {
           "flex h-screen shrink-0 flex-col",
           "transition-transform duration-500 ease-in-out lg:transition-[width,transform] lg:duration-300",
           "lg:sticky lg:top-0 lg:translate-x-0",
-          isCollapsed ? "w-16" : "w-50",
+          isCollapsed ? "w-16" : "w-44",
           isOpen ? "translate-x-0" : "-translate-x-full",
         ].join(" ")}
       >
@@ -48,7 +50,7 @@ function Sidebar({ isOpen, onClose }) {
         <div
           className={[
             "flex h-20 shrink-0 items-center ",
-            isCollapsed ? "justify-center px-2" : "gap-1.5",
+            isCollapsed ? "justify-center" : "gap-1",
           ].join(" ")}
         >
           <Link to="/dashboard" onClick={onClose}>
@@ -57,7 +59,7 @@ function Sidebar({ isOpen, onClose }) {
               alt="Vayzo"
               className={[
                 "h-auto transition-all duration-300",
-                isCollapsed ? "w-25" : "w-50 ",
+                isCollapsed ? "w-30" : "w-50 ",
               ].join(" ")}
             />
           </Link>
