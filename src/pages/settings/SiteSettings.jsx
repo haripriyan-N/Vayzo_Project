@@ -16,10 +16,10 @@ import {
   ShieldCheck,
   Folder
 } from "lucide-react";
-import Button from "../../components/ui/button";
+import Button from "../../components/ui/Button";
 import Input from "../../components/ui/input";
 import Select from "../../components/ui/Select";
-import { generalSettings } from "../../mock/vayzoApiMock";
+import { generalSettings, mockAdmin } from "../../mock/vayzoApiMock";
 
 function SiteSettings() {
   const [activeTab, setActiveTab] = useState("General");
@@ -278,8 +278,8 @@ function SiteSettings() {
                 <div className="border-b border-border pb-4">
                     <p className="text-xs font-semibold text-foreground mb-2">Updated By</p>
                     <div className="flex items-center gap-2">
-                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Avatar" className="h-6 w-6 rounded-full object-cover" />
-                        <span className="text-sm font-semibold text-foreground">Prathap M</span>
+                        <img src={mockAdmin.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(mockAdmin.name)}&background=random&color=fff&size=150`} alt="User Avatar" className="h-6 w-6 rounded-full object-cover" />
+                        <span className="text-sm font-semibold text-foreground">{mockAdmin.name}</span>
                     </div>
                 </div>
 

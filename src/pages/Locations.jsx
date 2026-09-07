@@ -25,8 +25,10 @@ import Table from "../components/ui/Table";
 import Badge from "../components/ui/Badge";
 import Modal from "../components/ui/Modal";
 import ActionMenu from "../components/ui/ActionMenu";
+import FilterPanel from "../components/ui/FilterPanel";
 
 import { getLocations, deleteLocation } from "../api/locationsApi";
+import { exportToCSV } from "../utils/exportUtils";
 
 const COLOR_MAP = {
   primary: "bg-primary/10 text-primary",
@@ -194,94 +196,84 @@ export default function Locations() {
 
       {/* 3. Search + Select/filter controls */}
       <div className="flex flex-col gap-5">
-        <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between flex-wrap">
-          <div className="w-full xl:w-[400px] shrink-0">
-            <SearchInput
-              id="locations-search"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search location by name or address..."
-            />
-          </div>
-          
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="grid grid-cols-1 sm:grid-cols-3 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
-              <Select
-                id="locations-status"
-                value={status}
-                options={["All Status", "Active", "Inactive", "Restricted"]}
-                onChange={(e) => setStatus(e.target.value)}
-                className="w-full xl:w-[150px]"
+        <Card noPadding className="flex flex-col">
+          <FilterPanel
+            search={
+              <SearchInput
+                id="locations-search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search location by name or address..."
               />
-              <Select
-                id="locations-cities"
-                value={city}
-                options={["All Cities", "Madurai", "Chennai", "Coimbatore"]}
-                onChange={(e) => setCity(e.target.value)}
-                className="w-full xl:w-[150px]"
-              />
-              <Select
-                id="locations-zones"
-                value={zone}
-                options={["All Zones", "North Zone", "South Zone", "East Zone", "West Zone"]}
-                onChange={(e) => setZone(e.target.value)}
-                className="w-full xl:w-[150px]"
-              />
-            </div>
-
-            {/* 4. Action buttons section (Export matching Orders) */}
-            <div className="flex gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
-              <Button
-                variant="secondary"
-                size="sm"
-                type="button"
-                className="h-10 w-full sm:w-auto px-4"
-              >
-                <Download size={14} className="mr-1" />
-                Export
-              </Button>
-            </div>
+            }
+            actions={
+              <>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  type="button"
+                  className="h-10 w-full sm:w-auto"
+                  onClick={() => exportToCSV(filteredLocations, "locations.csv")}
+                >
+                  <Download size={14} className="mr-1" />
+                  Export
+                </Button>
+                <Button className="gap-2 shrink-0 shadow-md h-10 w-full sm:w-auto px-4" onClick={() => navigate("/locations/add")}>
+                  <Plus size={16} /> Add Location
+                </Button>
+              </>
+            }
+            filters={
+              <>
+                <Select
+                  id="locations-status"
+                  value={status}
+                  options={["All Status", "Active", "Inactive", "Restricted"]}
+                  onChange={(e) => setStatus(e.target.value)}
+                  className="w-full lg:w-[150px]"
+                />
+                <Select
+                  id="locations-cities"
+                  value={city}
+                  options={["All Cities", "Madurai", "Chennai", "Coimbatore"]}
+                  onChange={(e) => setCity(e.target.value)}
+                  className="w-full lg:w-[150px]"
+                />
+                <Select
+                  id="locations-zones"
+                  value={zone}
+                  options={["All Zones", "North Zone", "South Zone", "East Zone", "West Zone"]}
+                  onChange={(e) => setZone(e.target.value)}
+                  className="w-full lg:w-[150px]"
+                />
+              </>
+            }
+            hasActiveFilters={hasFilters}
+            onReset={resetFilters}
+          />
+          {/* Tabs */}
+          <div className="px-4 sm:px-6 pt-0 border-t border-border/50">
+            <nav className="flex gap-5 overflow-x-auto scrollbar-none w-full mt-4">
+              {TABS.map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => {
+                    setActiveTab(tab);
+                    setCurrentPage(1);
+                  }}
+                  className={`whitespace-nowrap border-b-2 px-2 pb-2 text-sm font-medium transition ${
+                    activeTab === tab
+                      ? "border-primary text-primary"
+                      : "border-transparent text-muted hover:text-foreground hover:border-border"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </nav>
           </div>
-        </div>
-
-        {/* Tabs and Actions */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/50 mt-2 pb-2 sm:pb-0">
-          <nav className="flex gap-5 overflow-x-auto scrollbar-none w-full sm:w-auto">
-            {TABS.map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => {
-                  setActiveTab(tab);
-                  setCurrentPage(1);
-                }}
-                className={`whitespace-nowrap border-b-2 px-2 pb-2 text-sm font-medium transition ${
-                  activeTab === tab
-                    ? "border-primary text-primary"
-                    : "border-transparent text-muted hover:text-foreground hover:border-border"
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </nav>
-          
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            {hasFilters && (
-              <button
-                type="button"
-                onClick={resetFilters}
-                className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-50 border border-border bg-surface text-foreground hover:bg-primary-light px-3 py-2 text-sm h-10 w-full sm:w-auto shrink-0"
-              >
-                <RotateCcw size={14} strokeWidth={2} className="mr-1.5" />
-                Reset
-              </button>
-            )}
-            <Button className="gap-2 shrink-0 shadow-md h-10 w-full sm:w-auto px-4" onClick={() => navigate("/locations/add")}>
-              <Plus size={16} /> Add Location
-            </Button>
-          </div>
-        </div>
+        </Card>
       </div>
 
       <div className="flex flex-col lg:flex-row gap-6 items-start mt-2">

@@ -20,6 +20,7 @@ import {
   getRestaurantById,
   updateRestaurant,
 } from "../api/restaurantsApi";
+import { fileToBase64 } from "../utils/fileUtils";
 import { RESTAURANT_CUISINES } from "./Restaurants";
 
 function RequiredLabel({ text }) {
@@ -124,6 +125,8 @@ function RestaurantsAdd() {
           closingTime: data.closingTime || "",
           menuItems: data.menuItems || prev.menuItems,
         }));
+        if (data.logo) setLogoPreview(data.logo);
+        if (data.coverImage) setCoverPreview(data.coverImage);
       } catch {
         setError("Failed to load restaurant details.");
       } finally {
@@ -196,6 +199,8 @@ function RestaurantsAdd() {
         id: isEditing ? restaurantId : undefined,
         minimumOrder: Number(form.minimumOrder) || 0,
         deliveryCharge: Number(form.deliveryCharge) || 0,
+        logo: logoPreview || undefined,
+        coverImage: coverPreview || undefined,
       };
       if (isEditing) {
         await updateRestaurant(restaurantId, { ...payload, id: restaurantId });
@@ -347,11 +352,15 @@ function RestaurantsAdd() {
                         className="hidden"
                         accept="image/*"
                         ref={logoInputRef}
-                        onChange={(e) => {
-                          if (e.target.files?.[0])
-                            setLogoPreview(
-                              URL.createObjectURL(e.target.files[0]),
-                            );
+                        onChange={async (e) => {
+                          if (e.target.files?.[0]) {
+                            try {
+                              const base64 = await fileToBase64(e.target.files[0]);
+                              setLogoPreview(base64);
+                            } catch (err) {
+                              console.error(err);
+                            }
+                          }
                         }}
                       />
                       <p className="text-sm font-medium text-primary">
@@ -377,11 +386,15 @@ function RestaurantsAdd() {
                       className="hidden"
                       accept="image/*"
                       ref={coverInputRef}
-                      onChange={(e) => {
-                        if (e.target.files?.[0])
-                          setCoverPreview(
-                            URL.createObjectURL(e.target.files[0]),
-                          );
+                      onChange={async (e) => {
+                        if (e.target.files?.[0]) {
+                          try {
+                            const base64 = await fileToBase64(e.target.files[0]);
+                            setCoverPreview(base64);
+                          } catch (err) {
+                            console.error(err);
+                          }
+                        }
                       }}
                     />
                     <div className="absolute inset-0 bg-surface/50 hidden group-hover:flex items-center justify-center z-10 backdrop-blur-sm transition-all">
@@ -591,7 +604,7 @@ function RestaurantsAdd() {
 
                   <div className="w-12 h-12 rounded-lg bg-surface-hover shrink-0 overflow-hidden border border-border/50">
                     <img
-                      src={`https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=100&h=100&sig=${item.id}`}
+                      src={item.image || `https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=100&h=100&sig=${item.id}`}
                       alt="food"
                       className="w-full h-full object-cover"
                     />

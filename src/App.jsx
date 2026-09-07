@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Forgetpassword from "./pages/Forgetpassword";
@@ -17,23 +17,31 @@ import Complaints from "./pages/Complaints";
 import OrderDetails from "./pages/OrderDetails";
 
 import { NotificationProvider } from "./context/NotificationContext";
+
 import DeliveryPartner from "./pages/DeliveryPartner";
 import DeliveryPartners from "./pages/DeliveryPartners";
 import DeliveryPartnersAdd from "./pages/DeliveryPartnersAdd";
+
 import Categories from "./pages/Categories";
 import CategoriesAdd from "./pages/CategoriesAdd";
 import CategoriesDetails from "./pages/CategoriesDetails";
+
 import Offers from "./pages/Offers";
 import OffersAdd from "./pages/OffersAdd";
 import OffersDetails from "./pages/OffersDetails";
+
 import Locations from "./pages/Locations";
 import LocationsAdd from "./pages/LocationsAdd";
+
 import Earnings from "./pages/Earnings";
+
 import Restaurants from "./pages/Restaurants";
 import RestaurantsAdd from "./pages/RestaurantsAdd";
 import RestaurantsDetails from "./pages/RestaurantsDetails";
+
 import Profile from "./pages/Profile";
-import ProfileEdit from "./pages/ProfileEdit";  
+import ProfileEdit from "./pages/ProfileEdit";
+
 import SettingsLayout from "./pages/settings/SettingsLayout";
 import GeneralSettings from "./pages/settings/GeneralSettings";
 import SiteSettings from "./pages/settings/SiteSettings";
@@ -65,54 +73,78 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route element={<AdminLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
-              
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/profile/edit" element={<ProfileEdit />} />
 
-              <Route path="/users" element={<Users />} />
-              <Route path="/users/add" element={<UsersAdd />} />
-              <Route path="/users/edit/:userId" element={<UsersAdd />} />
-              <Route path="/users/:userId" element={<UsersDetails />} />
+              {/* Profile */}
+              <Route path="/profile" element={<Outlet />}>
+                <Route index element={<Profile />} />
+                <Route path="edit" element={<ProfileEdit />} />
+              </Route>
 
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/orders/:orderId" element={<OrderDetails />} />
+              {/* Users */}
+              <Route path="/users" element={<Outlet />}>
+                <Route index element={<Users />} />
+                <Route path="add" element={<UsersAdd />} />
+                <Route path="edit/:userId" element={<UsersAdd />} />
+                <Route path=":userId" element={<UsersDetails />} />
+              </Route>
 
-              <Route path="/delivery" element={<DeliveryPartners />} />
-              <Route path="/delivery/add" element={<DeliveryPartnersAdd />} />
-              <Route
-                path="/delivery/edit/:partnerId"
-                element={<DeliveryPartnersAdd />}
-              />
-              <Route
-                path="/delivery/:partnerId"
-                element={<DeliveryPartner />}
-              />
+              {/* Orders */}
+              <Route path="/orders" element={<Outlet />}>
+                <Route index element={<Orders />} />
+                <Route path=":orderId" element={<OrderDetails />} />
+              </Route>
 
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/categories/add" element={<CategoriesAdd />} />
-              <Route
-                path="/categories/edit/:categoryId"
-                element={<CategoriesAdd />}
-              />
-              <Route
-                path="/categories/:categoryId"
-                element={<CategoriesDetails />}
-              />
+              {/* Delivery Partners */}
+              <Route path="/delivery" element={<Outlet />}>
+                <Route index element={<DeliveryPartners />} />
+                <Route path="add" element={<DeliveryPartnersAdd />} />
+                <Route
+                  path="edit/:partnerId"
+                  element={<DeliveryPartnersAdd />}
+                />
+                <Route path=":partnerId" element={<DeliveryPartner />} />
+              </Route>
 
-              <Route path="/offers" element={<Offers />} />
-              <Route path="/offers/add" element={<OffersAdd />} />
-              <Route path="/offers/edit/:offerId" element={<OffersAdd />} />
-              <Route path="/offers/:offerId" element={<OffersDetails />} />
-              <Route path="/locations" element={<Locations />} />
-              <Route path="/locations/add" element={<LocationsAdd />} />
+              {/* Categories */}
+              <Route path="/categories" element={<Outlet />}>
+                <Route index element={<Categories />} />
+                <Route path="add" element={<CategoriesAdd />} />
+                <Route path="edit/:categoryId" element={<CategoriesAdd />} />
+                <Route path=":categoryId" element={<CategoriesDetails />} />
+              </Route>
+
+              {/* Offers */}
+              <Route path="/offers" element={<Outlet />}>
+                <Route index element={<Offers />} />
+                <Route path="add" element={<OffersAdd />} />
+                <Route path="edit/:offerId" element={<OffersAdd />} />
+                <Route path=":offerId" element={<OffersDetails />} />
+              </Route>
+
+              {/* Locations */}
+              <Route path="/locations" element={<Outlet />}>
+                <Route index element={<Locations />} />
+                <Route path="add" element={<LocationsAdd />} />
+              </Route>
+
+              {/* Earnings */}
               <Route path="/earnings" element={<Earnings />} />
 
+              {/* Notifications */}
               <Route path="/notifications" element={<Notifications />} />
+
+              {/* Complaints */}
               <Route path="/complaints" element={<Complaints />} />
-              <Route path="/restaurants" element={<Restaurants />} />
-              <Route path="/restaurants/add" element={<RestaurantsAdd />} />
-              <Route path="/restaurants/edit/:restaurantId" element={<RestaurantsAdd />} />
-              <Route path="/restaurants/:restaurantId" element={<RestaurantsDetails />} />
+
+              {/* Restaurants */}
+              <Route path="/restaurants" element={<Outlet />}>
+                <Route index element={<Restaurants />} />
+                <Route path="add" element={<RestaurantsAdd />} />
+                <Route path="edit/:restaurantId" element={<RestaurantsAdd />} />
+                <Route path=":restaurantId" element={<RestaurantsDetails />} />
+              </Route>
+
+              {/* Settings */}
               <Route path="/settings" element={<SettingsLayout />}>
                 <Route index element={<GeneralSettings />} />
                 <Route path="general" element={<GeneralSettings />} />
@@ -127,7 +159,10 @@ function App() {
                 <Route path="security" element={<SecuritySettings />} />
                 <Route path="seo" element={<SeoSettings />} />
                 <Route path="maintenance" element={<MaintenanceMode />} />
-                <Route path="integrations" element={<ThirdPartyIntegrations />} />
+                <Route
+                  path="integrations"
+                  element={<ThirdPartyIntegrations />}
+                />
               </Route>
             </Route>
           </Route>

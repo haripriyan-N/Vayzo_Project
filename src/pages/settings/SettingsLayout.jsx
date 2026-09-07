@@ -35,47 +35,43 @@ function SettingsLayout() {
   const location = useLocation();
 
   return (
-    <section className="min-h-full bg-background p-4 sm:p-6">
-      <div className="mx-auto max-w-7xl">
-        <div className="flex flex-col gap-5 xl:flex-row">
-          <aside className="w-full xl:w-[280px] shrink-0 sticky top-6 h-fit">
-            <div className="rounded-2xl border border-border bg-surface p-3 shadow-sm">
-              <div className="mb-3 flex items-center gap-2 px-2 py-2">
-                <SettingsIcon size={18} className="text-primary" />
-                <span className="text-sm font-semibold text-foreground">
-                  Settings Menu
-                </span>
-              </div>
+    <div className="flex flex-col xl:flex-row min-h-full bg-background">
+      <aside className="w-full xl:w-50 shrink-0 border-b xl:border-b-0 xl:border-r border-border bg-surface xl:h-screen xl:sticky xl:top-0 flex flex-col">
+        <div className="flex-1 overflow-y-auto sidebar-scroll p-4 xl:p-5">
+          
 
-              <nav className="space-y-1">
-                {settingsMenu.map(({ label, path, icon: Icon }) => {
-                  const isActive = location.pathname === path || (path !== "/settings" && location.pathname.startsWith(path));
+          <nav className="space-y-1">
+            {settingsMenu.map(({ label, path, icon: Icon }) => {
+              const isActive =
+                location.pathname === path ||
+                (path !== "/settings" &&
+                  location.pathname.startsWith(path));
 
-                  return (
-                    <NavLink
-                      key={label}
-                      to={path}
-                      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
-                        isActive
-                          ? "bg-primary text-white shadow-sm"
-                          : "text-muted hover:bg-primary-light hover:text-primary"
-                      }`}
-                    >
-                      <Icon size={16} className="shrink-0" />
-                      <span>{label}</span>
-                    </NavLink>
-                  );
-                })}
-              </nav>
-            </div>
-          </aside>
+              return (
+                <NavLink
+                  key={label}
+                  to={path}
+                  className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
+                    isActive
+                      ? "bg-primary text-white shadow-sm"
+                      : "text-muted hover:bg-primary-light hover:text-primary"
+                  }`}
+                >
+                  <Icon size={16} className="shrink-0" />
+                  <span>{label}</span>
+                </NavLink>
+              );
+            })}
+          </nav>
+        </div>
+      </aside>
 
-          <div className="flex-1 min-w-0">
-            <Outlet />
-          </div>
+      <div className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8">
+        <div className="mx-auto max-w-4xl">
+          <Outlet />
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

@@ -232,7 +232,7 @@ function DeliveryPartner() {
           <div className="flex items-start gap-5">
             <div className="flex flex-col items-center gap-3">
               <div className="relative flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-primary/10 text-2xl font-semibold text-primary overflow-hidden border-2 border-primary/20">
-                 <img src={`https://ui-avatars.com/api/?name=${partner.name}&background=random&color=fff&size=200`} alt={partner.name} className="h-full w-full object-cover" />
+                 <img src={partner.profileImage || `https://ui-avatars.com/api/?name=${partner.name}&background=random&color=fff&size=200`} alt={partner.name} className="h-full w-full object-cover" />
               </div>
               <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold border ${
                             partner.onlineStatus === 'Online' 

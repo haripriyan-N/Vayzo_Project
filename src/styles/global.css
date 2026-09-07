@@ -93,7 +93,7 @@
 
 @font-face {
   font-family: "Instrument Sans";
-  src: url("./assets/fonts/InstrumentSans-Regular.ttf") format("truetype");
+  src: url("../assets/fonts/InstrumentSans-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -101,7 +101,7 @@
 
 @font-face {
   font-family: "Instrument Sans";
-  src: url("./assets/fonts/InstrumentSans-Medium.ttf") format("truetype");
+  src: url("../assets/fonts/InstrumentSans-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -109,7 +109,7 @@
 
 @font-face {
   font-family: "Instrument Sans";
-  src: url("./assets/fonts/InstrumentSans-SemiBold.ttf") format("truetype");
+  src: url("../assets/fonts/InstrumentSans-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -117,7 +117,7 @@
 
 @font-face {
   font-family: "Instrument Sans";
-  src: url("./assets/fonts/InstrumentSans-Bold.ttf") format("truetype");
+  src: url("../assets/fonts/InstrumentSans-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -131,3 +131,27 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* @font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+} */

@@ -1,25 +1,13 @@
-const API_URL = "http://localhost:3000/orders";
+import { apiRequest } from "./apiClient";
 
 export async function getOrders() {
-  const response = await fetch(API_URL);
-
-  if (!response.ok) {
-    throw new Error("Unable to load orders");
-  }
-
-  return response.json();
+  return apiRequest("/orders", {}, "Unable to load orders");
 }
 
 export async function getOrderById(orderId) {
-  const response = await fetch(`${API_URL}?orderId=${orderId}`);
+  const data = await apiRequest(`/orders?orderId=${orderId}`, {}, "Unable to load order");
 
-  if (!response.ok) {
-    throw new Error("Unable to load order");
-  }
-
-  const data = await response.json();
-
-  if (!data.length) {
+  if (!data || !data.length) {
     throw new Error("Order not found");
   }
 
@@ -33,43 +21,21 @@ export async function createOrder(orderData) {
     orderDate: new Date().toISOString(),
   };
 
-  const response = await fetch(API_URL, {
+  return apiRequest("/orders", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(newOrder),
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to create order");
-  }
-
-  return response.json();
+  }, "Unable to create order");
 }
 
 export async function deleteOrder(id) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/orders/${id}`, {
     method: 'DELETE',
-  });
-  if (!response.ok) {
-    throw new Error('Unable to delete order');
-  }
-  return response.json();
+  }, "Unable to delete order");
 }
 
 export async function updateOrder(id, orderData) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/orders/${id}`, {
     method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     body: JSON.stringify(orderData),
-  });
-
-  if (!response.ok) {
-    throw new Error('Unable to update order');
-  }
-
-  return response.json();
+  }, "Unable to update order");
 }

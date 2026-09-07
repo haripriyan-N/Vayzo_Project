@@ -26,6 +26,7 @@ import SearchInput from "../components/ui/SearchInput";
 import StatusSelect from "../components/ui/StatusSelect";
 import Modal from "../components/ui/Modal";
 import ActionMenu from "../components/ui/ActionMenu";
+import FilterPanel from "../components/ui/FilterPanel";
 import BadgeCell from "../components/ui/BadgeCell";
 import { getOrders, deleteOrder } from "../api/ordersApi";
 
@@ -378,24 +379,34 @@ function Orders() {
             Filters Section
         ========================== */}
 
-        <div className="flex flex-col gap-5">
-          {/* Search Selects, Date and Buttons */}
-          <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between flex-wrap">
-            <div className="w-full xl:w-[400px] shrink-0">
+        <Card noPadding className="flex flex-col">
+          <FilterPanel
+            search={
               <SearchInput
                 id="order-search"
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search by Order ID, Customer, Partner..."
               />
-            </div>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
+            }
+            actions={
+              <Button
+                variant="secondary"
+                size="sm"
+                type="button"
+                className="h-10 w-full sm:w-auto"
+                onClick={() => exportToCSV(filteredOrders, "orders.csv")}
+              >
+                <Download size={14} className="mr-1" /> Export
+              </Button>
+            }
+            filters={
+              <>
                 <Select
                   id="order-status"
                   value={status}
                   onChange={(event) => setStatus(event.target.value)}
-                  className="w-full xl:w-[150px]"
+                  className="w-full lg:w-[150px]"
                 >
                   {STATUS_OPTIONS.map((option) => (
                     <option key={option} value={option}>
@@ -403,12 +414,11 @@ function Orders() {
                     </option>
                   ))}
                 </Select>
-
                 <Select
                   id="payment-status"
                   value={payment}
                   onChange={(event) => setPayment(event.target.value)}
-                  className="w-full xl:w-[180px]"
+                  className="w-full lg:w-[180px]"
                 >
                   {PAYMENT_OPTIONS.map((option) => (
                     <option key={option} value={option}>
@@ -416,34 +426,20 @@ function Orders() {
                     </option>
                   ))}
                 </Select>
-
-                <div className="w-full xl:w-auto">
-                  <DateRangeInput
-                    fromValue={fromDate}
-                    toValue={toDate}
-                    onFromChange={(event) => setFromDate(event.target.value)}
-                    onToChange={(event) => setToDate(event.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="flex gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  type="button"
-                  className="h-10 w-full sm:w-auto"
-                >
-                  <Download size={14} className="mr-1" />
-                  Export
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/*  and Tabs */}
-          <div className="flex items-center justify-between border-b border-border/50">
-            <nav className="flex gap-5 overflow-x-auto scrollbar-none w-full xl:w-auto">
+                <DateRangeInput
+                  fromValue={fromDate}
+                  toValue={toDate}
+                  onFromChange={(event) => setFromDate(event.target.value)}
+                  onToChange={(event) => setToDate(event.target.value)}
+                />
+              </>
+            }
+            hasActiveFilters={hasFilters}
+            onReset={resetFilters}
+          />
+          {/* Tabs */}
+          <div className="px-4 sm:px-6 pt-0 border-t border-border/50">
+            <nav className="flex gap-5 overflow-x-auto scrollbar-none w-full xl:w-auto mt-4">
               {TABS.map((tab) => (
                 <button
                   key={tab}
@@ -459,18 +455,8 @@ function Orders() {
                 </button>
               ))}
             </nav>
-            {hasFilters && (
-              <button
-                type="button"
-                onClick={resetFilters}
-                className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-50 border border-border bg-surface text-foreground hover:bg-primary-light px-3 py-2 text-sm h-10 w-full sm:w-auto"
-              >
-                <RotateCcw size={14} strokeWidth={2} />
-                Reset
-              </button>
-            )}
           </div>
-        </div>
+        </Card>
 
         {/* =========================
             Table Card

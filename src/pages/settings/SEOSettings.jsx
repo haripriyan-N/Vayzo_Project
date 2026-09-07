@@ -138,7 +138,7 @@ function SEOSettings() {
                       <p className="text-[11px] text-muted mt-0.5">Allow search engines to index your website.</p>
                     </div>
                     <button type="button" onClick={() => toggleSetting('engineIndexing')} className={`relative h-5 w-9 rounded-full transition-colors ${toggles.engineIndexing ? "bg-primary" : "bg-muted"}`}>
-                      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${toggles.engineIndexing ? "left-4.5 translate-x-4" : "left-0.5"}`} />
+                      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${toggles.engineIndexing ? "left-4.5" : "left-0.5"}`} />
                     </button>
                   </div>
                   <div className="flex items-center justify-between">
@@ -147,7 +147,7 @@ function SEOSettings() {
                       <p className="text-[11px] text-muted mt-0.5">Generate and submit XML sitemap to search engines.</p>
                     </div>
                     <button type="button" onClick={() => toggleSetting('enableSitemap')} className={`relative h-5 w-9 rounded-full transition-colors ${toggles.enableSitemap ? "bg-primary" : "bg-muted"}`}>
-                      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${toggles.enableSitemap ? "left-4.5 translate-x-4" : "left-0.5"}`} />
+                      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${toggles.enableSitemap ? "left-4.5" : "left-0.5"}`} />
                     </button>
                   </div>
                   <div className="flex items-center justify-between pt-2">

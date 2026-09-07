@@ -13,8 +13,10 @@ import StatCard from "../components/ui/StatCard";
 import Modal from "../components/ui/Modal";
 import ActionMenu from "../components/ui/ActionMenu";
 import DateRangeInput from "../components/ui/DateRangeInput";
+import FilterPanel from "../components/ui/FilterPanel";
 
 import { getComplaints, updateComplaint, deleteComplaint } from "../api/complaintsApi";
+import { exportToCSV } from "../utils/exportUtils";
 
 const statusBadgeMap = {
   Open: "danger",
@@ -238,57 +240,61 @@ function Complaints() {
 
       <div className={`grid gap-6 grid-cols-1 items-start`}>
         <div className="flex flex-col gap-6 min-w-0">
-          <Card className="p-4 sm:p-6">
-            <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
-              <div className="flex-1 w-full min-w-0 xl:max-w-sm">
+          <Card noPadding className="flex flex-col mb-2">
+            <FilterPanel
+              search={
                 <SearchInput
                   id="complaint-search"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search by ID or name..."
                 />
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
-                <StatusSelect
-                  id="c-status"
-                  value={status}
-                  options={statusOptions}
-                  onChange={(e) => setStatus(e.target.value)}
-                  className="w-full xl:w-[150px]"
-                />
-                <StatusSelect
-                  id="c-priority"
-                  value={priority}
-                  options={priorityOptions}
-                  onChange={(e) => setPriority(e.target.value)}
-                  className="w-full xl:w-[150px]"
-                />
-                <StatusSelect
-                  id="c-type"
-                  value={userType}
-                  options={typeOptions}
-                  onChange={(e) => setUserType(e.target.value)}
-                  className="w-full xl:w-[160px]"
-                />
-                {hasFilters && (
-                  <Button variant="secondary" onClick={resetFilters} className="px-3 xl:ml-2 h-10">
-                    <RotateCcw size={16} strokeWidth={2} className="mr-1" />
-                    Reset
-                  </Button>
-                )}
-                <DateRangeInput
-                  id="complaints-date"
-                  fromDate={fromDate}
-                  toDate={toDate}
-                  onFromChange={(e) => setFromDate(e.target.value)}
-                  onToChange={(e) => setToDate(e.target.value)}
-                  className="w-full xl:w-[250px]"
-                />
-                <Button variant="secondary" className="px-4 h-10 w-full xl:w-auto shrink-0 shadow-sm">
+              }
+              actions={
+                <Button
+                  variant="secondary"
+                  className="px-4 h-10 w-full xl:w-auto shrink-0 shadow-sm"
+                  onClick={() => exportToCSV(filteredComplaints, "complaints.csv")}
+                >
                   <Download size={16} className="mr-1" /> Export
                 </Button>
-              </div>
-            </div>
+              }
+              filters={
+                <>
+                  <StatusSelect
+                    id="c-status"
+                    value={status}
+                    options={statusOptions}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="w-full lg:w-[150px]"
+                  />
+                  <StatusSelect
+                    id="c-priority"
+                    value={priority}
+                    options={priorityOptions}
+                    onChange={(e) => setPriority(e.target.value)}
+                    className="w-full lg:w-[150px]"
+                  />
+                  <StatusSelect
+                    id="c-type"
+                    value={userType}
+                    options={typeOptions}
+                    onChange={(e) => setUserType(e.target.value)}
+                    className="w-full lg:w-[160px]"
+                  />
+                  <DateRangeInput
+                    id="complaints-date"
+                    fromValue={fromDate}
+                    toValue={toDate}
+                    onFromChange={(e) => setFromDate(e.target.value)}
+                    onToChange={(e) => setToDate(e.target.value)}
+                    className="w-full lg:w-[250px]"
+                  />
+                </>
+              }
+              hasActiveFilters={hasFilters}
+              onReset={resetFilters}
+            />
           </Card>
 
           <Card noPadding className="flex flex-col overflow-x-auto min-w-0">

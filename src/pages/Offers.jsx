@@ -23,8 +23,10 @@ import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
 import ActionMenu from "../components/ui/ActionMenu";
 import BadgeCell from "../components/ui/BadgeCell";
+import FilterPanel from "../components/ui/FilterPanel";
 
 import { getOffers, deleteOffer } from "../api/offersApi";
+import { exportToCSV } from "../utils/exportUtils";
 
 const statusBadgeMap = {
   ACTIVE: "success",
@@ -189,61 +191,24 @@ export default function Offers() {
         />
       </div>
 
-      {/* 3. Search + Select/filter controls */}
-      <div className="flex flex-col gap-5">
-        <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between flex-wrap">
-          <div className="w-full xl:flex-1 shrink-0">
+      <Card noPadding className="mb-2">
+        <FilterPanel
+          search={
             <SearchInput
               id="offers-search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by offer name or code..."
             />
-          </div>
-
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="grid grid-cols-1 sm:grid-cols-3 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
-              <StatusSelect
-                id="offers-status"
-                value={status}
-                options={["All Status", "Active", "Scheduled", "Expired"]}
-                onChange={(e) => setStatus(e.target.value)}
-                className="w-full xl:w-[150px]"
-              />
-              <StatusSelect
-                id="offers-type"
-                value={type}
-                options={["All Types", "Percentage", "Flat", "Free Delivery"]}
-                onChange={(e) => setType(e.target.value)}
-                className="w-full xl:w-[150px]"
-              />
-              <StatusSelect
-                id="offers-platform"
-                value={platform}
-                options={["All Platforms", "App", "Web"]}
-                onChange={(e) => setPlatform(e.target.value)}
-                className="w-full xl:w-[150px]"
-              />
-            </div>
-
-            <div className="flex gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
-              {hasFilters && (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  type="button"
-                  onClick={resetFilters}
-                  className="h-10 w-full sm:w-auto px-4"
-                >
-                  <RotateCcw size={14} className="mr-1" />
-                  Reset
-                </Button>
-              )}
+          }
+          actions={
+            <>
               <Button
                 variant="secondary"
                 size="sm"
                 type="button"
-                className="h-10 w-full sm:w-auto px-4"
+                className="h-10 w-full sm:w-auto"
+                onClick={() => exportToCSV(filteredOffers, "offers.csv")}
               >
                 <Download size={14} className="mr-1" />
                 Export
@@ -255,10 +220,37 @@ export default function Offers() {
               >
                 <Plus size={16} /> Create Offer
               </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+            </>
+          }
+          filters={
+            <>
+              <StatusSelect
+                id="offers-status"
+                value={status}
+                options={["All Status", "Active", "Scheduled", "Expired"]}
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-full lg:w-[150px]"
+              />
+              <StatusSelect
+                id="offers-type"
+                value={type}
+                options={["All Types", "Percentage", "Flat", "Free Delivery"]}
+                onChange={(e) => setType(e.target.value)}
+                className="w-full lg:w-[150px]"
+              />
+              <StatusSelect
+                id="offers-platform"
+                value={platform}
+                options={["All Platforms", "App", "Web"]}
+                onChange={(e) => setPlatform(e.target.value)}
+                className="w-full lg:w-[150px]"
+              />
+            </>
+          }
+          hasActiveFilters={hasFilters}
+          onReset={resetFilters}
+        />
+      </Card>
 
       {/* 4. Table */}
       <div className="flex flex-col gap-6 mt-2">

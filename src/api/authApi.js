@@ -1,6 +1,5 @@
 import { mockAdmin, mockAdminCredentials } from "../mock/vayzoApiMock";
-
-const API_URL = "http://localhost:3000/otpSessions";
+import { apiRequest } from "./apiClient";
 
 export async function login(email, password) {
   // Simulate delay
@@ -25,33 +24,28 @@ export async function requestLoginOtp(contact) {
   const mockOtp = "123456"; // Predictable test OTP
 
   // Clean up any existing OTP for this contact
-  const res = await fetch(`${API_URL}?contact=${contact}`);
-  const existing = await res.json();
+  const existing = await apiRequest(`/otpSessions?contact=${contact}`);
   const sessions = Array.isArray(existing) ? existing : [];
   for (const session of sessions) {
-    await fetch(`${API_URL}/${session.id}`, { method: "DELETE" });
+    await apiRequest(`/otpSessions/${session.id}`, { method: "DELETE" });
   }
 
   // Create new OTP session in json-server
-  const createRes = await fetch(API_URL, {
+  await apiRequest("/otpSessions", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ contact, otp: mockOtp, createdAt: Date.now() }),
-  });
-
-  if (!createRes.ok) throw new Error("Failed to send OTP");
+  }, "Failed to send OTP");
 
   return { success: true, message: "OTP sent successfully" };
 }
 
 export async function verifyLoginOtp(contact, otp) {
-  const res = await fetch(`${API_URL}?contact=${contact}&otp=${otp}`);
-  const data = await res.json();
+  const data = await apiRequest(`/otpSessions?contact=${contact}&otp=${otp}`);
   const sessions = Array.isArray(data) ? data : [];
 
   if (sessions.length > 0) {
     // Delete the verified session
-    await fetch(`${API_URL}/${sessions[0].id}`, { method: "DELETE" });
+    await apiRequest(`/otpSessions/${sessions[0].id}`, { method: "DELETE" });
     return { success: true, user: mockAdmin, message: "OTP verified" };
   }
 

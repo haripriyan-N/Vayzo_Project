@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, RotateCcw, Eye, Pencil as Edit, Trash2, Check, X, MoreVertical } from "lucide-react";
+import { Plus, RotateCcw, Eye, Pencil as Edit, Trash2, Check, X, MoreVertical, Download } from "lucide-react";
 import Avatar from "../components/ui/Avatar";
 
 import Badge from "../components/ui/Badge";
@@ -12,10 +12,12 @@ import DateRangeInput from "../components/ui/DateRangeInput";
 import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
+import FilterPanel from "../components/ui/FilterPanel";
 
 import ActionMenu from "../components/ui/ActionMenu";
 
 import { getUsers, deleteUser } from "../api/usersApi";
+import { exportToCSV } from "../utils/exportUtils";
 
 const statusBadgeMap = {
   Active: "success",
@@ -225,78 +227,72 @@ function Users() {
     <section className="min-h-full bg-background p-4 sm:p-6 flex flex-col gap-6">
       <Card noPadding className="flex flex-col">
         {/* Filter Section */}
-        <div className="p-4 sm:p-6">
-          <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
-            {/* Search Input */}
-            <div className="flex-1 w-full min-w-0 xl:max-w-sm">
-              <SearchInput
-                id="user-search"
-                value={searchText}
-                onChange={(event) => setSearchText(event.target.value)}
-                placeholder="Search users by name, email or mobile..."
-              />
-            </div>
-
-            {/* Selects and Button */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
+        <FilterPanel
+          search={
+            <SearchInput
+              id="user-search"
+              value={searchText}
+              onChange={(event) => setSearchText(event.target.value)}
+              placeholder="Search users by name, email or mobile..."
+            />
+          }
+          actions={
+            <>
+              <Button
+                variant="secondary"
+                size="sm"
+                type="button"
+                className="h-10 w-full sm:w-auto"
+                onClick={() => exportToCSV(filteredUsers, "users.csv")}
+              >
+                <Download size={14} className="mr-1" /> Export
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => navigate("/users/add")}
+                className="h-10 w-full sm:w-auto flex items-center justify-center gap-2"
+              >
+                <Plus size={18} strokeWidth={2.5} />
+                Add User
+              </Button>
+            </>
+          }
+          filters={
+            <>
               <StatusSelect
                 id="user-status"
                 value={statusFilter}
                 options={statusOptions}
                 onChange={(event) => setStatusFilter(event.target.value)}
-                className="w-full xl:w-[150px]"
+                className="w-full lg:w-[150px]"
               />
-
               <StatusSelect
                 id="user-type"
                 value={userTypeFilter}
                 options={userTypeOptions}
                 onChange={(event) => setUserTypeFilter(event.target.value)}
-                className="w-full xl:w-[160px]"
+                className="w-full lg:w-[160px]"
               />
-
               <StatusSelect
                 id="user-verification"
                 value={verificationFilter}
                 options={verificationOptions}
                 onChange={(event) => setVerificationFilter(event.target.value)}
-                className="w-full xl:w-[150px]"
+                className="w-full lg:w-[150px]"
               />
-
-              <Button
-                size="sm"
-                onClick={() => navigate("/users/add")}
-                className="col-span-1 sm:col-span-3 xl:col-span-1 h-10 w-full flex items-center justify-center gap-2"
-              >
-                <Plus size={18} strokeWidth={2.5} />
-                Add User
-              </Button>
-            </div>
-          </div>
-
-          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <DateRangeInput
-              id="joined-date"
-              label="Joined Date"
-              fromValue={joinedFrom}
-              toValue={joinedTo}
-              onFromChange={(event) => setJoinedFrom(event.target.value)}
-              onToChange={(event) => setJoinedTo(event.target.value)}
-            />
-
-            {hasFilters && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={resetFilters}
-                className="h-10 w-full sm:w-auto"
-              >
-                <RotateCcw size={16} strokeWidth={2} className="mr-1" />
-                Reset
-              </Button>
-            )}
-          </div>
-        </div>
+              <DateRangeInput
+                id="joined-date"
+                label="Joined Date"
+                fromValue={joinedFrom}
+                toValue={joinedTo}
+                onFromChange={(event) => setJoinedFrom(event.target.value)}
+                onToChange={(event) => setJoinedTo(event.target.value)}
+              />
+            </>
+          }
+          hasActiveFilters={hasFilters}
+          onReset={resetFilters}
+        />
       </Card>
 
       <Card noPadding className="flex flex-col">

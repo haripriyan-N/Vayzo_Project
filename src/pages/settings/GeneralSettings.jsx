@@ -196,7 +196,7 @@ function GeneralSettings() {
                           {formValues.platformStatus ? "Active" : "Offline"}
                         </span>
                         <button type="button" aria-label="Toggle platform status" onClick={() => handleChange("platformStatus", !formValues.platformStatus)} className={`relative h-5 w-9 rounded-full transition-colors ${formValues.platformStatus ? "bg-success" : "bg-muted"}`}>
-                          <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${formValues.platformStatus ? "left-4.5 translate-x-4" : "left-0.5"}`} />
+                          <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${formValues.platformStatus ? "left-4.5" : "left-0.5"}`} />
                         </button>
                       </div>
                     </div>
@@ -207,7 +207,7 @@ function GeneralSettings() {
                         <p className="text-[10px] text-muted leading-tight mt-1">Enable maintenance mode to restrict<br/>access to the platform.</p>
                       </div>
                       <button type="button" aria-label="Toggle maintenance mode" onClick={() => handleChange("maintenanceMode", !formValues.maintenanceMode)} className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${formValues.maintenanceMode ? "bg-primary" : "bg-muted"}`}>
-                        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${formValues.maintenanceMode ? "left-4.5 translate-x-4" : "left-0.5"}`} />
+                        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${formValues.maintenanceMode ? "left-4.5" : "left-0.5"}`} />
                       </button>
                     </div>
                   </div>

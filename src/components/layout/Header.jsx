@@ -15,48 +15,85 @@ import UserImg from "../../assets/logo/Trans_full.png";
 import { useNotifications } from "../../context/NotificationContext";
 import { getComplaints } from "../../api/complaintsApi";
 
+const singularLabels = {
+  "Delivery Partners": "Delivery Partner",
+  "Categories": "Category",
+  "Offers & Coupons": "Offer",
+  "Restaurants": "Restaurant",
+  "Users": "User",
+  "Orders": "Order",
+  "Locations": "Location",
+  "Settings": "Settings",
+  "Profile": "Profile",
+};
+
+const settingsTitles = {
+  general: "General",
+  site: "Site Settings",
+  commission: "Commission Settings",
+  payment: "Payment Settings",
+  delivery: "Delivery Settings",
+  notification: "Notification Settings",
+  email: "Email Settings",
+  sms: "SMS Settings",
+  app: "App Settings",
+  security: "Security Settings",
+  seo: "SEO Settings",
+  maintenance: "Maintenance Mode",
+  integrations: "Third Party Integrations"
+};
+
 const getRouteInfo = (pathname) => {
+  const segments = pathname.split("/").filter(Boolean);
+
+  if (segments.length === 0 || pathname === "/dashboard") {
+    return { title: "Dashboard", parent: null, parentPath: null };
+  }
+
+  // Handle settings specifically
+  if (segments[0] === "settings") {
+    const settingTab = segments[1] || "general";
+    const tabTitle = settingsTitles[settingTab] || "Settings";
+    if (settingTab === "general" && segments.length === 1) {
+      return { title: tabTitle, parent: "Settings", parentPath: "/settings" };
+    }
+    return { title: tabTitle, parent: "Settings", parentPath: "/settings" };
+  }
+
+  // Find main route from navigation
   const mainRoute = navigationItems.find(
-    (item) => pathname === item.path || pathname.startsWith(`${item.path}/`),
+    (item) => pathname === item.path || pathname.startsWith(`${item.path}/`)
   );
 
+  // If we can't find it, fallback
   if (!mainRoute) {
-    return {
-      title: "Dashboard",
-      parent: null,
-      parentPath: null,
-    };
+    if (segments[0] === "profile") {
+      if (segments[1] === "edit") {
+        return { title: "Edit Profile", parent: "Profile", parentPath: "/profile" };
+      }
+      return { title: "Profile", parent: null, parentPath: null };
+    }
+    return { title: "Dashboard", parent: null, parentPath: null };
   }
 
+  // Exact match
   if (pathname === mainRoute.path) {
-    return {
-      title: mainRoute.label,
-      parent: null,
-      parentPath: null,
-    };
+    return { title: mainRoute.label, parent: null, parentPath: null };
   }
 
-  const segments = pathname.split("/").filter(Boolean);
   const action = segments[1];
+  const singularLabel = singularLabels[mainRoute.label] || mainRoute.label;
 
-  const actionTitles = {
-    add: `Add ${mainRoute.label.replace(/s$/, "")}`,
-    edit: `Edit ${mainRoute.label.replace(/s$/, "")}`,
-  };
-
-  if (action === "add" || action === "edit") {
-    return {
-      title: actionTitles[action],
-      parent: mainRoute.label,
-      parentPath: mainRoute.path,
-    };
+  if (action === "add") {
+    return { title: `Add ${singularLabel}`, parent: mainRoute.label, parentPath: mainRoute.path };
+  }
+  
+  if (action === "edit") {
+    return { title: `Edit ${singularLabel}`, parent: mainRoute.label, parentPath: mainRoute.path };
   }
 
-  return {
-    title: `${mainRoute.label.replace(/s$/, "")} Details`,
-    parent: mainRoute.label,
-    parentPath: mainRoute.path,
-  };
+  // Details page
+  return { title: `${singularLabel} Details`, parent: mainRoute.label, parentPath: mainRoute.path };
 };
 
 function Header({ onMenuClick }) {

@@ -1,25 +1,13 @@
-const API_URL = "http://localhost:3000/locations";
+import { apiRequest } from "./apiClient";
 
 export async function getLocations() {
-  const response = await fetch(API_URL);
-
-  if (!response.ok) {
-    throw new Error("Unable to load locations");
-  }
-
-  return response.json();
+  return apiRequest("/locations", {}, "Unable to load locations");
 }
 
 export async function getLocationById(id) {
-  const response = await fetch(`${API_URL}?id=${id}`);
+  const data = await apiRequest(`/locations?id=${id}`, {}, "Unable to load location");
 
-  if (!response.ok) {
-    throw new Error("Unable to load location");
-  }
-
-  const data = await response.json();
-
-  if (!data.length) {
+  if (!data || !data.length) {
     throw new Error("Location not found");
   }
 
@@ -27,46 +15,21 @@ export async function getLocationById(id) {
 }
 
 export async function createLocation(locationData) {
-  const response = await fetch(API_URL, {
+  return apiRequest("/locations", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(locationData),
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to create location");
-  }
-
-  return response.json();
+  }, "Unable to create location");
 }
 
 export async function updateLocation(id, updateData) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/locations/${id}`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(updateData),
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to update location");
-  }
-
-  return response.json();
+  }, "Unable to update location");
 }
 
 export async function deleteLocation(id) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/locations/${id}`, {
     method: "DELETE",
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to delete location");
-  }
-
-  return response.json();
+  }, "Unable to delete location");
 }
-

@@ -12,7 +12,7 @@ function StatusSelect({
       id={id}
       value={value}
       onChange={onChange}
-      className={className}
+      containerClassName={className}
     >
       {options.map((option) => (
         <option key={option} value={option}>
