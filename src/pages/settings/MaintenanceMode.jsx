@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Button from "../../components/ui/button";
+import React, { useState, useEffect } from "react";
+import Button from "../../components/ui/Button";
 import Select from "../../components/ui/Select";
 import { 
   Shield, 
@@ -20,16 +20,53 @@ import {
   CheckSquare,
   X
 } from "lucide-react";
+import { getMaintenanceModeSettings, saveMaintenanceModeSettings } from "../../api/settingsApi";
 
 function MaintenanceMode() {
-  const [maintenanceOn, setMaintenanceOn] = useState(true);
+  const [toggles, setToggles] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const [bgStyle, setBgStyle] = useState("light");
   const [deviceView, setDeviceView] = useState("monitor");
   const [ips, setIps] = useState(["127.0.0.1"]);
 
+  const loadSettings = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getMaintenanceModeSettings();
+      if (data && Object.keys(data).length > 0) {
+        setToggles(data.toggles || { isMaintenanceMode: true });
+      } else {
+        setToggles({ isMaintenanceMode: true });
+      }
+    } catch (error) {
+      console.error("Failed to load settings:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
   const removeIp = (ipToRemove) => {
     setIps(ips.filter(ip => ip !== ipToRemove));
   };
+
+  const handleSaveAll = async () => {
+    setIsSaving(true);
+    try {
+      await saveMaintenanceModeSettings({ toggles });
+      alert("Settings saved successfully!");
+    } catch (error) {
+      console.error("Save failed:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (isLoading) return <div className="p-8 text-center text-muted">Loading Maintenance Mode...</div>;
 
   return (
     <>
@@ -58,10 +95,10 @@ function MaintenanceMode() {
               </div>
               <div className="flex items-center gap-3 shrink-0 pl-4">
                 <span className="text-xs font-semibold text-foreground">Maintenance Mode</span>
-                <button type="button" onClick={() => setMaintenanceOn(!maintenanceOn)} className={`relative h-6 w-11 rounded-full transition-colors ${maintenanceOn ? "bg-primary" : "bg-muted"}`}>
-                  <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${maintenanceOn ? "left-5.5 translate-x-5" : "left-0.5"}`} />
+                <button type="button" onClick={() => setToggles({...toggles, isMaintenanceMode: !toggles.isMaintenanceMode})} className={`relative h-6 w-11 rounded-full transition-colors ${toggles.isMaintenanceMode ? "bg-primary" : "bg-muted"}`}>
+                  <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform ${toggles.isMaintenanceMode ? "left-5.5 translate-x-5" : "left-0.5"}`} />
                 </button>
-                <span className={`text-xs font-bold ${maintenanceOn ? "text-primary" : "text-muted"}`}>{maintenanceOn ? "ON" : "OFF"}</span>
+                <span className={`text-xs font-bold ${toggles.isMaintenanceMode ? "text-primary" : "text-muted"}`}>{toggles.isMaintenanceMode ? "ON" : "OFF"}</span>
               </div>
             </div>
 
@@ -164,6 +201,11 @@ function MaintenanceMode() {
                       Add
                     </Button>
                   </div>
+              <div className="flex justify-end pt-2">
+                <Button type="button" onClick={handleSaveAll} disabled={isSaving} className="bg-primary text-white px-6">
+                  {isSaving ? "Saving..." : "Save Settings"}
+                </Button>
+              </div>
 
                   <div className="flex flex-wrap gap-2">
                     {ips.map((ip) => (

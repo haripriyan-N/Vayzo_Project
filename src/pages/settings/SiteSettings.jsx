@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Globe,
   Mail,
@@ -16,47 +16,63 @@ import {
   ShieldCheck,
   Folder
 } from "lucide-react";
-import Button from "../../components/ui/button";
-import Input from "../../components/ui/input";
+import Button from "../../components/ui/Button";
+import Input from "../../components/ui/Input";
 import Select from "../../components/ui/Select";
-import { generalSettings } from "../../mock/vayzoApiMock";
+import { getGeneralSettings, saveGeneralSettings } from "../../api/settingsApi";
 
 function SiteSettings() {
   const [activeTab, setActiveTab] = useState("General");
-  const [formValues, setFormValues] = useState({
-    siteName: generalSettings.platformName,
-    tagline: generalSettings.platformTagline,
-    siteEmail: generalSettings.supportEmail,
-    sitePhone: generalSettings.supportPhone,
-    siteAddress: generalSettings.contactAddress,
-    siteTimezone: generalSettings.timezone,
-    dateFormat: generalSettings.dateFormat,
-    currency: generalSettings.defaultCurrency,
-    currencyPosition: generalSettings.currencyPosition,
-  });
+  const [formValues, setFormValues] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const loadSettings = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getGeneralSettings();
+      setFormValues({
+        siteName: data.platformName || "",
+        tagline: data.platformTagline || "",
+        siteEmail: data.supportEmail || "",
+        sitePhone: data.supportPhone || "",
+        siteAddress: data.contactAddress || "",
+        siteTimezone: data.timezone || "Asia/Kolkata",
+        dateFormat: data.dateFormat || "DD/MM/YYYY",
+        currency: data.defaultCurrency || "INR",
+        currencyPosition: data.currencyPosition || "Prefix",
+      });
+    } catch (error) {
+      console.error("Failed to load settings:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
 
   const handleChange = (field, value) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleReset = () => {
-    setFormValues({
-      siteName: generalSettings.platformName,
-      tagline: generalSettings.platformTagline,
-      siteEmail: generalSettings.supportEmail,
-      sitePhone: generalSettings.supportPhone,
-      siteAddress: generalSettings.contactAddress,
-      siteTimezone: generalSettings.timezone,
-      dateFormat: generalSettings.dateFormat,
-      currency: generalSettings.defaultCurrency,
-      currencyPosition: generalSettings.currencyPosition,
-    });
+    loadSettings();
     alert("Settings reset to original values.");
   };
 
-  const handleSave = () => {
-    console.log("Saving settings:", formValues);
-    alert("Site Settings saved successfully!");
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      await saveGeneralSettings(formValues);
+      alert("Site Settings saved successfully!");
+    } catch (error) {
+      console.error("Failed to save settings:", error);
+      alert("Failed to save settings");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const renderTabButton = (name, icon) => {
@@ -70,6 +86,10 @@ function SiteSettings() {
       </button>
     );
   };
+
+  if (isLoading) {
+    return <div className="flex-1 p-6 flex justify-center text-muted">Loading Site Settings...</div>;
+  }
 
   return (
     <div className="flex-1 space-y-6">
@@ -233,8 +253,8 @@ function SiteSettings() {
                   </div>
 
                   <div className="flex items-center gap-4 pt-4 border-t border-border mt-6">
-                      <Button type="button" onClick={handleSave} size="md" className="bg-primary text-white px-6 flex items-center gap-2 font-medium">
-                          <Folder size={16} /> Save Changes
+                      <Button type="button" onClick={handleSave} size="md" disabled={isSaving} className="bg-primary text-white px-6 flex items-center gap-2 font-medium">
+                          <Folder size={16} /> {isSaving ? "Saving..." : "Save Changes"}
                       </Button>
                       <Button type="button" onClick={handleReset} size="md" variant="outline" className="border-border px-8 font-medium">
                           Reset

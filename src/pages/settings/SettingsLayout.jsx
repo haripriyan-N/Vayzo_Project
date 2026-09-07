@@ -38,16 +38,16 @@ function SettingsLayout() {
     <section className="min-h-full bg-background p-4 sm:p-6">
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-5 xl:flex-row">
-          <aside className="w-full xl:w-[280px] shrink-0 sticky top-6 h-fit">
-            <div className="rounded-2xl border border-border bg-surface p-3 shadow-sm">
-              <div className="mb-3 flex items-center gap-2 px-2 py-2">
+          <aside className="w-full xl:w-[280px] shrink-0 xl:sticky xl:top-6 h-fit z-10">
+            <div className="rounded-2xl border border-border bg-surface p-2 xl:p-3 shadow-sm">
+              <div className="mb-3 hidden xl:flex items-center gap-2 px-2 py-2">
                 <SettingsIcon size={18} className="text-primary" />
                 <span className="text-sm font-semibold text-foreground">
                   Settings Menu
                 </span>
               </div>
 
-              <nav className="space-y-1">
+              <nav className="flex overflow-x-auto xl:flex-col gap-2 xl:gap-1 scrollbar-none">
                 {settingsMenu.map(({ label, path, icon: Icon }) => {
                   const isActive = location.pathname === path || (path !== "/settings" && location.pathname.startsWith(path));
 
@@ -55,14 +55,14 @@ function SettingsLayout() {
                     <NavLink
                       key={label}
                       to={path}
-                      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
+                      className={`flex items-center justify-center xl:justify-start gap-2 xl:gap-3 shrink-0 rounded-xl px-3.5 py-2.5 xl:px-3 text-sm transition-colors ${
                         isActive
-                          ? "bg-primary text-white shadow-sm"
-                          : "text-muted hover:bg-primary-light hover:text-primary"
+                          ? "bg-primary text-white shadow-sm font-medium"
+                          : "text-muted hover:bg-primary-light hover:text-primary font-medium xl:font-normal bg-surface-50 xl:bg-transparent"
                       }`}
                     >
                       <Icon size={16} className="shrink-0" />
-                      <span>{label}</span>
+                      <span className="whitespace-nowrap">{label}</span>
                     </NavLink>
                   );
                 })}

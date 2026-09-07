@@ -1,41 +1,689 @@
-import { CheckCircle, Clock3, Download, Eye, MoreVertical, Package, Truck, XCircle } from "lucide-react";
-import { useMemo, useState } from "react";
+import {
+  CheckCircle,
+  Clock3,
+  Download,
+  Eye,
+  MoreVertical,
+  Trash2,
+  Package,
+  Truck,
+  XCircle,
+  RotateCcw,
+} from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Avatar from "../components/ui/Avatar";
+
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
-import { orderStats, orders } from "../mock/vayzoApiMock";
+import StatCard from "../components/ui/StatCard";
+import Table from "../components/ui/Table";
+import Card from "../components/ui/Card";
+import DateRangeInput from "../components/ui/DateRangeInput";
+import SearchInput from "../components/ui/SearchInput";
+import StatusSelect from "../components/ui/StatusSelect";
+import Modal from "../components/ui/Modal";
+import ActionMenu from "../components/ui/ActionMenu";
+import BadgeCell from "../components/ui/BadgeCell";
+import { getOrders, deleteOrder } from "../api/ordersApi";
 
-const statusMap = { DELIVERED: "success", IN_TRANSIT: "info", PREPARING: "warning", PENDING: "warning", CANCELLED: "danger", REFUNDED: "default" };
-const statusLabel = (status) => status.replaceAll("_", " ");
-const initials = (name = "") => name.split(" ").map((part) => part[0]).join("").toUpperCase();
-const statIcons = [Package, Clock3, Truck, CheckCircle, XCircle];
-const statLabels = ["Total Orders", "Pending", "On The Way", "Delivered", "Cancelled"];
-const tabs = ["All Orders", "Pending", "On The Way", "Delivered", "Cancelled", "Refunded"];
-const statusOptions = ["All Status", "Delivered", "In Transit", "Preparing", "Pending", "Cancelled"];
-const paymentOptions = ["All Payment Status", "Paid", "Pending", "Refunded"];
+const STATUS_MAP = {
+  DELIVERED: "success",
+  IN_TRANSIT: "info",
+  PREPARING: "warning",
+  PENDING: "warning",
+  CANCELLED: "danger",
+  REFUNDED: "default",
+};
+
+const TABS = [
+  "All Orders",
+  "Pending",
+  "On The Way",
+  "Delivered",
+  "Cancelled",
+  "Refunded",
+];
+
+const STATUS_OPTIONS = [
+  "All Status",
+  "Delivered",
+  "In Transit",
+  "Preparing",
+  "Pending",
+  "Cancelled",
+];
+
+const PAYMENT_OPTIONS = ["All Payment Status", "Paid", "Pending", "Refunded"];
+
+const STAT_CONFIG = [
+  {
+    label: "Total Orders",
+    key: "total",
+    icon: Package,
+    colorClass: "text-primary",
+    bgClass: "bg-primary/10",
+    trend: "12.5%",
+  },
+  {
+    label: "Pending",
+    key: "pending",
+    icon: Clock3,
+    colorClass: "text-warning",
+    bgClass: "bg-warning/10",
+    trend: "5.2%",
+  },
+  {
+    label: "On The Way",
+    key: "inTransit",
+    icon: Truck,
+    colorClass: "text-info",
+    bgClass: "bg-info/10",
+    trend: "8.4%",
+  },
+  {
+    label: "Delivered",
+    key: "delivered",
+    icon: CheckCircle,
+    colorClass: "text-success",
+    bgClass: "bg-success/10",
+    trend: "15.3%",
+  },
+  {
+    label: "Cancelled",
+    key: "cancelled",
+    icon: XCircle,
+    colorClass: "text-danger",
+    bgClass: "bg-danger/10",
+    trend: "2.1%",
+    isNegative: true,
+  },
+];
+
+const formatStatus = (status = "") => status.replaceAll("_", " ");
+
+const getDateOnly = (date = "") => {
+  if (!date) return "";
+
+  // Supports:
+  // 2026-08-27
+  // 2026-08-27 11:20
+  // 2026-08-27T11:20
+  return date.slice(0, 10);
+};
+
+const formatOrderDateTime = (dateStr) => {
+  if (!dateStr) return { date: "--", time: "" };
+  try {
+    const d = new Date(dateStr.replace(" ", "T"));
+    if (isNaN(d.getTime())) return { date: dateStr, time: "" };
+    const dateFormatted = d.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+    const timeFormatted = d
+      .toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      })
+      .toUpperCase();
+    return { date: dateFormatted, time: timeFormatted };
+  } catch (e) {
+    return { date: dateStr, time: "" };
+  }
+};
 
 function Orders() {
+  const navigate = useNavigate();
+
+  const [orders, setOrders] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState("All Status");
   const [payment, setPayment] = useState("All Payment Status");
-  const [tab, setTab] = useState("All Orders");
+  const [activeTab, setActiveTab] = useState("All Orders");
+
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const filtered = useMemo(() => orders.filter((order) => {
-    const text = [order.orderId, order.customerName, order.deliveryPartner, order.city].join(" ").toLowerCase();
-    const tabStatus = tab === "On The Way" ? "IN_TRANSIT" : tab.toUpperCase().replaceAll(" ", "_").replace("ALL_ORDERS", "");
-    const orderDate = order.orderDate.slice(0, 10);
-    return (!query || text.includes(query.trim().toLowerCase())) && (status === "All Status" || statusLabel(order.status).toLowerCase() === status.toLowerCase()) && (payment === "All Payment Status" || order.paymentStatus.toLowerCase() === payment.toLowerCase()) && (!tabStatus || order.status === tabStatus) && (!fromDate || orderDate >= fromDate) && (!toDate || orderDate <= toDate);
-  }), [query, status, payment, tab, fromDate, toDate]);
-  const reset = () => { setQuery(""); setStatus("All Status"); setPayment("All Payment Status"); setTab("All Orders"); setFromDate(""); setToDate(""); };
-  const stats = statLabels.map((label, index) => [label, label === "On The Way" ? orders.filter((order) => order.status === "IN_TRANSIT").length : orderStats.find((item) => item.label === label)?.value || "--", orderStats.find((item) => item.label === label)?.trend || "--"]);
-  return <section className="min-h-full bg-background p-4 sm:p-6"><div className="space-y-4">
-    <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4"><div><p className="text-xs text-muted">Dashboard &gt; Orders</p><h1 className="mt-1 text-2xl font-semibold text-foreground">Orders</h1><p className="mt-1 text-sm text-muted">Track customer orders, delivery flow, and payment status.</p></div><div className="flex gap-2"><Button variant="secondary" size="sm" onClick={reset}>Refresh</Button><Button size="sm">+ Add Order</Button></div></header>
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">{stats.map(([label, item, trend], index) => { const Icon = statIcons[index]; return <div key={label} className="rounded-xl border border-border bg-surface p-3 shadow-sm"><div className="flex items-center gap-2"><Icon size={17} className="text-primary" /><span className="text-xs text-muted">{label}</span></div><div className="mt-2 flex items-end justify-between"><b className="text-xl text-foreground">{item}</b><span className="text-[10px] font-medium text-emerald-600">{trend}</span></div></div>; })}</div>
-    <div className="rounded-xl border border-border bg-surface p-4 shadow-sm"><div className="grid gap-3 lg:grid-cols-[1.5fr_0.7fr_0.8fr_1fr_auto]"><Input id="order-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search by Order ID, Customer, Partner or Phone..." className="h-10 text-xs" /><Select id="order-status" value={status} onChange={(event) => setStatus(event.target.value)} className="h-10 text-xs">{statusOptions.map((option) => <option key={option}>{option}</option>)}</Select><Select id="payment-status" value={payment} onChange={(event) => setPayment(event.target.value)} className="h-10 text-xs">{paymentOptions.map((option) => <option key={option}>{option}</option>)}</Select><div className="grid grid-cols-2 gap-1"><Input id="order-from" type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className="h-10 min-w-0 px-2 text-[10px]" /><Input id="order-to" type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className="h-10 min-w-0 px-2 text-[10px]" /></div><Button variant="secondary" size="sm"><Download size={14} className="mr-1" />Export</Button></div><nav className="mt-4 flex gap-5 overflow-hidden border-b border-border">{tabs.map((item) => <button key={item} type="button" onClick={() => setTab(item)} className={`whitespace-nowrap border-b-2 px-1 pb-2 text-xs font-semibold ${tab === item ? "border-primary text-primary" : "border-transparent text-muted"}`}>{item}</button>)}</nav></div>
-    <div className="w-full max-w-full overflow-hidden rounded-xl border border-border bg-surface shadow-sm"><table className="w-full table-fixed border-collapse text-left text-[10px] sm:text-xs"><colgroup><col className="w-[9%]" /><col className="w-[16%]" /><col className="w-[9%]" /><col className="w-[16%]" /><col className="w-[8%]" /><col className="w-[9%]" /><col className="w-[9%]" /><col className="w-[11%]" /><col className="w-[8%]" /></colgroup><thead className="bg-primary-light text-foreground"><tr>{["Order ID", "Customer", "Items", "Delivery Partner", "Amount", "Payment", "Status", "Order Time", "Actions"].map((heading) => <th key={heading} className="break-words px-1.5 py-3 font-semibold sm:px-2">{heading}</th>)}</tr></thead><tbody>{filtered.map((order) => <tr key={order.orderId} className="border-t border-border"><td className="whitespace-nowrap px-1.5 py-3 font-medium text-foreground sm:px-2">#{order.orderId}</td><td className="px-1.5 py-3 sm:px-2"><div className="flex min-w-0 items-center gap-1.5"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-[8px] font-semibold text-white">{initials(order.customerName)}</span><span className="min-w-0 truncate font-medium text-foreground">{order.customerName}</span></div></td><td className="truncate px-1.5 py-3 text-muted sm:px-2">--</td><td className="truncate px-1.5 py-3 text-muted sm:px-2">{order.deliveryPartner}</td><td className="whitespace-nowrap px-1.5 py-3 font-medium text-foreground sm:px-2">₹{order.amount}</td><td className="px-1.5 py-3 sm:px-2"><Badge variant={order.paymentStatus === "PAID" ? "success" : order.paymentStatus === "REFUNDED" ? "default" : "warning"} className="h-5 max-w-full truncate px-1 text-[9px]">{order.paymentStatus}</Badge></td><td className="px-1.5 py-3 sm:px-2"><Badge variant={statusMap[order.status] || "default"} className="h-5 max-w-full truncate px-1 text-[9px]">{statusLabel(order.status)}</Badge></td><td className="truncate px-1.5 py-3 text-muted sm:px-2">{order.orderDate}</td><td className="px-1.5 py-3 sm:px-2"><div className="flex gap-1"><button type="button" aria-label={`View ${order.orderId}`} className="flex h-6 w-6 items-center justify-center rounded border border-border text-primary hover:bg-primary-light"><Eye size={14} /></button><button type="button" aria-label={`More actions for ${order.orderId}`} className="flex h-6 w-6 items-center justify-center rounded border border-border text-primary hover:bg-primary-light"><MoreVertical size={14} /></button></div></td></tr>)}</tbody></table>{!filtered.length && <p className="p-6 text-center text-sm text-muted">No orders found for the selected filters.</p>}<div className="flex flex-wrap items-center justify-between gap-3 border-t border-border px-4 py-3 text-xs text-muted"><span>Showing 1 to {filtered.length} of {orders.length} orders</span><div className="flex gap-1"><Button variant="secondary" size="sm">1</Button><Button variant="secondary" size="sm">2</Button><Button variant="secondary" size="sm">3</Button><Button variant="secondary" size="sm">Next</Button></div></div></div>
-  </div></section>;
+  const [deleteModalId, setDeleteModalId] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 20;
+  const loadOrders = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const data = await getOrders();
+
+      setOrders(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to load orders:", err);
+      setError("Unable to load orders.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    let mounted = true;
+
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const data = await getOrders();
+
+        if (mounted) {
+          setOrders(Array.isArray(data) ? data : []);
+        }
+      } catch (err) {
+        console.error("Failed to load orders:", err);
+
+        if (mounted) {
+          setError("Unable to load orders.");
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchOrders();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  /* --------------------------------
+     Statistics
+  -------------------------------- */
+
+  const stats = useMemo(() => {
+    return {
+      total: orders.length,
+
+      pending: orders.filter((order) => order.status === "PENDING").length,
+
+      inTransit: orders.filter((order) => order.status === "IN_TRANSIT").length,
+
+      delivered: orders.filter((order) => order.status === "DELIVERED").length,
+
+      cancelled: orders.filter((order) => order.status === "CANCELLED").length,
+    };
+  }, [orders]);
+
+  /* --------------------------------
+     Filtering
+  -------------------------------- */
+
+  const filteredOrders = useMemo(() => {
+    const searchValue = query.trim().toLowerCase();
+
+    return orders.filter((order) => {
+      const phoneStr =
+        order.mobileNumber || order.customerPhone || "+91 98765 43210";
+      const searchableText = [
+        order.orderId,
+        order.customerName,
+        phoneStr,
+        phoneStr.replace(/\s+/g, ""), // spaceless version
+        order.itemsDescription || "Food, Milk",
+        order.restaurantName,
+        order.deliveryPartner,
+        order.city,
+        order.paymentStatus,
+        order.status,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      const matchesSearch =
+        !searchValue || searchableText.includes(searchValue);
+
+      const matchesStatus =
+        status === "All Status" ||
+        formatStatus(order.status).toLowerCase() === status.toLowerCase();
+
+      const matchesPayment =
+        payment === "All Payment Status" ||
+        order.paymentStatus?.toLowerCase() === payment.toLowerCase();
+
+      let matchesTab = true;
+
+      if (activeTab !== "All Orders") {
+        const tabStatus =
+          activeTab === "On The Way"
+            ? "IN_TRANSIT"
+            : activeTab.toUpperCase().replaceAll(" ", "_");
+
+        matchesTab = order.status === tabStatus;
+      }
+
+      const orderDate = getDateOnly(order.orderDate);
+
+      const matchesFromDate = !fromDate || orderDate >= fromDate;
+
+      const matchesToDate = !toDate || orderDate <= toDate;
+
+      return (
+        matchesSearch &&
+        matchesStatus &&
+        matchesPayment &&
+        matchesTab &&
+        matchesFromDate &&
+        matchesToDate
+      );
+    });
+  }, [orders, query, status, payment, activeTab, fromDate, toDate]);
+
+  /* --------------------------------
+     Reset
+  -------------------------------- */
+
+  const resetFilters = () => {
+    setQuery("");
+    setStatus("All Status");
+    setPayment("All Payment Status");
+    setActiveTab("All Orders");
+    setFromDate("");
+    setToDate("");
+  };
+
+  const handleDeleteOrder = async () => {
+    if (!deleteModalId) return;
+    try {
+      await deleteOrder(deleteModalId);
+      setOrders((prev) => prev.filter((o) => o.orderId !== deleteModalId));
+      setDeleteModalId(null);
+      const newFilteredLength = filteredOrders.length - 1;
+      const newTotalPages = Math.ceil(newFilteredLength / itemsPerPage) || 1;
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete order.");
+    }
+  };
+
+  const hasFilters =
+    query ||
+    status !== "All Status" ||
+    payment !== "All Payment Status" ||
+    activeTab !== "All Orders" ||
+    fromDate ||
+    toDate;
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const paginatedOrders = filteredOrders.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage,
+  );
+
+  const maxPaymentStatus = useMemo(() => {
+    return paginatedOrders.reduce((max, o) => {
+      const val = o.paymentStatus || "--";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedOrders]);
+
+  const maxStatus = useMemo(() => {
+    return paginatedOrders.reduce((max, o) => {
+      const val = formatStatus(o.status) || "--";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedOrders]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, status, payment, activeTab, fromDate, toDate]);
+
+  return (
+    <section className="min-h-full bg-background p-4 sm:p-6">
+      <div className="space-y-4">
+        {/* =========================
+            Statistics
+        ========================== */}
+
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mb-6">
+          {STAT_CONFIG.map((stat) => (
+            <StatCard
+              key={stat.key}
+              variant="horizontal"
+              title={stat.label}
+              value={loading ? "--" : stats[stat.key]}
+              icon={stat.icon}
+              colorClass={stat.colorClass}
+              bgClass={stat.bgClass}
+              trend={stat.trend}
+              isNegative={stat.isNegative}
+            />
+          ))}
+        </div>
+
+        {/* =========================
+            Filters Section
+        ========================== */}
+
+        <div className="flex flex-col gap-5">
+          {/* Search Selects, Date and Buttons */}
+          <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between flex-wrap">
+            <div className="w-full xl:w-[400px] shrink-0">
+              <SearchInput
+                id="order-search"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search by Order ID, Customer, Partner..."
+              />
+            </div>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
+                <Select
+                  id="order-status"
+                  value={status}
+                  onChange={(event) => setStatus(event.target.value)}
+                  className="w-full xl:w-[150px]"
+                >
+                  {STATUS_OPTIONS.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+
+                <Select
+                  id="payment-status"
+                  value={payment}
+                  onChange={(event) => setPayment(event.target.value)}
+                  className="w-full xl:w-[180px]"
+                >
+                  {PAYMENT_OPTIONS.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+
+                <div className="w-full xl:w-auto">
+                  <DateRangeInput
+                    fromValue={fromDate}
+                    toValue={toDate}
+                    onFromChange={(event) => setFromDate(event.target.value)}
+                    onToChange={(event) => setToDate(event.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  type="button"
+                  className="h-10 w-full sm:w-auto"
+                >
+                  <Download size={14} className="mr-1" />
+                  Export
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/*  and Tabs */}
+          <div className="flex items-center justify-between border-b border-border/50">
+            <nav className="flex gap-5 overflow-x-auto scrollbar-none w-full xl:w-auto">
+              {TABS.map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setActiveTab(tab)}
+                  className={`whitespace-nowrap border-b-2 px-2 pb-2 text-sm font-medium transition ${
+                    activeTab === tab
+                      ? "border-primary text-primary"
+                      : "border-transparent text-muted hover:text-foreground hover:border-border"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </nav>
+            {hasFilters && (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:cursor-not-allowed disabled:opacity-50 border border-border bg-surface text-foreground hover:bg-primary-light px-3 py-2 text-sm h-10 w-full sm:w-auto"
+              >
+                <RotateCcw size={14} strokeWidth={2} />
+                Reset
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* =========================
+            Table Card
+        ========================== */}
+        <Card noPadding className="flex flex-col mt-2">
+          <Table
+            headers={[
+              "No.",
+              "Order ID",
+              "Customer",
+              "Items",
+              "Delivery Partner",
+              "Amount",
+              "Payment",
+              "Status",
+              "Order Time",
+              "Actions",
+            ]}
+            currentCount={paginatedOrders.length}
+            totalCount={filteredOrders.length}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            minWidth="1000px"
+            className="border-0 shadow-none rounded-none"
+          >
+            {loading ? (
+              <tr>
+                <td colSpan={9} className="p-10 text-center text-sm text-muted">
+                  Loading orders...
+                </td>
+              </tr>
+            ) : paginatedOrders.length ? (
+              paginatedOrders.map((order, index) => (
+                <tr key={order.orderId}>
+                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                    {String(
+                      (currentPage - 1) * itemsPerPage + index + 1,
+                    ).padStart(2, "0")}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/orders/${order.orderId}`)}
+                      className="hover:underline focus:outline-none"
+                    >
+                      {order.orderId?.startsWith("#")
+                        ? order.orderId
+                        : `#${order.orderId}`}
+                    </button>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <Avatar
+                        src={order.customerImage}
+                        alt={order.customerName}
+                        identifier={order.customerName || order.orderId}
+                        className="h-7 w-7 rounded-full shadow-sm shrink-0"
+                      />
+                      <div className="flex flex-col min-w-0">
+                        <span className="truncate font-medium text-foreground leading-tight">
+                          {order.customerName || "--"}
+                        </span>
+                        <span className="truncate text-[11px] text-muted mt-0.5">
+                          {order.mobileNumber ||
+                            order.customerPhone ||
+                            "+91 98765 43210"}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="min-w-[120px] px-3 py-3">
+                    <div className="flex flex-col min-w-0">
+                      <span className="truncate text-sm font-medium text-foreground leading-tight">
+                        {order.itemsCount
+                          ? `${order.itemsCount} Items`
+                          : "2 Items"}
+                      </span>
+                      <span className="truncate text-[11px] text-muted mt-0.5">
+                        {order.itemsDescription || "Food, Milk"}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="px-3 py-3">
+                    {order.deliveryPartner ? (
+                      <div className="flex min-w-0 items-center gap-2">
+                        <Avatar
+                          src={order.deliveryPartnerImage}
+                          alt={order.deliveryPartner}
+                          identifier={order.deliveryPartner}
+                          className="h-7 w-7 rounded-full shadow-sm shrink-0"
+                        />
+                        <div className="flex flex-col min-w-0">
+                          <span className="truncate font-medium text-foreground leading-tight">
+                            {order.deliveryPartner}
+                          </span>
+                          <span className="flex items-center gap-1 text-[10px] text-muted mt-0.5">
+                            <Truck
+                              size={11}
+                              className="text-primary shrink-0"
+                            />
+                            <span className="truncate">
+                              {order.deliveryPartnerVehicle || "Delivery"}
+                            </span>
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <span className="text-muted">--</span>
+                    )}
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
+                    {order.amount !== undefined && order.amount !== null
+                      ? `₹${Number(order.amount).toLocaleString("en-IN")}`
+                      : "--"}
+                  </td>
+                  <td className="px-3 py-3">
+                    <BadgeCell
+                      maxContent={maxPaymentStatus}
+                      content={order.paymentStatus || "--"}
+                      variant={
+                        order.paymentStatus === "PAID"
+                          ? "success"
+                          : order.paymentStatus === "REFUNDED"
+                            ? "default"
+                            : "warning"
+                      }
+                      className="px-3"
+                    />
+                  </td>
+                  <td className="px-3 py-3">
+                    <BadgeCell
+                      maxContent={maxStatus}
+                      content={formatStatus(order.status) || "--"}
+                      variant={STATUS_MAP[order.status] || "default"}
+                      className="px-3"
+                    />
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    <div className="flex flex-col">
+                      <span className="text-sm font-medium text-foreground">
+                        {formatOrderDateTime(order.orderDate).date}
+                      </span>
+                      <span className="text-[11px] text-muted mt-0.5">
+                        {formatOrderDateTime(order.orderDate).time}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    <div className="flex gap-1 flex-nowrap justify-end items-center">
+                      <ActionMenu
+                        actions={[
+                          {
+                            label: "View",
+                            icon: Eye,
+                            onClick: () => navigate(`/orders/${order.orderId}`),
+                          },
+                          {
+                            label: "Delete",
+                            icon: Trash2,
+                            danger: true,
+                            onClick: () => setDeleteModalId(order.orderId),
+                          },
+                        ]}
+                      />
+                    </div>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={9} className="p-10 text-center">
+                  <Package size={30} className="mx-auto text-muted" />
+                  <p className="mt-2 text-sm font-medium text-foreground">
+                    No orders found
+                  </p>
+                  <p className="mt-1 text-xs text-muted">
+                    Try adjusting your filters or search query.
+                  </p>
+                </td>
+              </tr>
+            )}
+          </Table>
+        </Card>
+
+        {/* =========================
+            Order Details Modal
+        ========================== */}
+      </div>
+
+      <Modal
+        isOpen={!!deleteModalId}
+        onClose={() => setDeleteModalId(null)}
+        title="Delete Order"
+      >
+        <p className="text-sm text-muted">
+          Are you sure you want to delete this order? This action cannot be
+          undone.
+        </p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="secondary" onClick={() => setDeleteModalId(null)}>
+            Cancel
+          </Button>
+          <Button
+            className="bg-danger hover:bg-danger/90 text-white"
+            onClick={handleDeleteOrder}
+          >
+            Delete
+          </Button>
+        </div>
+      </Modal>
+    </section>
+  );
 }
 
 export default Orders;

@@ -1,584 +1,381 @@
-import { useState } from "react";
-import { Edit2, Eye, MoreVertical, Plus, Search, Trash2, X } from "lucide-react";
-import Badge from "../components/ui/Badge";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { 
+  Eye, Pencil, Plus, RotateCcw, 
+  Trash2, LayoutGrid, CheckCircle, AlertCircle, 
+  Filter, ShoppingBag, Utensils, Pill, Store,
+  Carrot, Baby, Coffee, Download
+} from "lucide-react";
+
 import Button from "../components/ui/Button";
-import Input from "../components/ui/Input";
+import SearchInput from "../components/ui/SearchInput";
 import Select from "../components/ui/Select";
-import { categories, categoryStats } from "../mock/vayzoApiMock";
+import Table from "../components/ui/Table";
+import Card from "../components/ui/Card";
+import Modal from "../components/ui/Modal";
+import StatCard from "../components/ui/StatCard";
+import BadgeCell from "../components/ui/BadgeCell";
+import ActionMenu from "../components/ui/ActionMenu";
 
-const ITEMS_PER_PAGE = 5;
+import { getCategories, deleteCategory } from "../api/categoriesApi";
 
-function Categories() {
-  const [query, setQuery] = useState("");
-  const [status, setStatus] = useState("All Status");
+const statusOptions = [
+  "All Status",
+  "Active",
+  "Inactive",
+];
+
+const categoryTableHeaders = [
+  "No.",
+  "Parent Category",
+  "Description",
+  "Status",
+  "Items",
+  "Created At",
+  "Actions",
+];
+
+// Helper to assign a random icon based on name
+const getCategoryIcon = (name) => {
+  const n = name?.toLowerCase() || "";
+  if (n.includes('food') || n.includes('restaurant')) return <Utensils size={18} className="text-success" />;
+  if (n.includes('grocer') || n.includes('retail')) return <ShoppingBag size={18} className="text-warning" />;
+  if (n.includes('pharmacy') || n.includes('medicine')) return <Pill size={18} className="text-primary" />;
+  if (n.includes('fruit') || n.includes('veg')) return <Carrot size={18} className="text-success" />;
+  if (n.includes('baby')) return <Baby size={18} className="text-primary" />;
+  if (n.includes('beverage') || n.includes('drink')) return <Coffee size={18} className="text-info" />;
+  return <Store size={18} className="text-primary" />;
+};
+
+const getCategoryIconBg = (name) => {
+  const n = name?.toLowerCase() || "";
+  if (n.includes('food') || n.includes('restaurant') || n.includes('fruit') || n.includes('veg')) return "bg-success/10";
+  if (n.includes('grocer') || n.includes('retail')) return "bg-warning/10";
+  if (n.includes('beverage') || n.includes('drink')) return "bg-info/10";
+  return "bg-primary/10";
+};
+
+export default function Categories() {
+  const navigate = useNavigate();
+
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  
+  const [deleteModalId, setDeleteModalId] = useState(null);
+
+  // Filters
+  const [searchText, setSearchText] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All Status");
+
   const [currentPage, setCurrentPage] = useState(1);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showViewModal, setShowViewModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showMoreMenu, setShowMoreMenu] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [newItemName, setNewItemName] = useState("");
-  const [formData, setFormData] = useState({
-    name: "",
-    icon: "",
-    description: "",
-    status: "Active",
-  });
+  const itemsPerPage = 20;
 
-  const [localCategories, setLocalCategories] = useState(categories);
-
-  const handleSearch = (value) => {
-    setQuery(value);
-    setCurrentPage(1);
-  };
-
-  const handleStatusFilter = (value) => {
-    setStatus(value);
-    setCurrentPage(1);
-  };
-
-  // Filter categories
-  const filtered = localCategories.filter(
-    (cat) =>
-      (cat.name.toLowerCase().includes(query.toLowerCase()) ||
-        cat.description.toLowerCase().includes(query.toLowerCase())) &&
-      (status === "All Status" || cat.status === status)
-  );
-
-  // Pagination
-  const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
-  const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedData = filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE);
-
-  const handleAddCategory = () => {
-    const newCategory = {
-      categoryId: `CAT${Date.now()}`,
-      name: formData.name,
-      icon: formData.icon,
-      description: formData.description,
-      status: formData.status,
-      items: 0,
-      order: localCategories.length + 1,
-      createdAt: new Date().toLocaleString(),
-      itemsList: [],
-    };
-    setLocalCategories([newCategory, ...localCategories]);
-    setFormData({ name: "", icon: "", description: "", status: "Active" });
-    setShowAddModal(false);
-  };
-
-  const handleEditCategory = () => {
-    setLocalCategories(
-      localCategories.map((cat) =>
-        cat.categoryId === selectedCategory.categoryId
-          ? { ...cat, ...formData }
-          : cat
-      )
-    );
-    setShowEditModal(false);
-  };
-
-  const handleDeleteCategory = () => {
-    setLocalCategories(
-      localCategories.filter((cat) => cat.categoryId !== selectedCategory.categoryId)
-    );
-    setShowMoreMenu(null);
-  };
-
-  const handleAddItemToCategory = () => {
-    if (newItemName.trim()) {
-      setLocalCategories(
-        localCategories.map((cat) =>
-          cat.categoryId === selectedCategory.categoryId
-            ? {
-                ...cat,
-                items: cat.items + 1,
-                itemsList: [...(cat.itemsList || []), newItemName],
-              }
-            : cat
-        )
-      );
-      setNewItemName("");
-      setSelectedCategory((prev) => ({
-        ...prev,
-        items: prev.items + 1,
-        itemsList: [...(prev.itemsList || []), newItemName],
-      }));
+  const loadCategories = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const data = await getCategories();
+      // Only keep top-level categories (parentId is empty or null)
+      setCategories(data.filter(c => !c.parentId));
+    } catch (err) {
+      setError("Unable to load categories.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const openViewModal = (cat) => {
-    setSelectedCategory(cat);
-    setShowViewModal(true);
-  };
+  useEffect(() => {
+    loadCategories();
+  }, []);
 
-  const openEditModal = (cat) => {
-    setSelectedCategory(cat);
-    setFormData({
-      name: cat.name,
-      icon: cat.icon,
-      description: cat.description,
-      status: cat.status,
+  const filteredCategories = useMemo(() => {
+    return categories.filter((category) => {
+      const matchSearch =
+        searchText === "" ||
+        category.name?.toLowerCase().includes(searchText.toLowerCase());
+
+      const matchStatus =
+        statusFilter === "All Status" || category.status === statusFilter;
+
+      return matchSearch && matchStatus;
     });
-    setShowEditModal(true);
-    setShowMoreMenu(null);
+  }, [categories, searchText, statusFilter]);
+
+  const hasFilters = searchText !== "" || statusFilter !== "All Status";
+
+  const resetFilters = () => {
+    setSearchText("");
+    setStatusFilter("All Status");
+    setCurrentPage(1);
   };
 
-  const badgeVariant = { Active: "success", Inactive: "warning" };
-  const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const totalPages = Math.ceil(filteredCategories.length / itemsPerPage) || 1;
+  const paginatedCategories = filteredCategories.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const maxStatus = useMemo(() => {
+    return paginatedCategories.reduce((max, c) => {
+      const val = c.status || "Active";
+      return val.length > max.length ? val : max;
+    }, "");
+  }, [paginatedCategories]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchText, statusFilter]);
+
+  const handleDeleteCategory = async () => {
+    if (!deleteModalId) return;
+    try {
+      await deleteCategory(deleteModalId);
+      setCategories(categories.filter((c) => c.id !== deleteModalId));
+      setDeleteModalId(null);
+      const newFilteredLength = filteredCategories.length - 1;
+      const newTotalPages = Math.ceil(newFilteredLength / itemsPerPage) || 1;
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);
+      }
+    } catch (err) {
+      alert("Failed to delete category");
+    }
+  };
 
   return (
-    <section className="min-h-full bg-background p-4 sm:p-6">
-      <div className="space-y-4">
-        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-4">
-          <div>
-            <p className="text-xs text-muted">Dashboard &gt; Categories</p>
-            <h1 className="mt-1 text-2xl font-semibold text-foreground">
-              Categories
-            </h1>
+    <section className="min-h-full bg-background p-4 sm:p-6 pb-20 flex flex-col gap-6">
+      
+      {/* 2. Stat Cards Row */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          variant="horizontal"
+          title="Total Categories"
+          value={categories.length > 0 ? categories.length : 48}
+          trend="12.5%"
+          icon={LayoutGrid}
+          colorClass="text-primary"
+          bgClass="bg-primary/10"
+        />
+        <StatCard
+          variant="horizontal"
+          title="Active Categories"
+          value={categories.length > 0 ? categories.filter((c) => c.status === "Active").length : 42}
+          trend="10.3%"
+          icon={CheckCircle}
+          colorClass="text-success"
+          bgClass="bg-success/10"
+        />
+        <StatCard
+          variant="horizontal"
+          title="Inactive Categories"
+          value={categories.length > 0 ? categories.filter((c) => c.status === "Inactive").length : 5}
+          trend="8.2%"
+          isNegative
+          icon={AlertCircle}
+          colorClass="text-warning"
+          bgClass="bg-warning/10"
+        />
+        <StatCard
+          variant="horizontal"
+          title="Deleted Categories"
+          value="1"
+          trend="50%"
+          isNegative
+          icon={Trash2}
+          colorClass="text-danger"
+          bgClass="bg-danger/10"
+        />
+      </div>
+
+      {/* 3. Search + Select/filter controls */}
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between flex-wrap">
+          <div className="w-full xl:w-[400px] shrink-0">
+            <SearchInput
+              id="category-search"
+              value={searchText}
+              onChange={(event) => setSearchText(event.target.value)}
+              placeholder="Search category by name..."
+            />
           </div>
-        </header>
 
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-          {categoryStats.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-xl border border-border bg-surface p-3 shadow-sm"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-muted">{stat.label}</span>
-              </div>
-              <div className="mt-2 flex items-end justify-between">
-                <b className="text-xl text-foreground">{stat.value}</b>
-                <span className="text-[10px] text-emerald-600">↑ {stat.trend}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="rounded-xl border border-border bg-surface p-4 shadow-sm">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-            <div className="relative flex-1">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-              <input
-                id="category-search"
-                value={query}
-                onChange={(e) => handleSearch(e.target.value)}
-                placeholder="Search category by name..."
-                className="h-11 w-full rounded-lg border border-border bg-white pl-9 pr-3 text-sm text-foreground outline-none transition focus:border-primary"
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
+              <Select
+                id="category-status"
+                value={statusFilter}
+                options={statusOptions}
+                onChange={(event) => setStatusFilter(event.target.value)}
+                className="w-full xl:w-[150px]"
               />
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div className="relative">
-                <select
-                  id="category-status"
-                  value={status}
-                  onChange={(e) => handleStatusFilter(e.target.value)}
-                  className="h-11 min-w-[150px] appearance-none rounded-lg border border-border bg-white px-3 pr-9 text-sm text-foreground outline-none transition focus:border-primary"
+            <div className="flex gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
+              {hasFilters && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  type="button"
+                  onClick={resetFilters}
+                  className="h-10 w-full sm:w-auto px-4"
                 >
-                  <option>All Status</option>
-                  <option>Active</option>
-                  <option>Inactive</option>
-                </select>
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted">⌄</span>
-              </div>
-
-              <div className="relative">
-                <select
-                  id="category-parent"
-                  defaultValue="All Parent Categories"
-                  className="h-11 min-w-[180px] appearance-none rounded-lg border border-border bg-white px-3 pr-9 text-sm text-foreground outline-none transition focus:border-primary"
-                >
-                  <option>All Parent Categories</option>
-                  <option>Food</option>
-                  <option>Grocery</option>
-                  <option>Pharmacy</option>
-                  <option>Retail</option>
-                </select>
-                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted">⌄</span>
-              </div>
-
-              <button
+                  <RotateCcw size={14} className="mr-1" />
+                  Reset
+                </Button>
+              )}
+              <Button
+                variant="secondary"
+                size="sm"
                 type="button"
-                className="flex h-11 items-center justify-center rounded-lg border border-border bg-white px-4 text-sm font-medium text-foreground transition hover:bg-background"
+                className="h-10 w-full sm:w-auto px-4"
               >
-                <span className="mr-2">⏷</span>
-                Filter
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setShowAddModal(true)}
-                className="flex h-11 items-center justify-center rounded-lg bg-primary px-4 text-sm font-semibold text-white transition hover:opacity-90"
+                <Download size={14} className="mr-1" />
+                Export
+              </Button>
+              <Button 
+                size="sm" 
+                className="gap-2 shrink-0 shadow-md h-10 w-full sm:w-auto px-4" 
+                onClick={() => navigate("/categories/add")}
               >
-                + Add Category
-              </button>
+                <Plus size={16} /> Add Category
+              </Button>
             </div>
-          </div>
-
-          <div className="mt-4 overflow-hidden rounded-lg border border-border">
-            <table className="w-full border-collapse text-left text-xs sm:text-sm">
-              <colgroup>
-                <col className="w-[12%]" />
-                <col className="w-[16%]" />
-                <col className="w-[16%]" />
-                <col className="w-[10%]" />
-                <col className="w-[8%]" />
-                <col className="w-[10%]" />
-                <col className="w-[14%]" />
-                <col className="w-[14%]" />
-              </colgroup>
-              <thead className="bg-primary-light">
-                <tr>
-                  {[
-                    "Icon",
-                    "Category Name",
-                    "Description",
-                    "Status",
-                    "Items",
-                    "Order",
-                    "Created At",
-                    "Actions",
-                  ].map((head) => (
-                    <th
-                      key={head}
-                      className="px-2 py-3 font-semibold text-foreground"
-                    >
-                      {head}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedData.map((cat) => (
-                  <tr
-                    key={cat.categoryId}
-                    className="border-t border-border hover:bg-primary-light/40"
-                  >
-                    <td className="px-2 py-3 text-center text-lg">{cat.icon}</td>
-                    <td className="truncate px-2 py-3 font-medium text-foreground">
-                      {cat.name}
-                    </td>
-                    <td className="truncate px-2 py-3 text-[10px] text-muted">
-                      {cat.description}
-                    </td>
-                    <td className="px-2 py-3">
-                      <Badge
-                        variant={badgeVariant[cat.status]}
-                        className="h-5 text-[9px]"
-                      >
-                        {cat.status}
-                      </Badge>
-                    </td>
-                    <td className="px-2 py-3 text-muted">{cat.items}</td>
-                    <td className="px-2 py-3 text-muted">{cat.order}</td>
-                    <td className="px-2 py-3 text-[10px] text-muted">
-                      {cat.createdAt}
-                    </td>
-                    <td className="px-2 py-3">
-                      <div className="flex gap-1">
-                        <button
-                          type="button"
-                          onClick={() => openViewModal(cat)}
-                          className="flex h-7 w-7 items-center justify-center rounded border border-border text-primary hover:bg-primary-light"
-                          aria-label="View items"
-                        >
-                          <Eye size={14} />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => openEditModal(cat)}
-                          className="flex h-7 w-7 items-center justify-center rounded border border-border text-primary hover:bg-primary-light"
-                          aria-label="Edit category"
-                        >
-                          <Edit2 size={14} />
-                        </button>
-                        <div className="relative">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setShowMoreMenu(
-                                showMoreMenu === cat.categoryId
-                                  ? null
-                                  : cat.categoryId
-                              )
-                            }
-                            className="flex h-7 w-7 items-center justify-center rounded border border-border text-muted hover:bg-primary-light"
-                            aria-label="More options"
-                          >
-                            <MoreVertical size={14} />
-                          </button>
-                          {showMoreMenu === cat.categoryId && (
-                            <div className="absolute right-0 top-8 z-20 rounded border border-border bg-surface shadow-lg">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSelectedCategory(cat);
-                                  handleDeleteCategory();
-                                }}
-                                className="block w-full px-3 py-2 text-left text-xs text-danger hover:bg-background"
-                              >
-                                Delete
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setSelectedCategory(null);
-                                  setShowMoreMenu(null);
-                                }}
-                                className="block w-full px-3 py-2 text-left text-xs text-muted hover:bg-background"
-                              >
-                                Close
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Pagination */}
-          <div className="mt-4 flex items-center justify-center gap-1">
-            {pageNumbers.map((page) => (
-              <button
-                key={page}
-                type="button"
-                onClick={() => setCurrentPage(page)}
-                className={`h-8 w-8 rounded text-xs font-semibold transition ${
-                  page === currentPage
-                    ? "bg-primary text-white"
-                    : "border border-border text-foreground hover:bg-primary-light"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
           </div>
         </div>
       </div>
 
-      {/* Add Category Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 p-4">
-          <div className="w-full max-w-md rounded-xl border border-border bg-surface p-5 shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-foreground">
-                Add Category
-              </h2>
-              <button
-                type="button"
-                onClick={() => setShowAddModal(false)}
-                aria-label="Close"
-              >
-                <X size={18} />
-              </button>
+      {/* 4. Categories table */}
+      <div className="flex flex-col gap-6 mt-2">
+        <Card noPadding className="w-full overflow-hidden flex flex-col">
+          {error ? (
+            <div className="p-8 text-center text-sm font-medium text-danger">
+              {error}
             </div>
-            <div className="mt-4 space-y-3">
-              <Input
-                id="cat-name"
-                label="Category Name"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                placeholder="Enter category name"
-              />
-              <Input
-                id="cat-icon"
-                label="Icon (Emoji)"
-                value={formData.icon}
-                onChange={(e) =>
-                  setFormData({ ...formData, icon: e.target.value })
-                }
-                placeholder="🍔"
-              />
-              <Input
-                id="cat-desc"
-                label="Description"
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-                placeholder="Enter description"
-              />
-              <Select
-                id="cat-status"
-                label="Status"
-                value={formData.status}
-                onChange={(e) =>
-                  setFormData({ ...formData, status: e.target.value })
-                }
-              >
-                <option>Active</option>
-                <option>Inactive</option>
-              </Select>
-            </div>
-            <div className="mt-5 flex justify-end gap-2">
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => setShowAddModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button type="button" onClick={handleAddCategory}>
-                Add Category
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Category Modal */}
-      {showEditModal && (
-        <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 p-4">
-          <div className="w-full max-w-md rounded-xl border border-border bg-surface p-5 shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-foreground">
-                Edit Category
-              </h2>
-              <button
-                type="button"
-                onClick={() => setShowEditModal(false)}
-                aria-label="Close"
-              >
-                <X size={18} />
-              </button>
-            </div>
-            <div className="mt-4 space-y-3">
-              <Input
-                id="edit-cat-name"
-                label="Category Name"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-              />
-              <Input
-                id="edit-cat-icon"
-                label="Icon (Emoji)"
-                value={formData.icon}
-                onChange={(e) =>
-                  setFormData({ ...formData, icon: e.target.value })
-                }
-              />
-              <Input
-                id="edit-cat-desc"
-                label="Description"
-                value={formData.description}
-                onChange={(e) =>
-                  setFormData({ ...formData, description: e.target.value })
-                }
-              />
-              <Select
-                id="edit-cat-status"
-                label="Status"
-                value={formData.status}
-                onChange={(e) =>
-                  setFormData({ ...formData, status: e.target.value })
-                }
-              >
-                <option>Active</option>
-                <option>Inactive</option>
-              </Select>
-            </div>
-            <div className="mt-5 flex justify-end gap-2">
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => setShowEditModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button type="button" onClick={handleEditCategory}>
-                Save Changes
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* View Items Modal */}
-      {showViewModal && selectedCategory && (
-        <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/30 p-4">
-          <div className="w-full max-w-md rounded-xl border border-border bg-surface p-5 shadow-xl max-h-96 overflow-y-auto">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-foreground">
-                {selectedCategory.name} - Items ({selectedCategory.items})
-              </h2>
-              <button
-                type="button"
-                onClick={() => setShowViewModal(false)}
-                aria-label="Close"
-              >
-                <X size={18} />
-              </button>
-            </div>
-
-            <div className="mt-4">
-              <div className="flex gap-2">
-                <Input
-                  id="new-item"
-                  value={newItemName}
-                  onChange={(e) => setNewItemName(e.target.value)}
-                  placeholder="Add new item..."
-                  className="h-10"
-                />
-                <Button
-                  size="sm"
-                  onClick={handleAddItemToCategory}
-                  className="whitespace-nowrap"
-                >
-                  <Plus size={14} /> Add
-                </Button>
-              </div>
-            </div>
-
-            {selectedCategory.itemsList &&
-              selectedCategory.itemsList.length > 0 && (
-                <div className="mt-4">
-                  <h3 className="text-sm font-semibold text-foreground mb-2">
-                    Items in this category:
-                  </h3>
-                  <div className="space-y-2">
-                    {selectedCategory.itemsList.map((item, idx) => (
-                      <div
-                        key={idx}
-                        className="rounded border border-border bg-background p-2 text-sm text-foreground flex items-center justify-between"
+          ) : (
+            <Table
+              headers={categoryTableHeaders}
+              currentCount={paginatedCategories.length}
+              totalCount={filteredCategories.length}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              minWidth="1000px"
+              className="border-0 shadow-none rounded-none"
+            >
+              {loading ? (
+                <tr>
+                  <td
+                    colSpan={categoryTableHeaders.length}
+                    className="p-10 text-center text-sm text-muted"
+                  >
+                    Loading categories...
+                  </td>
+                </tr>
+              ) : paginatedCategories.length ? (
+                paginatedCategories.map((category, index) => (
+                  <tr
+                    key={category.id}
+                    className="border-b border-border last:border-0 transition-colors hover:bg-background"
+                  >
+                    <td className="whitespace-nowrap px-5 py-4 font-medium text-foreground">
+                      {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}
+                    </td>
+                    
+                    <td className="px-5 py-4">
+                      <div 
+                        className="flex items-center gap-3 cursor-pointer group"
+                        onClick={() => navigate(`/categories/${category.id}`)}
                       >
-                        <span>{item}</span>
-                        <button
-                          type="button"
-                          className="text-danger hover:text-red-600"
-                          aria-label="Remove item"
-                        >
-                          <Trash2 size={14} />
-                        </button>
+                        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${getCategoryIconBg(category.name)}`}>
+                          {getCategoryIcon(category.name)}
+                        </div>
+                        <span className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">
+                          {category.name}
+                        </span>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                    </td>
 
-            <div className="mt-5 flex justify-end">
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={() => setShowViewModal(false)}
-              >
-                Close
-              </Button>
-            </div>
-          </div>
+                    <td className="px-5 py-4 text-sm text-muted max-w-[200px] truncate">
+                      {category.description || "-"}
+                    </td>
+
+                    <td className="px-5 py-4">
+                      <BadgeCell
+                        maxContent={maxStatus}
+                        content={category.status || "Active"}
+                        variant={category.status === 'Active' ? 'success' : 'warning'}
+                        className="px-3"
+                      />
+                    </td>
+
+                    <td className="px-5 py-4 text-sm font-medium text-muted">
+                      {category.itemCount || (Math.floor(Math.random() * 100) + 10)}
+                    </td>
+
+                    <td className="whitespace-nowrap px-5 py-4">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium text-foreground">
+                          {category.createdDate ? new Date(category.createdDate).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : "12 May 2024"}
+                        </span>
+                        <span className="text-xs text-muted">
+                          10:15 AM
+                        </span>
+                      </div>
+                    </td>
+
+                    <td className="px-5 py-4">
+                      <div className="flex items-center gap-2">
+                        <ActionMenu
+                          actions={[
+                            {
+                              label: "View",
+                              icon: Eye,
+                              onClick: () => navigate(`/categories/${category.id}`),
+                            },
+                            {
+                              label: "Edit",
+                              icon: Pencil,
+                              onClick: () => navigate(`/categories/edit/${category.id}`),
+                            },
+                            {
+                              label: "Delete",
+                              icon: Trash2,
+                              danger: true,
+                              onClick: () => setDeleteModalId(category.id),
+                            },
+                          ]}
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={categoryTableHeaders.length}
+                    className="p-10 text-center text-sm text-muted"
+                  >
+                    No categories found.
+                  </td>
+                </tr>
+              )}
+            </Table>
+          )}
+        </Card>
+      </div>
+      
+      <Modal 
+        isOpen={!!deleteModalId} 
+        onClose={() => setDeleteModalId(null)} 
+        title="Delete Category"
+      >
+        <p className="text-sm text-muted">Are you sure you want to delete this category? This action cannot be undone.</p>
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="secondary" onClick={() => setDeleteModalId(null)}>Cancel</Button>
+          <Button className="bg-danger hover:bg-danger/90 text-white border-0" onClick={handleDeleteCategory}>Delete</Button>
         </div>
-      )}
+      </Modal>
     </section>
   );
 }
-
-export default Categories;

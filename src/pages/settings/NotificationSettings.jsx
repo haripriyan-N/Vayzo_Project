@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Button from "../../components/ui/button";
+import React, { useState, useEffect } from "react";
+import Button from "../../components/ui/Button";
 import { 
   User, 
   ShoppingBag, 
@@ -18,8 +18,13 @@ import {
   Info,
   ChevronRight
 } from "lucide-react";
+import { getNotificationSettings, saveNotificationSettings } from "../../api/settingsApi";
 
 function NotificationSettings() {
+  const [toggles, setToggles] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+
   const [emailConfig, setEmailConfig] = useState({
     global: true,
     events: [
@@ -42,6 +47,30 @@ function NotificationSettings() {
     ]
   });
 
+  const loadSettings = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getNotificationSettings();
+      if (data && Object.keys(data).length > 0) {
+        setToggles(data.toggles || { sound: true, browser: true, push: true, email: true, orderPlaced: true, orderStatus: true });
+      } else {
+        setToggles({ sound: true, browser: true, push: true, email: true, orderPlaced: true, orderStatus: true });
+      }
+    } catch (error) {
+      console.error("Failed to load settings:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const toggleSetting = (key) => {
+    setToggles(p => ({ ...p, [key]: !p[key] }));
+  };
+
   const toggleEmailGlobal = () => setEmailConfig(p => ({ ...p, global: !p.global }));
   const togglePushGlobal = () => setPushConfig(p => ({ ...p, global: !p.global }));
 
@@ -56,6 +85,20 @@ function NotificationSettings() {
     newEvents[index][field] = !newEvents[index][field];
     setPushConfig(p => ({ ...p, events: newEvents }));
   };
+
+  const handleSaveAll = async () => {
+    setIsSaving(true);
+    try {
+      await saveNotificationSettings({ toggles });
+      alert("Settings saved successfully!");
+    } catch (error) {
+      console.error("Save failed:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (isLoading) return <div className="p-8 text-center text-muted">Loading Notification Settings...</div>;
 
   return (
     <>
@@ -202,9 +245,9 @@ function NotificationSettings() {
                   </table>
                 </div>
 
-                <div className="flex justify-end pt-6 mt-2">
-                  <Button type="button" className="bg-primary text-white px-6">
-                    Save Changes
+                <div className="flex justify-end pt-2">
+                  <Button type="button" onClick={handleSaveAll} disabled={isSaving} className="bg-primary text-white px-6">
+                    {isSaving ? "Saving..." : "Save Settings"}
                   </Button>
                 </div>
               </div>

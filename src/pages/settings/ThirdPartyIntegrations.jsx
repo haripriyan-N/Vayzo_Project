@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ChevronRight,
   MapPin,
@@ -18,7 +18,8 @@ import {
   BookOpen,
   HeadphonesIcon
 } from "lucide-react";
-import Button from "../../components/ui/button";
+import { getIntegrationSettings, saveIntegrationSettings } from "../../api/settingsApi";
+import Button from "../../components/ui/Button";
 
 const integrations = [
   {
@@ -88,6 +89,29 @@ const integrations = [
 
 function ThirdPartyIntegrations() {
   const [activeTab, setActiveTab] = useState("All Integrations");
+  const [toggles, setToggles] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const loadSettings = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getIntegrationSettings();
+      if (data && Object.keys(data).length > 0) {
+        setToggles(data.toggles || { googleAnalytics: true, mapbox: true });
+      } else {
+        setToggles({ googleAnalytics: true, mapbox: true });
+      }
+    } catch (error) {
+      console.error("Failed to load settings:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
 
   const filteredIntegrations = integrations.filter((item) => {
     if (activeTab === "All Integrations") return true;
@@ -114,6 +138,20 @@ function ThirdPartyIntegrations() {
       </button>
     );
   };
+
+  const handleSaveAll = async () => {
+    setIsSaving(true);
+    try {
+      await saveIntegrationSettings({ toggles });
+      alert("Settings saved successfully!");
+    } catch (error) {
+      console.error("Save failed:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (isLoading) return <div className="p-8 text-center text-muted">Loading Integrations...</div>;
 
   return (
     <div className="flex-1 space-y-6">
@@ -188,6 +226,11 @@ function ThirdPartyIntegrations() {
                     <p>No integrations found.</p>
                 </div>
               )}
+              <div className="flex justify-end pt-2 p-5 border-t border-border">
+                <Button type="button" onClick={handleSaveAll} disabled={isSaving} className="bg-primary text-white px-6">
+                  {isSaving ? "Saving..." : "Save Settings"}
+                </Button>
+              </div>
             </div>
             <div className="border-t border-border p-4 text-center">
                 <span className="text-xs text-muted flex items-center justify-center gap-1.5">

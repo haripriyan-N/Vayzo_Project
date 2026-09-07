@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001/users";
+const API_URL = "http://localhost:3000/users";
 
 export async function getUsers() {
   const response = await fetch(API_URL);
@@ -34,6 +34,7 @@ export async function createUser(userData) {
     mobileNumber: userData.mobileNumber,
     userType: userData.userType,
     role: userData.role,
+    password: userData.password,
     status: "ACTIVE",
     isVerified: false,
     joinedOn: new Date().toISOString().split("T")[0],
@@ -51,5 +52,31 @@ export async function createUser(userData) {
     throw new Error("Unable to create user");
   }
 
+  return response.json();
+}
+
+export async function updateUser(id, userData) {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userData),
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to update user");
+  }
+
+  return response.json();
+}
+
+export async function deleteUser(id) {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Unable to delete user");
+  }
   return response.json();
 }

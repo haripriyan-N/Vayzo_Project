@@ -5,47 +5,103 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { navigationItems } from "../../constants/navigation";
 import UserImg from "../../assets/logo/Trans_full.png";
 import { useNotifications } from "../../context/NotificationContext";
+import { getComplaints } from "../../api/complaintsApi";
+
+const getRouteInfo = (pathname) => {
+  const mainRoute = navigationItems.find(
+    (item) => pathname === item.path || pathname.startsWith(`${item.path}/`),
+  );
+
+  if (!mainRoute) {
+    return {
+      title: "Dashboard",
+      parent: null,
+      parentPath: null,
+    };
+  }
+
+  if (pathname === mainRoute.path) {
+    return {
+      title: mainRoute.label,
+      parent: null,
+      parentPath: null,
+    };
+  }
+
+  const segments = pathname.split("/").filter(Boolean);
+  const action = segments[1];
+
+  const actionTitles = {
+    add: `Add ${mainRoute.label.replace(/s$/, "")}`,
+    edit: `Edit ${mainRoute.label.replace(/s$/, "")}`,
+  };
+
+  if (action === "add" || action === "edit") {
+    return {
+      title: actionTitles[action],
+      parent: mainRoute.label,
+      parentPath: mainRoute.path,
+    };
+  }
+
+  return {
+    title: `${mainRoute.label.replace(/s$/, "")} Details`,
+    parent: mainRoute.label,
+    parentPath: mainRoute.path,
+  };
+};
 
 function Header({ onMenuClick }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const currentPage = navigationItems.find(
-    (item) => item.path === location.pathname,
-  );
+  const {
+    title: pageTitle,
+    parent: parentPage,
+    parentPath,
+  } = getRouteInfo(location.pathname);
 
-  const pageConfig = {
-    "/users/add": {
-      title: "Add User",
-      parent: "Users",
-    },
-  };
-
-  const isOrderDetailsPage = location.pathname.startsWith("/orders/");
-
-  const currentRoute = pageConfig[location.pathname];
-
-  const pageTitle = isOrderDetailsPage
-    ? "Order Details"
-    : currentRoute?.title || currentPage?.label || "Dashboard";
-
-  const parentPage = isOrderDetailsPage ? null : currentRoute?.parent || null;
-  
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const { unreadCount } = useNotifications();
-  const messageCount = 5;
+  const [messageCount, setMessageCount] = useState(0);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchComplaints = async () => {
+      try {
+        const complaints = await getComplaints();
+        if (isMounted) {
+          const activeComplaints = complaints.filter(
+            (c) => c.status === "Open" || c.status === "In Progress"
+          );
+          setMessageCount(activeComplaints.length);
+        }
+      } catch (err) {
+        console.error("Failed to fetch complaints for header badge", err);
+      }
+    };
+    
+    fetchComplaints();
+    
+    // Optional polling could be added here if real-time isn't set up via context
+    const intervalId = setInterval(fetchComplaints, 30000); // 30s
+    return () => {
+      isMounted = false;
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const storedUser = localStorage.getItem("vayzo_admin_user");
 
   const user = storedUser
     ? JSON.parse(storedUser)
     : {
-        name: "VAYZO Admin",
+        name: "Pradhap",
         profileImage: UserImg,
         role: "Super Admin",
       };
@@ -64,7 +120,7 @@ function Header({ onMenuClick }) {
       <div>
         <p className="text-lg font-semibold text-foreground">{pageTitle}</p>
 
-        {pageTitle !== "Dashboard" && (
+        {parentPage && (
           <div className="flex items-center gap-1 text-xs text-muted">
             <NavLink
               to="/dashboard"
@@ -75,18 +131,29 @@ function Header({ onMenuClick }) {
 
             <ChevronRight size={14} strokeWidth={1.8} />
 
-            {parentPage && (
-              <>
-                <NavLink
-                  to="/users"
-                  className="transition-colors hover:text-primary"
-                >
-                  {parentPage}
-                </NavLink>
+            <NavLink
+              to={parentPath}
+              className="transition-colors hover:text-primary"
+            >
+              {parentPage}
+            </NavLink>
 
-                <ChevronRight size={14} strokeWidth={1.8} />
-              </>
-            )}
+            <ChevronRight size={14} strokeWidth={1.8} />
+
+            <span>{pageTitle}</span>
+          </div>
+        )}
+
+        {!parentPage && pageTitle !== "Dashboard" && (
+          <div className="flex items-center gap-1 text-xs text-muted">
+            <NavLink
+              to="/dashboard"
+              className="transition-colors hover:text-primary"
+            >
+              Dashboard
+            </NavLink>
+
+            <ChevronRight size={14} strokeWidth={1.8} />
 
             <span>{pageTitle}</span>
           </div>
@@ -108,6 +175,7 @@ function Header({ onMenuClick }) {
             </span>
           )}
         </NavLink>
+
         <NavLink
           to="/complaints"
           className="relative rounded-lg p-2 text-muted transition hover:bg-primary-light hover:text-primary"

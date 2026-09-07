@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import Input from "../../components/ui/input";
-import Select from "../../components/ui/Select";
-import Button from "../../components/ui/button";
+import React, { useState, useEffect } from "react";
+import Input from "../../components/ui/Input";
+import { Save } from "lucide-react";
+import Button from "../../components/ui/Button";
+import { getCommissionSettings, saveCommissionSettings } from "../../api/settingsApi";
 import { 
   Info, 
   Utensils, 
@@ -18,26 +19,60 @@ import {
 } from "lucide-react";
 
 function CommissionSettings() {
-  const [services, setServices] = useState([
-    { id: "food", name: "Food Delivery", desc: "Restaurants orders", type: "Percentage (%)", comm: "18.00", gst: "18", active: true, icon: Utensils, iconColor: "text-orange-500", iconBg: "bg-orange-500/10" },
-    { id: "buy", name: "Buy & Get It", desc: "Store pickup/delivery", type: "Percentage (%)", comm: "10.00", gst: "18", active: true, icon: ShoppingBag, iconColor: "text-green-500", iconBg: "bg-green-500/10" },
-    { id: "bike", name: "Bike Ride", desc: "Ride booking", type: "Percentage (%)", comm: "15.00", gst: "18", active: true, icon: Bike, iconColor: "text-blue-500", iconBg: "bg-blue-500/10" },
-    { id: "car", name: "Car Booking", desc: "Outstation / Local", type: "Percentage (%)", comm: "12.00", gst: "18", active: true, icon: Car, iconColor: "text-indigo-500", iconBg: "bg-indigo-500/10" },
-    { id: "delivery", name: "Delivery Service", desc: "Parcel delivery", type: "Percentage (%)", comm: "8.00", gst: "18", active: true, icon: Package, iconColor: "text-yellow-500", iconBg: "bg-yellow-500/10" },
-    { id: "dukaan", name: "Dukaan", desc: "Online store", type: "Percentage (%)", comm: "5.00", gst: "18", active: true, icon: Store, iconColor: "text-pink-500", iconBg: "bg-pink-500/10" },
-    { id: "home", name: "Home Services", desc: "Service booking", type: "Percentage (%)", comm: "10.00", gst: "18", active: true, icon: Home, iconColor: "text-emerald-500", iconBg: "bg-emerald-500/10" },
-  ]);
+  const [commissionTypes, setCommissionTypes] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
 
-  const toggleServiceStatus = (index) => {
-    const newServices = [...services];
-    newServices[index].active = !newServices[index].active;
-    setServices(newServices);
+  const loadSettings = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getCommissionSettings();
+      if (data && data.length > 0) {
+        setCommissionTypes(data);
+      } else {
+        setCommissionTypes([
+          { id: "food", name: "Food Delivery", desc: "Restaurants orders", type: "Percentage (%)", comm: "18.00", gst: "18", active: true, icon: Utensils, iconColor: "text-orange-500", iconBg: "bg-orange-500/10" },
+          { id: "buy", name: "Buy & Get It", desc: "Store pickup/delivery", type: "Percentage (%)", comm: "10.00", gst: "18", active: true, icon: ShoppingBag, iconColor: "text-green-500", iconBg: "bg-green-500/10" },
+          { id: "bike", name: "Bike Ride", desc: "Ride booking", type: "Percentage (%)", comm: "15.00", gst: "18", active: true, icon: Bike, iconColor: "text-blue-500", iconBg: "bg-blue-500/10" },
+          { id: "car", name: "Car Booking", desc: "Outstation / Local", type: "Percentage (%)", comm: "12.00", gst: "18", active: true, icon: Car, iconColor: "text-indigo-500", iconBg: "bg-indigo-500/10" },
+          { id: "delivery", name: "Delivery Service", desc: "Parcel delivery", type: "Percentage (%)", comm: "8.00", gst: "18", active: true, icon: Package, iconColor: "text-yellow-500", iconBg: "bg-yellow-500/10" },
+          { id: "dukaan", name: "Dukaan", desc: "Online store", type: "Percentage (%)", comm: "5.00", gst: "18", active: true, icon: Store, iconColor: "text-pink-500", iconBg: "bg-pink-500/10" },
+          { id: "home", name: "Home Services", desc: "Service booking", type: "Percentage (%)", comm: "10.00", gst: "18", active: true, icon: Home, iconColor: "text-emerald-500", iconBg: "bg-emerald-500/10" },
+        ]);
+      }
+    } catch (error) {
+      console.error("Failed to load settings:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleServiceChange = (index, field, value) => {
-    const newServices = [...services];
-    newServices[index][field] = value;
-    setServices(newServices);
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
+  const handleSaveAll = async () => {
+    setIsSaving(true);
+    try {
+      await saveCommissionSettings(commissionTypes);
+      alert("Settings saved successfully!");
+    } catch (error) {
+      console.error("Save failed:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const toggleServiceStatus = (id) => {
+    setCommissionTypes(prev => prev.map(svc => 
+      svc.id === id ? { ...svc, active: !svc.active } : svc
+    ));
+  };
+
+  const handleServiceChange = (id, field, value) => {
+    setCommissionTypes(prev => prev.map(svc => 
+      svc.id === id ? { ...svc, [field]: value } : svc
+    ));
   };
 
   const [toggles, setToggles] = useState({
@@ -47,17 +82,17 @@ function CommissionSettings() {
     rounded: true,
   });
 
+  if (isLoading) return <div className="p-8 text-center text-muted">Loading settings...</div>;
+
   return (
     <>
       <div className="flex-1 space-y-6">
         
-        {/* Page Header */}
         <div className="flex flex-col gap-1">
           <h2 className="text-lg font-semibold text-foreground">Commission Settings</h2>
           <p className="text-xs text-muted">Manage platform commission for different services and modules.</p>
         </div>
 
-        {/* Info Alert */}
         <div className="rounded-xl border border-primary/20 bg-primary-light/10 p-3.5 flex items-center gap-3">
           <Info size={16} className="text-primary shrink-0" />
           <p className="text-[13px] font-medium text-primary">These commission values will be applied to all new orders. Existing orders will not be affected.</p>
@@ -65,10 +100,8 @@ function CommissionSettings() {
 
         <div className="grid gap-6 xl:grid-cols-[2.5fr_1fr] items-start">
           
-          {/* LEFT COLUMN */}
           <div className="space-y-6">
             
-            {/* Service Wise Commission */}
             <div className="rounded-2xl border border-border bg-surface shadow-sm">
               <div className="p-5 border-b border-border">
                 <h3 className="font-semibold text-foreground">Service Wise Commission</h3>
@@ -87,7 +120,7 @@ function CommissionSettings() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-border">
-                    {services.map((svc, idx) => {
+                    {commissionTypes.map((svc) => {
                       const Icon = svc.icon;
                       return (
                         <tr key={svc.id}>
@@ -103,21 +136,21 @@ function CommissionSettings() {
                             </div>
                           </td>
                           <td className="py-4 px-2">
-                            <Select 
+                            <select 
                               value={svc.type} 
-                              onChange={(e) => handleServiceChange(idx, 'type', e.target.value)}
-                              className="text-xs h-9 w-32"
+                              onChange={(e) => handleServiceChange(svc.id, 'type', e.target.value)}
+                              className="text-xs h-9 w-32 border border-border rounded-md px-2"
                             >
                               <option>Percentage (%)</option>
                               <option>Fixed (₹)</option>
-                            </Select>
+                            </select>
                           </td>
                           <td className="py-4 px-2">
                             <div className="relative w-24">
                               <input 
                                 type="text" 
                                 value={svc.comm} 
-                                onChange={(e) => handleServiceChange(idx, 'comm', e.target.value)}
+                                onChange={(e) => handleServiceChange(svc.id, 'comm', e.target.value)}
                                 className="w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs focus:border-primary outline-none"
                               />
                               <span className="absolute right-3 top-1.5 text-xs text-muted">%</span>
@@ -128,14 +161,14 @@ function CommissionSettings() {
                               <input 
                                 type="text" 
                                 value={svc.gst} 
-                                onChange={(e) => handleServiceChange(idx, 'gst', e.target.value)}
+                                onChange={(e) => handleServiceChange(svc.id, 'gst', e.target.value)}
                                 className="w-full rounded-md border border-border bg-surface px-3 py-1.5 text-xs focus:border-primary outline-none"
                               />
                               <span className="absolute right-3 top-1.5 text-xs text-muted">%</span>
                             </div>
                           </td>
                           <td className="py-4 px-2">
-                            <button type="button" onClick={() => toggleServiceStatus(idx)} className={`relative h-5 w-9 rounded-full transition-colors ${svc.active ? "bg-success" : "bg-muted"}`}>
+                            <button type="button" onClick={() => toggleServiceStatus(svc.id)} className={`relative h-5 w-9 rounded-full transition-colors ${svc.active ? "bg-success" : "bg-muted"}`}>
                               <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${svc.active ? "left-4.5 translate-x-4" : "left-0.5"}`} />
                             </button>
                           </td>
@@ -154,11 +187,12 @@ function CommissionSettings() {
                   <Info size={14} />
                   <span>Commission will be calculated on the order amount (after discounts).</span>
                 </div>
-                <Button size="sm" className="bg-primary text-white">Save All Changes</Button>
+                <Button type="button" onClick={handleSaveAll} disabled={isSaving} className="bg-primary text-white px-8">
+                  {isSaving ? "Saving..." : "Save All Commission Rules"}
+                </Button>
               </div>
             </div>
 
-            {/* Commission Rules */}
             <div className="rounded-2xl border border-border bg-surface p-5 shadow-sm">
               <h3 className="mb-5 font-semibold text-foreground">Commission Rules</h3>
               

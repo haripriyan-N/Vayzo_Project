@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import Button from "../../components/ui/button";
+import React, { useState, useEffect } from "react";
+import Button from "../../components/ui/Button";
 import Select from "../../components/ui/Select";
 import { 
   MessageSquare,
@@ -16,8 +16,12 @@ import {
   Info,
   ChevronRight
 } from "lucide-react";
+import { getSMSSettings, saveSMSSettings } from "../../api/settingsApi";
 
 function SMSSettings() {
+  const [activeGateway, setActiveGateway] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const [toggles, setToggles] = useState({
     deliveryReport: true,
     enableSms: true,
@@ -26,9 +30,43 @@ function SMSSettings() {
     urlShorten: false,
   });
 
+  const loadSettings = async () => {
+    setIsLoading(true);
+    try {
+      const data = await getSMSSettings();
+      if (data && data.activeGateway) {
+        setActiveGateway(data.activeGateway);
+      } else {
+        setActiveGateway('twilio');
+      }
+    } catch (error) {
+      console.error("Failed to load settings:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadSettings();
+  }, []);
+
   const toggleSetting = (key) => {
     setToggles(prev => ({ ...prev, [key]: !prev[key] }));
   };
+
+  const handleSaveAll = async () => {
+    setIsSaving(true);
+    try {
+      await saveSMSSettings({ activeGateway });
+      alert("Settings saved successfully!");
+    } catch (error) {
+      console.error("Save failed:", error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (isLoading) return <div className="p-8 text-center text-muted">Loading SMS Settings...</div>;
 
   return (
     <>
@@ -119,7 +157,7 @@ function SMSSettings() {
             </div>
 
             {/* SMS Preferences */}
-            <div className="rounded-2xl border border-border bg-surface shadow-sm p-5">
+            <div className="relative rounded-2xl border border-border bg-surface shadow-sm p-5 pb-20">
               <h3 className="font-semibold text-foreground text-sm mb-1">SMS Settings</h3>
               <p className="text-xs text-muted mb-6">Configure global SMS preferences.</p>
               
@@ -231,9 +269,9 @@ function SMSSettings() {
 
               </div>
               
-              <div className="flex justify-end pt-6 mt-2">
-                <Button type="button" className="bg-primary text-white px-6">
-                  Save Changes
+              <div className="absolute right-5 bottom-5">
+                <Button type="button" onClick={handleSaveAll} disabled={isSaving} className="bg-primary text-white px-6">
+                  {isSaving ? "Saving..." : "Save Settings"}
                 </Button>
               </div>
             </div>
