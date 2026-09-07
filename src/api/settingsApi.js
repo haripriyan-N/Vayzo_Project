@@ -1,6 +1,7 @@
 import { generalSettings, paymentSettings } from "../mock/vayzoApiMock";
 
-const API_URL = "http://localhost:3000/settings";
+import { API_BASE_URL } from "./config";
+const API_URL = `${API_BASE_URL}/settings`;
 
 export async function getGeneralSettings() {
   // Simulate delay

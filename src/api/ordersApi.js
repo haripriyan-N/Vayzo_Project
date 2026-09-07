@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3000/orders";
+import { API_BASE_URL } from "./config";
+const API_URL = `${API_BASE_URL}/orders`;
 
 export async function getOrders() {
   const response = await fetch(API_URL);

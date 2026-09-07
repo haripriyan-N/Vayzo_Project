@@ -1,6 +1,7 @@
 import { mockAdmin, mockAdminCredentials } from "../mock/vayzoApiMock";
 
-const API_URL = "http://localhost:3000/otpSessions";
+import { API_BASE_URL } from "./config";
+const API_URL = `${API_BASE_URL}/otpSessions`;
 
 export async function login(email, password) {
   // Simulate delay

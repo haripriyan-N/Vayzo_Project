@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3000/locations";
+import { API_BASE_URL } from "./config";
+const API_URL = `${API_BASE_URL}/locations`;
 
 export async function getLocations() {
   const response = await fetch(API_URL);

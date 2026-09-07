@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3000/categories";
+import { API_BASE_URL } from "./config";
+const API_URL = `${API_BASE_URL}/categories`;
 
 export async function getCategories() {
   const res = await fetch(API_URL);

@@ -48,7 +48,8 @@ import Earnings from "./pages/Earnings";
 
 // Admin Extras
 import Reports from "./pages/Reports";
-import TeamUsers from "./pages/TeamUsers";
+import AdminUsers from "./pages/AdminUsers";
+import AddAdminUser from "./pages/AddAdminUser";
 import ActivityLogs from "./pages/ActivityLogs";
 
 // Settings
@@ -125,7 +126,8 @@ function App() {
 
               {/* Admin Extras */}
               <Route path="/reports" element={<Reports />} />
-              <Route path="/team-users" element={<TeamUsers />} />
+              <Route path="/admin-users" element={<AdminUsers />} />
+              <Route path="/admin-users/add" element={<AddAdminUser />} />
               <Route path="/activity-logs" element={<ActivityLogs />} />
 
               {/* Settings */}

@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:3000/complaints";
+import { API_BASE_URL } from "./config";
+const API_URL = `${API_BASE_URL}/complaints`;
 
 export async function getComplaints() {
   const response = await fetch(API_URL);

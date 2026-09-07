@@ -38,11 +38,11 @@ export const navigationItems = [
     path: "/orders",
     icon: ShoppingCart,
   },
-  // {
-  //   label: "Transactions",
-  //   path: "/transactions",
-  //   icon: ArrowLeftRight,
-  // },
+  {
+    label: "Transactions",
+    path: "/transactions",
+    icon: ArrowLeftRight,
+  },
   {
     label: "Earnings",
     path: "/earnings",
@@ -89,8 +89,8 @@ export const navigationItems = [
     icon: Settings,
   },
   {
-    label: "Team Users",
-    path: "/team-users",
+    label: "Admin Users",
+    path: "/admin-users",
     icon: ShieldUser,
   },
   {
