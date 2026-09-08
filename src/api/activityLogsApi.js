@@ -74,3 +74,15 @@ export async function deleteActivityLog(id) {
   }
   return await response.json();
 }
+
+export async function createActivityLog(logData) {
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(logData),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to create activity log");
+  }
+  return await response.json();
+}

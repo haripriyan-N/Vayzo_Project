@@ -14,7 +14,7 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import StatusSelect from "../components/ui/StatusSelect";
-import { createUser, getUserById, updateUser } from "../api/usersApi";
+import { createUser, getUserById, updateUser, getUsers } from "../api/usersApi";
 import { fileToBase64 } from "../utils/fileUtils";
 
 const types = [
@@ -68,6 +68,7 @@ function AddUsers() {
   const [userDbId, setUserDbId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     if (isEditing) {
@@ -92,8 +93,8 @@ function AddUsers() {
         type: data.userType || types[0],
         role: data.role || roles[0],
         status: data.status ? toTitleCase(data.status) : statusOptions[0],
-        password: data.password || "",
-        confirm: data.password || "",
+        password: "", // Never populate plaintext password
+        confirm: "",
       });
       setEmailVerified(data.isVerified || false);
       setImagePreview(data.profileImage || data.image || null);
@@ -113,7 +114,7 @@ function AddUsers() {
       value={form[key]}
       onChange={update(key)}
       placeholder={placeholder}
-      required
+      error={formErrors[key]}
     />
   );
 
@@ -132,14 +133,54 @@ function AddUsers() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (form.password && form.password !== form.confirm) {
-      setError("Passwords do not match.");
-      return;
+    const errors = {};
+    if (!form.name.trim()) errors.name = "Full Name is required.";
+    
+    // Email Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!form.email.trim()) {
+      errors.email = "Email Address is required.";
+    } else if (!emailRegex.test(form.email.trim())) {
+      errors.email = "Enter a valid email address.";
     }
+
+    // Mobile Validation
+    if (!form.mobile) {
+      errors.mobile = "Mobile Number is required.";
+    } else if (form.mobile.length !== 10 || !/^\d{10}$/.test(form.mobile)) {
+      errors.mobile = "Enter a valid 10-digit Indian mobile number.";
+    }
+
+    // Password Validation
+    if (form.password) {
+      const pwdRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+      if (!pwdRegex.test(form.password)) {
+        errors.password = "Password must be at least 8 characters and include uppercase, lowercase, and a number.";
+      }
+      if (form.password !== form.confirm) {
+        errors.confirm = "Passwords do not match.";
+      }
+    } else if (!isEditing) {
+      errors.password = "Password is required.";
+    }
+
+    setFormErrors(errors);
+    if (Object.keys(errors).length > 0) return;
 
     try {
       setLoading(true);
       setError("");
+
+      const allUsers = await getUsers();
+      const duplicateEmail = allUsers.find(
+        (u) => u.email.toLowerCase() === form.email.trim().toLowerCase() && u.userId !== userId
+      );
+      
+      if (duplicateEmail) {
+        setFormErrors(prev => ({ ...prev, email: "This email is already registered." }));
+        setLoading(false);
+        return;
+      }
 
       if (isEditing) {
         const existing = await getUserById(userId);
@@ -205,13 +246,28 @@ function AddUsers() {
                     "email",
                     "Enter email address",
                   )}
-                  {field(
-                    "mobile",
-                    "Mobile Number",
-                    "mobile",
-                    "tel",
-                    "Enter mobile number",
-                  )}
+                  
+                  <div className="w-full">
+                    <label className="mb-1.5 block text-sm font-medium text-foreground"><RequiredLabel text="Mobile Number" /></label>
+                    <div className={`flex w-full rounded-lg border bg-surface ${formErrors.mobile ? "border-danger focus-within:border-danger" : "border-border focus-within:border-primary"} transition-colors overflow-hidden`}>
+                      <div className="flex items-center justify-center bg-muted/10 px-3 border-r border-border text-sm text-foreground font-medium select-none">
+                        +91
+                      </div>
+                      <input
+                        type="tel"
+                        value={form.mobile}
+                        onChange={(e) => {
+                          let val = e.target.value.replace(/\D/g, "");
+                          if (val.length > 10 && val.startsWith("91")) val = val.slice(2);
+                          if (val.length > 10) val = val.slice(0, 10);
+                          setForm({ ...form, mobile: val });
+                        }}
+                        placeholder="9876543210"
+                        className="flex-1 px-3.5 py-2.5 text-sm text-foreground outline-none bg-transparent placeholder:text-subtle"
+                      />
+                    </div>
+                    {formErrors.mobile && <p className="mt-1.5 text-xs text-danger">{formErrors.mobile}</p>}
+                  </div>
                 </div>
 
                 <div className="flex flex-col">

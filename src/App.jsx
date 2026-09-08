@@ -38,6 +38,9 @@ import LocationsAdd from "./pages/LocationsAdd";
 
 import Earnings from "./pages/Earnings";
 
+import Notifications from "./pages/Notifications";
+import Complaints from "./pages/Complaints";
+
 import Restaurants from "./pages/Restaurants";
 import RestaurantsAdd from "./pages/RestaurantsAdd";
 import RestaurantsDetails from "./pages/RestaurantsDetails";
