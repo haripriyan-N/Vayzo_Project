@@ -304,32 +304,10 @@ export const mockAdmin = {
   profileImage: null,
 };
 
-export const generalSettings = {
-  platformName: "VAYZO",
-  platformTagline: "You Ask. We Get It.",
-  supportEmail: "support@vayzo.com",
-  supportPhone: "9876543210",
-  timezone: "Asia/Kolkata",
-  dateFormat: "DD/MM/YYYY",
-  timeFormat: "12 Hours",
-  defaultCurrency: "INR",
-  currencyPosition: "Before",
-  numberFormat: "1,234.56",
-  language: "English",
-  contactAddress: "123 Main St, City",
-  maintenanceMode: false,
-  socialLinks: {
-    facebook: "https://facebook.com",
-    instagram: "https://instagram.com",
-    twitter: "https://twitter.com",
-  }
-};
-
 export const reports = [];
 export const teamUsers = [];
 export const teamUserStats = [];
 export const activityLogs = [];
-export const paymentSettings = {};
 
 export default vayzoApiMock;
 
