@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Input from "../../components/ui/Input";
-import Button from "../../components/ui/Button";
-import { getPaymentSettings, savePaymentSettings } from "../../api/settingsApi";
+import React, { useState } from "react";
+import Input from "../../components/ui/input";
+import Button from "../../components/ui/button";
+import { paymentSettings } from "../../mock/vayzoApiMock";
 import { Eye, Edit, GripVertical, CheckCircle2, Circle, ArrowRight, Smartphone, Building2, Banknote, HelpCircle, Receipt, RefreshCcw, HandCoins } from "lucide-react";
 
 function PaymentSettings() {
   const [activeTab, setActiveTab] = useState("Payment Gateways");
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
   
   const [gateways, setGateways] = useState({
     razorpay: { enabled: true, keyId: "rzp_test_***************", keySecret: "***************" },
@@ -25,20 +23,6 @@ function PaymentSettings() {
     { id: "cod", label: "Cash on Delivery", enabled: true, icon: <Banknote size={16} className="text-success" /> }
   ]);
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await getPaymentSettings();
-        if (data) setGateways(data);
-      } catch (e) {
-        console.error("Load failed", e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    loadData();
-  }, []);
-
   const toggleGateway = (id) => {
     setGateways(prev => ({
       ...prev,
@@ -53,20 +37,6 @@ function PaymentSettings() {
   };
 
   const tabs = ["Payment Gateways", "UPI Settings", "Wallet Settings", "Refund Settings", "Other Settings"];
-
-  const handleSaveAll = async () => {
-    setIsSaving(true);
-    try {
-      await savePaymentSettings(gateways);
-      alert("Settings saved successfully!");
-    } catch (error) {
-      console.error("Save failed:", error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  if (isLoading) return <div className="p-8 text-center text-muted">Loading Payment Settings...</div>;
 
   return (
     <section>
@@ -323,8 +293,8 @@ function PaymentSettings() {
                 <GripVertical size={14} />
                 <span>Drag and drop to reorder</span>
               </div>
-              <Button type="button" onClick={handleSaveAll} disabled={isSaving} className="bg-primary text-white px-8">
-                {isSaving ? "Saving..." : "Save Payment Settings"}
+              <Button type="button" size="sm" className="bg-primary text-white px-6">
+                Save Changes
               </Button>
             </div>
           </div>

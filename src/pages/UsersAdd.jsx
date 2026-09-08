@@ -15,6 +15,7 @@ import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import StatusSelect from "../components/ui/StatusSelect";
 import { createUser, getUserById, updateUser } from "../api/usersApi";
+import { fileToBase64 } from "../utils/fileUtils";
 
 const types = [
   "Select user type",
@@ -51,6 +52,7 @@ function AddUsers() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -94,6 +96,7 @@ function AddUsers() {
         confirm: data.password || "",
       });
       setEmailVerified(data.isVerified || false);
+      setImagePreview(data.profileImage || data.image || null);
     } catch (err) {
       setError("Unable to load user details.");
     } finally {
@@ -113,6 +116,18 @@ function AddUsers() {
       required
     />
   );
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const base64 = await fileToBase64(file);
+        setImagePreview(base64);
+      } catch (err) {
+        console.error("Failed to read file", err);
+      }
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -138,6 +153,7 @@ function AddUsers() {
           status: form.status,
           password: form.password || existing.password,
           isVerified: emailVerified,
+          profileImage: imagePreview,
         });
       } else {
         await createUser({
@@ -148,6 +164,7 @@ function AddUsers() {
           role: form.role,
           password: form.password,
           status: form.status,
+          profileImage: imagePreview,
         });
       }
 
@@ -203,25 +220,38 @@ function AddUsers() {
                   </span>
                   <label
                     htmlFor="profile-image"
-                    className="cursor-pointer flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-background hover:bg-surface-hover hover:border-primary/40 transition-all text-center p-6 group"
+                    className="cursor-pointer flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-background hover:bg-surface-hover hover:border-primary/40 transition-all text-center p-2 group overflow-hidden relative"
                   >
                     <input
                       type="file"
                       id="profile-image"
                       className="hidden"
                       accept="image/png, image/jpeg, image/webp"
+                      onChange={handleImageChange}
                     />
-                    <CloudUpload
-                      size={32}
-                      className="text-primary mb-4 transition-transform group-hover:scale-110"
-                    />
-                    <p className="text-sm font-medium text-foreground">
-                      Click to upload
-                    </p>
-                    <p className="mt-1 text-xs text-muted">or drag and drop</p>
-                    <p className="mt-2 text-[10px] text-muted">
-                      JPG, PNG or WEBP (Max 2MB)
-                    </p>
+                    {imagePreview ? (
+                      <div className="w-full h-full min-h-[140px] relative group/img rounded-lg overflow-hidden flex items-center justify-center bg-black/5">
+                        <img src={imagePreview} alt="Preview" className="max-h-full max-w-full object-contain" />
+                        <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
+                          <CloudUpload size={24} className="text-white mb-2" />
+                          <p className="text-xs text-white">Change Image</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="py-6 flex flex-col items-center">
+                        <CloudUpload
+                          size={32}
+                          className="text-primary mb-4 transition-transform group-hover:scale-110"
+                        />
+                        <p className="text-sm font-medium text-foreground">
+                          Click to upload
+                        </p>
+                        <p className="mt-1 text-xs text-muted">or drag and drop</p>
+                        <p className="mt-2 text-[10px] text-muted">
+                          JPG, PNG or WEBP (Max 2MB)
+                        </p>
+                      </div>
+                    )}
                   </label>
                 </div>
               </div>

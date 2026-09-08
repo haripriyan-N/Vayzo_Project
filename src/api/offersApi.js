@@ -1,26 +1,13 @@
-import { API_BASE_URL } from "./config";
-const API_URL = `${API_BASE_URL}/offers`;
+import { apiRequest } from "./apiClient";
 
 export async function getOffers() {
-  const response = await fetch(API_URL);
-
-  if (!response.ok) {
-    throw new Error("Unable to load offers"); 
-  }
-
-  return response.json();
+  return apiRequest("/offers", {}, "Unable to load offers");
 }
 
 export async function getOfferById(offerId) {
-  const response = await fetch(`${API_URL}?offerId=${offerId}`);
+  const data = await apiRequest(`/offers?offerId=${offerId}`, {}, "Unable to load offer");
 
-  if (!response.ok) {
-    throw new Error("Unable to load offer");
-  }
-
-  const data = await response.json();
-
-  if (!data.length) {
+  if (!data || !data.length) {
     throw new Error("Offer not found");
   }
 
@@ -34,46 +21,21 @@ export async function createOffer(offerData) {
     createdAt: new Date().toISOString(),
   };
 
-  const response = await fetch(API_URL, {
+  return apiRequest("/offers", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(newOffer),
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to create offer");
-  }
-
-  return response.json();
+  }, "Unable to create offer");
 }
 
 export async function updateOffer(id, updateData) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/offers/${id}`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(updateData),
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to update offer");
-  }
-
-  return response.json();
+  }, "Unable to update offer");
 }
 
 export async function deleteOffer(id) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/offers/${id}`, {
     method: "DELETE",
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to delete offer");
-  }
-
-  return response.json();
+  }, "Unable to delete offer");
 }
-

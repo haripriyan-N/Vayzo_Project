@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, RotateCcw, Eye, Pencil as Edit, Trash2, MoreVertical } from "lucide-react";
+import { Plus, RotateCcw, Eye, Pencil as Edit, Trash2, MoreVertical, Download } from "lucide-react";
 import Avatar from "../components/ui/Avatar";
 
 import Badge from "../components/ui/Badge";
@@ -14,8 +14,10 @@ import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
 import ActionMenu from "../components/ui/ActionMenu";
 import BadgeCell from "../components/ui/BadgeCell";
+import FilterPanel from "../components/ui/FilterPanel";
 
 import { getDeliveryPartners, deleteDeliveryPartner } from "../api/deliveryPartnersApi";
+import { exportToCSV } from "../utils/exportUtils";
 
 const statusBadgeMap = {
   Active: "success",
@@ -205,57 +207,59 @@ function DeliveryPartners() {
     <section className="min-h-full bg-background p-4 sm:p-6 flex flex-col gap-6">
       <Card noPadding className="flex flex-col">
         {/* Filter Section */}
-        <div className="p-4 sm:p-6">
-          <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between">
-            {/* Search Input */}
-            <div className="flex-1 w-full min-w-0 xl:max-w-sm">
-              <SearchInput
-                id="partner-search"
-                value={search}
-                onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search delivery partners by name, mobile or email..."
-              />
-            </div>
-
-            {/* Selects and Button */}
-            <div className="grid grid-cols-1 sm:grid-cols-4 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
+        <FilterPanel
+          search={
+            <SearchInput
+              id="partner-search"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+              placeholder="Search delivery partners by name, mobile or email..."
+            />
+          }
+          actions={
+            <>
+              <Button
+                variant="secondary"
+                size="sm"
+                type="button"
+                className="h-10 w-full sm:w-auto"
+                onClick={() => exportToCSV(filteredPartners, "delivery-partners.csv")}
+              >
+                <Download size={14} className="mr-1" /> Export
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => navigate("/delivery/add")}
+                className="h-10 w-full sm:w-auto flex items-center justify-center text-[0.8rem] gap-2"
+              >
+                <Plus size={18} strokeWidth={2.5} />
+                Add Delivery Partner
+              </Button>
+            </>
+          }
+          filters={
+            <>
               <StatusSelect
                 id="partner-status"
                 value={status}
                 options={statusOptions}
                 onChange={(event) => setStatus(event.target.value)}
-                className="w-full xl:w-[150px]"
+                className="w-full lg:w-[150px]"
               />
-
               <StatusSelect
                 id="partner-vehicle"
                 value={vehicleType}
                 options={vehicleOptions}
                 onChange={(event) => setVehicleType(event.target.value)}
-                className="w-full xl:w-[160px]"
+                className="w-full lg:w-[160px]"
               />
-
               <StatusSelect
                 id="partner-online"
                 value={onlineStatus}
                 options={onlineStatusOptions}
                 onChange={(event) => setOnlineStatus(event.target.value)}
-                className="w-full xl:w-[160px]"
+                className="w-full lg:w-[160px]"
               />
-
-              <Button
-                size="sm"
-                onClick={() => navigate("/delivery/add")}
-                className="col-span-1 sm:col-span-4 xl:col-span-1 h-10 w-full flex items-center justify-center text-[0.8rem] gap-2"
-              >
-                <Plus size={18} strokeWidth={2.5} />
-                Add Delivery Partner
-              </Button>
-            </div>
-          </div>
-
-          <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <DateRangeInput
                 id="joined-date"
                 label="Joined Date"
@@ -264,7 +268,6 @@ function DeliveryPartners() {
                 onFromChange={(event) => setJoinedFrom(event.target.value)}
                 onToChange={(event) => setJoinedTo(event.target.value)}
               />
-
               <div className="w-full sm:w-[260px]">
                 <label className="text-xs font-medium text-muted mb-1.5 block">
                   Earnings Range
@@ -295,21 +298,11 @@ function DeliveryPartners() {
                   />
                 </div>
               </div>
-            </div>
-
-            {hasFilters && (
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleReset}
-                className="h-10 w-full sm:w-auto shrink-0"
-              >
-                <RotateCcw size={16} strokeWidth={2} className="mr-1" />
-                Reset
-              </Button>
-            )}
-          </div>
-        </div>
+            </>
+          }
+          hasActiveFilters={hasFilters}
+          onReset={handleReset}
+        />
       </Card>
 
       <Card noPadding className="flex flex-col">

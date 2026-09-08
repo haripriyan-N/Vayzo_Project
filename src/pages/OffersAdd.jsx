@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, Tag } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
-import { createOffer } from "../api/offersApi";
+import { createOffer, getOfferById, updateOffer } from "../api/offersApi";
 
 export default function OffersAdd() {
   const navigate = useNavigate();
+  const { offerId } = useParams();
+  const isEditing = !!offerId;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -29,6 +31,62 @@ export default function OffersAdd() {
     description: "",
     status: "ACTIVE"
   });
+
+  const [dbId, setDbId] = useState(null);
+
+  useEffect(() => {
+    if (!isEditing) return;
+    const loadOffer = async () => {
+      try {
+        setLoading(true);
+        const data = await getOfferById(offerId);
+        setDbId(data.id);
+        
+        let discountVal = "";
+        let discountType = "% Percentage";
+        if (data.discountText) {
+          const num = data.discountText.replace(/[^0-9]/g, "");
+          discountVal = num;
+          discountType = data.discountText.includes("%") ? "% Percentage" : "₹ Flat";
+        }
+        
+        let minOrder = "";
+        let maxDisc = "";
+        if (data.discountDetail) {
+          const matches = data.discountDetail.match(/\d+/g);
+          if (matches && matches.length >= 2) {
+            maxDisc = matches[0];
+            minOrder = matches[1];
+          } else if (matches && matches.length === 1) {
+            minOrder = matches[0];
+          }
+        }
+        
+        setForm(prev => ({
+          ...prev,
+          name: data.name || "",
+          title: data.title || "",
+          type: data.type === "Discount" ? "Percentage" : (data.type || "Select offer type"),
+          discountValue: discountVal,
+          discountType: discountType,
+          minOrderValue: minOrder,
+          maxDiscount: maxDisc,
+          validFrom: data.validFrom || "",
+          validTo: data.validTo === "2099-12-31" ? "" : (data.validTo || ""),
+          noExpiry: data.validTo === "2099-12-31",
+          usageLimit: data.usageMax === 99999 ? "" : (data.usageLimit || ""),
+          unlimitedUsage: data.usageMax === 99999,
+          description: data.description || "",
+          status: data.status || "ACTIVE"
+        }));
+      } catch (err) {
+        setError("Unable to load offer details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadOffer();
+  }, [offerId, isEditing]);
 
   const update = (key, value) => {
     setForm(prev => ({ ...prev, [key]: value }));
@@ -59,7 +117,11 @@ export default function OffersAdd() {
         platform: "App" // Default mock
       };
 
-      await createOffer(payload);
+      if (isEditing) {
+        await updateOffer(dbId, payload);
+      } else {
+        await createOffer(payload);
+      }
       navigate("/offers");
     } catch (err) {
       setError("Unable to create offer.");
@@ -85,7 +147,7 @@ export default function OffersAdd() {
                 >
                   <ArrowLeft size={18} />
                 </button>
-                Create New Offer
+                {isEditing ? "Edit Offer" : "Create New Offer"}
               </h2>
 
               <div className="mt-8 grid gap-8 md:grid-cols-2">
@@ -206,7 +268,7 @@ export default function OffersAdd() {
                 Cancel
               </Button>
               <Button type="submit" className="px-8" disabled={loading}>
-                {loading ? "Saving..." : "Create Offer"}
+                {loading ? "Saving..." : isEditing ? "Save Changes" : "Create Offer"}
               </Button>
             </div>
           </form>
@@ -218,7 +280,7 @@ export default function OffersAdd() {
                 <Tag size={32} />
               </div>
               <h3 className="mb-1 font-semibold text-foreground">
-                New Offer Setup
+                {isEditing ? "Edit Offer" : "New Offer Setup"}
               </h3>
               <p className="text-sm text-muted mb-4">
                 Configure discounts and promotional offers. Ensure conditions are set correctly to maximize engagement.

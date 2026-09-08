@@ -31,6 +31,7 @@ import {
   Legend,
 } from "recharts";
 import { getDashboardData } from "../api/dashboardApi";
+import { exportToCSV } from "../utils/exportUtils";
 import Button from "../components/ui/Button";
 import Card from "../components/ui/Card";
 import StatCard from "../components/ui/StatCard";
@@ -169,7 +170,7 @@ function Dashboard() {
               { value: "last_week", label: "14 May 2024 - 20 May 2024" },
             ]}
           />
-          <Button className="flex items-center gap-2">
+          <Button className="flex items-center gap-2" onClick={() => exportToCSV(recentOrders, "recent_orders.csv")}>
             <Download size={16} /> Download Report
           </Button>
         </div>

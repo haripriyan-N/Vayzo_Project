@@ -121,7 +121,7 @@ export default function OffersDetails() {
           <Button variant="secondary" className="gap-2 shrink-0 shadow-sm bg-surface" onClick={() => navigate(`/offers/edit/${offer.id}`)}>
             Edit Offer
           </Button>
-          <Button variant="danger" className="gap-2 shrink-0 shadow-sm bg-danger/10 text-danger border-transparent hover:bg-danger hover:text-white" onClick={() => setDeleteModalOpen(true)}>
+          <Button variant="danger" className="gap-2 shrink-0 shadow-sm bg-danger text-danger border-transparent hover:bg-danger/50 hover:text-white" onClick={() => setDeleteModalOpen(true)}>
             Delete
           </Button>
         </div>

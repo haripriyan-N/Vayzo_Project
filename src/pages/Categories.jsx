@@ -16,8 +16,10 @@ import Modal from "../components/ui/Modal";
 import StatCard from "../components/ui/StatCard";
 import BadgeCell from "../components/ui/BadgeCell";
 import ActionMenu from "../components/ui/ActionMenu";
+import FilterPanel from "../components/ui/FilterPanel";
 
 import { getCategories, deleteCategory } from "../api/categoriesApi";
+import { exportToCSV } from "../utils/exportUtils";
 
 const statusOptions = [
   "All Status",
@@ -188,47 +190,24 @@ export default function Categories() {
         />
       </div>
 
-      {/* 3. Search + Select/filter controls */}
-      <div className="flex flex-col gap-5">
-        <div className="flex flex-col xl:flex-row xl:items-center gap-4 xl:justify-between flex-wrap">
-          <div className="w-full xl:w-[400px] shrink-0">
+      <Card noPadding className="flex flex-col mb-2">
+        <FilterPanel
+          search={
             <SearchInput
               id="category-search"
               value={searchText}
               onChange={(event) => setSearchText(event.target.value)}
               placeholder="Search category by name..."
             />
-          </div>
-
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:flex xl:flex-row gap-4 w-full xl:w-auto items-center">
-              <Select
-                id="category-status"
-                value={statusFilter}
-                options={statusOptions}
-                onChange={(event) => setStatusFilter(event.target.value)}
-                className="w-full xl:w-[150px]"
-              />
-            </div>
-
-            <div className="flex gap-2 w-full sm:w-auto shrink-0 mt-2 sm:mt-0">
-              {hasFilters && (
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  type="button"
-                  onClick={resetFilters}
-                  className="h-10 w-full sm:w-auto px-4"
-                >
-                  <RotateCcw size={14} className="mr-1" />
-                  Reset
-                </Button>
-              )}
+          }
+          actions={
+            <>
               <Button
                 variant="secondary"
                 size="sm"
                 type="button"
-                className="h-10 w-full sm:w-auto px-4"
+                className="h-10 w-full sm:w-auto"
+                onClick={() => exportToCSV(filteredCategories, "categories.csv")}
               >
                 <Download size={14} className="mr-1" />
                 Export
@@ -240,10 +219,23 @@ export default function Categories() {
               >
                 <Plus size={16} /> Add Category
               </Button>
-            </div>
-          </div>
-        </div>
-      </div>
+            </>
+          }
+          filters={
+            <>
+              <Select
+                id="category-status"
+                value={statusFilter}
+                options={statusOptions}
+                onChange={(event) => setStatusFilter(event.target.value)}
+                className="w-full lg:w-[150px]"
+              />
+            </>
+          }
+          hasActiveFilters={hasFilters}
+          onReset={resetFilters}
+        />
+      </Card>
 
       {/* 4. Categories table */}
       <div className="flex flex-col gap-6 mt-2">

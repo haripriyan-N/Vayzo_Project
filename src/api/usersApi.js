@@ -1,26 +1,13 @@
-import { API_BASE_URL } from "./config";
-const API_URL = `${API_BASE_URL}/users`;
+import { apiRequest } from "./apiClient";
 
 export async function getUsers() {
-  const response = await fetch(API_URL);
-
-  if (!response.ok) {
-    throw new Error("Unable to load users");
-  }
-
-  return response.json();
+  return apiRequest("/users", {}, "Unable to load users");
 }
 
 export async function getUserById(userId) {
-  const response = await fetch(`${API_URL}?userId=${userId}`);
+  const data = await apiRequest(`/users?userId=${userId}`, {}, "Unable to load user");
 
-  if (!response.ok) {
-    throw new Error("Unable to load user");
-  }
-
-  const data = await response.json();
-
-  if (!data.length) {
+  if (!data || !data.length) {
     throw new Error("User not found");
   }
 
@@ -41,43 +28,21 @@ export async function createUser(userData) {
     joinedOn: new Date().toISOString().split("T")[0],
   };
 
-  const response = await fetch(API_URL, {
+  return apiRequest("/users", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(newUser),
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to create user");
-  }
-
-  return response.json();
+  }, "Unable to create user");
 }
 
 export async function updateUser(id, userData) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/users/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(userData),
-  });
-
-  if (!response.ok) {
-    throw new Error("Unable to update user");
-  }
-
-  return response.json();
+  }, "Unable to update user");
 }
 
 export async function deleteUser(id) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/users/${id}`, {
     method: "DELETE",
-  });
-  if (!response.ok) {
-    throw new Error("Unable to delete user");
-  }
-  return response.json();
+  }, "Unable to delete user");
 }

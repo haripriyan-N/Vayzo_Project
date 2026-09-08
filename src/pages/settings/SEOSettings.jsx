@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Button from "../../components/ui/Button";
+import React, { useState } from "react";
+import Button from "../../components/ui/button";
 import Select from "../../components/ui/Select";
 import { 
   ExternalLink,
@@ -22,50 +22,16 @@ import {
   ArrowRight,
   ChevronRight
 } from "lucide-react";
-import { getSEOSettings, saveSEOSettings } from "../../api/settingsApi";
 
 function SEOSettings() {
-  const [toggles, setToggles] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-
-  const loadSettings = async () => {
-    setIsLoading(true);
-    try {
-      const data = await getSEOSettings();
-      if (data && Object.keys(data).length > 0) {
-        setToggles(data.toggles || { allowIndexing: true, canonicalUrls: true, autoGenerate: true });
-      } else {
-        setToggles({ allowIndexing: true, canonicalUrls: true, autoGenerate: true });
-      }
-    } catch (error) {
-      console.error("Failed to load settings:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadSettings();
-  }, []);
+  const [toggles, setToggles] = useState({
+    engineIndexing: true,
+    enableSitemap: true,
+  });
 
   const toggleSetting = (key) => {
     setToggles(prev => ({ ...prev, [key]: !prev[key] }));
   };
-
-  const handleSaveAll = async () => {
-    setIsSaving(true);
-    try {
-      await saveSEOSettings({ toggles });
-      alert("Settings saved successfully!");
-    } catch (error) {
-      console.error("Save failed:", error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  if (isLoading) return <div className="p-8 text-center text-muted">Loading SEO Settings...</div>;
 
   return (
     <>
@@ -172,7 +138,7 @@ function SEOSettings() {
                       <p className="text-[11px] text-muted mt-0.5">Allow search engines to index your website.</p>
                     </div>
                     <button type="button" onClick={() => toggleSetting('engineIndexing')} className={`relative h-5 w-9 rounded-full transition-colors ${toggles.engineIndexing ? "bg-primary" : "bg-muted"}`}>
-                      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${toggles.engineIndexing ? "left-4.5 translate-x-4" : "left-0.5"}`} />
+                      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${toggles.engineIndexing ? "left-4.5" : "left-0.5"}`} />
                     </button>
                   </div>
                   <div className="flex items-center justify-between">
@@ -181,7 +147,7 @@ function SEOSettings() {
                       <p className="text-[11px] text-muted mt-0.5">Generate and submit XML sitemap to search engines.</p>
                     </div>
                     <button type="button" onClick={() => toggleSetting('enableSitemap')} className={`relative h-5 w-9 rounded-full transition-colors ${toggles.enableSitemap ? "bg-primary" : "bg-muted"}`}>
-                      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${toggles.enableSitemap ? "left-4.5 translate-x-4" : "left-0.5"}`} />
+                      <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${toggles.enableSitemap ? "left-4.5" : "left-0.5"}`} />
                     </button>
                   </div>
                   <div className="flex items-center justify-between pt-2">
@@ -250,9 +216,9 @@ function SEOSettings() {
               </div>
 
               {/* Absolute Buttons to match the design spacing */}
-              <div className="flex justify-end pt-2">
-                <Button type="button" onClick={handleSaveAll} disabled={isSaving} className="bg-primary text-white px-6">
-                  {isSaving ? "Saving..." : "Save SEO Settings"}
+              <div className="absolute right-5 bottom-5">
+                <Button className="bg-primary text-white px-6">
+                  Save Changes
                 </Button>
               </div>
             </div>

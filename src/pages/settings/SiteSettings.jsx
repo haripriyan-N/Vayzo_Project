@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Globe,
   Mail,
@@ -17,62 +17,46 @@ import {
   Folder
 } from "lucide-react";
 import Button from "../../components/ui/Button";
-import Input from "../../components/ui/Input";
+import Input from "../../components/ui/input";
 import Select from "../../components/ui/Select";
-import { getGeneralSettings, saveGeneralSettings } from "../../api/settingsApi";
+import { generalSettings, mockAdmin } from "../../mock/vayzoApiMock";
 
 function SiteSettings() {
   const [activeTab, setActiveTab] = useState("General");
-  const [formValues, setFormValues] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-
-  const loadSettings = async () => {
-    setIsLoading(true);
-    try {
-      const data = await getGeneralSettings();
-      setFormValues({
-        siteName: data.platformName || "",
-        tagline: data.platformTagline || "",
-        siteEmail: data.supportEmail || "",
-        sitePhone: data.supportPhone || "",
-        siteAddress: data.contactAddress || "",
-        siteTimezone: data.timezone || "Asia/Kolkata",
-        dateFormat: data.dateFormat || "DD/MM/YYYY",
-        currency: data.defaultCurrency || "INR",
-        currencyPosition: data.currencyPosition || "Prefix",
-      });
-    } catch (error) {
-      console.error("Failed to load settings:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadSettings();
-  }, []);
+  const [formValues, setFormValues] = useState({
+    siteName: generalSettings.platformName,
+    tagline: generalSettings.platformTagline,
+    siteEmail: generalSettings.supportEmail,
+    sitePhone: generalSettings.supportPhone,
+    siteAddress: generalSettings.contactAddress,
+    siteTimezone: generalSettings.timezone,
+    dateFormat: generalSettings.dateFormat,
+    currency: generalSettings.defaultCurrency,
+    currencyPosition: generalSettings.currencyPosition,
+  });
 
   const handleChange = (field, value) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleReset = () => {
-    loadSettings();
+    setFormValues({
+      siteName: generalSettings.platformName,
+      tagline: generalSettings.platformTagline,
+      siteEmail: generalSettings.supportEmail,
+      sitePhone: generalSettings.supportPhone,
+      siteAddress: generalSettings.contactAddress,
+      siteTimezone: generalSettings.timezone,
+      dateFormat: generalSettings.dateFormat,
+      currency: generalSettings.defaultCurrency,
+      currencyPosition: generalSettings.currencyPosition,
+    });
     alert("Settings reset to original values.");
   };
 
-  const handleSave = async () => {
-    setIsSaving(true);
-    try {
-      await saveGeneralSettings(formValues);
-      alert("Site Settings saved successfully!");
-    } catch (error) {
-      console.error("Failed to save settings:", error);
-      alert("Failed to save settings");
-    } finally {
-      setIsSaving(false);
-    }
+  const handleSave = () => {
+    console.log("Saving settings:", formValues);
+    alert("Site Settings saved successfully!");
   };
 
   const renderTabButton = (name, icon) => {
@@ -86,10 +70,6 @@ function SiteSettings() {
       </button>
     );
   };
-
-  if (isLoading) {
-    return <div className="flex-1 p-6 flex justify-center text-muted">Loading Site Settings...</div>;
-  }
 
   return (
     <div className="flex-1 space-y-6">
@@ -253,8 +233,8 @@ function SiteSettings() {
                   </div>
 
                   <div className="flex items-center gap-4 pt-4 border-t border-border mt-6">
-                      <Button type="button" onClick={handleSave} size="md" disabled={isSaving} className="bg-primary text-white px-6 flex items-center gap-2 font-medium">
-                          <Folder size={16} /> {isSaving ? "Saving..." : "Save Changes"}
+                      <Button type="button" onClick={handleSave} size="md" className="bg-primary text-white px-6 flex items-center gap-2 font-medium">
+                          <Folder size={16} /> Save Changes
                       </Button>
                       <Button type="button" onClick={handleReset} size="md" variant="outline" className="border-border px-8 font-medium">
                           Reset
@@ -298,8 +278,8 @@ function SiteSettings() {
                 <div className="border-b border-border pb-4">
                     <p className="text-xs font-semibold text-foreground mb-2">Updated By</p>
                     <div className="flex items-center gap-2">
-                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="User Avatar" className="h-6 w-6 rounded-full object-cover" />
-                        <span className="text-sm font-semibold text-foreground">Prathap M</span>
+                        <img src={mockAdmin.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(mockAdmin.name)}&background=random&color=fff&size=150`} alt="User Avatar" className="h-6 w-6 rounded-full object-cover" />
+                        <span className="text-sm font-semibold text-foreground">{mockAdmin.name}</span>
                     </div>
                 </div>
 

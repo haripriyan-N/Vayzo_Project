@@ -1,40 +1,28 @@
-import { API_BASE_URL } from "./config";
-const API_URL = `${API_BASE_URL}/restaurants`;
+import { apiRequest } from "./apiClient";
 
 export async function getRestaurants() {
-  const response = await fetch(API_URL);
-  if (!response.ok) throw new Error("Unable to load restaurants");
-  return response.json();
+  return apiRequest("/restaurants", {}, "Unable to load restaurants");
 }
 
 export async function getRestaurantById(id) {
-  const response = await fetch(`${API_URL}/${id}`);
-  if (!response.ok) throw new Error("Restaurant not found");
-  return response.json();
+  return apiRequest(`/restaurants/${id}`, {}, "Restaurant not found");
 }
 
 export async function createRestaurant(data) {
-  const response = await fetch(API_URL, {
+  return apiRequest("/restaurants", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  });
-  if (!response.ok) throw new Error("Unable to create restaurant");
-  return response.json();
+  }, "Unable to create restaurant");
 }
 
 export async function updateRestaurant(id, data) {
-  const response = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/restaurants/${id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  });
-  if (!response.ok) throw new Error("Unable to update restaurant");
-  return response.json();
+  }, "Unable to update restaurant");
 }
 
 export async function deleteRestaurant(id) {
-  const response = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
-  if (!response.ok) throw new Error("Unable to delete restaurant");
+  await apiRequest(`/restaurants/${id}`, { method: "DELETE" }, "Unable to delete restaurant");
   return true;
 }

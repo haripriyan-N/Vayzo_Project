@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, RotateCcw, Trash2, Eye, Pencil, Star, ShoppingBag, Store, TrendingUp } from "lucide-react";
+import { Plus, RotateCcw, Trash2, Eye, Pencil, Star, ShoppingBag, Store, TrendingUp, Download } from "lucide-react";
 
 import Badge from "../components/ui/Badge";
 import BadgeCell from "../components/ui/BadgeCell";
@@ -12,14 +12,18 @@ import Card from "../components/ui/Card";
 import Modal from "../components/ui/Modal";
 import StatCard from "../components/ui/StatCard";
 import ActionMenu from "../components/ui/ActionMenu";
+import FilterPanel from "../components/ui/FilterPanel";
 
 import { getRestaurants, deleteRestaurant } from "../api/restaurantsApi";
+import { exportToCSV } from "../utils/exportUtils";
 
 const statusOptions = ["All Status", "Active", "Inactive"];
-const cuisineOptions = [
-  "All Cuisine", "South Indian", "North Indian", "Fast Food",
+export const RESTAURANT_CUISINES = [
+  "South Indian", "North Indian", "Fast Food",
   "Chinese", "Italian", "Biryani", "Multi-Cuisine", "Cafe",
 ];
+
+const cuisineOptions = ["All Cuisine", ...RESTAURANT_CUISINES];
 
 const tableHeaders = ["No.", "Restaurant", "Owner", "City", "Cuisine", "Rating", "Orders", "Status", "Actions"];
 
@@ -135,45 +139,53 @@ function Restaurants() {
       </div>
 
       {/* Filters */}
-      <Card className="p-4 sm:p-5 mb-6">
-        <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between">
-          <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full min-w-0">
-            <div className="flex-1 min-w-0">
-              <SearchInput
-                id="restaurant-search"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search restaurant, owner, city..."
-              />
-            </div>
-            <div className="flex flex-row gap-3">
+      <Card noPadding className="mb-6">
+        <FilterPanel
+          search={
+            <SearchInput
+              id="restaurant-search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search restaurant, owner, city..."
+            />
+          }
+          actions={
+            <>
+              <Button
+                variant="secondary"
+                size="sm"
+                type="button"
+                className="h-10 w-full sm:w-auto"
+                onClick={() => exportToCSV(filtered, "restaurants.csv")}
+              >
+                <Download size={14} className="mr-1" /> Export
+              </Button>
+              <Button onClick={() => navigate("/restaurants/add")} className="gap-2 h-10 whitespace-nowrap shrink-0 w-full sm:w-auto">
+                <Plus size={16} /> Add Restaurant
+              </Button>
+            </>
+          }
+          filters={
+            <>
               <StatusSelect
                 id="rst-status"
                 value={status}
                 options={statusOptions}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full sm:w-[150px]"
+                className="w-full lg:w-[150px]"
               />
               <StatusSelect
                 id="rst-cuisine"
                 value={cuisine}
                 options={cuisineOptions}
                 onChange={(e) => setCuisine(e.target.value)}
-                className="w-full sm:w-[170px]"
+                className="w-full lg:w-[170px]"
               />
-            </div>
-          </div>
-          <div className="flex gap-2 w-full sm:w-auto">
-            {hasFilters && (
-              <Button variant="secondary" onClick={resetFilters} className="gap-2 h-10 shrink-0">
-                <RotateCcw size={15} /> Reset
-              </Button>
-            )}
-            <Button onClick={() => navigate("/restaurants/add")} className="gap-2 h-10 whitespace-nowrap shrink-0">
-              <Plus size={16} /> Add Restaurant
-            </Button>
-          </div>
-        </div>
+            </>
+          }
+          hasActiveFilters={hasFilters}
+          onReset={resetFilters}
+        />
       </Card>
 
       {/* Table */}

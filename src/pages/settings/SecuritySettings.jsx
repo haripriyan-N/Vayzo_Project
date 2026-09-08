@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Button from "../../components/ui/Button";
+import React, { useState } from "react";
+import Button from "../../components/ui/button";
 import Select from "../../components/ui/Select";
 import { 
   ShieldCheck,
@@ -17,50 +17,18 @@ import {
   ArrowRight,
   CheckCircle
 } from "lucide-react";
-import { getSecuritySettings, saveSecuritySettings } from "../../api/settingsApi";
 
 function SecuritySettings() {
-  const [toggles, setToggles] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-
-  const loadSettings = async () => {
-    setIsLoading(true);
-    try {
-      const data = await getSecuritySettings();
-      if (data && Object.keys(data).length > 0) {
-        setToggles(data.toggles || { mfa: true, strictMode: true });
-      } else {
-        setToggles({ mfa: true, strictMode: true });
-      }
-    } catch (error) {
-      console.error("Failed to load settings:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadSettings();
-  }, []);
+  const [toggles, setToggles] = useState({
+    twoFactor: true,
+    loginNotification: true,
+    forceHttps: true,
+    recaptcha: true,
+  });
 
   const toggleSetting = (key) => {
     setToggles(prev => ({ ...prev, [key]: !prev[key] }));
   };
-
-  const handleSaveAll = async () => {
-    setIsSaving(true);
-    try {
-      await saveSecuritySettings({ toggles });
-      alert("Settings saved successfully!");
-    } catch (error) {
-      console.error("Save failed:", error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  if (isLoading) return <div className="p-8 text-center text-muted">Loading Security Settings...</div>;
 
   return (
     <>
@@ -282,9 +250,9 @@ function SecuritySettings() {
                 </Button>
               </div>
 
-              <div className="flex justify-end pt-2">
-                <Button type="button" onClick={handleSaveAll} disabled={isSaving} className="bg-primary text-white px-6">
-                  {isSaving ? "Saving..." : "Save Settings"}
+              <div className="absolute right-5 bottom-5">
+                <Button className="bg-primary text-white flex items-center gap-2">
+                  <Check size={16} /> Save Changes
                 </Button>
               </div>
             </div>

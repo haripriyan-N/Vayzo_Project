@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import Button from "../../components/ui/Button";
+import React, { useState } from "react";
+import Button from "../../components/ui/button";
 import Select from "../../components/ui/Select";
 import { 
   Info, 
@@ -11,34 +11,17 @@ import {
   ChevronDown
 } from "lucide-react";
 
-import { getDeliverySettings, saveDeliverySettings } from "../../api/settingsApi";
 function DeliverySettings() {
-  const [toggles, setToggles] = useState(null);
-  const [deliveryAreas, setDeliveryAreas] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
+  const [toggles, setToggles] = useState({
+    autoAssign: true,
+    scheduleOrder: true,
+    codAvailable: true,
+    multiStop: false,
+  });
 
-  const loadSettings = async () => {
-    setIsLoading(true);
-    try {
-      const data = await getDeliverySettings();
-      if (data && Object.keys(data).length > 0) {
-        setToggles(data.toggles || { autoAssign: true, scheduleOrder: true, codAvailable: true, multiStop: false });
-        setDeliveryAreas(data.deliveryAreas || ["Chennai", "Tambaram", "Velachery", "OMR", "Porur"]);
-      } else {
-        setToggles({ autoAssign: true, scheduleOrder: true, codAvailable: true, multiStop: false });
-        setDeliveryAreas(["Chennai", "Tambaram", "Velachery", "OMR", "Porur"]);
-      }
-    } catch (error) {
-      console.error("Failed to load settings:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadSettings();
-  }, []);
+  const [deliveryAreas, setDeliveryAreas] = useState([
+    "Chennai", "Tambaram", "Velachery", "OMR", "Porur"
+  ]);
 
   const toggleSetting = (key) => {
     setToggles(prev => ({ ...prev, [key]: !prev[key] }));
@@ -47,20 +30,6 @@ function DeliverySettings() {
   const removeArea = (areaToRemove) => {
     setDeliveryAreas(prev => prev.filter(area => area !== areaToRemove));
   };
-
-  const handleSaveAll = async () => {
-    setIsSaving(true);
-    try {
-      await saveDeliverySettings({ toggles, deliveryAreas });
-      alert("Settings saved successfully!");
-    } catch (error) {
-      console.error("Save failed:", error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  if (isLoading) return <div className="p-8 text-center text-muted">Loading Delivery Settings...</div>;
 
   return (
     <>
@@ -229,8 +198,8 @@ function DeliverySettings() {
                 </div>
 
                 <div className="flex justify-end pt-2">
-                  <Button type="button" onClick={handleSaveAll} disabled={isSaving} className="bg-primary text-white px-6">
-                    {isSaving ? "Saving..." : "Save Changes"}
+                  <Button type="button" className="bg-primary text-white px-6">
+                    Save Changes
                   </Button>
                 </div>
               </div>

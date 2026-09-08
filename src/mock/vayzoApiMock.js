@@ -332,3 +332,37 @@ export const activityLogs = [];
 export const paymentSettings = {};
 
 export default vayzoApiMock;
+
+export const generalSettings = {
+  platformName: "VAYZO",
+  platformTagline: "You Ask. We Get It.",
+  supportEmail: "support@vayzo.com",
+  supportPhone: "+91 98765 43210",
+  timezone: "Asia/Kolkata",
+  dateFormat: "DD/MM/YYYY",
+  timeFormat: "12h",
+  defaultCurrency: "INR",
+  currencyPosition: "prefix",
+  numberFormat: "1,00,000",
+  language: "English",
+  contactAddress: "123, Vayzo Towers, Chennai, Tamil Nadu 600001",
+  maintenanceMode: false,
+  socialLinks: {
+    facebook: "https://facebook.com/vayzo",
+    instagram: "https://instagram.com/vayzo",
+    twitter: "https://twitter.com/vayzo",
+  },
+};
+
+export const paymentSettings = {
+  gateways: {
+    razorpay: { enabled: true, key: "rzp_live_xxxxxxxxxxxxxxxx" },
+    stripe: { enabled: false, key: "" },
+    paypal: { enabled: false, key: "" },
+  },
+  codEnabled: true,
+  walletEnabled: true,
+  minOrderAmount: 50,
+  maxCodAmount: 2000,
+  refundProcessingDays: 5,
+};

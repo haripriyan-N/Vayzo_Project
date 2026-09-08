@@ -17,8 +17,6 @@ import Table from "../components/ui/Table";
 import { getOrderById, updateOrder } from "../api/ordersApi";
 import { getDeliveryPartners } from "../api/deliveryPartnersApi";
 
-const API_URL = "http://localhost:3000/orders";
-
 const STATUS_MAP = {
   DELIVERED: "success",
   IN_TRANSIT: "info",

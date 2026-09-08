@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Bell,
@@ -16,10 +16,10 @@ import {
   Truck,
 } from "lucide-react";
 
-import Button from "../../components/ui/Button";
-import Input from "../../components/ui/Input";
+import Button from "../../components/ui/button";
+import Input from "../../components/ui/input";
 import Select from "../../components/ui/Select";
-import { getGeneralSettings, saveGeneralSettings } from "../../api/settingsApi";
+import { generalSettings } from "../../mock/vayzoApiMock";
 
 const settingsMenu = [
   { label: "General Settings", path: "/settings/general", icon: LayoutGrid },
@@ -39,43 +39,26 @@ const settingsMenu = [
 
 function GeneralSettings() {
   const location = useLocation();
-  const [formValues, setFormValues] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
+  const [formValues, setFormValues] = useState({
+    platformName: generalSettings.platformName,
+    platformTagline: generalSettings.platformTagline,
+    supportEmail: generalSettings.supportEmail,
+    supportPhone: generalSettings.supportPhone,
+    timezone: generalSettings.timezone,
+    dateFormat: generalSettings.dateFormat,
+    timeFormat: generalSettings.timeFormat,
+    defaultCurrency: generalSettings.defaultCurrency,
+    currencyPosition: generalSettings.currencyPosition,
+    numberFormat: generalSettings.numberFormat,
+    language: generalSettings.language,
+    contactAddress: generalSettings.contactAddress,
+    facebook: generalSettings.socialLinks.facebook,
+    instagram: generalSettings.socialLinks.instagram,
+    twitter: generalSettings.socialLinks.twitter,
+    platformStatus: true,
+    maintenanceMode: generalSettings.maintenanceMode,
+  });
   const [saveMessage, setSaveMessage] = useState("");
-
-  useEffect(() => {
-    async function loadSettings() {
-      setIsLoading(true);
-      try {
-        const data = await getGeneralSettings();
-        setFormValues({
-          platformName: data.platformName || "",
-          platformTagline: data.platformTagline || "",
-          supportEmail: data.supportEmail || "",
-          supportPhone: data.supportPhone || "",
-          timezone: data.timezone || "Asia/Kolkata",
-          dateFormat: data.dateFormat || "DD/MM/YYYY",
-          timeFormat: data.timeFormat || "12 Hours",
-          defaultCurrency: data.defaultCurrency || "INR",
-          currencyPosition: data.currencyPosition || "Prefix",
-          numberFormat: data.numberFormat || "1,234.56",
-          language: data.language || "English",
-          contactAddress: data.contactAddress || "",
-          facebook: data.socialLinks?.facebook || "",
-          instagram: data.socialLinks?.instagram || "",
-          twitter: data.socialLinks?.twitter || "",
-          platformStatus: true,
-          maintenanceMode: data.maintenanceMode || false,
-        });
-      } catch (error) {
-        console.error("Failed to load settings:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    loadSettings();
-  }, []);
 
   const activePath =
     location.pathname === "/settings" || location.pathname === "/settings/general"
@@ -87,24 +70,10 @@ function GeneralSettings() {
     if (saveMessage) setSaveMessage("");
   };
 
-  const handleSave = async (event) => {
-    if (event) event.preventDefault();
-    setIsSaving(true);
-    try {
-      await saveGeneralSettings(formValues);
-      setSaveMessage("Changes saved successfully.");
-      alert("Settings saved successfully!");
-    } catch (error) {
-      console.error("Failed to save settings:", error);
-      alert("Failed to save settings");
-    } finally {
-      setIsSaving(false);
-    }
+  const handleSave = (event) => {
+    event.preventDefault();
+    setSaveMessage("Changes saved successfully.");
   };
-
-  if (isLoading) {
-    return <div className="flex-1 p-6 flex justify-center text-muted">Loading General Settings...</div>;
-  }
 
   return (
     <>
@@ -206,7 +175,7 @@ function GeneralSettings() {
                     </Select>
                     
                     <div className="pt-2 flex justify-end">
-                      <Button type="submit" size="md" disabled={isSaving} className="bg-primary text-white px-8">{isSaving ? "Saving..." : "Save Changes"}</Button>
+                      <Button type="submit" size="md" className="bg-primary text-white px-8">Save Changes</Button>
                     </div>
                   </div>
                 </div>
@@ -227,7 +196,7 @@ function GeneralSettings() {
                           {formValues.platformStatus ? "Active" : "Offline"}
                         </span>
                         <button type="button" aria-label="Toggle platform status" onClick={() => handleChange("platformStatus", !formValues.platformStatus)} className={`relative h-5 w-9 rounded-full transition-colors ${formValues.platformStatus ? "bg-success" : "bg-muted"}`}>
-                          <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${formValues.platformStatus ? "left-4.5 translate-x-4" : "left-0.5"}`} />
+                          <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${formValues.platformStatus ? "left-4.5" : "left-0.5"}`} />
                         </button>
                       </div>
                     </div>
@@ -238,7 +207,7 @@ function GeneralSettings() {
                         <p className="text-[10px] text-muted leading-tight mt-1">Enable maintenance mode to restrict<br/>access to the platform.</p>
                       </div>
                       <button type="button" aria-label="Toggle maintenance mode" onClick={() => handleChange("maintenanceMode", !formValues.maintenanceMode)} className={`relative h-5 w-9 shrink-0 rounded-full transition-colors ${formValues.maintenanceMode ? "bg-primary" : "bg-muted"}`}>
-                        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${formValues.maintenanceMode ? "left-4.5 translate-x-4" : "left-0.5"}`} />
+                        <span className={`absolute top-0.5 h-4 w-4 rounded-full bg-white transition-transform ${formValues.maintenanceMode ? "left-4.5" : "left-0.5"}`} />
                       </button>
                     </div>
                   </div>
@@ -303,7 +272,7 @@ function GeneralSettings() {
                   </div>
                 </div>
                 <div className="mt-6 flex justify-center">
-                  <Button type="button" onClick={handleSave} size="sm" disabled={isSaving} className="w-[80%] bg-primary text-white">Save Changes</Button>
+                  <Button type="button" size="sm" className="w-[80%] bg-primary text-white">Save Changes</Button>
                 </div>
               </div>
 
@@ -319,7 +288,7 @@ function GeneralSettings() {
                   </div>
                 </div>
                 <div className="mt-6 flex justify-center">
-                  <Button type="button" onClick={handleSave} size="sm" disabled={isSaving} className="w-[80%] bg-primary text-white">Save Changes</Button>
+                  <Button type="button" size="sm" className="w-[80%] bg-primary text-white">Save Changes</Button>
                 </div>
               </div>
 
@@ -347,7 +316,7 @@ function GeneralSettings() {
                   </div>
                 </div>
                 <div className="mt-6 flex justify-center">
-                  <Button type="button" onClick={handleSave} size="sm" disabled={isSaving} className="w-[80%] bg-primary text-white">Save Changes</Button>
+                  <Button type="button" size="sm" className="w-[80%] bg-primary text-white">Save Changes</Button>
                 </div>
               </div>
 

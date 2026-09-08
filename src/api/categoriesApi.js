@@ -1,53 +1,33 @@
-import { API_BASE_URL } from "./config";
-const API_URL = `${API_BASE_URL}/categories`;
+import { apiRequest } from "./apiClient";
 
 export async function getCategories() {
-  const res = await fetch(API_URL);
-  if (!res.ok) throw new Error("Failed to fetch categories");
-  return res.json();
+  return apiRequest("/categories", {}, "Failed to fetch categories");
 }
 
 export async function getCategoryById(id) {
-  const res = await fetch(`${API_URL}?id=${id}`);
-  if (!res.ok) throw new Error("Failed to fetch category");
-  const data = await res.json();
-  return data[0];
+  return apiRequest(`/categories/${id}`, {}, "Failed to fetch category");
 }
 
 export async function getCategoriesByParentId(parentId) {
-  const res = await fetch(`${API_URL}?parentId=${parentId}`);
-  if (!res.ok) throw new Error("Failed to fetch child categories");
-  return res.json();
+  return apiRequest(`/categories?parentId=${parentId}`, {}, "Failed to fetch child categories");
 }
 
 export async function createCategory(categoryData) {
-  const res = await fetch(API_URL, {
+  return apiRequest("/categories", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(categoryData),
-  });
-  if (!res.ok) throw new Error("Failed to create category");
-  return res.json();
+  }, "Failed to create category");
 }
 
 export async function updateCategory(id, categoryData) {
-  const res = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/categories/${id}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
     body: JSON.stringify(categoryData),
-  });
-  if (!res.ok) throw new Error("Failed to update category");
-  return res.json();
+  }, "Failed to update category");
 }
 
 export async function deleteCategory(id) {
-  const res = await fetch(`${API_URL}/${id}`, {
+  return apiRequest(`/categories/${id}`, {
     method: "DELETE",
-  });
-  if (!res.ok) throw new Error("Failed to delete category");
-  return res.json();
+  }, "Failed to delete category");
 }

@@ -4,6 +4,9 @@ import {
   MessageSquareWarning,
   ChevronDown,
   ChevronRight,
+  User,
+  Settings,
+  LogOut,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -12,48 +15,85 @@ import UserImg from "../../assets/logo/Trans_full.png";
 import { useNotifications } from "../../context/NotificationContext";
 import { getComplaints } from "../../api/complaintsApi";
 
+const singularLabels = {
+  "Delivery Partners": "Delivery Partner",
+  "Categories": "Category",
+  "Offers & Coupons": "Offer",
+  "Restaurants": "Restaurant",
+  "Users": "User",
+  "Orders": "Order",
+  "Locations": "Location",
+  "Settings": "Settings",
+  "Profile": "Profile",
+};
+
+const settingsTitles = {
+  general: "General",
+  site: "Site Settings",
+  commission: "Commission Settings",
+  payment: "Payment Settings",
+  delivery: "Delivery Settings",
+  notification: "Notification Settings",
+  email: "Email Settings",
+  sms: "SMS Settings",
+  app: "App Settings",
+  security: "Security Settings",
+  seo: "SEO Settings",
+  maintenance: "Maintenance Mode",
+  integrations: "Third Party Integrations"
+};
+
 const getRouteInfo = (pathname) => {
+  const segments = pathname.split("/").filter(Boolean);
+
+  if (segments.length === 0 || pathname === "/dashboard") {
+    return { title: "Dashboard", parent: null, parentPath: null };
+  }
+
+  // Handle settings specifically
+  if (segments[0] === "settings") {
+    const settingTab = segments[1] || "general";
+    const tabTitle = settingsTitles[settingTab] || "Settings";
+    if (settingTab === "general" && segments.length === 1) {
+      return { title: tabTitle, parent: "Settings", parentPath: "/settings" };
+    }
+    return { title: tabTitle, parent: "Settings", parentPath: "/settings" };
+  }
+
+  // Find main route from navigation
   const mainRoute = navigationItems.find(
-    (item) => pathname === item.path || pathname.startsWith(`${item.path}/`),
+    (item) => pathname === item.path || pathname.startsWith(`${item.path}/`)
   );
 
+  // If we can't find it, fallback
   if (!mainRoute) {
-    return {
-      title: "Dashboard",
-      parent: null,
-      parentPath: null,
-    };
+    if (segments[0] === "profile") {
+      if (segments[1] === "edit") {
+        return { title: "Edit Profile", parent: "Profile", parentPath: "/profile" };
+      }
+      return { title: "Profile", parent: null, parentPath: null };
+    }
+    return { title: "Dashboard", parent: null, parentPath: null };
   }
 
+  // Exact match
   if (pathname === mainRoute.path) {
-    return {
-      title: mainRoute.label,
-      parent: null,
-      parentPath: null,
-    };
+    return { title: mainRoute.label, parent: null, parentPath: null };
   }
 
-  const segments = pathname.split("/").filter(Boolean);
   const action = segments[1];
+  const singularLabel = singularLabels[mainRoute.label] || mainRoute.label;
 
-  const actionTitles = {
-    add: `Add ${mainRoute.label.replace(/s$/, "")}`,
-    edit: `Edit ${mainRoute.label.replace(/s$/, "")}`,
-  };
-
-  if (action === "add" || action === "edit") {
-    return {
-      title: actionTitles[action],
-      parent: mainRoute.label,
-      parentPath: mainRoute.path,
-    };
+  if (action === "add") {
+    return { title: `Add ${singularLabel}`, parent: mainRoute.label, parentPath: mainRoute.path };
+  }
+  
+  if (action === "edit") {
+    return { title: `Edit ${singularLabel}`, parent: mainRoute.label, parentPath: mainRoute.path };
   }
 
-  return {
-    title: `${mainRoute.label.replace(/s$/, "")} Details`,
-    parent: mainRoute.label,
-    parentPath: mainRoute.path,
-  };
+  // Details page
+  return { title: `${singularLabel} Details`, parent: mainRoute.label, parentPath: mainRoute.path };
 };
 
 function Header({ onMenuClick }) {
@@ -228,16 +268,24 @@ function Header({ onMenuClick }) {
             <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-border bg-surface p-1 shadow-lg">
               <button
                 type="button"
-                className="flex w-full items-center rounded-md px-3 py-2 text-sm text-foreground hover:bg-primary-light hover:text-primary"
+                onClick={() => {
+                  navigate("/profile");
+                  setIsProfileOpen(false);
+                }}
+                className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-primary-light hover:text-primary"
               >
-                Profile
+                <User size={16} /> Profile
               </button>
 
               <button
                 type="button"
-                className="flex w-full items-center rounded-md px-3 py-2 text-sm text-foreground hover:bg-primary-light hover:text-primary"
+                onClick={() => {
+                  navigate("/settings");
+                  setIsProfileOpen(false);
+                }}
+                className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-foreground hover:bg-primary-light hover:text-primary"
               >
-                Settings
+                <Settings size={16} /> Settings
               </button>
 
               <div className="my-1 border-t border-border" />
@@ -250,9 +298,9 @@ function Header({ onMenuClick }) {
                   setIsProfileOpen(false);
                   navigate("/");
                 }}
-                className="flex w-full items-center rounded-md px-3 py-2 text-sm text-danger hover:bg-primary-light"
+                className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm text-danger hover:bg-danger/10"
               >
-                Sign out
+                <LogOut size={16} /> Sign out
               </button>
             </div>
           )}

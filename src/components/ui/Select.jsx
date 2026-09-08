@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Children, useEffect, useRef, useState } from "react";
 
 function Select({
   label,
@@ -12,60 +12,71 @@ function Select({
   onChange,
   placeholder = "Select...",
   disabled = false,
+  containerClassName = "",
   ...props
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
 
-  // Build a normalized options list from either the `options` prop
-  // or from <option> children (backward compatibility).
-  const optionsList = (() => {
-    if (options.length > 0) {
-      return options.map((opt) =>
-        typeof opt === "string" ? { label: opt, value: opt } : opt,
-      );
-    }
+  const optionsList =
+    options.length > 0
+      ? options.map((option) =>
+          typeof option === "string"
+            ? { label: option, value: option }
+            : option,
+        )
+      : Children.toArray(children)
+          .map((child) => {
+            if (!child?.props) {
+              return null;
+            }
 
-    if (children) {
-      const childrenArray = Array.isArray(children) ? children : [children];
-      return childrenArray
-        .map((child) => {
-          if (!child || !child.props) return null;
-          return {
-            label: child.props.children,
-            value: child.props.value,
-          };
-        })
-        .filter((opt) => opt && opt.value !== undefined);
-    }
+            return {
+              label: child.props.children,
+              value: child.props.value,
+              disabled: child.props.disabled,
+            };
+          })
+          .filter((option) => option?.value !== undefined);
 
-    return [];
-  })();
-
-  // Close dropdown when clicking outside the component.
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
         setIsOpen(false);
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const handleSelect = (selectedValue) => {
-    if (onChange) {
-      onChange({ target: { value: selectedValue } });
+    if (disabled) {
+      return;
     }
+
+    onChange?.({
+      target: {
+        value: selectedValue,
+        name: props.name,
+      },
+    });
+
     setIsOpen(false);
   };
 
-  const activeOption = optionsList.find((opt) => opt.value === value);
-  const displayLabel = activeOption ? activeOption.label : placeholder;
+  const activeOption = optionsList.find((option) => option.value === value);
+
+  const displayLabel = activeOption?.label ?? placeholder;
 
   return (
-    <div className="w-full" ref={containerRef}>
+    <div className={["w-full", containerClassName].filter(Boolean).join(" ")} ref={containerRef}>
       {label && (
         <label
           htmlFor={id}
@@ -80,13 +91,19 @@ function Select({
           type="button"
           id={id}
           disabled={disabled}
-          onClick={() => !disabled && setIsOpen((prev) => !prev)}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          onClick={() => {
+            if (!disabled) {
+              setIsOpen((prev) => !prev);
+            }
+          }}
           className={[
             "flex h-10 w-full items-center justify-between rounded-lg border px-3.5 py-2.5",
-            "text-sm text-left transition-colors",
+            "text-left text-sm transition-colors outline-none",
             disabled
-              ? "cursor-not-allowed opacity-50"
-              : "bg-background text-foreground",
+              ? "cursor-not-allowed bg-background opacity-50"
+              : "cursor-pointer bg-background text-foreground",
             error
               ? "border-danger focus:border-danger focus:ring-1 focus:ring-danger"
               : isOpen
@@ -111,26 +128,46 @@ function Select({
         </button>
 
         {isOpen && (
-          <div className="absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-auto scrollbar-none rounded-lg border border-border bg-surface shadow-lg">
-            {optionsList.map((option) => {
-              const isSelected = option.value === value;
+          <div
+            role="listbox"
+            aria-labelledby={id}
+            className="absolute left-0 right-0 top-full z-50 mt-1 max-h-60 overflow-auto scrollbar-none rounded-lg border border-border bg-surface shadow-lg"
+          >
+            {optionsList.length > 0 ? (
+              optionsList.map((option) => {
+                const isSelected = option.value === value;
 
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  onClick={() => handleSelect(option.value)}
-                  className={[
-                    "flex w-full items-center px-3.5 py-2.5 text-sm text-left transition-colors",
-                    isSelected
-                      ? "bg-primary text-white"
-                      : "bg-surface text-foreground hover:bg-primary-light hover:text-primary",
-                  ].join(" ")}
-                >
-                  {option.label}
-                </button>
-              );
-            })}
+                return (
+                  <button
+                    key={option.value}
+                    type="button"
+                    role="option"
+                    aria-selected={isSelected}
+                    disabled={option.disabled}
+                    onClick={() => {
+                      if (!option.disabled) {
+                        handleSelect(option.value);
+                      }
+                    }}
+                    className={[
+                      "flex w-full items-center px-3.5 py-2.5 text-left text-sm transition-colors",
+                      option.disabled
+                        ? "cursor-not-allowed opacity-50"
+                        : "cursor-pointer",
+                      isSelected
+                        ? "bg-primary text-white"
+                        : "bg-surface text-foreground hover:bg-primary-light hover:text-primary",
+                    ].join(" ")}
+                  >
+                    {option.label}
+                  </button>
+                );
+              })
+            ) : (
+              <div className="px-3.5 py-2.5 text-sm text-muted">
+                No options available
+              </div>
+            )}
           </div>
         )}
       </div>

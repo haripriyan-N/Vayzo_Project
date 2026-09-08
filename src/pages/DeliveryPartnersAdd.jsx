@@ -10,6 +10,7 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import StatusSelect from "../components/ui/StatusSelect";
 import { createDeliveryPartner, getDeliveryPartnerById, updateDeliveryPartner } from "../api/deliveryPartnersApi";
+import { fileToBase64 } from "../utils/fileUtils";
 
 const vehicleOptions = [
   "Select vehicle type",
@@ -69,6 +70,7 @@ function DeliveryPartnersAdd() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     if (isEditing) {
@@ -108,6 +110,7 @@ function DeliveryPartnersAdd() {
         ifscCode: data.ifscCode || "",
         accountHolderName: data.accountHolderName || "",
       });
+      setImagePreview(data.profileImage || data.image || null);
     } catch (err) {
       setError("Unable to load partner details.");
     } finally {
@@ -130,6 +133,18 @@ function DeliveryPartnersAdd() {
     />
   );
 
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      try {
+        const base64 = await fileToBase64(file);
+        setImagePreview(base64);
+      } catch (err) {
+        console.error("Failed to read file", err);
+      }
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -139,6 +154,7 @@ function DeliveryPartnersAdd() {
       
       const payload = {
         ...form,
+        profileImage: imagePreview,
         // Mock values for new partner if we're adding
         ...(isEditing ? {} : {
           partnerId: "DVP" + Math.floor(Math.random() * 90000 + 10000),
@@ -202,25 +218,38 @@ function DeliveryPartnersAdd() {
                 </span>
                 <label
                   htmlFor="profile-image"
-                  className="cursor-pointer flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-background hover:bg-surface-hover hover:border-primary/40 transition-all text-center p-6 group h-full"
+                  className="cursor-pointer flex flex-1 flex-col items-center justify-center rounded-xl border-2 border-dashed border-border bg-background hover:bg-surface-hover hover:border-primary/40 transition-all text-center p-2 group h-full relative overflow-hidden"
                 >
                   <input
                     type="file"
                     id="profile-image"
                     className="hidden"
                     accept="image/png, image/jpeg, image/webp"
+                    onChange={handleImageChange}
                   />
-                  <CloudUpload
-                    size={32}
-                    className="text-primary mb-4 transition-transform group-hover:scale-110"
-                  />
-                  <p className="text-sm font-medium text-foreground">
-                    Click to upload
-                  </p>
-                  <p className="mt-1 text-xs text-muted">or drag and drop</p>
-                  <p className="mt-2 text-[10px] text-muted">
-                    JPG, PNG or WEBP (Max 2MB)
-                  </p>
+                  {imagePreview ? (
+                    <div className="w-full h-full min-h-[140px] relative group/img rounded-lg overflow-hidden flex items-center justify-center bg-black/5">
+                      <img src={imagePreview} alt="Preview" className="max-h-full max-w-full object-contain" />
+                      <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover/img:opacity-100 transition-opacity">
+                        <CloudUpload size={24} className="text-white mb-2" />
+                        <p className="text-xs text-white">Change Image</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="py-6 flex flex-col items-center justify-center">
+                      <CloudUpload
+                        size={32}
+                        className="text-primary mb-4 transition-transform group-hover:scale-110"
+                      />
+                      <p className="text-sm font-medium text-foreground">
+                        Click to upload
+                      </p>
+                      <p className="mt-1 text-xs text-muted">or drag and drop</p>
+                      <p className="mt-2 text-[10px] text-muted">
+                        JPG, PNG or WEBP (Max 2MB)
+                      </p>
+                    </div>
+                  )}
                 </label>
               </div>
             </div>
