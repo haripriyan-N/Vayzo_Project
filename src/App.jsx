@@ -15,6 +15,10 @@ import Users from "./pages/Users";
 import UsersAdd from "./pages/UsersAdd";
 import UsersDetails from "./pages/UsersDetails";
 
+// Orders
+import Orders from "./pages/Orders";
+import OrderDetails from "./pages/OrderDetails";
+
 import { NotificationProvider } from "./context/NotificationContext";
 
 import DeliveryPartner from "./pages/DeliveryPartner";
