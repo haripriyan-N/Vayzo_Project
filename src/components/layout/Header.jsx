@@ -14,6 +14,7 @@ import { navigationItems } from "../../constants/navigation";
 import UserImg from "../../assets/logo/Trans_full.png";
 import { useNotifications } from "../../context/NotificationContext";
 import { getComplaints } from "../../api/complaintsApi";
+import Avatar from "../ui/Avatar";
 
 const singularLabels = {
   "Delivery Partners": "Delivery Partner",
@@ -239,9 +240,10 @@ function Header({ onMenuClick }) {
             aria-label="Open profile menu"
           >
             <div className="h-9 w-9 overflow-hidden rounded-full">
-              <img
-                src={user.profileImage || UserImg}
+              <Avatar
+                src={user.profileImage}
                 alt={user.name}
+                identifier={user.id || user.userId || user.email || "admin"}
                 className="h-full w-full object-cover"
               />
             </div>

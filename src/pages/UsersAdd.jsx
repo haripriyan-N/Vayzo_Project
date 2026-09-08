@@ -15,7 +15,7 @@ import Input from "../components/ui/Input";
 import Select from "../components/ui/Select";
 import StatusSelect from "../components/ui/StatusSelect";
 import { createUser, getUserById, updateUser } from "../api/usersApi";
-import { fileToBase64 } from "../utils/fileUtils";
+import { fileToBase64, validateImage } from "../utils/fileUtils";
 
 const types = [
   "Select user type",
@@ -118,13 +118,16 @@ function AddUsers() {
   );
 
   const handleImageChange = async (e) => {
+    setError("");
     const file = e.target.files[0];
     if (file) {
       try {
+        await validateImage(file);
         const base64 = await fileToBase64(file);
         setImagePreview(base64);
       } catch (err) {
         console.error("Failed to read file", err);
+        setError(err.message);
       }
     }
   };

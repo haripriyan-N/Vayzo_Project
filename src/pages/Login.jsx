@@ -4,22 +4,31 @@ import { Eye, EyeOff, LockKeyhole, Mail, ShieldCheck } from "lucide-react";
 import AuthLayout from "../components/layout/AuthLayout";
 import { mockAdmin, mockAdminCredentials } from "../mock/vayzoApiMock";
 
+import { login } from "../api/authApi";
+
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (email === mockAdminCredentials.email && password === mockAdminCredentials.password) {
-      localStorage.setItem("vayzo_admin_logged_in", "true");
-      localStorage.setItem("vayzo_admin_user", JSON.stringify(mockAdmin));
-      navigate("/dashboard");
-      return;
+    setLoading(true);
+    try {
+      const response = await login(email, password);
+      if (response.success) {
+        localStorage.setItem("vayzo_admin_logged_in", "true");
+        localStorage.setItem("vayzo_admin_user", JSON.stringify(response.user));
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      alert("Invalid email or password");
+    } finally {
+      setLoading(false);
     }
-    alert("Invalid email or password");
   };
 
   return (

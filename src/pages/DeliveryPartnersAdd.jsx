@@ -10,7 +10,7 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import StatusSelect from "../components/ui/StatusSelect";
 import { createDeliveryPartner, getDeliveryPartnerById, updateDeliveryPartner } from "../api/deliveryPartnersApi";
-import { fileToBase64 } from "../utils/fileUtils";
+import { fileToBase64, validateImage } from "../utils/fileUtils";
 
 const vehicleOptions = [
   "Select vehicle type",
@@ -134,13 +134,16 @@ function DeliveryPartnersAdd() {
   );
 
   const handleImageChange = async (e) => {
+    setError("");
     const file = e.target.files[0];
     if (file) {
       try {
+        await validateImage(file);
         const base64 = await fileToBase64(file);
         setImagePreview(base64);
       } catch (err) {
         console.error("Failed to read file", err);
+        setError(err.message);
       }
     }
   };

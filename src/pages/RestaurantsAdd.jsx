@@ -20,7 +20,7 @@ import {
   getRestaurantById,
   updateRestaurant,
 } from "../api/restaurantsApi";
-import { fileToBase64 } from "../utils/fileUtils";
+import { fileToBase64, validateImage } from "../utils/fileUtils";
 import { RESTAURANT_CUISINES } from "./Restaurants";
 
 function RequiredLabel({ text }) {
@@ -350,14 +350,18 @@ function RestaurantsAdd() {
                       <input
                         type="file"
                         className="hidden"
-                        accept="image/*"
+                        accept="image/png, image/jpeg, image/webp"
                         ref={logoInputRef}
                         onChange={async (e) => {
-                          if (e.target.files?.[0]) {
+                          const file = e.target.files?.[0];
+                          if (file) {
                             try {
-                              const base64 = await fileToBase64(e.target.files[0]);
+                              await validateImage(file);
+                              const base64 = await fileToBase64(file);
                               setLogoPreview(base64);
+                              setError("");
                             } catch (err) {
+                              setError(err.message);
                               console.error(err);
                             }
                           }
@@ -370,7 +374,7 @@ function RestaurantsAdd() {
                         or drag and drop
                       </p>
                       <p className="text-[10px] text-muted mt-0.5">
-                        PNG, JPG or WEBP (Max 2MB)
+                        PNG, JPG or WEBP (Max 2MP)
                       </p>
                     </label>
                   </div>
@@ -384,14 +388,18 @@ function RestaurantsAdd() {
                     <input
                       type="file"
                       className="hidden"
-                      accept="image/*"
+                      accept="image/png, image/jpeg, image/webp"
                       ref={coverInputRef}
                       onChange={async (e) => {
-                        if (e.target.files?.[0]) {
+                        const file = e.target.files?.[0];
+                        if (file) {
                           try {
-                            const base64 = await fileToBase64(e.target.files[0]);
+                            await validateImage(file);
+                            const base64 = await fileToBase64(file);
                             setCoverPreview(base64);
+                            setError("");
                           } catch (err) {
+                            setError(err.message);
                             console.error(err);
                           }
                         }
@@ -602,12 +610,16 @@ function RestaurantsAdd() {
                     <GripVertical size={16} />
                   </div>
 
-                  <div className="w-12 h-12 rounded-lg bg-surface-hover shrink-0 overflow-hidden border border-border/50">
-                    <img
-                      src={item.image || `https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=100&h=100&sig=${item.id}`}
-                      alt="food"
-                      className="w-full h-full object-cover"
-                    />
+                  <div className="w-12 h-12 rounded-lg bg-surface-hover shrink-0 overflow-hidden border border-border/50 flex items-center justify-center text-muted font-bold text-xs">
+                    {item.image ? (
+                      <img
+                        src={item.image}
+                        alt="food"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      item.name?.charAt(0) || "I"
+                    )}
                   </div>
 
                   <div className="flex-1 min-w-0">

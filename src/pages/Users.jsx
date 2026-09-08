@@ -325,7 +325,8 @@ function Users() {
               paginatedUsers.map((user, index) => (
                 <tr
                   key={user.userId}
-                  className="border-b border-border last:border-0 transition-colors hover:bg-background"
+                  onClick={() => navigate(`/users/${user.userId}`)}
+                  className="border-b border-border last:border-0 transition-colors hover:bg-background cursor-pointer"
                 >
                   <td className="whitespace-nowrap px-3 py-3 font-medium text-foreground">
                     {String((currentPage - 1) * itemsPerPage + index + 1).padStart(2, "0")}

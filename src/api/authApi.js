@@ -2,17 +2,42 @@ import { mockAdmin, mockAdminCredentials } from "../mock/vayzoApiMock";
 import { apiRequest } from "./apiClient";
 
 export async function login(email, password) {
-  // Simulate delay
-  await new Promise((res) => setTimeout(res, 500));
+  // Try to find user in API
+  try {
+    const users = await apiRequest(`/users?email=${email}`);
+    if (users && users.length > 0) {
+      const user = users[0];
+      // Note: for this mock, we accept the mock password or the saved password
+      if (
+        user.password === password ||
+        (password === mockAdminCredentials.password && email === mockAdminCredentials.email)
+      ) {
+        return { success: true, user };
+      }
+    }
+  } catch (err) {
+    console.error("Login fetch error:", err);
+  }
+
+  // Fallback to mock credentials if API fails or user not found, 
+  // but we prefer the API so that profile edits persist across logins.
   if (
     email === mockAdminCredentials.email &&
     password === mockAdminCredentials.password
   ) {
-    return {
-      success: true,
-      user: mockAdmin,
-    };
+    // If they used the mock credentials but the user isn't in db.json with this email,
+    // we fetch the primary admin by ID to ensure persistence works for the default admin.
+    try {
+      const defaultAdmin = await apiRequest(`/users/${mockAdmin.id}`);
+      if (defaultAdmin) {
+        return { success: true, user: defaultAdmin };
+      }
+    } catch (e) {
+      // Ignore
+    }
+    return { success: true, user: mockAdmin };
   }
+
   throw new Error("Invalid email or password");
 }
 
@@ -46,6 +71,29 @@ export async function verifyLoginOtp(contact, otp) {
   if (sessions.length > 0) {
     // Delete the verified session
     await apiRequest(`/otpSessions/${sessions[0].id}`, { method: "DELETE" });
+    
+    // Try to find the user by contact
+    try {
+      // First try email
+      let users = await apiRequest(`/users?email=${contact}`);
+      if (!users || users.length === 0) {
+        // Then try mobile
+        users = await apiRequest(`/users?mobileNumber=${contact}`);
+      }
+      
+      if (users && users.length > 0) {
+        return { success: true, user: users[0], message: "OTP verified" };
+      }
+      
+      // Fallback to default admin ID
+      const defaultAdmin = await apiRequest(`/users/${mockAdmin.id}`);
+      if (defaultAdmin) {
+        return { success: true, user: defaultAdmin, message: "OTP verified" };
+      }
+    } catch (err) {
+      console.error("OTP user fetch error:", err);
+    }
+    
     return { success: true, user: mockAdmin, message: "OTP verified" };
   }
 
