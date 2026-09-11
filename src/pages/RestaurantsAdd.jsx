@@ -1,20 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 import {
   ArrowLeft,
-  GripVertical,
   Plus,
   MapPin,
   Clock,
   Lightbulb,
   Trash2,
+  Pencil,
   X,
 } from "lucide-react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 
-import Button from "../components/ui/Button";
+import Button from "../components/ui/button";
 import Input from "../components/ui/Input";
 import StatusSelect from "../components/ui/StatusSelect";
 import Card from "../components/ui/Card";
+import Modal from "../components/ui/Modal";
 import {
   createRestaurant,
   getRestaurantById,
@@ -22,6 +23,7 @@ import {
 } from "../api/restaurantsApi";
 import { fileToBase64 } from "../utils/fileUtils";
 import { RESTAURANT_CUISINES } from "./Restaurants";
+import { getCategories } from "../api/categoriesApi";
 
 function RequiredLabel({ text }) {
   return (
@@ -72,29 +74,31 @@ function RestaurantsAdd() {
     deliveryCharge: "",
     openingTime: "",
     closingTime: "",
-    menuItems: [
-      { id: 1, name: "Pizza", category: "Pizzas", price: "299", status: true },
-      {
-        id: 2,
-        name: "Burger",
-        category: "Burgers",
-        price: "179",
-        status: true,
-      },
-      { id: 3, name: "Pasta", category: "Pasta", price: "229", status: true },
-      {
-        id: 4,
-        name: "Cold Coffee",
-        category: "Beverages",
-        price: "129",
-        status: true,
-      },
-    ],
+    menuItems: [],
   });
+
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
 
   const [loading, setLoading] = useState(false);
   const [fetchLoading, setFetchLoading] = useState(isEditing);
   const [error, setError] = useState("");
+  const [menuSearch, setMenuSearch] = useState("");
+  const [editingMenuItem, setEditingMenuItem] = useState(null);
+
+  useEffect(() => {
+    const fetchAllCategories = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (err) {
+        console.error("Failed to load categories:", err);
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
+    fetchAllCategories();
+  }, []);
 
   useEffect(() => {
     if (!isEditing) return;
@@ -156,15 +160,17 @@ function RestaurantsAdd() {
   };
 
   const addMenuItem = () => {
+    const newItemId = `temp-${Date.now()}`;
     setForm((prev) => ({
       ...prev,
       menuItems: [
         ...prev.menuItems,
         {
-          id: Date.now(),
+          id: newItemId,
           name: "",
-          category: "Pizzas",
+          category: "",
           price: "",
+          image: "",
           status: true,
         },
       ],
@@ -193,6 +199,15 @@ function RestaurantsAdd() {
     setLoading(true);
     setError("");
     try {
+      const cleanMenuItems = form.menuItems.map((item) => {
+        const cleaned = { ...item };
+        delete cleaned.isEditing;
+        if (typeof cleaned.id === "string" && cleaned.id.startsWith("temp-")) {
+          delete cleaned.id;
+        }
+        return cleaned;
+      });
+
       const payload = {
         ...form,
         cuisineType: form.cuisines.join(", "),
@@ -201,6 +216,7 @@ function RestaurantsAdd() {
         deliveryCharge: Number(form.deliveryCharge) || 0,
         logo: logoPreview || undefined,
         coverImage: coverPreview || undefined,
+        menuItems: cleanMenuItems,
       };
       if (isEditing) {
         await updateRestaurant(restaurantId, { ...payload, id: restaurantId });
@@ -229,7 +245,7 @@ function RestaurantsAdd() {
     <section className="min-h-full bg-background p-4 sm:p-6 lg:p-8">
       <form
         onSubmit={handleSubmit}
-        className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-6 items-start"
+        className="grid grid-cols-1 xl:grid-cols-[1fr_minmax(320px,400px)] gap-6 items-start"
       >
         {/* Left Column */}
         <div className="space-y-6">
@@ -346,7 +362,9 @@ function RestaurantsAdd() {
                         <span className="text-xs text-muted">No Logo</span>
                       )}
                     </div>
-                    <label className="border border-dashed border-border rounded-lg h-[120px] flex-1 bg-background flex flex-col items-center justify-center p-4 text-center cursor-pointer hover:bg-surface transition-colors relative overflow-hidden group">
+                    <div 
+                      onClick={() => logoInputRef.current?.click()}
+                      className="border border-dashed border-border rounded-lg h-[120px] flex-1 bg-background flex flex-col items-center justify-center p-4 text-center cursor-pointer hover:bg-surface transition-colors relative overflow-hidden group">
                       <input
                         type="file"
                         className="hidden"
@@ -372,7 +390,7 @@ function RestaurantsAdd() {
                       <p className="text-[10px] text-muted mt-0.5">
                         PNG, JPG or WEBP (Max 2MB)
                       </p>
-                    </label>
+                    </div>
                   </div>
                 </div>
 
@@ -380,7 +398,9 @@ function RestaurantsAdd() {
                   <label className="block text-xs font-medium text-foreground">
                     <RequiredLabel text="Cover Image" />
                   </label>
-                  <label className="border border-dashed border-border rounded-lg h-[160px] bg-background flex items-center justify-center relative overflow-hidden group cursor-pointer block w-full">
+                  <div 
+                    onClick={() => coverInputRef.current?.click()}
+                    className="border border-dashed border-border rounded-lg h-[160px] bg-background flex items-center justify-center relative overflow-hidden group cursor-pointer block w-full">
                     <input
                       type="file"
                       className="hidden"
@@ -398,14 +418,9 @@ function RestaurantsAdd() {
                       }}
                     />
                     <div className="absolute inset-0 bg-surface/50 hidden group-hover:flex items-center justify-center z-10 backdrop-blur-sm transition-all">
-                      <Button
-                        size="sm"
-                        variant="secondary"
-                        type="button"
-                        className="pointer-events-none"
-                      >
+                      <div className="px-3 py-1.5 text-sm font-medium rounded-md bg-secondary text-secondary-foreground shadow-sm pointer-events-none">
                         Change Image
-                      </Button>
+                      </div>
                     </div>
                     {coverPreview ? (
                       <img
@@ -417,7 +432,7 @@ function RestaurantsAdd() {
                         Click to select cover image
                       </div>
                     )}
-                  </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -562,7 +577,7 @@ function RestaurantsAdd() {
               className="px-6 bg-primary"
               disabled={loading}
             >
-              {loading ? "Saving..." : "Save Restaurant"}
+              {loading ? "Saving..." : (isEditing ? "Save Restaurant" : "Add Restaurant")}
             </Button>
             <Button
               variant="secondary"
@@ -584,24 +599,30 @@ function RestaurantsAdd() {
           </div>
 
           <Card className="p-0 overflow-hidden border-border bg-surface/50">
-            <div className="border-b border-border">
+            <div className="border-b border-border flex items-center justify-between pr-4">
               <div className="flex border-b-[2px] border-primary w-fit px-4 py-3">
-                <span className="text-xs font-bold text-primary">
+                <span className="text-xs font-semibold text-primary">
                   Menu Items ({form.menuItems.length})
                 </span>
               </div>
             </div>
 
+            <div className="p-4 border-b border-border">
+              <Input
+                placeholder="Search menu items..."
+                value={menuSearch}
+                onChange={(e) => setMenuSearch(e.target.value)}
+              />
+            </div>
+
             <div className="p-4 space-y-4">
-              {form.menuItems.map((item, i) => (
+              {form.menuItems
+                .filter(item => !menuSearch || (item.name || "").toLowerCase().includes(menuSearch.toLowerCase()))
+                .map((item, i) => (
                 <div
                   key={item.id}
-                  className="flex items-start gap-3 p-4 bg-background border border-border rounded-xl shadow-sm"
+                  className="flex flex-wrap sm:flex-nowrap items-center gap-3 p-3 bg-background border border-border rounded-xl shadow-sm"
                 >
-                  <div className="pt-3 text-muted cursor-grab">
-                    <GripVertical size={16} />
-                  </div>
-
                   <div className="w-12 h-12 rounded-lg bg-surface-hover shrink-0 overflow-hidden border border-border/50">
                     <img
                       src={item.image || `https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=100&h=100&sig=${item.id}`}
@@ -610,85 +631,63 @@ function RestaurantsAdd() {
                     />
                   </div>
 
-                  <div className="flex-1 min-w-0">
-                    <div className="font-bold text-sm text-foreground mb-4 truncate">
-                      {item.name || `Item ${i + 1}`}
+                  <div className="flex-1 min-w-0 pr-2">
+                    <h4 className="font-bold text-sm text-foreground mb-0.5 truncate">
+                      {item.name || "Unnamed Item"}
+                    </h4>
+                    <p className="text-xs text-muted mb-1 truncate">
+                      {item.category || "No Category"}
+                    </p>
+                    <p className="text-sm font-semibold text-foreground">
+                      ₹{item.price || "0"}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 shrink-0 ml-auto justify-end border-l border-border pl-3">
+                    <div className="flex flex-col items-center gap-0.5">
+                      <span className="text-[9px] font-medium text-success">Active</span>
+                      <CustomToggle
+                        checked={item.status}
+                        onChange={(v) => handleMenuItemChange(item.id, "status", v)}
+                      />
                     </div>
-                    <div className="grid grid-cols-2 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_auto_auto] gap-4 items-end w-full">
-                      <div>
-                        <label className="block text-[10px] font-medium text-muted mb-1">
-                          <RequiredLabel text="Category" />
-                        </label>
-                        <StatusSelect
-                          options={[
-                            "Pizzas",
-                            "Burgers",
-                            "Pasta",
-                            "Beverages",
-                            "Desserts",
-                          ]}
-                          value={item.category}
-                          onChange={(e) =>
-                            handleMenuItemChange(
-                              item.id,
-                              "category",
-                              e.target.value,
-                            )
-                          }
-                          className="w-full h-8 text-xs py-0"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-medium text-muted mb-1">
-                          <RequiredLabel text="Price (₹)" />
-                        </label>
-                        <input
-                          type="number"
-                          className="w-full h-8 px-2 rounded-lg border border-border bg-background text-xs focus:outline-none focus:ring-1 focus:ring-primary"
-                          value={item.price}
-                          onChange={(e) =>
-                            handleMenuItemChange(
-                              item.id,
-                              "price",
-                              e.target.value,
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-medium text-muted mb-1">
-                          Status
-                        </label>
-                        <div className="h-8 flex items-center">
-                          <CustomToggle
-                            checked={item.status}
-                            onChange={(v) =>
-                              handleMenuItemChange(item.id, "status", v)
-                            }
-                          />
-                        </div>
-                      </div>
-                      <div className="h-8 flex items-center">
-                        <button
-                          type="button"
-                          onClick={() => removeMenuItem(item.id)}
-                          className="w-8 h-8 rounded border border-danger/30 bg-danger/10 text-danger flex items-center justify-center hover:bg-danger hover:text-white transition-colors"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
+                    <div className="flex items-center gap-1.5 ml-1">
+                      <button
+                        type="button"
+                        onClick={() => setEditingMenuItem({ ...item })}
+                        className="w-8 h-8 rounded border border-border bg-surface flex items-center justify-center hover:bg-surface-hover text-muted transition-colors shrink-0"
+                        title="Edit Item"
+                      >
+                        <Pencil size={14} />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeMenuItem(item.id)}
+                        className="w-8 h-8 rounded border border-danger/30 bg-danger/10 text-danger flex items-center justify-center hover:bg-danger hover:text-white transition-colors shrink-0"
+                        title="Delete Item"
+                      >
+                        <Trash2 size={14} />
+                      </button>
                     </div>
                   </div>
                 </div>
               ))}
+            </div>
 
-              <button
+            <div className="p-4 pt-0">
+              <Button
                 type="button"
+                variant={form.menuItems.length === 0 ? "primary" : "ghost"}
+                className={`w-full ${
+                  form.menuItems.length === 0
+                    ? "py-2"
+                    : "border border-dashed border-primary/30 text-primary hover:bg-primary/5 bg-primary/5"
+                }`}
                 onClick={addMenuItem}
-                className="w-full py-3 rounded-xl border border-dashed border-primary/50 text-primary bg-primary/5 text-sm font-medium flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors"
               >
-                <Plus size={16} /> Add More Items
-              </button>
+                <Plus size={16} className="mr-2" /> 
+                {form.menuItems.length === 0 ? "Add New Item" : "Add More Items"}
+              </Button>
             </div>
           </Card>
 
@@ -704,6 +703,168 @@ function RestaurantsAdd() {
           </div>
         </div>
       </form>
+      <Modal
+        isOpen={!!editingMenuItem}
+        onClose={() => setEditingMenuItem(null)}
+        title="Edit Menu Item"
+      >
+        {editingMenuItem && (
+          <div className="space-y-4">
+            <div>
+              <label className="text-xs font-medium text-muted mb-1 block">Item Name</label>
+              <Input
+                value={editingMenuItem.name}
+                onChange={(e) => setEditingMenuItem(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="Enter item name"
+              />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-xs font-medium text-muted mb-1 block">Category</label>
+                <select
+                  className="w-full bg-surface-hover text-sm text-foreground outline-none border border-border rounded-lg px-3 h-10"
+                  value={editingMenuItem.category}
+                  onChange={(e) => setEditingMenuItem(prev => ({ ...prev, category: e.target.value }))}
+                >
+                  <option value="" disabled>Select Category</option>
+                  {categories.map(cat => (
+                    <option key={cat.id} value={cat.name}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-xs font-medium text-muted mb-1 block">Price (₹)</label>
+                <Input
+                  type="number"
+                  value={editingMenuItem.price}
+                  onChange={(e) => setEditingMenuItem(prev => ({ ...prev, price: e.target.value }))}
+                  placeholder="0.00"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="text-xs font-medium text-muted mb-2 block">Menu Item Images</label>
+              <div className="grid grid-cols-2 gap-3">
+                {[0, 1, 2, 3].map((index) => {
+                  const currentImages = editingMenuItem.images || (editingMenuItem.image ? [editingMenuItem.image] : []);
+                  const img = currentImages[index];
+                  return (
+                    <div
+                      key={index}
+                      className="border border-dashed border-border rounded-lg h-[90px] bg-background flex items-center justify-center relative overflow-hidden group w-full"
+                    >
+                      {img ? (
+                        <>
+                          <img
+                            src={img}
+                            className="w-full h-full object-contain bg-white"
+                          />
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setEditingMenuItem((prev) => {
+                                const newImages = [...(prev.images || (prev.image ? [prev.image] : []))];
+                                newImages[index] = null;
+                                return { ...prev, images: newImages, image: newImages.find(Boolean) || "" };
+                              });
+                            }}
+                            className="absolute top-1.5 right-1.5 w-6 h-6 bg-surface border border-border text-danger rounded-md flex items-center justify-center opacity-80 hover:opacity-100 hover:bg-danger/10 shadow-sm z-20 transition-all"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </>
+                      ) : (
+                        <div 
+                          onClick={() => document.getElementById(`menuItemImgUpload-${index}`)?.click()}
+                          className="w-full h-full flex flex-col items-center justify-center cursor-pointer hover:bg-surface transition-colors"
+                        >
+                          <p className="text-xs font-medium text-primary">Image {index + 1}</p>
+                          <p className="text-[10px] text-muted mt-0.5">Click to upload</p>
+                          <input
+                            id={`menuItemImgUpload-${index}`}
+                            type="file"
+                            className="hidden"
+                            accept="image/*"
+                            onChange={async (e) => {
+                              if (e.target.files?.[0]) {
+                                try {
+                                  const base64 = await fileToBase64(e.target.files[0]);
+                                  setEditingMenuItem((prev) => {
+                                    const newImages = [...(prev.images || (prev.image ? [prev.image] : []))];
+                                    newImages[index] = base64;
+                                    return { ...prev, images: newImages, image: newImages.find(Boolean) || "" };
+                                  });
+                                } catch (err) {
+                                  console.error(err);
+                                }
+                              }
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <label className="text-xs font-medium text-muted mb-2 block">Food Type</label>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditingMenuItem(prev => ({ ...prev, foodType: 'Veg' }))}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${editingMenuItem.foodType === 'Veg' ? 'border-success bg-success/10 text-success' : 'border-border text-foreground hover:bg-surface'}`}
+                >
+                  <span className="w-2.5 h-2.5 rounded-full bg-success"></span>
+                  Veg
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditingMenuItem(prev => ({ ...prev, foodType: 'Non-Veg' }))}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${editingMenuItem.foodType === 'Non-Veg' ? 'border-danger bg-danger/10 text-danger' : 'border-border text-foreground hover:bg-surface'}`}
+                >
+                  <span className="w-2.5 h-2.5 rounded-full bg-danger"></span>
+                  Non-Veg
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between pt-2">
+              <span className="text-sm font-medium text-foreground">Status</span>
+              <CustomToggle
+                checked={editingMenuItem.status}
+                onChange={(v) => setEditingMenuItem(prev => ({ ...prev, status: v }))}
+              />
+            </div>
+
+            <div className="flex items-center gap-3 mt-6 pt-4 border-t border-border">
+              <Button type="button" variant="outline" className="flex-1" onClick={() => setEditingMenuItem(null)}>
+                Cancel
+              </Button>
+              <Button 
+                type="button" 
+                variant="primary" 
+                className="flex-1"
+                onClick={() => {
+                  setForm(prev => ({
+                    ...prev,
+                    menuItems: prev.menuItems.map(item => 
+                      item.id === editingMenuItem.id ? editingMenuItem : item
+                    )
+                  }));
+                  setEditingMenuItem(null);
+                }}
+              >
+                Update Item
+              </Button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </section>
   );
 }

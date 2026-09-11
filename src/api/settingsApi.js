@@ -1,197 +1,144 @@
-import { generalSettings, paymentSettings } from "../mock/vayzoApiMock";
-
-import { API_BASE_URL } from "./config";
-const API_URL = `${API_BASE_URL}/settings`;
+import { apiRequest } from "./apiClient";
 
 export async function getGeneralSettings() {
-  // Simulate delay
-  await new Promise((res) => setTimeout(res, 500));
-  
-  try {
-    const res = await fetch(`${API_URL}/general`);
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (error) {
-    console.error("Failed to fetch general settings from mock server, falling back to static mock", error);
-  }
-  return generalSettings;
+  return apiRequest("/settings/general", {}, "Failed to fetch general settings");
 }
 
 export async function saveGeneralSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/general", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save general settings");
 }
 
 export async function getPaymentSettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  
-  try {
-    const res = await fetch(`${API_URL}/payment`);
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (error) {
-    console.error("Failed to fetch payment settings from mock server, falling back to static mock", error);
-  }
-  return paymentSettings;
+  return apiRequest("/settings/payment", {}, "Failed to fetch payment settings");
 }
 
 export async function savePaymentSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/payment", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save payment settings");
 }
 
 export async function getCommissionSettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  
-  try {
-    const res = await fetch(`${API_URL}/commission`);
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (error) {
-    console.error("Failed to fetch commission settings from mock server", error);
-  }
-  return [];
+  return apiRequest("/settings/commission", {}, "Failed to fetch commission settings");
 }
 
 export async function saveCommissionSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/commission", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save commission settings");
 }
 
 export async function getDeliverySettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  
-  try {
-    const res = await fetch(`${API_URL}/delivery`);
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (error) {
-    console.error("Failed to fetch delivery settings from mock server", error);
-  }
-  return {};
+  return apiRequest("/settings/delivery", {}, "Failed to fetch delivery settings");
 }
 
 export async function saveDeliverySettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/delivery", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save delivery settings");
 }
 
-// --------------------------------------------------
-// RESTORED SETTINGS PAGES
-// --------------------------------------------------
+export async function getSiteSettings() {
+  return apiRequest("/settings/site", {}, "Failed to fetch site settings");
+}
+
+export async function saveSiteSettings(settings) {
+  return apiRequest("/settings/site", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save site settings");
+}
 
 export async function getEmailSettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  try {
-    const res = await fetch(`${API_URL}/email`);
-    if (res.ok) return await res.json();
-  } catch (error) {}
-  return {};
+  return apiRequest("/settings/email", {}, "Failed to fetch email settings");
 }
 
 export async function saveEmailSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/email", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save email settings");
 }
 
 export async function getSMSSettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  try {
-    const res = await fetch(`${API_URL}/sms`);
-    if (res.ok) return await res.json();
-  } catch (error) {}
-  return {};
+  return apiRequest("/settings/sms", {}, "Failed to fetch SMS settings");
 }
 
 export async function saveSMSSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/sms", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save SMS settings");
 }
 
 export async function getNotificationSettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  try {
-    const res = await fetch(`${API_URL}/notification`);
-    if (res.ok) return await res.json();
-  } catch (error) {}
-  return {};
+  return apiRequest("/settings/notification", {}, "Failed to fetch notification settings");
 }
 
 export async function saveNotificationSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/notification", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save notification settings");
 }
 
 export async function getSEOSettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  try {
-    const res = await fetch(`${API_URL}/seo`);
-    if (res.ok) return await res.json();
-  } catch (error) {}
-  return {};
+  return apiRequest("/settings/seo", {}, "Failed to fetch SEO settings");
 }
 
 export async function saveSEOSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/seo", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save SEO settings");
 }
 
 export async function getAppSettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  try {
-    const res = await fetch(`${API_URL}/app`);
-    if (res.ok) return await res.json();
-  } catch (error) {}
-  return {};
+  return apiRequest("/settings/app", {}, "Failed to fetch app settings");
 }
 
 export async function saveAppSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/app", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save app settings");
 }
 
 export async function getSecuritySettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  try {
-    const res = await fetch(`${API_URL}/security`);
-    if (res.ok) return await res.json();
-  } catch (error) {}
-  return {};
+  return apiRequest("/settings/security", {}, "Failed to fetch security settings");
 }
 
 export async function saveSecuritySettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/security", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save security settings");
 }
 
 export async function getMaintenanceModeSettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  try {
-    const res = await fetch(`${API_URL}/maintenance`);
-    if (res.ok) return await res.json();
-  } catch (error) {}
-  return {};
+  return apiRequest("/settings/maintenance", {}, "Failed to fetch maintenance mode settings");
 }
 
 export async function saveMaintenanceModeSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/maintenance", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save maintenance mode settings");
 }
 
 export async function getIntegrationSettings() {
-  await new Promise((res) => setTimeout(res, 500));
-  try {
-    const res = await fetch(`${API_URL}/integrations`);
-    if (res.ok) return await res.json();
-  } catch (error) {}
-  return {};
+  return apiRequest("/settings/integrations", {}, "Failed to fetch integration settings");
 }
 
 export async function saveIntegrationSettings(settings) {
-  await new Promise((res) => setTimeout(res, 500));
-  return { success: true, message: "Settings saved successfully" };
+  return apiRequest("/settings/integrations", {
+    method: "PATCH",
+    body: JSON.stringify(settings),
+  }, "Failed to save integration settings");
 }

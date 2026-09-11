@@ -18,8 +18,8 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import Badge from "../components/ui/Badge";
-import Button from "../components/ui/Button";
+import Badge from "../components/ui/badge";
+import Button from "../components/ui/button";
 import Tabs from "../components/ui/Tabs";
 import Card from "../components/ui/Card";
 
@@ -159,29 +159,11 @@ function DeliveryPartner() {
     }
   };
 
-  const handleViewOnMap = async () => {
-    try {
-      setMapLoading(true);
-      const res = await getDeliveryPartnerLocation(partner.partnerId || partnerId);
-      const { latitude, longitude, address } = res.data;
-      if (latitude && longitude) {
-        window.open(`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`, "_blank");
-        return;
-      }
-      if (address) {
-        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`, "_blank");
-        return;
-      }
+  const handleViewOnMap = () => {
+    if (partner?.address) {
+      window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(partner.address)}`, "_blank");
+    } else {
       alert("Location not available");
-    } catch (err) {
-      console.error("Failed to load map location", err);
-      if (partner.address) {
-        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(partner.address)}`, "_blank");
-      } else {
-        alert("Location not available");
-      }
-    } finally {
-      setMapLoading(false);
     }
   };
 
@@ -556,7 +538,7 @@ function DeliveryPartner() {
       </div>
 
       {/* Modals */}
-      <Modal isOpen={isMessageModalOpen} onClose={() => setMessageModalOpen(false)} title="Send Message">
+      <Modal isOpen={messagingModalOpen} onClose={() => setMessagingModalOpen(false)} title="Send Message">
         <div className="space-y-4">
           <div className="flex items-center gap-3 p-3 bg-surface-hover rounded-lg border border-border">
             <Avatar src={partner.profileImage} identifier={partner.name} className="h-10 w-10 rounded-full shrink-0" />
@@ -575,7 +557,7 @@ function DeliveryPartner() {
             />
           </div>
           <div className="flex justify-end gap-3 mt-4">
-            <Button variant="secondary" onClick={() => setMessageModalOpen(false)}>Cancel</Button>
+            <Button variant="secondary" onClick={() => setMessagingModalOpen(false)}>Cancel</Button>
             <Button onClick={handleSendMessage} disabled={isSendingMessage || !messageText.trim()}>
               {isSendingMessage ? "Sending..." : "Send Message"}
             </Button>

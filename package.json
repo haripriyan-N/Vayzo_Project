@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "oxlint",
-    "mock-api": "json-server --watch db.json --port 3000",
     "preview": "vite preview",
     "server": "json-server --watch db.json --port 3000"
   },

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   Bell,
@@ -19,61 +19,86 @@ import {
 import Button from "../../components/ui/button";
 import Input from "../../components/ui/input";
 import Select from "../../components/ui/Select";
-import { generalSettings } from "../../mock/vayzoApiMock";
-
-const settingsMenu = [
-  { label: "General Settings", path: "/settings/general", icon: LayoutGrid },
-  { label: "Site Settings", path: "/settings", icon: Globe },
-  { label: "Commission Settings", path: "/settings/commission", icon: TrendingUp },
-  { label: "Payment Settings", path: "/settings/payment", icon: CreditCard },
-  { label: "Delivery Settings", path: "/settings", icon: Truck },
-  { label: "Notification Settings", path: "/settings", icon: Bell },
-  { label: "Email Settings", path: "/settings", icon: Mail },
-  { label: "SMS Settings", path: "/settings", icon: Smartphone },
-  { label: "App Settings", path: "/settings", icon: Smartphone },
-  { label: "Security Settings", path: "/settings", icon: Shield },
-  { label: "SEO Settings", path: "/settings", icon: FileText },
-  { label: "Maintenance Mode", path: "/settings", icon: MonitorCog },
-  { label: "Third Party Integrations", path: "/settings", icon: Database },
-];
+import { getGeneralSettings, saveGeneralSettings } from "../../api/settingsApi";
 
 function GeneralSettings() {
   const location = useLocation();
+  const [loading, setLoading] = useState(true);
   const [formValues, setFormValues] = useState({
-    platformName: generalSettings.platformName,
-    platformTagline: generalSettings.platformTagline,
-    supportEmail: generalSettings.supportEmail,
-    supportPhone: generalSettings.supportPhone,
-    timezone: generalSettings.timezone,
-    dateFormat: generalSettings.dateFormat,
-    timeFormat: generalSettings.timeFormat,
-    defaultCurrency: generalSettings.defaultCurrency,
-    currencyPosition: generalSettings.currencyPosition,
-    numberFormat: generalSettings.numberFormat,
-    language: generalSettings.language,
-    contactAddress: generalSettings.contactAddress,
-    facebook: generalSettings.socialLinks.facebook,
-    instagram: generalSettings.socialLinks.instagram,
-    twitter: generalSettings.socialLinks.twitter,
+    platformName: "",
+    platformTagline: "",
+    supportEmail: "",
+    supportPhone: "",
+    timezone: "Asia/Kolkata",
+    dateFormat: "DD/MM/YYYY",
+    timeFormat: "12h",
+    defaultCurrency: "INR",
+    currencyPosition: "before",
+    numberFormat: "1,234.56",
+    language: "English",
+    contactAddress: "",
+    facebook: "",
+    instagram: "",
+    twitter: "",
     platformStatus: true,
-    maintenanceMode: generalSettings.maintenanceMode,
+    maintenanceMode: false,
   });
   const [saveMessage, setSaveMessage] = useState("");
 
-  const activePath =
-    location.pathname === "/settings" || location.pathname === "/settings/general"
-      ? "/settings/general"
-      : location.pathname;
+  useEffect(() => {
+    let isMounted = true;
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const data = await getGeneralSettings();
+        if (isMounted && data) {
+          setFormValues({
+            platformName: data.platformName || "",
+            platformTagline: data.platformTagline || "",
+            supportEmail: data.supportEmail || "",
+            supportPhone: data.supportPhone || "",
+            timezone: data.timezone || "Asia/Kolkata",
+            dateFormat: data.dateFormat || "DD/MM/YYYY",
+            timeFormat: data.timeFormat || "12h",
+            defaultCurrency: data.defaultCurrency || "INR",
+            currencyPosition: data.currencyPosition || "before",
+            numberFormat: data.numberFormat || "1,234.56",
+            language: data.language || "English",
+            contactAddress: data.contactAddress || "",
+            facebook: data.facebook || "",
+            instagram: data.instagram || "",
+            twitter: data.twitter || "",
+            platformStatus: data.platformStatus ?? true,
+            maintenanceMode: data.maintenanceMode ?? false,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load general settings", err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+    loadData();
+    return () => { isMounted = false; };
+  }, []);
 
   const handleChange = (field, value) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
     if (saveMessage) setSaveMessage("");
   };
 
-  const handleSave = (event) => {
-    event.preventDefault();
-    setSaveMessage("Changes saved successfully.");
+  const handleSave = async (event) => {
+    if (event) event.preventDefault();
+    try {
+      await saveGeneralSettings(formValues);
+      setSaveMessage("Changes saved successfully.");
+      setTimeout(() => setSaveMessage(""), 3000);
+    } catch (err) {
+      console.error("Failed to save", err);
+    }
   };
+
+  if (loading) return <div className="p-6 text-muted">Loading settings...</div>;
 
   return (
     <>
@@ -257,22 +282,19 @@ function GeneralSettings() {
                 <div>
                   <h3 className="mb-4 text-base font-semibold text-foreground">Contact Address</h3>
                   <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-3">
-                      <Input id="addressLine1" label="Address Line 1" placeholder="123, Anna Salai" />
-                      <Input id="addressLine2" label="Address Line 2" placeholder="Teynampet" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <Input id="city" label="City" placeholder="Chennai" />
-                      <Select id="state" label="State"><option>Tamil Nadu</option></Select>
-                    </div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <Input id="postalCode" label="Postal Code" placeholder="600018" />
-                      <Select id="country" label="Country"><option>India</option></Select>
+                    <div className="flex flex-col gap-3">
+                      <label className="text-sm font-medium text-foreground">Complete Address</label>
+                      <textarea 
+                        className="w-full rounded-lg border border-border bg-surface p-3 text-sm outline-none focus:border-primary min-h-[140px]" 
+                        placeholder="e.g. 123, Anna Salai, Teynampet, Chennai, Tamil Nadu 600018, India"
+                        value={formValues.contactAddress}
+                        onChange={(e) => handleChange("contactAddress", e.target.value)}
+                      />
                     </div>
                   </div>
                 </div>
                 <div className="mt-6 flex justify-center">
-                  <Button type="button" size="sm" className="w-[80%] bg-primary text-white">Save Changes</Button>
+                  <Button type="button" onClick={handleSave} size="sm" className="w-[80%] bg-primary text-white">Save Changes</Button>
                 </div>
               </div>
 
@@ -284,83 +306,10 @@ function GeneralSettings() {
                     <Input id="facebookUrl" label="Facebook" value={formValues.facebook} onChange={(e) => handleChange("facebook", e.target.value)} />
                     <Input id="instagramUrl" label="Instagram" value={formValues.instagram} onChange={(e) => handleChange("instagram", e.target.value)} />
                     <Input id="twitterUrl" label="Twitter" value={formValues.twitter} onChange={(e) => handleChange("twitter", e.target.value)} />
-                    <Input id="linkedinUrl" label="LinkedIn" value="https://linkedin.com/company/vayzo" />
                   </div>
                 </div>
                 <div className="mt-6 flex justify-center">
-                  <Button type="button" size="sm" className="w-[80%] bg-primary text-white">Save Changes</Button>
-                </div>
-              </div>
-
-              {/* Upload Banners */}
-              <div className="flex h-full flex-col justify-between rounded-2xl border border-border bg-surface p-5 shadow-sm">
-                <div>
-                  <h3 className="mb-4 text-base font-semibold text-foreground">Upload Banners</h3>
-                  <div className="space-y-5">
-                    <div>
-                      <label className="mb-2 block text-xs font-medium text-foreground">Home Banner (1920x600)</label>
-                      <div className="flex h-24 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-primary/50 bg-primary-light/20 text-center hover:bg-primary-light/40">
-                        <span className="text-primary text-xl">↑</span>
-                        <span className="mt-1 text-xs font-medium text-primary">Click to upload</span>
-                        <span className="text-[10px] text-muted">PNG, JPG (Max 2MB)</span>
-                      </div>
-                    </div>
-                    <div>
-                      <label className="mb-2 block text-xs font-medium text-foreground">Offer Banner (1920x600)</label>
-                      <div className="flex h-24 cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-primary/50 bg-primary-light/20 text-center hover:bg-primary-light/40">
-                        <span className="text-primary text-xl">↑</span>
-                        <span className="mt-1 text-xs font-medium text-primary">Click to upload</span>
-                        <span className="text-[10px] text-muted">PNG, JPG (Max 2MB)</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-6 flex justify-center">
-                  <Button type="button" size="sm" className="w-[80%] bg-primary text-white">Save Changes</Button>
-                </div>
-              </div>
-
-              {/* System Info */}
-              <div className="flex h-full flex-col justify-between rounded-2xl border border-border bg-surface p-5 shadow-sm">
-                <div>
-                  <h3 className="mb-4 text-base font-semibold text-foreground">System Info</h3>
-                  <div className="space-y-4 text-sm">
-                    <div className="flex justify-between border-b border-border pb-2">
-                      <span className="font-medium text-foreground">Current Version</span>
-                      <span className="text-muted">v 1.0.0</span>
-                    </div>
-                    <div className="flex justify-between border-b border-border pb-2">
-                      <span className="font-medium text-foreground">PHP Version</span>
-                      <span className="text-muted">8.2.12</span>
-                    </div>
-                    <div className="flex justify-between border-b border-border pb-2">
-                      <span className="font-medium text-foreground">Laravel Version</span>
-                      <span className="text-muted">11.x</span>
-                    </div>
-                    <div className="flex justify-between border-b border-border pb-2">
-                      <span className="font-medium text-foreground">Server Time</span>
-                      <span className="text-muted">12 May 2024, 10:30 AM</span>
-                    </div>
-                    <div className="flex justify-between border-b border-border pb-2">
-                      <span className="font-medium text-foreground">Storage Used</span>
-                      <div className="flex flex-col items-end gap-1">
-                        <span className="text-[10px] text-muted">40% (20 GB / 50 GB)</span>
-                        <div className="h-1.5 w-24 overflow-hidden rounded-full bg-border">
-                          <div className="h-full w-[40%] bg-primary"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex justify-between pb-2">
-                      <span className="font-medium text-foreground">Last Backup</span>
-                      <span className="text-[10px] text-muted">11 May 2024, 11:30 PM</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <Button type="button" size="sm" variant="outline" className="w-full flex items-center justify-center gap-2 border-border bg-surface text-foreground hover:bg-primary-light/50">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21v-5h5"/></svg>
-                    Check for Updates
-                  </Button>
+                  <Button type="button" onClick={handleSave} size="sm" className="w-[80%] bg-primary text-white">Save Changes</Button>
                 </div>
               </div>
 
