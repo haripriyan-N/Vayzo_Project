@@ -19,9 +19,11 @@ import {
 import Button from "../../components/ui/Button";
 import Input from "../../components/ui/Input";
 import Select from "../../components/ui/Select";
-import { generalSettings, mockAdmin } from "../../mock/vayzoApiMock";
+import { generalSettings } from "../../mock/vayzoApiMock";
 
 function SiteSettings() {
+  const userStr = localStorage.getItem("vayzo_admin_user");
+  const user = userStr ? JSON.parse(userStr) : {};
   const [activeTab, setActiveTab] = useState("General");
   const [formValues, setFormValues] = useState({
     siteName: generalSettings.platformName,
@@ -282,8 +284,8 @@ function SiteSettings() {
                 <div className="border-b border-border pb-4">
                     <p className="text-xs font-semibold text-foreground mb-2">Updated By</p>
                     <div className="flex items-center gap-2">
-                        <img src={mockAdmin.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(mockAdmin.name)}&background=random&color=fff&size=150`} alt="User Avatar" className="h-6 w-6 rounded-full object-cover" />
-                        <span className="text-sm font-semibold text-foreground">{mockAdmin.name}</span>
+                        <img src={user.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name || "Admin")}&background=random&color=fff&size=150`} alt="User Avatar" className="h-6 w-6 rounded-full object-cover" />
+                        <span className="text-sm font-semibold text-foreground">{user.name || "Admin"}</span>
                     </div>
                 </div>
 

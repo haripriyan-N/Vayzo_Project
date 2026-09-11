@@ -6,7 +6,7 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import StatusSelect from "../components/ui/StatusSelect";
 import { createAdminUser, getAdminUserById, updateAdminUser } from "../api/adminUsersApi";
-import { fileToBase64, validateImage } from "../utils/fileUtils";
+import { validateImage } from "../utils/fileUtils";
 
 const statusOptions = ["Active", "Inactive"];
 const departmentOptions = ["Select Department", "Operations", "Support", "Finance", "IT", "Management"];
@@ -86,8 +86,10 @@ function AddAdminUser() {
     if (file) {
       try {
         await validateImage(file);
-        const base64 = await fileToBase64(file);
-        setImagePreview(base64);
+        const objectUrl = URL.createObjectURL(file);
+        // Note: we need a real upload endpoint to persist this properly.
+        setImagePreview(objectUrl);
+        console.warn("MISSING REQUIREMENT: Image upload endpoint unavailable. Preview will not be persisted.");
       } catch (err) {
         setError(err.message);
       }
@@ -132,7 +134,9 @@ function AddAdminUser() {
         password: form.password,
       };
 
-      if (imagePreview) {
+      if (imagePreview && imagePreview.startsWith("blob:")) {
+        console.warn("MISSING REQUIREMENT: Image upload endpoint unavailable. Preview will not be persisted.");
+      } else if (imagePreview) {
         payload.profileImage = imagePreview;
       }
 
@@ -281,14 +285,6 @@ function AddAdminUser() {
                 Admin Constraints
               </h2>
               <div className="space-y-4">
-                <div className="rounded-lg bg-danger/10 p-4 border border-danger/20 text-danger-dark">
-                  <p className="flex items-center gap-2 text-sm font-semibold">
-                    <ShieldCheck size={16} /> Maximum 2 Admins
-                  </p>
-                  <p className="mt-1.5 text-xs leading-relaxed">
-                    The system permits exactly ONE Super Admin and ONE Admin.
-                  </p>
-                </div>
                 <div className="rounded-lg bg-background p-4 border border-border/50">
                   <p className="flex items-center gap-2 text-sm font-semibold text-foreground">
                     <UserRound size={16} className="text-primary" /> Admin Role

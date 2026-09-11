@@ -3,8 +3,8 @@ import { ArrowLeft, User, Mail, Shield, Camera } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
-import { updateUser, getUserById } from "../api/usersApi";
-import { fileToBase64, validateImage } from "../utils/fileUtils";
+import { updateAdminUser, getAdminUserById } from "../api/adminUsersApi";
+import { validateImage } from "../utils/fileUtils";
 import UserImg from "../assets/logo/Trans_full.png";
 import Avatar from "../components/ui/Avatar";
 
@@ -32,7 +32,7 @@ export default function ProfileEdit() {
         try {
           // If we have an ID, fetch latest from API
           if (user.id) {
-            const apiUser = await getUserById(user.id);
+            const apiUser = await getAdminUserById(user.id);
             if (isMounted) {
               setForm({
                 name: apiUser.name || "",
@@ -68,10 +68,11 @@ export default function ProfileEdit() {
     if (file) {
       try {
         await validateImage(file);
-        const base64 = await fileToBase64(file);
-        setImagePreview(base64);
+        const objectUrl = URL.createObjectURL(file);
+        setImagePreview(objectUrl);
+        // Note: We need a real file upload mechanism to persist this.
       } catch (err) {
-        console.error("Failed to convert image", err);
+        console.error("Failed to validate image", err);
         alert(err.message);
       }
     }
@@ -91,13 +92,15 @@ export default function ProfileEdit() {
         email: form.email,
       };
 
-      if (imagePreview) {
-        payload.profileImage = imagePreview;
+      if (imagePreview && imagePreview.startsWith("blob:")) {
+        console.warn("MISSING REQUIREMENT: Image upload endpoint not available. Preview image will not be persisted to DB.");
+      } else if (imagePreview) {
+        payload.profileImage = imagePreview; // Keep existing image if it wasn't changed
       }
       
       // Update via API if we have an ID
       if (user.id) {
-        await updateUser(user.id, payload);
+        await updateAdminUser(user.id, payload);
       }
       
       // Update localStorage so Header reflects it

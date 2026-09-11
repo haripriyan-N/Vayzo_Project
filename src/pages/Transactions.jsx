@@ -8,7 +8,7 @@ import {
   Wallet,
   X,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Badge from "../components/ui/Badge";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
@@ -21,7 +21,7 @@ import Table from "../components/ui/Table";
 import Card from "../components/ui/Card";
 import StatCard from "../components/ui/StatCard";
 import { exportToCSV } from "../utils/exportUtils";
-import { transactionStats, transactions } from "../mock/vayzoApiMock";
+import { getTransactions } from "../api/financeApi";
 const statusMap = { SUCCESS: "success", PENDING: "warning", FAILED: "danger" };
 const tabs = ["All Transactions", "Success", "Pending", "Failed"];
 
@@ -32,8 +32,26 @@ function Transactions() {
   const [type, setType] = useState("All Type");
   const [tab, setTab] = useState(tabs[0]);
   const [dateRange, setDateRange] = useState([null, null]);
-  const [transactionList, setTransactionList] = useState(transactions);
+  const [transactionList, setTransactionList] = useState([]);
   const [showAdd, setShowAdd] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  const fetchTransactions = async () => {
+    setLoading(true);
+    try {
+      const data = await getTransactions();
+      setTransactionList(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const [form, setForm] = useState({
     userName: "",
     amount: "",
@@ -58,7 +76,7 @@ function Transactions() {
             .join(" ")
             .toLowerCase()
             .includes(query.toLowerCase());
-        const date = item.date.slice(0, 10);
+        const date = item.date ? String(item.date).slice(0, 10) : "";
         const [start, end] = dateRange;
         const startDate = start
           ? new Date(start).toISOString().slice(0, 10)
@@ -67,12 +85,12 @@ function Transactions() {
         return (
           matchesQuery &&
           (status === "All Status" ||
-            item.status.toLowerCase() === status.toLowerCase()) &&
+            String(item.status || "").toLowerCase() === status.toLowerCase()) &&
           (type === "All Type" ||
-            item.type.toLowerCase() === type.toLowerCase()) &&
-          (tab === tabs[0] || item.status === tab.toUpperCase()) &&
-          (!startDate || date >= startDate) &&
-          (!endDate || date <= endDate)
+            String(item.type || "").toLowerCase() === type.toLowerCase()) &&
+          (tab === tabs[0] || String(item.status || "") === tab.toUpperCase()) &&
+          (!startDate || (date && date >= startDate)) &&
+          (!endDate || (date && date <= endDate))
         );
       }),
     [query, status, type, tab, transactionList, dateRange],
@@ -85,34 +103,7 @@ function Transactions() {
     setType("All Type");
     setTab(tabs[0]);
     setDateRange([null, null]);
-    setTransactionList([...transactions]);
-  };
-  const addTransaction = (event) => {
-    event.preventDefault();
-    setTransactionList([
-      {
-        transactionId: `TXN${Date.now().toString().slice(-4)}`,
-        userName: form.userName,
-        type: form.type,
-        status: form.status,
-        amount: Number(form.amount),
-        method: form.method,
-        description: form.description,
-        city: form.city,
-        date: new Date().toISOString().slice(0, 16).replace("T", " "),
-      },
-      ...transactionList,
-    ]);
-    setForm({
-      userName: "",
-      amount: "",
-      type: "CREDIT",
-      method: "UPI",
-      description: "",
-      city: "",
-      status: "SUCCESS",
-    });
-    setShowAdd(false);
+    fetchTransactions();
   };
   return (
     <section className="min-h-full bg-background p-3 sm:p-4">
@@ -122,9 +113,6 @@ function Transactions() {
             <Button variant="secondary" size="sm" onClick={refresh}>
               <RefreshCw size={14} className="mr-1.5" />
               Refresh
-            </Button>
-            <Button size="sm" onClick={() => setShowAdd(true)}>
-              + Add Transaction
             </Button>
           </div>
         </header>
@@ -249,40 +237,40 @@ function Transactions() {
                       {item.transactionId}
                     </td>
                     <td className="truncate px-4 py-4 text-muted whitespace-nowrap">
-                      {item.userName}
+                      {item.userName || "N/A"}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
                       <Badge
                         variant="secondary"
                         className="px-2 py-0.5 rounded-md font-medium text-[10px] tracking-wider uppercase"
                       >
-                        {item.type}
+                        {item.type || "UNKNOWN"}
                       </Badge>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
                       <Badge
                         variant={
-                          statusMap[item.status.toUpperCase()] || "default"
+                          statusMap[String(item.status || "").toUpperCase()] || "default"
                         }
                         className="px-2 py-0.5 rounded-full font-medium"
                       >
-                        {label(item.status)}
+                        {label(item.status || "UNKNOWN")}
                       </Badge>
                     </td>
                     <td className="px-4 py-4 font-medium text-foreground whitespace-nowrap">
-                      ₹{item.amount.toLocaleString("en-IN")}
+                      ₹{Number(item.amount || 0).toLocaleString("en-IN")}
                     </td>
                     <td className="px-4 py-4 text-muted whitespace-nowrap">
-                      {item.method}
+                      {item.method || "N/A"}
                     </td>
                     <td
                       className="truncate px-4 py-4 text-muted max-w-[200px]"
-                      title={item.description}
+                      title={item.description || "N/A"}
                     >
-                      {item.description}
+                      {item.description || "N/A"}
                     </td>
                     <td className="px-4 py-4 text-muted whitespace-nowrap text-xs">
-                      {item.date}
+                      {item.date || "N/A"}
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
                       <div className="flex gap-2">
@@ -316,101 +304,6 @@ function Transactions() {
             </Table>
           </div>
         </Card>
-        {showAdd && (
-          <div className="fixed inset-0 z-20 flex items-center justify-center bg-slate-950/30 p-4">
-            <form
-              onSubmit={addTransaction}
-              className="w-full max-w-xl rounded-xl border border-border bg-surface p-5 shadow-xl"
-            >
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-foreground">
-                  Add Transaction
-                </h2>
-                <button
-                  type="button"
-                  onClick={() => setShowAdd(false)}
-                  aria-label="Close"
-                >
-                  <X size={18} />
-                </button>
-              </div>
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <Input
-                  id="transaction-user"
-                  label="User"
-                  value={form.userName}
-                  onChange={update("userName")}
-                  placeholder="Enter user name"
-                  required
-                />
-                <Input
-                  id="transaction-amount"
-                  label="Amount"
-                  type="number"
-                  min="0"
-                  value={form.amount}
-                  onChange={update("amount")}
-                  placeholder="Enter amount"
-                  required
-                />
-                <Select
-                  id="transaction-form-type"
-                  label="Type"
-                  value={form.type}
-                  onChange={update("type")}
-                >
-                  <option>CREDIT</option>
-                  <option>DEBIT</option>
-                  <option>REFUND</option>
-                </Select>
-                <Input
-                  id="transaction-method"
-                  label="Method"
-                  value={form.method}
-                  onChange={update("method")}
-                  placeholder="UPI / Card / Wallet"
-                  required
-                />
-                <Input
-                  id="transaction-description"
-                  label="Description"
-                  value={form.description}
-                  onChange={update("description")}
-                  placeholder="Enter description"
-                  required
-                />
-                <Input
-                  id="transaction-city"
-                  label="City"
-                  value={form.city}
-                  onChange={update("city")}
-                  placeholder="Enter city"
-                  required
-                />
-                <Select
-                  id="transaction-form-status"
-                  label="Status"
-                  value={form.status}
-                  onChange={update("status")}
-                >
-                  <option>SUCCESS</option>
-                  <option>PENDING</option>
-                  <option>FAILED</option>
-                </Select>
-              </div>
-              <div className="mt-5 flex justify-end gap-2">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  onClick={() => setShowAdd(false)}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit">Save Transaction</Button>
-              </div>
-            </form>
-          </div>
-        )}
       </div>
     </section>
   );

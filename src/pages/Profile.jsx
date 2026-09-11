@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { User, Mail, Shield, Pencil } from "lucide-react";
 import Button from "../components/ui/Button";
 import UserImg from "../assets/logo/Trans_full.png";
-import { getUserById } from "../api/usersApi";
+import { getAdminUserById } from "../api/adminUsersApi";
 import Avatar from "../components/ui/Avatar";
 
 const DetailCard = ({ title, icon: Icon, children }) => (
@@ -25,18 +25,22 @@ export default function Profile() {
   
   const [user, setUser] = useState(() => {
     const userStr = localStorage.getItem("vayzo_admin_user");
-    return userStr ? JSON.parse(userStr) : {
-      name: "Admin User",
-      email: "admin@vayzo.com",
-      role: "Super Admin",
-      profileImage: null
-    };
+    if (!userStr) {
+      // Handle missing session safely
+      navigate("/");
+      return null;
+    }
+    return JSON.parse(userStr);
   });
+
+  if (!user) {
+    return null; // Don't render until redirected
+  }
 
   useEffect(() => {
     let isMounted = true;
     if (user.id || user.userId) {
-      getUserById(user.id || user.userId).then((apiUser) => {
+      getAdminUserById(user.id || user.userId).then((apiUser) => {
         if (isMounted && apiUser) {
           setUser(apiUser);
           localStorage.setItem("vayzo_admin_user", JSON.stringify(apiUser));

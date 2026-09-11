@@ -20,7 +20,7 @@ import {
   getRestaurantById,
   updateRestaurant,
 } from "../api/restaurantsApi";
-import { fileToBase64, validateImage } from "../utils/fileUtils";
+import { validateImage } from "../utils/fileUtils";
 import { RESTAURANT_CUISINES } from "./Restaurants";
 
 function RequiredLabel({ text }) {
@@ -72,24 +72,7 @@ function RestaurantsAdd() {
     deliveryCharge: "",
     openingTime: "",
     closingTime: "",
-    menuItems: [
-      { id: 1, name: "Pizza", category: "Pizzas", price: "299", status: true },
-      {
-        id: 2,
-        name: "Burger",
-        category: "Burgers",
-        price: "179",
-        status: true,
-      },
-      { id: 3, name: "Pasta", category: "Pasta", price: "229", status: true },
-      {
-        id: 4,
-        name: "Cold Coffee",
-        category: "Beverages",
-        price: "129",
-        status: true,
-      },
-    ],
+    menuItems: [],
   });
 
   const [loading, setLoading] = useState(false);
@@ -139,37 +122,7 @@ function RestaurantsAdd() {
   const handleChange = (field) => (e) =>
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
 
-  const handleMenuItemChange = (id, field, value) => {
-    setForm((prev) => ({
-      ...prev,
-      menuItems: prev.menuItems.map((item) =>
-        item.id === id ? { ...item, [field]: value } : item,
-      ),
-    }));
-  };
 
-  const removeMenuItem = (id) => {
-    setForm((prev) => ({
-      ...prev,
-      menuItems: prev.menuItems.filter((item) => item.id !== id),
-    }));
-  };
-
-  const addMenuItem = () => {
-    setForm((prev) => ({
-      ...prev,
-      menuItems: [
-        ...prev.menuItems,
-        {
-          id: Date.now(),
-          name: "",
-          category: "Pizzas",
-          price: "",
-          status: true,
-        },
-      ],
-    }));
-  };
 
   const removeCuisine = (c) => {
     setForm((prev) => ({
@@ -197,11 +150,21 @@ function RestaurantsAdd() {
         ...form,
         cuisineType: form.cuisines.join(", "),
         id: isEditing ? restaurantId : undefined,
-        minimumOrder: Number(form.minimumOrder) || 0,
-        deliveryCharge: Number(form.deliveryCharge) || 0,
-        logo: logoPreview || undefined,
-        coverImage: coverPreview || undefined,
+        minimumOrder: form.minimumOrder !== "" ? Number(form.minimumOrder) : null,
+        deliveryCharge: form.deliveryCharge !== "" ? Number(form.deliveryCharge) : null,
       };
+
+      if (logoPreview && logoPreview.startsWith("blob:")) {
+        console.warn("MISSING REQUIREMENT: Image upload endpoint unavailable. Logo preview will not be persisted.");
+      } else if (logoPreview) {
+        payload.logo = logoPreview;
+      }
+      
+      if (coverPreview && coverPreview.startsWith("blob:")) {
+        console.warn("MISSING REQUIREMENT: Image upload endpoint unavailable. Cover preview will not be persisted.");
+      } else if (coverPreview) {
+        payload.coverImage = coverPreview;
+      }
       if (isEditing) {
         await updateRestaurant(restaurantId, { ...payload, id: restaurantId });
       } else {
@@ -357,8 +320,10 @@ function RestaurantsAdd() {
                           if (file) {
                             try {
                               await validateImage(file);
-                              const base64 = await fileToBase64(file);
-                              setLogoPreview(base64);
+                              const objectUrl = URL.createObjectURL(file);
+                              // Note: we need a real upload endpoint to persist this properly.
+                              setLogoPreview(objectUrl);
+                              setForm((prev) => ({ ...prev, logo: objectUrl }));
                               setError("");
                             } catch (err) {
                               setError(err.message);
@@ -395,8 +360,10 @@ function RestaurantsAdd() {
                         if (file) {
                           try {
                             await validateImage(file);
-                            const base64 = await fileToBase64(file);
-                            setCoverPreview(base64);
+                            const objectUrl = URL.createObjectURL(file);
+                            // Note: we need a real upload endpoint to persist this properly.
+                            setCoverPreview(objectUrl);
+                            setForm((prev) => ({ ...prev, coverImage: objectUrl }));
                             setError("");
                           } catch (err) {
                             setError(err.message);
@@ -601,106 +568,10 @@ function RestaurantsAdd() {
             </div>
 
             <div className="p-4 space-y-4">
-              {form.menuItems.map((item, i) => (
-                <div
-                  key={item.id}
-                  className="flex items-start gap-3 p-4 bg-background border border-border rounded-xl shadow-sm"
-                >
-                  <div className="pt-3 text-muted cursor-grab">
-                    <GripVertical size={16} />
-                  </div>
-
-                  <div className="w-12 h-12 rounded-lg bg-surface-hover shrink-0 overflow-hidden border border-border/50 flex items-center justify-center text-muted font-bold text-xs">
-                    {item.image ? (
-                      <img
-                        src={item.image}
-                        alt="food"
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      item.name?.charAt(0) || "I"
-                    )}
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="font-bold text-sm text-foreground mb-4 truncate">
-                      {item.name || `Item ${i + 1}`}
-                    </div>
-                    <div className="grid grid-cols-2 xl:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)_auto_auto] gap-4 items-end w-full">
-                      <div>
-                        <label className="block text-[10px] font-medium text-muted mb-1">
-                          <RequiredLabel text="Category" />
-                        </label>
-                        <StatusSelect
-                          options={[
-                            "Pizzas",
-                            "Burgers",
-                            "Pasta",
-                            "Beverages",
-                            "Desserts",
-                          ]}
-                          value={item.category}
-                          onChange={(e) =>
-                            handleMenuItemChange(
-                              item.id,
-                              "category",
-                              e.target.value,
-                            )
-                          }
-                          className="w-full h-8 text-xs py-0"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-medium text-muted mb-1">
-                          <RequiredLabel text="Price (₹)" />
-                        </label>
-                        <input
-                          type="number"
-                          className="w-full h-8 px-2 rounded-lg border border-border bg-background text-xs focus:outline-none focus:ring-1 focus:ring-primary"
-                          value={item.price}
-                          onChange={(e) =>
-                            handleMenuItemChange(
-                              item.id,
-                              "price",
-                              e.target.value,
-                            )
-                          }
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-medium text-muted mb-1">
-                          Status
-                        </label>
-                        <div className="h-8 flex items-center">
-                          <CustomToggle
-                            checked={item.status}
-                            onChange={(v) =>
-                              handleMenuItemChange(item.id, "status", v)
-                            }
-                          />
-                        </div>
-                      </div>
-                      <div className="h-8 flex items-center">
-                        <button
-                          type="button"
-                          onClick={() => removeMenuItem(item.id)}
-                          className="w-8 h-8 rounded border border-danger/30 bg-danger/10 text-danger flex items-center justify-center hover:bg-danger hover:text-white transition-colors"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-              <button
-                type="button"
-                onClick={addMenuItem}
-                className="w-full py-3 rounded-xl border border-dashed border-primary/50 text-primary bg-primary/5 text-sm font-medium flex items-center justify-center gap-2 hover:bg-primary/10 transition-colors"
-              >
-                <Plus size={16} /> Add More Items
-              </button>
+              <div className="p-6 text-center text-sm text-muted">
+                <p className="font-semibold text-warning">MISSING REQUIREMENT: Restaurant category API unavailable.</p>
+                <p className="mt-2">Products must be managed via the independent Products domain API rather than nested inside Restaurant payload.</p>
+              </div>
             </div>
           </Card>
 
