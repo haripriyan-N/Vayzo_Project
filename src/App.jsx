@@ -1,3 +1,4 @@
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 
 import Login from "./pages/Login";
@@ -10,10 +11,10 @@ import AdminLayout from "./components/layout/AdminLayout";
 
 import Dashboard from "./pages/Dashboard";
 
-// Users
-import Users from "./pages/Users";
-import UsersAdd from "./pages/UsersAdd";
-import UsersDetails from "./pages/UsersDetails";
+// Customers
+const Customers = lazy(() => import("./pages/Customers"));
+const CustomersAdd = lazy(() => import("./pages/CustomersAdd"));
+const CustomerDetails = lazy(() => import("./pages/CustomerDetails"));
 
 // Orders
 import Orders from "./pages/Orders";
@@ -70,7 +71,26 @@ import SeoSettings from "./pages/settings/SEOSettings";
 import MaintenanceMode from "./pages/settings/MaintenanceMode";
 import ThirdPartyIntegrations from "./pages/settings/ThirdPartyIntegrations";
 
+import { useEffect } from "react";
+import { getGeneralSettings } from "./api/settingsApi";
+import { applyThemeToDocument } from "./utils/themeUtils";
+
 function App() {
+  useEffect(() => {
+    // Load and apply the globally saved appearance settings on startup
+    const initTheme = async () => {
+      try {
+        const settings = await getGeneralSettings();
+        if (settings) {
+          applyThemeToDocument(settings.primaryColor, settings.themeMode);
+        }
+      } catch (err) {
+        console.error("Failed to load theme settings:", err);
+      }
+    };
+    initTheme();
+  }, []);
+
   return (
     <BrowserRouter>
       <NotificationProvider>
@@ -91,12 +111,12 @@ function App() {
                 <Route path="edit" element={<ProfileEdit />} />
               </Route>
 
-              {/* Users */}
-              <Route path="/users" element={<Outlet />}>
-                <Route index element={<Users />} />
-                <Route path="add" element={<UsersAdd />} />
-                <Route path="edit/:userId" element={<UsersAdd />} />
-                <Route path=":userId" element={<UsersDetails />} />
+              {/* Customers */}
+              <Route path="/customers" element={<Outlet />}>
+                <Route index element={<Customers />} />
+                <Route path="add" element={<CustomersAdd />} />
+                <Route path="edit/:publicId" element={<CustomersAdd />} />
+                <Route path=":publicId" element={<CustomerDetails />} />
               </Route>
 
               {/* Orders */}
@@ -155,8 +175,8 @@ function App() {
                 <Route path=":restaurantId" element={<RestaurantsDetails />} />
               </Route>
 
-              {/* Admin Users */}
-              <Route path="/admin-users" element={<Outlet />}>
+              {/* Admin Customers */}
+              <Route path="/admin-Customers" element={<Outlet />}>
                 <Route index element={<AdminUsers />} />
                 <Route path="add" element={<AddAdminUser />} />
                 <Route path="edit/:userId" element={<AddAdminUser />} />
